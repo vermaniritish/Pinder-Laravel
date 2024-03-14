@@ -131,15 +131,6 @@
 										@enderror
 									</div>
 								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="form-control-label" for="input-colors">Colors</label>
-										<input type="text" class="form-control color-picker" name="colors[]" placeholder="Select colors" value="{{ old('colors') }}">
-										@error('colors.*')
-											<small class="text-danger">{{ $message }}</small>
-										@enderror
-									</div>
-								</div>
 							</div>
 							
 						</div>

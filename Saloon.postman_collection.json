@@ -1,0 +1,429 @@
+{
+	"info": {
+		"_postman_id": "0ae589c7-4b93-4b69-b35b-9e3d28b5d232",
+		"name": "Saloon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}products",
+							"host": [
+								"{{url}}products"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "76",
+									"description": "\n",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_name\": \"new\",\n    \"brand_id\": \"9c9ba48b-5ed4-4298-9413-a1c650e572e7\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}products/d204bf8a-cf00-48f7-b3f2-36ff77a78d22",
+							"host": [
+								"{{url}}products"
+							],
+							"path": [
+								"d204bf8a-cf00-48f7-b3f2-36ff77a78d22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}products/7cbf157c-12f9-4ff7-858b-5e67a63d4e22",
+							"host": [
+								"{{url}}products"
+							],
+							"path": [
+								"7cbf157c-12f9-4ff7-858b-5e67a63d4e22"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Coupons",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}coupons",
+							"host": [
+								"{{url}}coupons"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "920",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product Categories",
+			"item": [
+				{
+					"name": "Categories",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}categories",
+							"host": [
+								"{{url}}categories"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "76",
+									"description": "\n",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Address",
+			"item": [
+				{
+					"name": "Create",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"foo\",\n    \"address\": \"The address field is required.\",\n    \"city\": \"The city field is required.\",\n    \"state\": \"The state field is required.\",\n    \"area\": \"The area field is required.\",\n    \"latitude\": \"4444\",\n    \"longitude\": \"444\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}addresses",
+							"host": [
+								"{{url}}addresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}addresses/",
+							"host": [
+								"{{url}}addresses"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"faa\",\n    \"address\": \"9-f\",\n    \"city\": \"The city field is required.\",\n    \"state\": \"The state field is required.\",\n    \"area\": \"The area field is required.\",\n    \"latitude\": \"4444\",\n    \"longitude\": \"444\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}addresses/28",
+							"host": [
+								"{{url}}addresses"
+							],
+							"path": [
+								"28"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}addresses/28",
+							"host": [
+								"{{url}}addresses"
+							],
+							"path": [
+								"28"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Create",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customer_id\":2,\n    \"booking_date\": \"2024-01-01\",\n    \"booking_time\": \"12:00\",\n    \"address_id\": 29,\n    \"payment_type\": \"Credit Card\",\n    \"manual_address\" : 1,\n    \"address\": \"Manual\",\n    \"state\": \"Manual\",\n    \"city\": \"Manual\",\n    \"area\": \"Manual\",\n    \"coupon_code_id\": 3,\n    \"productsData\" :[\n        {\n            \"id\":78,\n            \"quantity\": 4\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}orders",
+							"host": [
+								"{{url}}orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customer_id\": 2,\n    \"product_id\": [76],\n    \"booking_date\": \"2024-01-01\",\n    \"booking_time\": \"12:00\",\n    \"address_id\": 32,\n    \"payment_type\": \"Credit Card\",\n    \"coupon_code_id\": 3,\n    \"manual_address\" : 0,\n    \"address\": \"Updated\",\n    \"state\": \"Update\",\n    \"city\": \"Update\",\n    \"area\": \"Update\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}orders/31",
+							"host": [
+								"{{url}}orders"
+							],
+							"path": [
+								"31"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}orders/22",
+							"host": [
+								"{{url}}orders"
+							],
+							"path": [
+								"22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order as per customer",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://127.0.0.1:8000/api/",
+			"type": "default"
+		}
+	]
+}

@@ -111,6 +111,8 @@ $version = 1.0;
 		<script src="<?php echo url('assets/js/jquery.form.min.js') ?>"></script>
 		<script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script> 
 		<script src="<?php echo url('assets/js/ckeditor_image_plugin.js') ?>"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
 
 		<script src="<?php echo url('assets/js/argon.js') ?>"></script>
 		<script src="<?php echo url('assets/js/tag-it.min.js') ?>"></script>
