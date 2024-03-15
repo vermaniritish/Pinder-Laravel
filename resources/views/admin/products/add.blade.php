@@ -69,6 +69,33 @@
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
+										<label class="form-control-label" for="input-first-name">Colour</label>
+										<input type="text" min="0" class="form-control" name="colour" placeholder="Colour" required value="{{ old('colour') }}">
+										@error('colour')
+										    <small class="text-danger">{{ $message }}</small>
+										@enderror
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group">
+										<label class="form-control-label" for="input-username">Gender Specific To ?</label>
+										<select required class="form-control" name="gender">
+											<option {{ old('gender') == 'Male' ? 'selected' : '' }}
+												value="Male"> Male</option>
+											<option {{ old('gender') == 'Female' ? 'selected' : '' }}
+												value="Female"> Female</option>
+											<option {{ old('gender') == 'Unisex' ? 'selected' : '' }}
+												value="Unisex"> Unisex</option>
+										</select>
+										@error('gender')
+											<small class="text-danger">{{ $message }}</small>
+										@enderror
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
 										<label class="form-control-label" for="input-first-name">Price</label>
 										<input type="number" min="0" class="form-control" name="price" placeholder="Price" required value="{{ old('price') }}">
 										@error('price')

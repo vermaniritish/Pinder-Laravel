@@ -41,6 +41,7 @@ Route::prefix('admin')->middleware(['adminAuth'])->group(function () {
 	include "Admin/coupon.php";
 	include "Admin/orders.php";
 	include "Admin/staff.php";
+	include "Admin/colours.php";
 });
 
 //Frontend Routes

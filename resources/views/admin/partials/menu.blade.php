@@ -140,6 +140,15 @@
                 </a>
             </li>
         <?php endif; ?>
+        <?php if(Permissions::hasPermission('colours', 'listing')): ?>
+            <?php $active = strpos(request()->route()->getAction()['as'], 'admin.colours') > -1; ?>
+            <li class="nav-item">
+                <a class="nav-link<?php echo ($active ? ' active' : '') ?>" href="<?php echo route('admin.colours') ?>">
+                    <i class="fas fa-palette text-red"></i>
+                    <span class="nav-link-text">Colours</span>
+                </a>
+            </li>
+        <?php endif; ?>
     </ul>
     <!-- Divider -->
     <hr class="my-3">
