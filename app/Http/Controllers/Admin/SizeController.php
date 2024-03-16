@@ -39,75 +39,20 @@ class SizeController extends AppController
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
     	}
-
+		$male = Sizes::where('type','Male')->select(['type','id','size_title','from_cm','to_cm','chest','waist','hip','length'])->get();
+		$female = Sizes::where('type','Female')->select(['type','id','size_title','from_cm','to_cm','chest','waist','hip','length'])->get();
+		$unisex = Sizes::where('type','Unisex')->select(['type','id','size_title','from_cm','to_cm','chest','waist','hip','length'])->get();
     	$where = [];
-    	if($request->get('search'))
-    	{
-    		$search = $request->get('search');
-    		$search = '%' . $search . '%';
-    		$where['(
-				sizes.id LIKE ? or
-				sizes.first_name LIKE ? or
-				sizes.last_name LIKE ? or
-				sizes.aadhar_card_number LIKE ? or
-				sizes.phone_number LIKE ? or
-				sizes.email LIKE ? or
-			 	owner.first_name LIKE ? or 
-				owner.last_name LIKE ?)'] = [$search, $search, $search, $search];
-    	}
-
-    	if($request->get('created_on'))
-    	{
-    		$createdOn = $request->get('created_on');
-    		if(isset($createdOn[0]) && !empty($createdOn[0]))
-    			$where['sizes.created >= ?'] = [
-    				date('Y-m-d 00:00:00', strtotime($createdOn[0]))
-    			];
-    		if(isset($createdOn[1]) && !empty($createdOn[1]))
-    			$where['sizes.created <= ?'] = [
-    				date('Y-m-d 23:59:59', strtotime($createdOn[1]))
-    			];
-    	}
-
-    	if($request->get('admins'))
-    	{
-    		$admins = $request->get('admins');
-    		$admins = $admins ? implode(',', $admins) : 0;
-    		$where[] = 'sizes.created_by IN ('.$admins.')';
-    	}
-
-    	$listing = Sizes::getListing($request, $where);
-
-
-    	if($request->ajax())
-    	{
-		    $html = view(
-	    		"admin/sizes/listingLoop", 
-	    		[
-	    			'listing' => $listing
-	    		]
-	    	)->render();
-
-		    return Response()->json([
-		    	'status' => 'success',
-	            'html' => $html,
-	            'page' => $listing->currentPage(),
-	            'counter' => $listing->perPage(),
-	            'count' => $listing->total(),
-	            'pagination_counter' => $listing->currentPage() * $listing->perPage()
-	        ], 200);
-		}
-		else
-		{
-			$filters = $this->filters($request);
-	    	return view(
-	    		"admin/sizes/index", 
-	    		[
-	    			'listing' => $listing,
-	    			'admins' => $filters['admins']
-	    		]
-	    	);
-	    }
+		$filters = $this->filters($request);
+		return view(
+			"admin/sizes/index", 
+			[
+				'male' => $male,
+				'female' => $female,
+				'unisex' => $unisex,
+				'admins' => $filters['admins']
+			]
+		);
     }
 
     function filters(Request $request)
@@ -146,30 +91,22 @@ class SizeController extends AppController
     	{
     		$data = $request->toArray();
     		unset($data['_token']);
-    		$validator = Validator::make(
-	            $request->toArray(),
-				[
-					'color_code' => 'required|regex:/^#[a-fA-F0-9]{6}$/',
-					'image' => ['nullable'],
-				],
-				[
-					'color_code.required' => 'The colour code is required.',
-					'color_code.regex' => 'The colour code must be in the format #RRGGBB (e.g., #FF0000 for red).',
-				]
-	        );
+			$validator = Validator::make($request->all(), [
+				'mens.*.size_title' => [Rule::unique('sizes','size_title')->whereNull('deleted_at'),'required','string','max:255'], 
+				'mens.*.from_cm' => 'required|numeric|min:0',
+				'mens.*.to_cm' => 'required|numeric|min:0',
+				'mens.*.chest' => 'required|numeric|min:0',
+				'mens.*.waist' => 'required|numeric|min:0',
+				'mens.*.hip' => 'required|numeric|min:0',
+				'mens.*.length' => 'required|numeric|min:0',
+			]);
 	        if(!$validator->fails())
 	        {
-	        	$page = Sizes::create($data);
-	        	if($page)
-	        	{
-	        		$request->session()->flash('success', 'Colour created successfully.');
-	        		return redirect()->route('admin.colours');
-	        	}
-	        	else
-	        	{
-	        		$request->session()->flash('error', 'Colour could not be save. Please try again.');
-		    		return redirect()->back()->withErrors($validator)->withInput();
-	        	}
+				foreach ($request->mens as $data) {
+					Sizes::create($data); 
+				}
+	        		$request->session()->flash('success', 'Size created successfully.');
+	        		return redirect()->route('admin.size');
 		    }
 		    else
 		    {
@@ -254,89 +191,6 @@ class SizeController extends AppController
 		}
     }
 
-    
-
-    function edit(Request $request, $id)
-    {
-    	if(!Permissions::hasPermission('sizes', 'update'))
-    	{
-    		$request->session()->flash('error', 'Permission denied.');
-    		return redirect()->route('admin.dashboard');
-    	}
-
-    	$page = Sizes::get($id);
-
-    	if($page)
-    	{
-	    	if($request->isMethod('post'))
-	    	{
-	    		$data = $request->toArray();
-	    		$validator = Validator::make(
-		            $request->toArray(),
-		            [
-						'first_name' => 'required',
-						'last_name' => 'required',
-						'email' => [
-							'required',
-							'email',
-							Rule::unique('staff','email')->whereNull('deleted_at'),
-						],
-						'phone_number' => ['required','numeric','digits:10',],
-						'aadhar_card_number' => ['required', 'numeric', 'digits:12',],
-						'image' => ['nullable'],
-		            ]
-		        );
-
-		        if(!$validator->fails())
-		        {
-		        	unset($data['_token']);
-	        		
-		        	/** IN CASE OF SINGLE UPLOAD **/
-		        	if(isset($data['image']) && $data['image'])
-		        	{
-		        		$oldImage = $page->image;
-		        	}
-		        	else
-		        	{
-		        		unset($data['image']);
-		        		
-		        	}
-		        	/** IN CASE OF SINGLE UPLOAD **/
-		        	if(Sizes::modify($id, $data))
-		        	{
-		        		/** IN CASE OF SINGLE UPLOAD **/
-		        		if(isset($oldImage) && $oldImage)
-		        		{
-		        			FileSystem::deleteFile($oldImage);
-		        		}
-		        		/** IN CASE OF SINGLE UPLOAD **/
-
-		        		$request->session()->flash('success', 'Colour updated successfully.');
-		        		return redirect()->route('admin.colours');
-		        	}
-		        	else
-		        	{
-		        		$request->session()->flash('error', 'Colour could not be save. Please try again.');
-			    		return redirect()->back()->withErrors($validator)->withInput();
-		        	}
-			    }
-			    else
-			    {
-			    	$request->session()->flash('error', 'Please provide valid inputs.');
-			    	return redirect()->back()->withErrors($validator)->withInput();
-			    }
-			}
-
-			return view("admin/sizes/edit", [
-    			'page' => $page
-    		]);
-		}
-		else
-		{
-			abort(404);
-		}
-    }
-
     function delete(Request $request, $id)
     {
     	if(!Permissions::hasPermission('sizes', 'delete'))
@@ -349,146 +203,13 @@ class SizeController extends AppController
     	if($admin->delete())
     	{
     		$request->session()->flash('success', 'Staff deleted successfully.');
-    		return redirect()->route('admin.colours');
+    		return redirect()->route('admin.size');
     	}
     	else
     	{
     		$request->session()->flash('error', 'Staff could not be delete.');
-    		return redirect()->route('admin.colours');
+    		return redirect()->route('admin.size');
     	}
     }
 
-    function bulkActions(Request $request, $action)
-    {
-    	if( ($action != 'delete' && !Permissions::hasPermission('sizes', 'update')) || ($action == 'delete' && !Permissions::hasPermission('sizes', 'delete')) )
-    	{
-    		$request->session()->flash('error', 'Permission denied.');
-    		return redirect()->route('admin.dashboard');
-    	}
-
-    	$ids = $request->get('ids');
-    	if(is_array($ids) && !empty($ids))
-    	{
-    		switch ($action) {
-    			case 'active':
-    				Sizes::modifyAll($ids, [
-    					'status' => 1
-    				]);
-    				$message = count($ids) . ' records has been published.';
-    			break;
-    			case 'inactive':
-    				Sizes::modifyAll($ids, [
-    					'status' => 0
-    				]);
-    				$message = count($ids) . ' records has been unpublished.';
-    			break;
-    			case 'delete':
-    				Sizes::removeAll($ids);
-    				$message = count($ids) . ' records has been deleted.';
-    			break;
-    		}
-
-    		$request->session()->flash('success', $message);
-
-    		return Response()->json([
-    			'status' => 'success',
-	            'message' => $message,
-	        ], 200);		
-    	}
-    	else
-    	{
-    		return Response()->json([
-    			'status' => 'error',
-	            'message' => 'Please select atleast one record.',
-	        ], 200);	
-    	}
-    }
-
-    function addDocument(Request $request, $id)
-    {
-        if(!Permissions::hasPermission('sizes', 'create'))
-        {
-            $request->session()->flash('error', 'Permission denied.');
-            return redirect()->route('admin.dashboard');
-        }
-        $staff = Sizes::findOrFail($id);
-        $data = $request->toArray();
-        unset($data['_token']);
-        $validator = Validator::make(
-            $request->toArray(),
-            [
-                'title' => ['required'],
-                'file' =>['required', 'json'],          
-            ]
-        );
-        if (!$validator->fails()) {
-            if($staff){
-                $data['staff_id'] = $staff->id;
-                $staffDocument = StaffDocuments::create($data);
-                if($staffDocument){
-                    return Response()->json([
-                        'status' => true,
-                        'message' => 'Document added successfully.',
-                        'id' => $id
-                    ]);
-                }
-                else {
-                    return Response()->json([
-                        'status' => false,
-                        'message' => 'Document could not be saved. Please try again.'
-                    ], 400);
-                }
-            }
-            else {
-                return Response()->json([
-                    'status' => false,
-                    'message' => 'User not found.'
-                ], 400);
-            }   
-        }   else {
-            return Response()->json([
-                'status' => false,
-                'message' => current(current($validator->errors()->getMessages()))
-            ], 400);
-        }
-    }
-
-	function deleteDocument(Request $request, $staffId, $id, $index)
-    {
-        if(!Permissions::hasPermission('sizes', 'delete'))
-        {
-            $request->session()->flash('error', 'Permission denied.');
-            return redirect()->route('admin.dashboard');
-		}
-		$staffDoc = StaffDocuments::find($id);
-		if($staffDoc){
-				$fileArray = json_decode($staffDoc->file, true);
-				if (count($fileArray) === 1 && array_key_exists($index, $fileArray)) {
-					$staffDoc->delete();
-					$filePath = public_path($fileArray[$index]);
-					if (File::exists($filePath)) {
-						File::delete($filePath);
-					}
-					$request->session()->flash('success', 'Document and row deleted successfully.');
-					return redirect()->route('admin.size.view', ['id' => $staffId]);
-				} elseif (array_key_exists($index, $fileArray)) {
-					$filePath = public_path($fileArray[$index]);
-					if (File::exists($filePath)) {
-						File::delete($filePath);
-					}
-					unset($fileArray[$index]);
-					$staffDoc->file = json_encode(array_values($fileArray));
-					$staffDoc->save();
-					$request->session()->flash('success', 'Document deleted successfully.');
-					return redirect()->route('admin.size.view', ['id' => $staffId]);
-				} else {
-					$request->session()->flash('error', 'Invalid index specified.');
-					return redirect()->route('admin.size.view', ['id' => $staffId]);
-				}
-			}
-			else {
-				$request->session()->flash('Document not found.');
-				return redirect()->route('admin.size.view',['id' => $staffId]);
-		}
-    }
 }

@@ -306,6 +306,8 @@ class OrdersController extends AppController
 			'coupons' => $coupons,
 			'paymentType' => Orders::getStaticData()['paymentType'],
 			'tax_percentage' => Settings::get('tax_percentage'),
+			'cgst' => Settings::get('cgst'),
+			'sgst' => Settings::get('sgst')
 	    ]);
     }
 
