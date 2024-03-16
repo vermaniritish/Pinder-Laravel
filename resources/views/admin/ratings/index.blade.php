@@ -103,8 +103,8 @@
 										<i class="fas fa-sort" data-field="colours.id" data-sort="asc"></i>
 										<?php endif; ?>
 									</th>
-									<th class="sort" width="20%">
-										Colour Code
+									<th class="sort" width="17%">
+										Name
 										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
 										<i class="fas fa-sort-down active" data-field="colours.color_code" data-sort="asc"></i>
 										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
@@ -113,14 +113,44 @@
 										<i class="fas fa-sort" data-field="colours.color_code"></i>
 										<?php endif; ?>
 									</th>
-									<th class="sort" width="15%">
-										Created ON
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.created' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="colours.created" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.created' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="colours.created" data-sort="desc"></i>
+									<th class="sort" width="17%">
+										Designation
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="colours.color_code" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="colours.color_code" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="colours.created"></i>
+										<i class="fas fa-sort" data-field="colours.color_code"></i>
+										<?php endif; ?>
+									</th>
+									<th class="sort" width="17%">
+										Rating
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="colours.color_code" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="colours.color_code" data-sort="desc"></i>
+										<?php else: ?>
+										<i class="fas fa-sort" data-field="colours.color_code"></i>
+										<?php endif; ?>
+									</th>
+									<th class="sort" width="17%">
+										Message
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="colours.color_code" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="colours.color_code" data-sort="desc"></i>
+										<?php else: ?>
+										<i class="fas fa-sort" data-field="colours.color_code"></i>
+										<?php endif; ?>
+									</th>
+									<th class="sort" width="17%">
+										Image(On/Off)
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="colours.color_code" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="colours.color_code" data-sort="desc"></i>
+										<?php else: ?>
+										<i class="fas fa-sort" data-field="colours.color_code"></i>
 										<?php endif; ?>
 									</th>
 									<th width="5%">

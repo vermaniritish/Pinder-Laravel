@@ -177,7 +177,7 @@ class Ratings extends AppModel
     */
     public static function create($data)
     {
-    	$staff = new Colours();
+    	$staff = new Ratings();
 
     	foreach($data as $k => $v)
     	{

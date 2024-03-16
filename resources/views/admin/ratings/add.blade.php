@@ -47,7 +47,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label class="form-control-label" for="input-first-name">Designation</label>
-									<input type="text" class="form-control" name="designation" required placeholder="Designation" value="{{ old('designation') }}">
+									<input type="text" class="form-control" name="designation" placeholder="Designation" value="{{ old('designation') }}">
 									@error('designation')
 										<small class="text-danger">{{ $message }}</small>
 									@enderror
@@ -58,7 +58,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label class="form-control-label" for="input-first-name">Rating</label>
-									<input type="text" class="form-control" name="designation" required placeholder="Designation" value="{{ old('designation') }}">
+									<input type="text" class="form-control" name="rating" required placeholder="Designation" value="{{ old('designation') }}">
 									@error('designation')
 										<small class="text-danger">{{ $message }}</small>
 									@enderror
@@ -66,6 +66,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
+								<label class="form-control-label" for="input-first-name">Image (on/off)</label>
 									<div class="custom-control mt-2">
 										<label class="custom-toggle">
 											<input type="checkbox" name="image_status" value="1"
@@ -81,7 +82,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label class="form-control-label">Message</label>
-									<textarea rows="2" id="editor1" class="form-control" placeholder="Message" required name="message">{{ old('message') }}</textarea>
+									<textarea required rows="2" id="editor1" class="form-control" placeholder="Message" required name="message">{{ old('message') }}</textarea>
 									@error('message')
 										<small class="text-danger">{{ $message }}</small>
 									@enderror

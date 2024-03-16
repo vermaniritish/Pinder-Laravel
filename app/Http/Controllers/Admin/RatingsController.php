@@ -142,26 +142,24 @@ class RatingsController extends AppController
     		$validator = Validator::make(
 	            $request->toArray(),
 				[
-					'color_code' => ['required','regex:/^#[a-fA-F0-9]{6}$/', Rule::unique('colours','color_code')->whereNull('deleted_at'), ],
-					'image' => ['nullable'],
+					'name' => 'required|string|max:255',
+					'designation' => 'string|max:255',
+					'rating' => 'required|numeric|min:1|max:5', 
+					'message' => 'required|string|max:500',
+					'image_status' => 'nullable|boolean',
 				],
-				[
-					'color_code.required' => 'The colour code is required.',
-					'color_code.regex' => 'The colour code must be in the format #RRGGBB (e.g., #FF0000 for red).',
-					'color_code.unique' => 'The colour code must be unique.',
-				]
 	        );
 	        if(!$validator->fails())
 	        {
 	        	$page = Ratings::create($data);
 	        	if($page)
 	        	{
-	        		$request->session()->flash('success', 'Colour created successfully.');
-	        		return redirect()->route('admin.colours');
+	        		$request->session()->flash('success', 'Rating created successfully.');
+	        		return redirect()->route('admin.ratings');
 	        	}
 	        	else
 	        	{
-	        		$request->session()->flash('error', 'Colour could not be save. Please try again.');
+	        		$request->session()->flash('error', 'Rating could not be save. Please try again.');
 		    		return redirect()->back()->withErrors($validator)->withInput();
 	        	}
 		    }
@@ -171,7 +169,6 @@ class RatingsController extends AppController
 		    	return redirect()->back()->withErrors($validator)->withInput();
 		    }
 		}
-
 	    return view("admin/ratings/add", [
 	    		]);
     }
@@ -193,11 +190,11 @@ class RatingsController extends AppController
 		if($fromDate && $toDate)
     	{
     		if(isset($fromDate) && !empty($fromDate))
-    			$where['orders.created >= ?'] = [
+    			$where['ratings.created >= ?'] = [
     				date('Y-m-d 00:00:00', strtotime($fromDate))
     			];
     		if(isset($toDate) && !empty($toDate))
-    			$where['orders.created <= ?'] = [
+    			$where['ratings.created <= ?'] = [
     				date('Y-m-d 23:59:59', strtotime($toDate))
     			];
     	}
@@ -208,9 +205,9 @@ class RatingsController extends AppController
     		$search = $request->get('search');
     		$search = '%' . $search . '%';
     		$where['(
-				orders.status LIKE ? or
-				orders.id LIKE ? or
-				orders.total_amount LIKE ?)'] = [$search, $search, $search];
+				ratings.status LIKE ? or
+				ratings.id LIKE ? or
+				ratings.total_amount LIKE ?)'] = [$search, $search, $search];
     	}
 		$listing = Orders::getListing($request,$where);
     	if($page)
@@ -300,11 +297,11 @@ class RatingsController extends AppController
 		        		/** IN CASE OF SINGLE UPLOAD **/
 
 		        		$request->session()->flash('success', 'Colour updated successfully.');
-		        		return redirect()->route('admin.colours');
+		        		return redirect()->route('admin.ratings');
 		        	}
 		        	else
 		        	{
-		        		$request->session()->flash('error', 'Colour could not be save. Please try again.');
+		        		$request->session()->flash('error', 'Rating could not be save. Please try again.');
 			    		return redirect()->back()->withErrors($validator)->withInput();
 		        	}
 			    }
@@ -337,12 +334,12 @@ class RatingsController extends AppController
     	if($admin->delete())
     	{
     		$request->session()->flash('success', 'Staff deleted successfully.');
-    		return redirect()->route('admin.colours');
+    		return redirect()->route('admin.ratings');
     	}
     	else
     	{
     		$request->session()->flash('error', 'Staff could not be delete.');
-    		return redirect()->route('admin.colours');
+    		return redirect()->route('admin.ratings');
     	}
     }
 

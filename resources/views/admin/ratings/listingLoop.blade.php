@@ -14,10 +14,25 @@
 		</span>
 	</td>
 	<td>
-		<?php echo $row->color_code ?>
+		<?php echo $row->name ?>
 	</td>
 	<td>
-		<?php echo _dt($row->created) ?>
+		<?php echo $row->designation ?>
+	</td>
+	<td>
+		<?php echo $row->rating ?>
+	</td>
+	<td>
+		<?php echo $row->message ?>
+	</td>
+	<td>
+		<div class="custom-control">
+			<label class="custom-toggle">
+				<?php $switchUrl =  route('admin.actions.switchUpdate', ['relation' => 'ratings', 'field' => 'image_status', 'id' => $row->id]); ?>
+				<input type="checkbox" name="image_status" onchange="switch_action('<?php echo $switchUrl ?>', this)" value="1" <?php echo ($row->image_status ? 'checked' : '') ?>>
+				<span class="custom-toggle-slider rounded-circle" data-label-off="OFF" data-label-on="ON"></span>
+			</label>
+		</div>
 	</td>
 	<td class="text-cnter">
 	<?php if(Permissions::hasPermission('staff', 'update') || Permissions::hasPermission('staff', 'delete')): ?>
