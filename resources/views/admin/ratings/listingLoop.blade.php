@@ -1,3 +1,4 @@
+<?php use Illuminate\Support\Str; ?>
 <?php foreach($listing->items() as $k => $row): ?>
 <tr>
 	<td>
@@ -23,7 +24,7 @@
 		<?php echo $row->rating ?>
 	</td>
 	<td>
-		<?php echo $row->message ?>
+    	<?php echo Str::limit($row->message, 100, '...'); ?>
 	</td>
 	<td>
 		<div class="custom-control">
@@ -35,29 +36,29 @@
 		</div>
 	</td>
 	<td class="text-cnter">
-	<?php if(Permissions::hasPermission('staff', 'update') || Permissions::hasPermission('staff', 'delete')): ?>
+	<?php if(Permissions::hasPermission('ratings', 'update') || Permissions::hasPermission('ratings', 'delete')): ?>
 		<div class="dropdown">
 			<a class="btn btn-sm btn-icon-only text-warning" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<i class="fas fa-ellipsis-v"></i>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-				<a class="dropdown-item" href="<?php echo route('admin.colours.view', ['id' => $row->id]) ?>">
+				<a class="dropdown-item" href="<?php echo route('admin.ratings.view', ['id' => $row->id]) ?>">
 					<i class="fas fa-eye text-yellow"></i>
 					<span class="status">View</span>
 				</a>
-				<?php if(Permissions::hasPermission('staff', 'update')): ?>
+				<?php if(Permissions::hasPermission('ratings', 'update')): ?>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="<?php echo route('admin.colours.edit', ['id' => $row->id]) ?>">
+					<a class="dropdown-item" href="<?php echo route('admin.ratings.edit', ['id' => $row->id]) ?>">
 						<i class="fas fa-pencil-alt text-info"></i>
 						<span class="status">Edit</span>
 					</a>
 				<?php endif; ?>
-				<?php if(Permissions::hasPermission('staff', 'delete')): ?>
+				<?php if(Permissions::hasPermission('ratings', 'delete')): ?>
 					<div class="dropdown-divider"></div>
 					<a 
 						class="dropdown-item _delete" 
 						href="javascript:;"
-						data-link="<?php echo route('admin.colours.delete', ['id' => $row->id]) ?>"
+						data-link="<?php echo route('admin.ratings.delete', ['id' => $row->id]) ?>"
 					>
 						<i class="fas fa-times text-danger"></i>
 						<span class="status text-danger">Delete</span>

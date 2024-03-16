@@ -46,7 +46,10 @@ class RatingsController extends AppController
     		$search = '%' . $search . '%';
     		$where['(
 				ratings.id LIKE ? or
-				ratings.color_code LIKE ?)'] = [$search, $search];
+				ratings.rating LIKE ? or
+				ratings.designation LIKE ? or
+				ratings.message LIKE ? or
+				ratings.name LIKE ?)'] = [$search, $search,$search,$search,$search];
     	}
 
     	if($request->get('created_on'))
@@ -60,6 +63,18 @@ class RatingsController extends AppController
     			$where['ratings.created <= ?'] = [
     				date('Y-m-d 23:59:59', strtotime($createdOn[1]))
     			];
+    	}
+
+		if($request->get('image_status'))
+    	{
+    		switch ($request->get('image_status')) {
+    			case 1:
+    				$where['ratings.image_status'] = 1;
+    			break;
+    			case 0:
+    				$where['ratings.image_status'] = 0;
+    			break;
+    		}	
     	}
 
     	if($request->get('admins'))
@@ -145,7 +160,7 @@ class RatingsController extends AppController
 					'name' => 'required|string|max:255',
 					'designation' => 'string|max:255',
 					'rating' => 'required|numeric|min:1|max:5', 
-					'message' => 'required|string|max:500',
+					'message' => 'required|string|max:2000',
 					'image_status' => 'nullable|boolean',
 				],
 	        );
@@ -263,39 +278,19 @@ class RatingsController extends AppController
 	    		$validator = Validator::make(
 		            $request->toArray(),
 					[
-						'color_code' => ['required','regex:/^#[a-fA-F0-9]{6}$/', Rule::unique('colours','color_code')->ignore($id)->whereNull('deleted_at'), ],
-						'image' => ['nullable'],
+						'name' => 'required|string|max:255',
+						'designation' => 'string|max:255',
+						'rating' => 'required|numeric|min:1|max:5', 
+						'message' => 'required|string|max:2000',
+						'image_status' => 'nullable|boolean',
 					],
-					[
-						'color_code.required' => 'The colour code is required.',
-						'color_code.regex' => 'The colour code must be in the format #RRGGBB (e.g., #FF0000 for red).',
-					]
 		        );
 
 		        if(!$validator->fails())
 		        {
 		        	unset($data['_token']);
-	        		
-		        	/** IN CASE OF SINGLE UPLOAD **/
-		        	if(isset($data['image']) && $data['image'])
-		        	{
-		        		$oldImage = $page->image;
-		        	}
-		        	else
-		        	{
-		        		unset($data['image']);
-		        		
-		        	}
-		        	/** IN CASE OF SINGLE UPLOAD **/
 		        	if(Ratings::modify($id, $data))
 		        	{
-		        		/** IN CASE OF SINGLE UPLOAD **/
-		        		if(isset($oldImage) && $oldImage)
-		        		{
-		        			FileSystem::deleteFile($oldImage);
-		        		}
-		        		/** IN CASE OF SINGLE UPLOAD **/
-
 		        		$request->session()->flash('success', 'Colour updated successfully.');
 		        		return redirect()->route('admin.ratings');
 		        	}

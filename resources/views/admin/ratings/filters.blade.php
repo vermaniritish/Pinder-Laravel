@@ -6,7 +6,7 @@
 		<i class="fas fa-filter"></i> Filters
 	</a>
 	<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-		<form action="<?php echo route('admin.brands') ?>" id="filters-form">
+		<form action="<?php echo route('admin.ratings') ?>" id="filters-form">
 			<a href="javascript:;" class="float-right px-2 closeit"><i class="fa fa-times-circle"></i></a>
 			<div class="dropdown-item">
 				<div class="row">
@@ -37,19 +37,20 @@
 			<div class="dropdown-item">
 				<div class="row">
 					<div class="col-md-12">
+					<label class="form-control-label">Image</label>
 						<div class="custom-control custom-radio custom-control-inline">
-							<input type="radio" id="active" name="status" value="1" <?php echo (!isset($_GET['status']) || $_GET['status'] === '' || $_GET['status'] === '0' ? 'checked' : '') ?> class="custom-control-input">
-							<label class="custom-control-label" for="active">Active</label>
+							<input type="radio" id="active" name="image_status" value="1" <?php echo (!isset($_GET['image_status']) || $_GET['image_status'] === '1' || $_GET['image_status'] === '0' ? 'checked' : '') ?> class="custom-control-input">
+							<label class="custom-control-label" for="active">On</label>
 						</div>
 						<div class="custom-control custom-radio custom-control-inline">
-							<input type="radio" id="nonactive" name="status" value="0" <?php echo (isset($_GET['status']) && $_GET['status'] == '0' ? 'checked' : '') ?> class="custom-control-input">
-							<label class="custom-control-label" for="nonactive">Inactive</label>
+							<input type="radio" id="nonactive" name="image_status" value="0" <?php echo (isset($_GET['image_status']) && $_GET['image_status'] == '0' ? 'checked' : '') ?> class="custom-control-input">
+							<label class="custom-control-label" for="nonactive">Off</label>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="dropdown-divider"></div>
-			<a href="<?php echo route('admin.colours') ?>" class="btn btn-sm py-2 px-3 float-left">
+			<a href="<?php echo route('admin.ratings') ?>" class="btn btn-sm py-2 px-3 float-left">
 				Reset All
 			</a>
 			<button href="#" class="btn btn-sm py-2 px-3 btn-primary float-right">

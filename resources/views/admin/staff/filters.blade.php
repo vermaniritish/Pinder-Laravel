@@ -6,7 +6,7 @@
 		<i class="fas fa-filter"></i> Filters
 	</a>
 	<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-		<form action="<?php echo route('admin.brands') ?>" id="filters-form">
+		<form action="<?php echo route('admin.staff') ?>" id="filters-form">
 			<a href="javascript:;" class="float-right px-2 closeit"><i class="fa fa-times-circle"></i></a>
 			<div class="dropdown-item">
 				<div class="row">
@@ -49,7 +49,7 @@
 				</div>
 			</div>
 			<div class="dropdown-divider"></div>
-			<a href="<?php echo route('admin.brands') ?>" class="btn btn-sm py-2 px-3 float-left">
+			<a href="<?php echo route('admin.staff') ?>" class="btn btn-sm py-2 px-3 float-left">
 				Reset All
 			</a>
 			<button href="#" class="btn btn-sm py-2 px-3 btn-primary float-right">

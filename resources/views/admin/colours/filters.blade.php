@@ -6,7 +6,7 @@
 		<i class="fas fa-filter"></i> Filters
 	</a>
 	<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-		<form action="<?php echo route('admin.brands') ?>" id="filters-form">
+		<form action="<?php echo route('admin.colours') ?>" id="filters-form">
 			<a href="javascript:;" class="float-right px-2 closeit"><i class="fa fa-times-circle"></i></a>
 			<div class="dropdown-item">
 				<div class="row">

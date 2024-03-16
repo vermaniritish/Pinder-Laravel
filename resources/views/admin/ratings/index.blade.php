@@ -5,7 +5,7 @@
 			<div class="header-body">
 				<div class="row align-items-center py-4">
 					<div class="col-lg-6 col-7">
-						<h6 class="h2 text-white d-inline-block mb-0">Manage Colours</h6>
+						<h6 class="h2 text-white d-inline-block mb-0">Manage Ratings</h6>
 					</div>
 					<div class="col-lg-6 col-5 text-right">
 					<?php if(Permissions::hasPermission('ratings', 'create')): ?>
@@ -29,7 +29,7 @@
 					<!-- Card header -->
 					<div class="card-header border-0">
 						<div class="heading">
-							<h3 class="mb-0">Here Is Your Colour Listing!</h3>
+							<h3 class="mb-0">Here Is Your Rating Listing!</h3>
 						</div>
 						<div class="actions">
 							<div class="input-group input-group-alternative input-group-merge">
@@ -44,29 +44,6 @@
 										<i class="fas fa-ellipsis-v"></i>
 									</a>
 									<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-										<?php if(Permissions::hasPermission('ratings', 'update')): ?>
-											<a 
-												class="dropdown-item" 
-												href="javascript:;"
-												onclick="bulk_actions('<?php echo route('admin.ratings.bulkActions', ['action' => 'active']) ?>', 'active');"
-											>
-												<span class="badge badge-dot mr-4">
-													<i class="bg-success"></i>
-													<span class="status">Active</span>
-												</span>
-											</a>
-											<a 
-												class="dropdown-item" 
-												href="javascript:;"
-												onclick="bulk_actions('<?php echo route('admin.ratings.bulkActions', ['action' => 'inactive']) ?>', 'inactive');"
-											>
-												<span class="badge badge-dot mr-4">
-													<i class="bg-warning"></i>
-													<span class="status">Inactive</span>
-												</span>
-											</a>
-											<div class="dropdown-divider"></div>
-										<?php endif; ?>
 										<?php if(Permissions::hasPermission('ratings', 'delete')): ?>
 											<a 
 												href="javascript:void(0);" 
@@ -95,62 +72,62 @@
 									<th class="sort" width="5%">
 										<!--- MAKE SURE TO USE PROPOER FIELD IN data-field AND PROPOER DIRECTION IN data-sort -->
 										Id
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.id' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="colours.id" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.id' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="colours.id" data-sort="desc"></i>
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.id' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="ratings.id" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'ratings.id' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="ratings.id" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="colours.id" data-sort="asc"></i>
+										<i class="fas fa-sort" data-field="ratings.id" data-sort="asc"></i>
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="17%">
 										Name
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="colours.color_code" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="colours.color_code" data-sort="desc"></i>
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.name' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="ratings.name" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'ratings.name' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="ratings.name" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="colours.color_code"></i>
+										<i class="fas fa-sort" data-field="ratings.name"></i>
 										<?php endif; ?>
 									</th>
-									<th class="sort" width="17%">
+									<th class="sort" width="10%">
 										Designation
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="colours.color_code" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="colours.color_code" data-sort="desc"></i>
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.designation' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="ratings.designation" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'ratings.designation' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="ratings.designation" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="colours.color_code"></i>
+										<i class="fas fa-sort" data-field="ratings.designation"></i>
 										<?php endif; ?>
 									</th>
-									<th class="sort" width="17%">
+									<th class="sort" width="10%">
 										Rating
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="colours.color_code" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="colours.color_code" data-sort="desc"></i>
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.rating' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="ratings.rating" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'ratings.rating' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="ratings.rating" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="colours.color_code"></i>
+										<i class="fas fa-sort" data-field="ratings.rating"></i>
 										<?php endif; ?>
 									</th>
-									<th class="sort" width="17%">
+									<th class="sort" width="31%">
 										Message
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="colours.color_code" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="colours.color_code" data-sort="desc"></i>
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.message' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="ratings.message" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'ratings.message' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="ratings.message" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="colours.color_code"></i>
+										<i class="fas fa-sort" data-field="ratings.message"></i>
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="17%">
 										Image(On/Off)
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="colours.color_code" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="colours.color_code" data-sort="desc"></i>
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.image_status' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="ratings.image_status" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'ratings.image_status' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="ratings.image_status" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="colours.color_code"></i>
+										<i class="fas fa-sort" data-field="ratings.image_status"></i>
 										<?php endif; ?>
 									</th>
 									<th width="5%">
