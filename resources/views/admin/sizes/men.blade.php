@@ -9,7 +9,7 @@
                     <div v-for="(men, index) in mens" :key="index" >
                         <div class=" mt-2 d-flex border rounded position-relative pe-0">
                             <div class="row w-100 p-3">
-                                <input type="hidden" value="Male" :name="'mens[' + index + '][type]'" >
+                                <input type="hidden" value="Male" name="type" >
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-first-name">Size Type</label>

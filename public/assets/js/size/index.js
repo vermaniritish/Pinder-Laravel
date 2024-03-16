@@ -73,7 +73,7 @@ let women = new Vue({
     }
 });
 let unisex = new Vue({
-    el: '#unisex',
+    el: '#uni',
     data: {
         mens: [{ 
             size_type: '',

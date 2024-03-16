@@ -1,4 +1,4 @@
-<div id="unisex">
+<div id="uni">
     <div class="card">
         <div class="card-body">
             <form method="post" action="<?php echo route('admin.size.add') ?>" class="form-validation">
