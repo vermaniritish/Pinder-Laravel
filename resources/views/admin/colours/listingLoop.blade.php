@@ -14,25 +14,25 @@
 		</span>
 	</td>
 	<td>
-		<?php echo $row->colour_code ?>
+		<?php echo $row->color_code ?>
 	</td>
 	<td>
 		<?php echo _dt($row->created) ?>
 	</td>
-	<td class="text-right">
+	<td class="text-cnter">
 	<?php if(Permissions::hasPermission('staff', 'update') || Permissions::hasPermission('staff', 'delete')): ?>
 		<div class="dropdown">
 			<a class="btn btn-sm btn-icon-only text-warning" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<i class="fas fa-ellipsis-v"></i>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-				<a class="dropdown-item" href="<?php echo route('admin.staff.view', ['id' => $row->id]) ?>">
+				<a class="dropdown-item" href="<?php echo route('admin.colours.view', ['id' => $row->id]) ?>">
 					<i class="fas fa-eye text-yellow"></i>
 					<span class="status">View</span>
 				</a>
 				<?php if(Permissions::hasPermission('staff', 'update')): ?>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="<?php echo route('admin.staff.edit', ['id' => $row->id]) ?>">
+					<a class="dropdown-item" href="<?php echo route('admin.colours.edit', ['id' => $row->id]) ?>">
 						<i class="fas fa-pencil-alt text-info"></i>
 						<span class="status">Edit</span>
 					</a>
@@ -42,7 +42,7 @@
 					<a 
 						class="dropdown-item _delete" 
 						href="javascript:;"
-						data-link="<?php echo route('admin.staff.delete', ['id' => $row->id]) ?>"
+						data-link="<?php echo route('admin.colours.delete', ['id' => $row->id]) ?>"
 					>
 						<i class="fas fa-times text-danger"></i>
 						<span class="status text-danger">Delete</span>

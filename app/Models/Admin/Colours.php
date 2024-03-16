@@ -177,7 +177,7 @@ class Colours extends AppModel
     */
     public static function create($data)
     {
-    	$staff = new Staff();
+    	$staff = new Colours();
 
     	foreach($data as $k => $v)
     	{

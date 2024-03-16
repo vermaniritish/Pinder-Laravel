@@ -63,8 +63,14 @@
 									<td><?php echo $product->title ?></td>
 								</tr>
 								<tr>
+									<th>Gender Specific To</th>
+									<td><?php echo $product->gender ?></td>
+								</tr>
 								<tr>
-
+									<th>Color</th>
+									<td><?php echo $product->color->color_code ?></td>
+								</tr>
+								<tr>
 									<th>Categories</th>
 									<td>
 										<?php 

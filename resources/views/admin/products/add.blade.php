@@ -69,10 +69,24 @@
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
-										<label class="form-control-label" for="input-first-name">Colour</label>
-										<input type="text" min="0" class="form-control" name="colour" placeholder="Colour" required value="{{ old('colour') }}">
-										@error('colour')
-										    <small class="text-danger">{{ $message }}</small>
+										<label class="form-control-label">Color</label>
+										<select class="form-control" name="color_id" required>
+											<option value="">Select</option>
+											<?php 
+												foreach($colors as $s): 
+												$content = $s->color_code;
+											?>
+											<option 
+												value="<?php echo $s->id ?>" 
+												<?php echo old('color_id') == $s->id  ? 'selected' : '' ?>
+												data-content="<?php echo $content ?>"
+											>
+												<?php echo $s->name; ?>		
+											</option>
+											<?php endforeach; ?>
+										</select>
+										@error('colr_id')
+										<small class="text-danger">{{ $message }}</small>
 										@enderror
 									</div>
 								</div>

@@ -149,30 +149,26 @@ class ColourController extends AppController
     		unset($data['_token']);
     		$validator = Validator::make(
 	            $request->toArray(),
-	            [
-					'first_name' => 'required',
-					'last_name' => 'required',
-					'email' => [
-						'required',
-						'email',
-						Rule::unique('staff','email')->whereNull('deleted_at'),
-					],
-					'phone_number' => ['required','numeric','digits:10',],
-					'aadhar_card_number' => ['required', 'numeric', 'digits:12',],
+				[
+					'color_code' => 'required|regex:/^#[a-fA-F0-9]{6}$/',
 					'image' => ['nullable'],
-	            ]
+				],
+				[
+					'color_code.required' => 'The colour code is required.',
+					'color_code.regex' => 'The colour code must be in the format #RRGGBB (e.g., #FF0000 for red).',
+				]
 	        );
 	        if(!$validator->fails())
 	        {
 	        	$page = Colours::create($data);
 	        	if($page)
 	        	{
-	        		$request->session()->flash('success', 'Staff created successfully.');
-	        		return redirect()->route('admin.staff');
+	        		$request->session()->flash('success', 'Colour created successfully.');
+	        		return redirect()->route('admin.colours');
 	        	}
 	        	else
 	        	{
-	        		$request->session()->flash('error', 'Staff could not be save. Please try again.');
+	        		$request->session()->flash('error', 'Colour could not be save. Please try again.');
 		    		return redirect()->back()->withErrors($validator)->withInput();
 	        	}
 		    }
@@ -307,13 +303,6 @@ class ColourController extends AppController
 		        		
 		        	}
 		        	/** IN CASE OF SINGLE UPLOAD **/
-
-		        	$categories = [];
-		        	if(isset($data['category']) && $data['category']) {
-		        		$categories = $data['category'];
-		        	}
-		        	unset($data['category']);
-
 		        	if(Colours::modify($id, $data))
 		        	{
 		        		/** IN CASE OF SINGLE UPLOAD **/
@@ -323,17 +312,12 @@ class ColourController extends AppController
 		        		}
 		        		/** IN CASE OF SINGLE UPLOAD **/
 
-		        		if(!empty($categories))
-		        		{
-		        			Colours::handleCategories($page->id, $categories);
-		        		}
-
-		        		$request->session()->flash('success', 'Staff updated successfully.');
-		        		return redirect()->route('admin.staff');
+		        		$request->session()->flash('success', 'Colour updated successfully.');
+		        		return redirect()->route('admin.colours');
 		        	}
 		        	else
 		        	{
-		        		$request->session()->flash('error', 'Staff could not be save. Please try again.');
+		        		$request->session()->flash('error', 'Colour could not be save. Please try again.');
 			    		return redirect()->back()->withErrors($validator)->withInput();
 		        	}
 			    }
@@ -366,12 +350,12 @@ class ColourController extends AppController
     	if($admin->delete())
     	{
     		$request->session()->flash('success', 'Staff deleted successfully.');
-    		return redirect()->route('admin.staff');
+    		return redirect()->route('admin.colours');
     	}
     	else
     	{
     		$request->session()->flash('error', 'Staff could not be delete.');
-    		return redirect()->route('admin.staff');
+    		return redirect()->route('admin.colours');
     	}
     }
 

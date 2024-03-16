@@ -33,6 +33,16 @@ class Products extends AppModel
     use SoftDeletes;
 
     /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function color()
+    {
+        return $this->hasOne(Colours::class, 'id', 'color_id');
+    }
+
+    /**
     * Product -> ProductCategories belongsToMany relation
     *
     * @return ProductCategories

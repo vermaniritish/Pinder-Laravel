@@ -32,6 +32,7 @@ use App\Libraries\FileSystem;
 use App\Http\Controllers\Admin\AppController;
 use App\Models\Admin\BrandProducts;
 use App\Models\Admin\Brands;
+use App\Models\Admin\Colours;
 
 class ProductsController extends AppController
 {
@@ -223,6 +224,8 @@ class ProductsController extends AppController
 	                'brand' => 'required',
 					'tags' => ['nullable', 'array'],
 					'tags.*' => ['string','max:20',],
+					'color_id' => ['required', Rule::exists(Colours::class,'id')],
+					'gender' => ['required', Rule::in(['Male','Female','Unisex'])]
 	            ]
 	        );
 
@@ -299,11 +302,21 @@ class ProductsController extends AppController
 	    		],
 	    		'concat(users.first_name, users.last_name) desc'
 	    	);
-	
+		
+		$colors = Colours::getAll(
+	    		[
+	    			'colours.id',
+	    			'colours.color_code'
+	    		],
+	    	    [
+				],
+	    		'colours.color_code desc'
+	    	);
 	    return view("admin/products/add", [
 	    			'categories' => $categories,
 	    			'users' => $users,
-					'brands' => $brands
+					'brands' => $brands,
+					'colors' => $colors
 	    		]);
     }
 
@@ -342,6 +355,8 @@ class ProductsController extends AppController
 							})],
 							'tags' => ['nullable', 'array'],
 							'tags.*' => ['string','max:20',],
+							'color_id' => ['required', Rule::exists(Colours::class,'id')],
+							'gender' => ['required', Rule::in(['Male','Female','Unisex'])]
 		            ]
 		        );
 		        if(!$validator->fails())
@@ -431,12 +446,21 @@ class ProductsController extends AppController
 				],
 	    		'brands.title desc'
 	    	);
-
+			$colors = Colours::getAll(
+	    		[
+	    			'colours.id',
+	    			'colours.color_code'
+	    		],
+	    	    [
+				],
+	    		'colours.color_code desc'
+	    	);
 			return view("admin/products/edit", [
     			'product' => $product,
     			'categories' => $categories,
     			'users' => $users,
-				'brands' => $brands
+				'brands' => $brands,
+				'colors' => $colors
     		]);
 		}
 		else
