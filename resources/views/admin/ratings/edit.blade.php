@@ -8,7 +8,7 @@
 					<h6 class="h2 text-white d-inline-block mb-0">Manage Color</h6>
 				</div>
 				<div class="col-lg-6 col-5 text-right">
-					<a href="<?php echo route('admin.colours') ?>" class="btn btn-neutral"><i class="ni ni-bold-left"></i> Back</a>
+					<a href="<?php echo route('admin.ratings') ?>" class="btn btn-neutral"><i class="ni ni-bold-left"></i> Back</a>
 				</div>
 			</div>
 		</div>
@@ -29,7 +29,7 @@
 					</div>
 				</div>
 				<div class="card-body">
-					<form method="post" action="<?php echo route('admin.colours.edit',['id' => $page->id ]) ?>" class="form-validation">
+					<form method="post" action="<?php echo route('admin.ratings.edit',['id' => $page->id ]) ?>" class="form-validation">
 						<!--!! CSRF FIELD !!-->
 						{{ @csrf_field() }}
 						<h6 class="heading-small text-muted mb-4">Colour information</h6>

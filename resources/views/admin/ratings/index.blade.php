@@ -8,11 +8,11 @@
 						<h6 class="h2 text-white d-inline-block mb-0">Manage Colours</h6>
 					</div>
 					<div class="col-lg-6 col-5 text-right">
-					<?php if(Permissions::hasPermission('colours', 'create')): ?>
-						<a href="<?php echo route('admin.colours.add') ?>" class="btn btn-neutral">
+					<?php if(Permissions::hasPermission('ratings', 'create')): ?>
+						<a href="<?php echo route('admin.ratings.add') ?>" class="btn btn-neutral">
 						<i class="fas fa-plus"></i> New</a>
 					<?php endif; ?>	
-						@include('admin.colours.filters')
+						@include('admin.ratings.filters')
 					</div>
 				</div>
 			</div>
@@ -38,17 +38,17 @@
 								</div>
 								<input class="form-control listing-search" placeholder="Search" type="text" value="<?php echo (isset($_GET['search']) && $_GET['search'] ? $_GET['search'] : '') ?>">
 							</div>
-							<?php if(Permissions::hasPermission('colours', 'update') || Permissions::hasPermission('colours', 'delete')): ?>
+							<?php if(Permissions::hasPermission('ratings', 'update') || Permissions::hasPermission('ratings', 'delete')): ?>
 								<div class="dropdown" data-toggle="tooltip" data-title="Bulk Actions">
 									<a class="btn btn-sm btn-icon-only text-warning" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										<i class="fas fa-ellipsis-v"></i>
 									</a>
 									<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-										<?php if(Permissions::hasPermission('colours', 'update')): ?>
+										<?php if(Permissions::hasPermission('ratings', 'update')): ?>
 											<a 
 												class="dropdown-item" 
 												href="javascript:;"
-												onclick="bulk_actions('<?php echo route('admin.colours.bulkActions', ['action' => 'active']) ?>', 'active');"
+												onclick="bulk_actions('<?php echo route('admin.ratings.bulkActions', ['action' => 'active']) ?>', 'active');"
 											>
 												<span class="badge badge-dot mr-4">
 													<i class="bg-success"></i>
@@ -58,7 +58,7 @@
 											<a 
 												class="dropdown-item" 
 												href="javascript:;"
-												onclick="bulk_actions('<?php echo route('admin.colours.bulkActions', ['action' => 'inactive']) ?>', 'inactive');"
+												onclick="bulk_actions('<?php echo route('admin.ratings.bulkActions', ['action' => 'inactive']) ?>', 'inactive');"
 											>
 												<span class="badge badge-dot mr-4">
 													<i class="bg-warning"></i>
@@ -67,11 +67,11 @@
 											</a>
 											<div class="dropdown-divider"></div>
 										<?php endif; ?>
-										<?php if(Permissions::hasPermission('colours', 'delete')): ?>
+										<?php if(Permissions::hasPermission('ratings', 'delete')): ?>
 											<a 
 												href="javascript:void(0);" 
 												class="waves-effect waves-block dropdown-item text-danger" 
-												onclick="bulk_actions('<?php echo route('admin.colours.bulkActions', ['action' => 'delete']) ?>', 'delete');">
+												onclick="bulk_actions('<?php echo route('admin.ratings.bulkActions', ['action' => 'delete']) ?>', 'delete');">
 													<i class="fas fa-times text-danger"></i>
 													<span class="status text-danger">Delete</span>
 											</a>
@@ -130,7 +130,7 @@
 							</thead>
 							<tbody class="list">
 								<?php if(!empty($listing->items())): ?>
-									@include('admin.colours.listingLoop')
+									@include('admin.ratings.listingLoop')
 								<?php else: ?>
 									<td align="left" colspan="7">
 		                            	No records found!
