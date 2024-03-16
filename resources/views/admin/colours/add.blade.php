@@ -54,8 +54,8 @@
 										data-type="image"
 										data-multiple="false"
 										data-path="colours"
-										data-resize-large="70*18"
-										data-resize-small="70*18"
+										data-resize-large="100*100"
+										data-resize-small="100*100"
 									>
 										<div class="upload-section">
 											<div class="button-ref mb-3">

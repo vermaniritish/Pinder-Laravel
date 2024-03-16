@@ -94,7 +94,7 @@ class SizeController extends AppController
 			if (!empty($data)) {
 				$validator = Validator::make($request->all(), [
 					'mens.*.size_title' => [
-						Rule::unique('sizes', 'size_title')->whereNull('deleted_at')->where('type', $data['mens'][0]['type']),
+						// Rule::unique('sizes', 'size_title')->whereNull('deleted_at')->where('type', $data['mens'][0]['type']),
 						'required','string','max:255'], 
 					'mens.*.from_cm' => 'required|numeric|min:0',
 					'mens.*.to_cm' => 'required|numeric|min:0',
@@ -105,8 +105,15 @@ class SizeController extends AppController
 				]);
 				if(!$validator->fails())
 				{
-					foreach ($request->mens as $data) {
-						Sizes::create($data); 
+					foreach ($request->mens as $item) {
+						$existingSize = Sizes::where('type', $item['type'])
+												->where('size_title', $item['size_title'])
+												->first();
+						if ($existingSize) {
+							Sizes::modify($existingSize->id,$item);
+						} else {
+							Sizes::create($item);
+						}
 					}
 						$request->session()->flash('success', 'Size created successfully.');
 						return redirect()->route('admin.size');
