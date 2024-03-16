@@ -75,17 +75,17 @@ let women = new Vue({
 let unisex = new Vue({
     el: '#unisex',
     data: {
-            mens: [{ 
-                size_type: '',
-                from_cm: '',
-                to_cm: '',
-                chest: '',
-                waist: '',
-                hip: '',
-                length: '',
-            }
-        ]
-    },       
+        mens: [{ 
+            size_type: '',
+            from_cm: '',
+            to_cm: '',
+            chest: '',
+            waist: '',
+            hip: '',
+            length: '',
+        }
+    ]
+    },
     mounted: function() {
         this.initEditValues()
     },

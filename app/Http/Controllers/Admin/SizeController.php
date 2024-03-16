@@ -93,7 +93,9 @@ class SizeController extends AppController
     		unset($data['_token']);
 			if (!empty($data)) {
 				$validator = Validator::make($request->all(), [
-					'mens.*.size_title' => [Rule::unique('sizes','size_title')->whereNull('deleted_at'),'required','string','max:255'], 
+					'mens.*.size_title' => [
+						Rule::unique('sizes', 'size_title')->whereNull('deleted_at')->where('type', $data['mens'][0]['type']),
+						'required','string','max:255'], 
 					'mens.*.from_cm' => 'required|numeric|min:0',
 					'mens.*.to_cm' => 'required|numeric|min:0',
 					'mens.*.chest' => 'required|numeric|min:0',
