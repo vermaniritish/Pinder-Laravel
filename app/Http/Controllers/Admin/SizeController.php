@@ -91,28 +91,34 @@ class SizeController extends AppController
     	{
     		$data = $request->toArray();
     		unset($data['_token']);
-			$validator = Validator::make($request->all(), [
-				'mens.*.size_title' => [Rule::unique('sizes','size_title')->whereNull('deleted_at'),'required','string','max:255'], 
-				'mens.*.from_cm' => 'required|numeric|min:0',
-				'mens.*.to_cm' => 'required|numeric|min:0',
-				'mens.*.chest' => 'required|numeric|min:0',
-				'mens.*.waist' => 'required|numeric|min:0',
-				'mens.*.hip' => 'required|numeric|min:0',
-				'mens.*.length' => 'required|numeric|min:0',
-			]);
-	        if(!$validator->fails())
-	        {
-				foreach ($request->mens as $data) {
-					Sizes::create($data); 
+			if (!empty($data)) {
+				$validator = Validator::make($request->all(), [
+					'mens.*.size_title' => [Rule::unique('sizes','size_title')->whereNull('deleted_at'),'required','string','max:255'], 
+					'mens.*.from_cm' => 'required|numeric|min:0',
+					'mens.*.to_cm' => 'required|numeric|min:0',
+					'mens.*.chest' => 'required|numeric|min:0',
+					'mens.*.waist' => 'required|numeric|min:0',
+					'mens.*.hip' => 'required|numeric|min:0',
+					'mens.*.length' => 'required|numeric|min:0',
+				]);
+				if(!$validator->fails())
+				{
+					foreach ($request->mens as $data) {
+						Sizes::create($data); 
+					}
+						$request->session()->flash('success', 'Size created successfully.');
+						return redirect()->route('admin.size');
 				}
-	        		$request->session()->flash('success', 'Size created successfully.');
-	        		return redirect()->route('admin.size');
-		    }
-		    else
-		    {
-		    	$request->session()->flash('error', 'Please provide valid inputs.');
-		    	return redirect()->back()->withErrors($validator)->withInput();
-		    }
+				else
+				{
+					$request->session()->flash('error', 'Please provide valid inputs.');
+					return redirect()->back()->withErrors($validator)->withInput();
+				}
+			}
+			else {
+				$request->session()->flash('error', 'Please provide valid inputs.');
+				return redirect()->back()->withErrors(['mens' => 'Data is empty.'])->withInput();
+			}
 		}
 
 	    return view("admin/sizes/add", [
