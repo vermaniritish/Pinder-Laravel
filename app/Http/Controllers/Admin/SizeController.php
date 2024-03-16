@@ -14,7 +14,6 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Admin\Permissions;
-use App\Models\Admin\Staffs;
 use App\Models\Admin\Admins;
 use Illuminate\Validation\Rule;
 use App\Libraries\FileSystem;
@@ -22,11 +21,11 @@ use App\Http\Controllers\Admin\AppController;
 use App\Models\Admin\Colours;
 use App\Models\Admin\Orders;
 use App\Models\Admin\Settings;
-use App\Models\Admin\Staff;
+use App\Models\Admin\Sizes;
 use App\Models\Admin\StaffDocuments;
 use Illuminate\Support\Facades\File;
 
-class ColourController extends AppController
+class SizeController extends AppController
 {
 	function __construct()
 	{
@@ -35,7 +34,7 @@ class ColourController extends AppController
 
     function index(Request $request)
     {
-    	if(!Permissions::hasPermission('colours', 'listing'))
+    	if(!Permissions::hasPermission('sizes', 'listing'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
@@ -47,19 +46,25 @@ class ColourController extends AppController
     		$search = $request->get('search');
     		$search = '%' . $search . '%';
     		$where['(
-				colours.id LIKE ? or
-				colours.color_code LIKE ?)'] = [$search, $search];
+				sizes.id LIKE ? or
+				sizes.first_name LIKE ? or
+				sizes.last_name LIKE ? or
+				sizes.aadhar_card_number LIKE ? or
+				sizes.phone_number LIKE ? or
+				sizes.email LIKE ? or
+			 	owner.first_name LIKE ? or 
+				owner.last_name LIKE ?)'] = [$search, $search, $search, $search];
     	}
 
     	if($request->get('created_on'))
     	{
     		$createdOn = $request->get('created_on');
     		if(isset($createdOn[0]) && !empty($createdOn[0]))
-    			$where['colours.created >= ?'] = [
+    			$where['sizes.created >= ?'] = [
     				date('Y-m-d 00:00:00', strtotime($createdOn[0]))
     			];
     		if(isset($createdOn[1]) && !empty($createdOn[1]))
-    			$where['colours.created <= ?'] = [
+    			$where['sizes.created <= ?'] = [
     				date('Y-m-d 23:59:59', strtotime($createdOn[1]))
     			];
     	}
@@ -68,16 +73,16 @@ class ColourController extends AppController
     	{
     		$admins = $request->get('admins');
     		$admins = $admins ? implode(',', $admins) : 0;
-    		$where[] = 'colours.created_by IN ('.$admins.')';
+    		$where[] = 'sizes.created_by IN ('.$admins.')';
     	}
 
-    	$listing = Colours::getListing($request, $where);
+    	$listing = Sizes::getListing($request, $where);
 
 
     	if($request->ajax())
     	{
 		    $html = view(
-	    		"admin/colours/listingLoop", 
+	    		"admin/sizes/listingLoop", 
 	    		[
 	    			'listing' => $listing
 	    		]
@@ -96,7 +101,7 @@ class ColourController extends AppController
 		{
 			$filters = $this->filters($request);
 	    	return view(
-	    		"admin/colours/index", 
+	    		"admin/sizes/index", 
 	    		[
 	    			'listing' => $listing,
 	    			'admins' => $filters['admins']
@@ -108,7 +113,7 @@ class ColourController extends AppController
     function filters(Request $request)
     {
 		$admins = [];
-		$adminIds = Colours::distinct()->whereNotNull('created_by')->pluck('created_by')->toArray();
+		$adminIds = Sizes::distinct()->whereNotNull('created_by')->pluck('created_by')->toArray();
 		if($adminIds)
 		{
 	    	$admins = Admins::getAll(
@@ -131,7 +136,7 @@ class ColourController extends AppController
 
     function add(Request $request)
     {
-    	if(!Permissions::hasPermission('colours', 'create'))
+    	if(!Permissions::hasPermission('sizes', 'create'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
@@ -144,18 +149,17 @@ class ColourController extends AppController
     		$validator = Validator::make(
 	            $request->toArray(),
 				[
-					'color_code' => ['required','regex:/^#[a-fA-F0-9]{6}$/', Rule::unique('colours','color_code')->whereNull('deleted_at'), ],
+					'color_code' => 'required|regex:/^#[a-fA-F0-9]{6}$/',
 					'image' => ['nullable'],
 				],
 				[
 					'color_code.required' => 'The colour code is required.',
 					'color_code.regex' => 'The colour code must be in the format #RRGGBB (e.g., #FF0000 for red).',
-					'color_code.unique' => 'The colour code must be unique.',
 				]
 	        );
 	        if(!$validator->fails())
 	        {
-	        	$page = Colours::create($data);
+	        	$page = Sizes::create($data);
 	        	if($page)
 	        	{
 	        		$request->session()->flash('success', 'Colour created successfully.');
@@ -174,13 +178,13 @@ class ColourController extends AppController
 		    }
 		}
 
-	    return view("admin/colours/add", [
+	    return view("admin/sizes/add", [
 	    		]);
     }
 
     function view(Request $request, $id)
     {
-    	if(!Permissions::hasPermission('colours', 'listing'))
+    	if(!Permissions::hasPermission('sizes', 'listing'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
@@ -203,7 +207,7 @@ class ColourController extends AppController
     				date('Y-m-d 23:59:59', strtotime($toDate))
     			];
     	}
-    	$page = Colours::get($id);
+    	$page = Sizes::get($id);
 		$where['staff_id'] = $id;
 		if($request->get('search'))
     	{
@@ -219,7 +223,7 @@ class ColourController extends AppController
     	{	if($request->ajax())
 			{
 				$html = view(
-					"admin/colours/orders/listingLoop", 
+					"admin/sizes/orders/listingLoop", 
 					[
 						'listing' => $listing,
 						'currency' => Settings::get('currency_symbol'),
@@ -238,7 +242,7 @@ class ColourController extends AppController
 			}
 			else
 			{
-	    	return view("admin/colours/view", [
+	    	return view("admin/sizes/view", [
     			'page' => $page,
 				'status' => Orders::getStaticData()['status'],
 				'listing' => $listing
@@ -248,17 +252,19 @@ class ColourController extends AppController
 		{
 			abort(404);
 		}
-    } 
+    }
+
+    
 
     function edit(Request $request, $id)
     {
-    	if(!Permissions::hasPermission('colours', 'update'))
+    	if(!Permissions::hasPermission('sizes', 'update'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
     	}
 
-    	$page = Colours::get($id);
+    	$page = Sizes::get($id);
 
     	if($page)
     	{
@@ -267,14 +273,18 @@ class ColourController extends AppController
 	    		$data = $request->toArray();
 	    		$validator = Validator::make(
 		            $request->toArray(),
-					[
-						'color_code' => ['required','regex:/^#[a-fA-F0-9]{6}$/', Rule::unique('colours','color_code')->ignore($id)->whereNull('deleted_at'), ],
+		            [
+						'first_name' => 'required',
+						'last_name' => 'required',
+						'email' => [
+							'required',
+							'email',
+							Rule::unique('staff','email')->whereNull('deleted_at'),
+						],
+						'phone_number' => ['required','numeric','digits:10',],
+						'aadhar_card_number' => ['required', 'numeric', 'digits:12',],
 						'image' => ['nullable'],
-					],
-					[
-						'color_code.required' => 'The colour code is required.',
-						'color_code.regex' => 'The colour code must be in the format #RRGGBB (e.g., #FF0000 for red).',
-					]
+		            ]
 		        );
 
 		        if(!$validator->fails())
@@ -292,7 +302,7 @@ class ColourController extends AppController
 		        		
 		        	}
 		        	/** IN CASE OF SINGLE UPLOAD **/
-		        	if(Colours::modify($id, $data))
+		        	if(Sizes::modify($id, $data))
 		        	{
 		        		/** IN CASE OF SINGLE UPLOAD **/
 		        		if(isset($oldImage) && $oldImage)
@@ -317,7 +327,7 @@ class ColourController extends AppController
 			    }
 			}
 
-			return view("admin/colours/edit", [
+			return view("admin/sizes/edit", [
     			'page' => $page
     		]);
 		}
@@ -329,13 +339,13 @@ class ColourController extends AppController
 
     function delete(Request $request, $id)
     {
-    	if(!Permissions::hasPermission('colours', 'delete'))
+    	if(!Permissions::hasPermission('sizes', 'delete'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
     	}
 
-    	$admin = Colours::find($id);
+    	$admin = Sizes::find($id);
     	if($admin->delete())
     	{
     		$request->session()->flash('success', 'Staff deleted successfully.');
@@ -350,7 +360,7 @@ class ColourController extends AppController
 
     function bulkActions(Request $request, $action)
     {
-    	if( ($action != 'delete' && !Permissions::hasPermission('colours', 'update')) || ($action == 'delete' && !Permissions::hasPermission('colours', 'delete')) )
+    	if( ($action != 'delete' && !Permissions::hasPermission('sizes', 'update')) || ($action == 'delete' && !Permissions::hasPermission('sizes', 'delete')) )
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
@@ -361,19 +371,19 @@ class ColourController extends AppController
     	{
     		switch ($action) {
     			case 'active':
-    				Colours::modifyAll($ids, [
+    				Sizes::modifyAll($ids, [
     					'status' => 1
     				]);
     				$message = count($ids) . ' records has been published.';
     			break;
     			case 'inactive':
-    				Colours::modifyAll($ids, [
+    				Sizes::modifyAll($ids, [
     					'status' => 0
     				]);
     				$message = count($ids) . ' records has been unpublished.';
     			break;
     			case 'delete':
-    				Colours::removeAll($ids);
+    				Sizes::removeAll($ids);
     				$message = count($ids) . ' records has been deleted.';
     			break;
     		}
@@ -396,12 +406,12 @@ class ColourController extends AppController
 
     function addDocument(Request $request, $id)
     {
-        if(!Permissions::hasPermission('colours', 'create'))
+        if(!Permissions::hasPermission('sizes', 'create'))
         {
             $request->session()->flash('error', 'Permission denied.');
             return redirect()->route('admin.dashboard');
         }
-        $staff = Colours::findOrFail($id);
+        $staff = Sizes::findOrFail($id);
         $data = $request->toArray();
         unset($data['_token']);
         $validator = Validator::make(
@@ -445,7 +455,7 @@ class ColourController extends AppController
 
 	function deleteDocument(Request $request, $staffId, $id, $index)
     {
-        if(!Permissions::hasPermission('colours', 'delete'))
+        if(!Permissions::hasPermission('sizes', 'delete'))
         {
             $request->session()->flash('error', 'Permission denied.');
             return redirect()->route('admin.dashboard');
@@ -460,7 +470,7 @@ class ColourController extends AppController
 						File::delete($filePath);
 					}
 					$request->session()->flash('success', 'Document and row deleted successfully.');
-					return redirect()->route('admin.colours.view', ['id' => $staffId]);
+					return redirect()->route('admin.sizes.view', ['id' => $staffId]);
 				} elseif (array_key_exists($index, $fileArray)) {
 					$filePath = public_path($fileArray[$index]);
 					if (File::exists($filePath)) {
@@ -470,15 +480,15 @@ class ColourController extends AppController
 					$staffDoc->file = json_encode(array_values($fileArray));
 					$staffDoc->save();
 					$request->session()->flash('success', 'Document deleted successfully.');
-					return redirect()->route('admin.colours.view', ['id' => $staffId]);
+					return redirect()->route('admin.sizes.view', ['id' => $staffId]);
 				} else {
 					$request->session()->flash('error', 'Invalid index specified.');
-					return redirect()->route('admin.colours.view', ['id' => $staffId]);
+					return redirect()->route('admin.sizes.view', ['id' => $staffId]);
 				}
 			}
 			else {
 				$request->session()->flash('Document not found.');
-				return redirect()->route('admin.colours.view',['id' => $staffId]);
+				return redirect()->route('admin.sizes.view',['id' => $staffId]);
 		}
     }
 }
