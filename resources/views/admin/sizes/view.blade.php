@@ -11,26 +11,26 @@ use App\Models\Admin\Permissions;
 						<h6 class="h2 text-white d-inline-block mb-0">Manage Color</h6>
 					</div>
 					<div class="col-lg-6 col-5 text-right">
-						<a href="<?php echo route('admin.colours') ?>" class="btn btn-neutral"><i class="fa fa-arrow-left"></i> Back</a>
+						<a href="<?php echo route('admin.size') ?>" class="btn btn-neutral"><i class="fa fa-arrow-left"></i> Back</a>
 						<a href="#" class="btn btn-neutral" target="_blank"><i class="fa fa-eye"></i> View Page</a>
-						<?php if(Permissions::hasPermission('colours', 'update') || Permissions::hasPermission('colours', 'delete')): ?>
+						<?php if(Permissions::hasPermission('sizes', 'update') || Permissions::hasPermission('sizes', 'delete')): ?>
 							<div class="dropdown" data-toggle="tooltip" data-title="More Actions">
 								<a class="btn btn-neutral" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<i class="fas fa-ellipsis-v"></i>
 								</a>
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-									<?php if(Permissions::hasPermission('colours', 'update')): ?>
-										<a class="dropdown-item" href="<?php echo route('admin.colours.edit', ['id' => $page->id]) ?>">
+									<?php if(Permissions::hasPermission('sizes', 'update')): ?>
+										<a class="dropdown-item" href="<?php echo route('admin.size.edit', ['id' => $page->id]) ?>">
 											<i class="fas fa-pencil-alt text-info"></i>
 											<span class="status">Edit</span>
 										</a>
 										<?php endif; ?>
-									<?php if(Permissions::hasPermission('colours', 'delete')): ?>
+									<?php if(Permissions::hasPermission('sizes', 'delete')): ?>
 										<div class="dropdown-divider"></div>
 										<a 
 											class="dropdown-item _delete" 
 											href="javascript:;"
-											data-link="<?php echo route('admin.colours.delete', ['id' => $page->id]) ?>"
+											data-link="<?php echo route('admin.size.delete', ['id' => $page->id]) ?>"
 										>
 											<i class="fas fa-times text-danger"></i>
 											<span class="status text-danger">Delete</span>

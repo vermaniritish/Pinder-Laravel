@@ -470,7 +470,7 @@ class SizeController extends AppController
 						File::delete($filePath);
 					}
 					$request->session()->flash('success', 'Document and row deleted successfully.');
-					return redirect()->route('admin.sizes.view', ['id' => $staffId]);
+					return redirect()->route('admin.size.view', ['id' => $staffId]);
 				} elseif (array_key_exists($index, $fileArray)) {
 					$filePath = public_path($fileArray[$index]);
 					if (File::exists($filePath)) {
@@ -480,15 +480,15 @@ class SizeController extends AppController
 					$staffDoc->file = json_encode(array_values($fileArray));
 					$staffDoc->save();
 					$request->session()->flash('success', 'Document deleted successfully.');
-					return redirect()->route('admin.sizes.view', ['id' => $staffId]);
+					return redirect()->route('admin.size.view', ['id' => $staffId]);
 				} else {
 					$request->session()->flash('error', 'Invalid index specified.');
-					return redirect()->route('admin.sizes.view', ['id' => $staffId]);
+					return redirect()->route('admin.size.view', ['id' => $staffId]);
 				}
 			}
 			else {
 				$request->session()->flash('Document not found.');
-				return redirect()->route('admin.sizes.view',['id' => $staffId]);
+				return redirect()->route('admin.size.view',['id' => $staffId]);
 		}
     }
 }

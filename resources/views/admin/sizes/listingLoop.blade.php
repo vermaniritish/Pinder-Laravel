@@ -20,7 +20,7 @@
 		<?php echo _dt($row->created) ?>
 	</td>
 	<td class="text-cnter">
-	<?php if(Permissions::hasPermission('staff', 'update') || Permissions::hasPermission('staff', 'delete')): ?>
+	<?php if(Permissions::hasPermission('sizes', 'update') || Permissions::hasPermission('sizes', 'delete')): ?>
 		<div class="dropdown">
 			<a class="btn btn-sm btn-icon-only text-warning" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<i class="fas fa-ellipsis-v"></i>
@@ -30,14 +30,14 @@
 					<i class="fas fa-eye text-yellow"></i>
 					<span class="status">View</span>
 				</a>
-				<?php if(Permissions::hasPermission('staff', 'update')): ?>
+				<?php if(Permissions::hasPermission('sizes', 'update')): ?>
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item" href="<?php echo route('admin.colours.edit', ['id' => $row->id]) ?>">
 						<i class="fas fa-pencil-alt text-info"></i>
 						<span class="status">Edit</span>
 					</a>
 				<?php endif; ?>
-				<?php if(Permissions::hasPermission('staff', 'delete')): ?>
+				<?php if(Permissions::hasPermission('sizes', 'delete')): ?>
 					<div class="dropdown-divider"></div>
 					<a 
 						class="dropdown-item _delete" 
