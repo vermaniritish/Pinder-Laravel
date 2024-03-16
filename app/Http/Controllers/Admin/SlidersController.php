@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Admin\Permissions;
 use App\Models\Admin\Admins;
 use App\Http\Controllers\Admin\AppController;
-use App\Models\Admin\Ratings;
 use App\Models\Admin\Settings;
+use App\Models\Admin\Sliders;
 
-class RatingsController extends AppController
+class SlidersController extends AppController
 {
 	function __construct()
 	{
@@ -28,7 +28,7 @@ class RatingsController extends AppController
 
     function index(Request $request)
     {
-    	if(!Permissions::hasPermission('ratings', 'listing'))
+    	if(!Permissions::hasPermission('sliders', 'listing'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
@@ -79,13 +79,13 @@ class RatingsController extends AppController
     		$where[] = 'ratings.created_by IN ('.$admins.')';
     	}
 
-    	$listing = Ratings::getListing($request, $where);
+    	$listing = Sliders::getListing($request, $where);
 
 
     	if($request->ajax())
     	{
 		    $html = view(
-	    		"admin/ratings/listingLoop", 
+	    		"admin/sliders/listingLoop", 
 	    		[
 	    			'listing' => $listing
 	    		]
@@ -104,7 +104,7 @@ class RatingsController extends AppController
 		{
 			$filters = $this->filters($request);
 	    	return view(
-	    		"admin/ratings/index", 
+	    		"admin/sliders/index", 
 	    		[
 	    			'listing' => $listing,
 	    			'admins' => $filters['admins']
@@ -116,7 +116,7 @@ class RatingsController extends AppController
     function filters(Request $request)
     {
 		$admins = [];
-		$adminIds = Ratings::distinct()->whereNotNull('created_by')->pluck('created_by')->toArray();
+		$adminIds = Sliders::distinct()->whereNotNull('created_by')->pluck('created_by')->toArray();
 		if($adminIds)
 		{
 	    	$admins = Admins::getAll(
@@ -139,7 +139,7 @@ class RatingsController extends AppController
 
     function add(Request $request)
     {
-    	if(!Permissions::hasPermission('ratings', 'create'))
+    	if(!Permissions::hasPermission('sliders', 'create'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
@@ -161,7 +161,7 @@ class RatingsController extends AppController
 	        );
 	        if(!$validator->fails())
 	        {
-	        	$page = Ratings::create($data);
+	        	$page = Sliders::create($data);
 	        	if($page)
 	        	{
 	        		$request->session()->flash('success', 'Rating created successfully.');
@@ -179,40 +179,91 @@ class RatingsController extends AppController
 		    	return redirect()->back()->withErrors($validator)->withInput();
 		    }
 		}
-	    return view("admin/ratings/add", [
+	    return view("admin/sliders/add", [
 	    		]);
     }
 
     function view(Request $request, $id)
     {
-    	if(!Permissions::hasPermission('ratings', 'listing'))
+    	if(!Permissions::hasPermission('sliders', 'listing'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
     	}
-
-    	$page = Ratings::get($id);
-    	if($page)
+		$fromDate = now()->startOfMonth()->toDateString();
+		$toDate = now()->endOfMonth()->toDateString();
+		if ($request->filled('order_created')) {
+			$customDateRange = $request->input('order_created');
+			$fromDate = $customDateRange[0];
+			$toDate = $customDateRange[1];
+		}	
+		if($fromDate && $toDate)
     	{
-	    	return view("admin/ratings/view", [
-    			'page' => $page
-    		]);
+    		if(isset($fromDate) && !empty($fromDate))
+    			$where['ratings.created >= ?'] = [
+    				date('Y-m-d 00:00:00', strtotime($fromDate))
+    			];
+    		if(isset($toDate) && !empty($toDate))
+    			$where['ratings.created <= ?'] = [
+    				date('Y-m-d 23:59:59', strtotime($toDate))
+    			];
+    	}
+    	$page = Sliders::get($id);
+		$where['staff_id'] = $id;
+		if($request->get('search'))
+    	{
+    		$search = $request->get('search');
+    		$search = '%' . $search . '%';
+    		$where['(
+				ratings.status LIKE ? or
+				ratings.id LIKE ? or
+				ratings.total_amount LIKE ?)'] = [$search, $search, $search];
+    	}
+		$listing = Orders::getListing($request,$where);
+    	if($page)
+    	{	if($request->ajax())
+			{
+				$html = view(
+					"admin/sliders/orders/listingLoop", 
+					[
+						'listing' => $listing,
+						'currency' => Settings::get('currency_symbol'),
+						'status' => Orders::getStaticData()['status'],
+					]
+				)->render();
+	
+				return Response()->json([
+					'status' => 'success',
+					'html' => $html,
+					'page' => $listing->currentPage(),
+					'counter' => $listing->perPage(),
+					'count' => $listing->total(),
+					'pagination_counter' => $listing->currentPage() * $listing->perPage()
+				], 200);
+			}
+			else
+			{
+	    	return view("admin/sliders/view", [
+    			'page' => $page,
+				'status' => Orders::getStaticData()['status'],
+				'listing' => $listing
+    		]);}
 		}
 		else
 		{
 			abort(404);
 		}
-    }
+    } 
 
     function edit(Request $request, $id)
     {
-    	if(!Permissions::hasPermission('ratings', 'update'))
+    	if(!Permissions::hasPermission('sliders', 'update'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
     	}
 
-    	$page = Ratings::get($id);
+    	$page = Sliders::get($id);
 
     	if($page)
     	{
@@ -233,14 +284,14 @@ class RatingsController extends AppController
 		        if(!$validator->fails())
 		        {
 		        	unset($data['_token']);
-		        	if(Ratings::modify($id, $data))
+		        	if(Sliders::modify($id, $data))
 		        	{
-		        		$request->session()->flash('success', 'Rating updated successfully.');
+		        		$request->session()->flash('success', 'Slider updated successfully.');
 		        		return redirect()->route('admin.ratings');
 		        	}
 		        	else
 		        	{
-		        		$request->session()->flash('error', 'Rating could not be save. Please try again.');
+		        		$request->session()->flash('error', 'Slider could not be save. Please try again.');
 			    		return redirect()->back()->withErrors($validator)->withInput();
 		        	}
 			    }
@@ -251,7 +302,7 @@ class RatingsController extends AppController
 			    }
 			}
 
-			return view("admin/ratings/edit", [
+			return view("admin/sliders/edit", [
     			'page' => $page
     		]);
 		}
@@ -263,28 +314,28 @@ class RatingsController extends AppController
 
     function delete(Request $request, $id)
     {
-    	if(!Permissions::hasPermission('ratings', 'delete'))
+    	if(!Permissions::hasPermission('sliders', 'delete'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
     	}
 
-    	$admin = Ratings::find($id);
+    	$admin = Sliders::find($id);
     	if($admin->delete())
     	{
-    		$request->session()->flash('success', 'Staff deleted successfully.');
+    		$request->session()->flash('success', 'Slider deleted successfully.');
     		return redirect()->route('admin.ratings');
     	}
     	else
     	{
-    		$request->session()->flash('error', 'Staff could not be delete.');
+    		$request->session()->flash('error', 'Slider could not be delete.');
     		return redirect()->route('admin.ratings');
     	}
     }
 
     function bulkActions(Request $request, $action)
     {
-    	if( ($action != 'delete' && !Permissions::hasPermission('ratings', 'update')) || ($action == 'delete' && !Permissions::hasPermission('ratings', 'delete')) )
+    	if( ($action != 'delete' && !Permissions::hasPermission('sliders', 'update')) || ($action == 'delete' && !Permissions::hasPermission('sliders', 'delete')) )
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
@@ -295,19 +346,19 @@ class RatingsController extends AppController
     	{
     		switch ($action) {
     			case 'active':
-    				Ratings::modifyAll($ids, [
+    				Sliders::modifyAll($ids, [
     					'status' => 1
     				]);
     				$message = count($ids) . ' records has been published.';
     			break;
     			case 'inactive':
-    				Ratings::modifyAll($ids, [
+    				Sliders::modifyAll($ids, [
     					'status' => 0
     				]);
     				$message = count($ids) . ' records has been unpublished.';
     			break;
     			case 'delete':
-    				Ratings::removeAll($ids);
+    				Sliders::removeAll($ids);
     				$message = count($ids) . ' records has been deleted.';
     			break;
     		}

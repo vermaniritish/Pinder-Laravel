@@ -8,7 +8,7 @@ use App\Models\Admin\Permissions;
 			<div class="header-body">
 				<div class="row align-items-center py-4">
 					<div class="col-lg-6 col-7">
-						<h6 class="h2 text-white d-inline-block mb-0">Manage Rating</h6>
+						<h6 class="h2 text-white d-inline-block mb-0">Manage Slider</h6>
 					</div>
 					<div class="col-lg-6 col-5 text-right">
 						<a href="<?php echo route('admin.ratings') ?>" class="btn btn-neutral"><i class="fa fa-arrow-left"></i> Back</a>
@@ -68,31 +68,8 @@ use App\Models\Admin\Permissions;
 										<td><?php echo $page->id ?></td>
 									</tr>
 									<tr>
-										<th>Name</th>
-										<td><?php echo $page->name ?></td>
-									</tr>
-									<tr>
-										<th>Designation</th>
-										<td><?php echo $page->designation ?></td>
-									</tr>
-									<tr>
-										<th>Rating</th>
-										<td><?php echo $page->rating ?></td>
-									</tr>
-									<tr>
-										<th>Image(On/Off)</th>
-										<td>
-											<div class="custom-control">
-												<label class="custom-toggle">
-													<?php $switchUrl =  route('admin.actions.switchUpdate', ['relation' => 'ratings', 'field' => 'image_status', 'id' => $page->id]); ?>
-													<input type="checkbox" name="image_status" onchange="switch_action('<?php echo $switchUrl ?>', this)" value="1" <?php echo ($page->image_status ? 'checked' : '') ?>>
-													<span class="custom-toggle-slider rounded-circle" data-label-off="OFF" data-label-on="ON"></span>
-												</label>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<th colspan="2">Message:<br /><?php echo nl2br($page->message) ?></th>
+										<th>Color Code</th>
+										<td><?php echo $page->color_code ?></td>
 									</tr>
 								</tbody>
 							</table>
@@ -100,6 +77,13 @@ use App\Models\Admin\Permissions;
 					</div>
 				</div>
 				<div class="col-xl-4 order-xl-1">
+					<?php if($page->image): ?>
+					<div class="card">
+						<div class="card-body">
+							<img src="<?php echo url($page->image) ?>">
+						</div>
+					</div>
+					<?php endif; ?>
 					<div class="card">
 						<div class="card-header">
 							<div class="row align-items-center">
