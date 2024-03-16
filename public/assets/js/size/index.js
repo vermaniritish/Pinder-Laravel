@@ -17,7 +17,7 @@ let men = new Vue({
     },
     methods: {
         initEditValues: function () {
-            if ($('#male').length > 0) {
+            if ($('#male').length > 0 && $('#male').text().trim() !== '[]') {
                 let data = JSON.parse($('#male').text());
                 this.mens = data;
             }
@@ -38,7 +38,7 @@ let men = new Vue({
 let women = new Vue({
     el: '#women',
     data: {
-        men: [{ 
+        mens: [{ 
             size_type: '',
             from_cm: '',
             to_cm: '',
@@ -54,7 +54,7 @@ let women = new Vue({
     },
     methods: {
         initEditValues: function () {
-            if ($('#female').length > 0) {
+            if ($('#female').length > 0 && $('#female').text().trim() !== '[]') {
                 let data = JSON.parse($('#female').text());
                 this.mens = data;
             }
@@ -75,23 +75,23 @@ let women = new Vue({
 let unisex = new Vue({
     el: '#unisex',
     data: {
-        mens: [{ 
-            size_type: '',
-            from_cm: '',
-            to_cm: '',
-            chest: '',
-            waist: '',
-            hip: '',
-            length: '',
-        }
-    ]
-    },
+            mens: [{ 
+                size_type: '',
+                from_cm: '',
+                to_cm: '',
+                chest: '',
+                waist: '',
+                hip: '',
+                length: '',
+            }
+        ]
+    },       
     mounted: function() {
         this.initEditValues()
     },
     methods: {
         initEditValues: function () {
-            if ($('#unisex').length > 0) {
+            if ($('#unisex').length > 0 && $('#unisex').text().trim() !== '[]') {
                 let data = JSON.parse($('#unisex').text());
                 this.mens = data;
             }

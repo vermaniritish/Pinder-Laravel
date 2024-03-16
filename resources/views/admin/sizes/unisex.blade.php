@@ -22,7 +22,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-first-name">From cm</label>
-                                        <input type="number" class="form-control" :name="'mens[' + index + '][from_cm]'"  required placeholder="From cm" value="{{ old('color_code') }}" min="0">
+                                        <input type="number" class="form-control" :name="'mens[' + index + '][from_cm]'"  required placeholder="cm" value="{{ old('color_code') }}" min="0">
                                         @error('color_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

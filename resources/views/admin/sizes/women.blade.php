@@ -9,29 +9,29 @@
                     <div v-for="(men, index) in mens" :key="index" >
                         <div class=" mt-2 d-flex border rounded position-relative pe-0">
                             <div class="row w-100 p-3">
-                                <input type="hidden" value="Female" :name="'mens[' + index + '][type]'" >
+                                <input type="hidden" value="Male" :name="'mens[' + index + '][type]'" >
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-first-name">Size Type</label>
-                                        <input type="text" class="form-control" :name="'mens[' + index + '][size_title]'"   required placeholder="XL" value="{{ old('color_code') }}">
+                                        <input type="text" class="form-control" v-model="men.size_title" :name="'mens[' + index + '][size_title]'"   required placeholder="XL" value="{{ old('color_code') }}">
                                         @error('color_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <div class="form-group">
-                                        <label class="form-control-label" for="input-first-name">From cm</label>
-                                        <input type="number" class="form-control" :name="'mens[' + index + '][from_cm]'"  required placeholder="From cm" value="{{ old('color_code') }}" min="0">
+                                        <label class="form-control-label" for="input-first-name">From</label>
+                                        <input type="number" class="form-control" v-model="men.from_cm" :name="'mens[' + index + '][from_cm]'"  required placeholder="cm" value="{{ old('color_code') }}" min="0">
                                         @error('color_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <div class="form-group">
-                                        <label class="form-control-label" for="input-first-name">To cm</label>
-                                        <input type="number" class="form-control" :name="'mens[' + index + '][to_cm]'"  required placeholder="To cm" value="{{ old('color_code') }}" min="0">
+                                        <label class="form-control-label" for="input-first-name">To</label>
+                                        <input type="number" class="form-control" v-model="men.to_cm" :name="'mens[' + index + '][to_cm]'"  required placeholder="To(cm)" value="{{ old('color_code') }}" min="0">
                                         @error('color_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -40,7 +40,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-first-name">Chest</label>
-                                        <input type="number" class="form-control" :name="'mens[' + index + '][chest]'"  required placeholder="Chest" value="{{ old('color_code') }}" min="0">
+                                        <input type="number" class="form-control" v-model="men.chest" :name="'mens[' + index + '][chest]'"  required placeholder="Chest" value="{{ old('color_code') }}" min="0">
                                         @error('color_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -49,7 +49,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-first-name">Waist</label>
-                                        <input type="number" class="form-control" :name="'mens[' + index + '][waist]'"  required placeholder="Waist" value="{{ old('color_code') }}" min="0">
+                                        <input type="number" class="form-control" v-model="men.waist" :name="'mens[' + index + '][waist]'"  required placeholder="Waist" value="{{ old('color_code') }}" min="0">
                                         @error('color_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -58,7 +58,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-first-name">Hip</label>
-                                        <input type="number" class="form-control" :name="'mens[' + index + '][hip]'"  required placeholder="Hip" value="{{ old('color_code') }}" min="0">
+                                        <input type="number" class="form-control" v-model="men.hip" :name="'mens[' + index + '][hip]'"  required placeholder="Hip" value="{{ old('color_code') }}" min="0">
                                         @error('color_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -67,7 +67,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-first-name">Length</label>
-                                        <input type="number" class="form-control" :name="'mens[' + index + '][length]'"  required placeholder="Length" value="{{ old('color_code') }}" min="0">
+                                        <input type="number" class="form-control" v-model="men.length" :name="'mens[' + index + '][length]'"  required placeholder="Length" value="{{ old('color_code') }}" min="0">
                                         @error('color_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
