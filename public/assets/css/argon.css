@@ -25633,6 +25633,11 @@ a.text-teal:focus
     color: #2bffc6 !important;
 }
 
+.text-coffee {
+    color: #6c4b2d !important; 
+}
+
+
 a.text-cyan:hover,
 a.text-cyan:focus
 {

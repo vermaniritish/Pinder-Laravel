@@ -171,7 +171,7 @@
             <?php $active = strpos(request()->route()->getAction()['as'], 'admin.sliders') > -1; ?>
             <li class="nav-item">
                 <a class="nav-link<?php echo ($active ? ' active' : '') ?>" href="<?php echo route('admin.sliders') ?>">
-                    <i class="fas fa-star text-blue"></i>
+                    <i class="fas fa-sliders-h text-coffee"></i>
                     <span class="nav-link-text">Slider</span>
                 </a>
             </li>
