@@ -55,11 +55,22 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-lg-6">
 								<div class="form-group">
-									<label class="form-control-label" for="input-first-name">Rating</label>
-									<input type="text" class="form-control" name="rating" required placeholder="Designation" value="{{ old('designation') }}">
-									@error('designation')
+									<label class="form-control-label" for="input-username">Rating</label>
+									<select required class="form-control" name="rating">
+										<option {{ old('rating') == '1' ? 'selected' : '' }}
+											value="1"> 1</option>
+										<option {{ old('rating') == '2' ? 'selected' : '' }}
+											value="2"> 2</option>
+										<option {{ old('rating') == '3' ? 'selected' : '' }}
+											value="3"> 3</option>
+										<option {{ old('rating') == '4' ? 'selected' : '' }}
+											value="4"> 4</option>
+										<option {{ old('rating') == '5' ? 'selected' : '' }}
+											value="5"> 5</option>
+									</select>
+									@error('rating')
 										<small class="text-danger">{{ $message }}</small>
 									@enderror
 								</div>
