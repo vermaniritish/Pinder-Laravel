@@ -72,62 +72,62 @@
 									<th class="sort" width="5%">
 										<!--- MAKE SURE TO USE PROPOER FIELD IN data-field AND PROPOER DIRECTION IN data-sort -->
 										Id
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.id' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="ratings.id" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'ratings.id' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="ratings.id" data-sort="desc"></i>
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'sliders.id' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="sliders.id" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'sliders.id' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="sliders.id" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="ratings.id" data-sort="asc"></i>
+										<i class="fas fa-sort" data-field="sliders.id" data-sort="asc"></i>
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="17%">
-										Name
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.name' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="ratings.name" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'ratings.name' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="ratings.name" data-sort="desc"></i>
+										Label
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'sliders.label' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="sliders.label" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'sliders.label' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="sliders.label" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="ratings.name"></i>
+										<i class="fas fa-sort" data-field="sliders.label"></i>
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="10%">
-										Designation
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.designation' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="ratings.designation" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'ratings.designation' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="ratings.designation" data-sort="desc"></i>
+										Button Status
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'sliders.button_status' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="sliders.button_status" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'sliders.button_status' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="sliders.button_status" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="ratings.designation"></i>
+										<i class="fas fa-sort" data-field="sliders.button_status"></i>
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="10%">
-										Rating
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.rating' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="ratings.rating" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'ratings.rating' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="ratings.rating" data-sort="desc"></i>
+										Heading
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'sliders.heading' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="sliders.heading" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'sliders.heading' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="sliders.heading" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="ratings.rating"></i>
+										<i class="fas fa-sort" data-field="sliders.heading"></i>
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="31%">
-										Message
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.message' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="ratings.message" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'ratings.message' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="ratings.message" data-sort="desc"></i>
+										Sub Heading
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'sliders.sub_heading' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="sliders.sub_heading" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'sliders.sub_heading' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="sliders.sub_heading" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="ratings.message"></i>
+										<i class="fas fa-sort" data-field="sliders.sub_heading"></i>
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="17%">
-										Image(On/Off)
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.image_status' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="ratings.image_status" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'ratings.image_status' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="ratings.image_status" data-sort="desc"></i>
+										Button Title
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'sliders.button_title' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="sliders.button_title" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'sliders.button_title' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="sliders.button_title" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="ratings.image_status"></i>
+										<i class="fas fa-sort" data-field="sliders.button_title"></i>
 										<?php endif; ?>
 									</th>
 									<th width="5%">

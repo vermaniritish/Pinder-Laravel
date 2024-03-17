@@ -71,6 +71,9 @@ function random_string(limit){
 if($('#editor1').length) {   
     init_editor('#editor1');
 }
+if($('#editor2').length) {   
+    init_editor('#editor2');
+}
 
 function set_notification(type, text, placementFrom, placementAlign, animateEnter, animateExit)
 {

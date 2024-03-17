@@ -40,34 +40,34 @@ class SlidersController extends AppController
     		$search = $request->get('search');
     		$search = '%' . $search . '%';
     		$where['(
-				ratings.id LIKE ? or
-				ratings.rating LIKE ? or
-				ratings.designation LIKE ? or
-				ratings.message LIKE ? or
-				ratings.name LIKE ?)'] = [$search, $search,$search,$search,$search];
+				sliders.id LIKE ? or
+				sliders.label LIKE ? or
+				sliders.heading LIKE ? or
+				sliders.sub_heading LIKE ? or
+				sliders.button_title LIKE ?)'] = [$search, $search,$search,$search,$search];
     	}
 
     	if($request->get('created_on'))
     	{
     		$createdOn = $request->get('created_on');
     		if(isset($createdOn[0]) && !empty($createdOn[0]))
-    			$where['ratings.created >= ?'] = [
+    			$where['sliders.created >= ?'] = [
     				date('Y-m-d 00:00:00', strtotime($createdOn[0]))
     			];
     		if(isset($createdOn[1]) && !empty($createdOn[1]))
-    			$where['ratings.created <= ?'] = [
+    			$where['sliders.created <= ?'] = [
     				date('Y-m-d 23:59:59', strtotime($createdOn[1]))
     			];
     	}
 
-		if($request->get('image_status'))
+		if($request->get('button_status'))
     	{
-    		switch ($request->get('image_status')) {
+    		switch ($request->get('button_status')) {
     			case 1:
-    				$where['ratings.image_status'] = 1;
+    				$where['sliders.button_status'] = 1;
     			break;
     			case 0:
-    				$where['ratings.image_status'] = 0;
+    				$where['sliders.button_status'] = 0;
     			break;
     		}	
     	}
@@ -76,7 +76,7 @@ class SlidersController extends AppController
     	{
     		$admins = $request->get('admins');
     		$admins = $admins ? implode(',', $admins) : 0;
-    		$where[] = 'ratings.created_by IN ('.$admins.')';
+    		$where[] = 'sliders.created_by IN ('.$admins.')';
     	}
 
     	$listing = Sliders::getListing($request, $where);
@@ -152,11 +152,11 @@ class SlidersController extends AppController
     		$validator = Validator::make(
 	            $request->toArray(),
 				[
-					'name' => 'required|string|max:255',
-					'designation' => 'string|max:255',
-					'rating' => 'required|numeric|min:1|max:5', 
-					'message' => 'required|string|max:2000',
-					'image_status' => 'nullable|boolean',
+					'label' => 'required|string|max:255',
+					'heading' => 'nullable|string',
+					'sub_heading' => 'nullable|string',
+					'button_title' => 'exclude_if:button_status,0|required_if:button_status,1|string|max:255',
+					'button_url' => 'exclude_if:button_status,0|required_if:button_status,1|url|max:255',
 				],
 	        );
 	        if(!$validator->fails())
@@ -164,12 +164,12 @@ class SlidersController extends AppController
 	        	$page = Sliders::create($data);
 	        	if($page)
 	        	{
-	        		$request->session()->flash('success', 'Rating created successfully.');
-	        		return redirect()->route('admin.ratings');
+	        		$request->session()->flash('success', 'Slider created successfully.');
+	        		return redirect()->route('admin.sliders');
 	        	}
 	        	else
 	        	{
-	        		$request->session()->flash('error', 'Rating could not be save. Please try again.');
+	        		$request->session()->flash('error', 'Slider could not be save. Please try again.');
 		    		return redirect()->back()->withErrors($validator)->withInput();
 	        	}
 		    }
@@ -190,70 +190,19 @@ class SlidersController extends AppController
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
     	}
-		$fromDate = now()->startOfMonth()->toDateString();
-		$toDate = now()->endOfMonth()->toDateString();
-		if ($request->filled('order_created')) {
-			$customDateRange = $request->input('order_created');
-			$fromDate = $customDateRange[0];
-			$toDate = $customDateRange[1];
-		}	
-		if($fromDate && $toDate)
-    	{
-    		if(isset($fromDate) && !empty($fromDate))
-    			$where['ratings.created >= ?'] = [
-    				date('Y-m-d 00:00:00', strtotime($fromDate))
-    			];
-    		if(isset($toDate) && !empty($toDate))
-    			$where['ratings.created <= ?'] = [
-    				date('Y-m-d 23:59:59', strtotime($toDate))
-    			];
-    	}
+
     	$page = Sliders::get($id);
-		$where['staff_id'] = $id;
-		if($request->get('search'))
-    	{
-    		$search = $request->get('search');
-    		$search = '%' . $search . '%';
-    		$where['(
-				ratings.status LIKE ? or
-				ratings.id LIKE ? or
-				ratings.total_amount LIKE ?)'] = [$search, $search, $search];
-    	}
-		$listing = Orders::getListing($request,$where);
     	if($page)
-    	{	if($request->ajax())
-			{
-				$html = view(
-					"admin/sliders/orders/listingLoop", 
-					[
-						'listing' => $listing,
-						'currency' => Settings::get('currency_symbol'),
-						'status' => Orders::getStaticData()['status'],
-					]
-				)->render();
-	
-				return Response()->json([
-					'status' => 'success',
-					'html' => $html,
-					'page' => $listing->currentPage(),
-					'counter' => $listing->perPage(),
-					'count' => $listing->total(),
-					'pagination_counter' => $listing->currentPage() * $listing->perPage()
-				], 200);
-			}
-			else
-			{
+    	{
 	    	return view("admin/sliders/view", [
-    			'page' => $page,
-				'status' => Orders::getStaticData()['status'],
-				'listing' => $listing
-    		]);}
+    			'page' => $page
+    		]);
 		}
 		else
 		{
 			abort(404);
 		}
-    } 
+    }
 
     function edit(Request $request, $id)
     {
@@ -273,11 +222,11 @@ class SlidersController extends AppController
 	    		$validator = Validator::make(
 		            $request->toArray(),
 					[
-						'name' => 'required|string|max:255',
-						'designation' => 'string|max:255',
-						'rating' => 'required|numeric|min:1|max:5', 
-						'message' => 'required|string|max:2000',
-						'image_status' => 'nullable|boolean',
+						'label' => 'required|string|max:255',
+						'heading' => 'nullable|string',
+						'sub_heading' => 'nullable|string',
+						'button_title' => 'exclude_if:button_status,0|required_if:button_status,1|string|max:255',
+						'button_url' => 'exclude_if:button_status,0|required_if:button_status,1|url|max:255',
 					],
 		        );
 
@@ -287,7 +236,7 @@ class SlidersController extends AppController
 		        	if(Sliders::modify($id, $data))
 		        	{
 		        		$request->session()->flash('success', 'Slider updated successfully.');
-		        		return redirect()->route('admin.ratings');
+		        		return redirect()->route('admin.sliders');
 		        	}
 		        	else
 		        	{
@@ -324,12 +273,12 @@ class SlidersController extends AppController
     	if($admin->delete())
     	{
     		$request->session()->flash('success', 'Slider deleted successfully.');
-    		return redirect()->route('admin.ratings');
+    		return redirect()->route('admin.sliders');
     	}
     	else
     	{
     		$request->session()->flash('error', 'Slider could not be delete.');
-    		return redirect()->route('admin.ratings');
+    		return redirect()->route('admin.sliders');
     	}
     }
 

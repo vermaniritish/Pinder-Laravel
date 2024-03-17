@@ -5,10 +5,10 @@
 		<div class="header-body">
 			<div class="row align-items-center py-4">
 				<div class="col-lg-6 col-7">
-					<h6 class="h2 text-white d-inline-block mb-0">Manage Rating</h6>
+					<h6 class="h2 text-white d-inline-block mb-0">Manage Slider</h6>
 				</div>
 				<div class="col-lg-6 col-5 text-right">
-					<a href="<?php echo route('admin.ratings') ?>" class="btn btn-neutral"><i class="ni ni-bold-left"></i> Back</a>
+					<a href="<?php echo route('admin.sliders') ?>" class="btn btn-neutral"><i class="ni ni-bold-left"></i> Back</a>
 				</div>
 			</div>
 		</div>
@@ -24,12 +24,12 @@
 				<div class="card-header">
 					<div class="row align-items-center">
 						<div class="col-8">
-							<h3 class="mb-0">Create New Rating Here.</h3>
+							<h3 class="mb-0">Create New Slider Here.</h3>
 						</div>
 					</div>
 				</div>
 				<div class="card-body">
-					<form method="post" action="<?php echo route('admin.ratings.edit',['id' => $page->id]) ?>" class="form-validation">
+					<form method="post" action="<?php echo route('admin.sliders.edit',['id' => $page->id]) ?>" class="form-validation">
 						<!--!! CSRF FIELD !!-->
 						{{ @csrf_field() }}
 						<h6 class="heading-small text-muted mb-4">Rating information</h6>
@@ -37,40 +37,20 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label class="form-control-label" for="input-first-name">Name</label>
-									<input type="text" class="form-control" name="name" required placeholder="Name" value="{{ old('name',$page->name) }}">
-									@error('name')
+									<label class="form-control-label" for="input-first-name">Label</label>
+									<input type="text" class="form-control" name="label" required placeholder="Label" value="{{ old('label', $page->label) }}">
+									@error('label')
 										<small class="text-danger">{{ $message }}</small>
 									@enderror
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label class="form-control-label" for="input-first-name">Designation</label>
-									<input type="text" class="form-control" name="designation" placeholder="Designation" value="{{ old('designation',$page->designation) }}">
-									@error('designation')
-										<small class="text-danger">{{ $message }}</small>
-									@enderror
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="form-control-label" for="input-first-name">Rating</label>
-									<input type="text" class="form-control" name="rating" required placeholder="Designation" value="{{ old('rating',$page->rating) }}">
-									@error('designation')
-										<small class="text-danger">{{ $message }}</small>
-									@enderror
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-								<label class="form-control-label" for="input-first-name">Image (on/off)</label>
+									<label class="form-control-label" for="input-first-name">Button (on/off)</label>
 									<div class="custom-control mt-2">
 										<label class="custom-toggle">
-											<input type="checkbox" name="image_status" value="1"
-												<?php echo old('image_status', $page->image_status) ? 'checked' : ''; ?>>
+											<input type="checkbox" name="button_status" id="buttonStatus" value="1"
+												<?php echo old('button_status',$page->button_status) ? 'checked' : ''; ?>>
 											<span class="custom-toggle-slider rounded-circle"
 												data-label-off="No" data-label-on="Yes"></span>
 										</label>
@@ -78,12 +58,43 @@
 								</div>
 							</div>
 						</div>
+						<div id="buttonFields" style="display: none;" >
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="form-control-label" for="input-first-name">Button Title</label>
+										<input type="text" class="form-control" name="button_title" placeholder="Button Title" value="{{ old('button_title',$page->button_title) }}">
+										@error('button_title')
+											<small class="text-danger">{{ $message }}</small>
+										@enderror
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="form-control-label" for="input-first-name">Button Url</label>
+										<input type="text" class="form-control" name="button_url" placeholder="Button Url" value="{{ old('button_url',$page->button_url) }}">
+										@error('button_url')
+											<small class="text-danger">{{ $message }}</small>
+										@enderror
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label class="form-control-label">Message</label>
-									<textarea required rows="2" id="editor1" class="form-control" placeholder="Message" required name="message">{{ old('message',$page->message) }}</textarea>
-									@error('message')
+									<label class="form-control-label">Heading</label>
+									<textarea rows="2" id="editor1" class="form-control" placeholder="Heading" name="heading">{{ old('heading',$page->heading) }}</textarea>
+									@error('heading')
+										<small class="text-danger">{{ $message }}</small>
+									@enderror
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-control-label">Sub Heading</label>
+									<textarea rows="2" id="editor2" class="form-control" placeholder="Sub Heading" required name="sub_heading">{{ old('sub_heading',$page->sub_heading) }}</textarea>
+									@error('sub_heading')
 										<small class="text-danger">{{ $message }}</small>
 									@enderror
 								</div>

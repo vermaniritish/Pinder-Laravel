@@ -37,13 +37,13 @@
 			<div class="dropdown-item">
 				<div class="row">
 					<div class="col-md-12">
-					<label class="form-control-label">Image</label>
+					<label class="form-control-label">Button Status</label>
 						<div class="custom-control custom-radio custom-control-inline">
-							<input type="radio" id="active" name="image_status" value="1" <?php echo (!isset($_GET['image_status']) || $_GET['image_status'] === '1' || $_GET['image_status'] === '0' ? 'checked' : '') ?> class="custom-control-input">
+							<input type="radio" id="active" name="button_status" value="1" <?php echo (!isset($_GET['button_status']) || $_GET['button_status'] === '1' || $_GET['button_status'] === '0' ? 'checked' : '') ?> class="custom-control-input">
 							<label class="custom-control-label" for="active">On</label>
 						</div>
 						<div class="custom-control custom-radio custom-control-inline">
-							<input type="radio" id="nonactive" name="image_status" value="0" <?php echo (isset($_GET['image_status']) && $_GET['image_status'] == '0' ? 'checked' : '') ?> class="custom-control-input">
+							<input type="radio" id="nonactive" name="button_status" value="0" <?php echo (isset($_GET['button_status']) && $_GET['button_status'] == '0' ? 'checked' : '') ?> class="custom-control-input">
 							<label class="custom-control-label" for="nonactive">Off</label>
 						</div>
 					</div>
