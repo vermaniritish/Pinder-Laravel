@@ -57,6 +57,7 @@
 										data-resize-large="100*100"
 										data-resize-small="100*100"
 									>
+
 										<div class="upload-section">
 											<div class="button-ref mb-3">
 												<button class="btn btn-icon btn-primary btn-lg" type="button">
@@ -64,6 +65,8 @@
 													<span class="btn-inner--text">Upload Image</span>
 												</button>
 											</div>
+
+											<p class="text-danger">*Recommended Size (100 X 100px)</p>
 											<!-- PROGRESS BAR -->
 											<div class="progress d-none">
 												<div class="progress-bar bg-default" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
