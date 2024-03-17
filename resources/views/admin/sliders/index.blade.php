@@ -80,7 +80,7 @@
 										<i class="fas fa-sort" data-field="sliders.id" data-sort="asc"></i>
 										<?php endif; ?>
 									</th>
-									<th class="sort" width="17%">
+									<th class="sort" width="10%">
 										Label
 										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'sliders.label' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
 										<i class="fas fa-sort-down active" data-field="sliders.label" data-sort="asc"></i>
@@ -100,7 +100,7 @@
 										<i class="fas fa-sort" data-field="sliders.button_status"></i>
 										<?php endif; ?>
 									</th>
-									<th class="sort" width="10%">
+									<th class="sort" width="17%">
 										Heading
 										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'sliders.heading' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
 										<i class="fas fa-sort-down active" data-field="sliders.heading" data-sort="asc"></i>
