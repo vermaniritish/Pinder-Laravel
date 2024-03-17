@@ -9,7 +9,7 @@
                     <div v-for="(men, index) in mens" :key="index" >
                         <div class=" mt-2 d-flex border rounded position-relative pe-0">
                             <div class="row w-100 p-3">
-                                <input type="hidden" value="Unisex" :name="'mens[' + index + '][type]'" >
+                                <input type="hidden" value="Unisex" :name="type" >
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-first-name">Size Type</label>
@@ -40,7 +40,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-first-name">Chest</label>
-                                        <input type="number" class="form-control" v-model="men.chest" :name="'mens[' + index + '][chest]'"  required placeholder="Chest" value="{{ old('color_code') }}" min="0">
+                                        <input type="number" class="form-control" v-model="men.chest" :name="'mens[' + index + '][chest]'"  required placeholder="cm" value="{{ old('color_code') }}" min="0">
                                         @error('color_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -49,7 +49,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-first-name">Waist</label>
-                                        <input type="number" class="form-control" v-model="men.waist" :name="'mens[' + index + '][waist]'"  required placeholder="Waist" value="{{ old('color_code') }}" min="0">
+                                        <input type="number" class="form-control" v-model="men.waist" :name="'mens[' + index + '][waist]'"  required placeholder="cm" value="{{ old('color_code') }}" min="0">
                                         @error('color_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -58,7 +58,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-first-name">Hip</label>
-                                        <input type="number" class="form-control" v-model="men.hip" :name="'mens[' + index + '][hip]'"  required placeholder="Hip" value="{{ old('color_code') }}" min="0">
+                                        <input type="number" class="form-control" v-model="men.hip" :name="'mens[' + index + '][hip]'"  required placeholder="cm" value="{{ old('color_code') }}" min="0">
                                         @error('color_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -67,7 +67,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-first-name">Length</label>
-                                        <input type="number" class="form-control" v-model="men.length" :name="'mens[' + index + '][length]'"  required placeholder="Length" value="{{ old('color_code') }}" min="0">
+                                        <input type="number" class="form-control" v-model="men.length" :name="'mens[' + index + '][length]'"  required placeholder="cm" value="{{ old('color_code') }}" min="0">
                                         @error('color_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

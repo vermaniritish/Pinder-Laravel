@@ -87,10 +87,9 @@ class SizeController extends AppController
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
     	}
-
     	if($request->isMethod('post'))
     	{
-    		$data = $request->toArray();
+			$data = $request->toArray();
     		unset($data['_token']);
 			if (!empty($data)) {
 				$validator = Validator::make($request->all(), [
@@ -115,6 +114,7 @@ class SizeController extends AppController
 				}
 				else
 				{
+					dd($validator->errors());
 					$request->session()->flash('error', 'Please provide valid inputs.');
 					return redirect()->back()->withErrors($validator)->withInput();
 				}
