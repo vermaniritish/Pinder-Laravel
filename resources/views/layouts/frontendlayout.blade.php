@@ -1,5 +1,5 @@
 <?php
-use App\Models\Admin\Settings;;
+use App\Models\Admin\Settings;
 $favicon = Settings::get('favicon');
 $logo = Settings::get('logo');
 $companyName = Settings::get('company_name');
@@ -14,21 +14,21 @@ $version = 1.0;
     <title>Pinders Work Wear</title>
     <meta name="description" content="Morden Bootstrap HTML5 Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="{{url('frontend/assets/img/favicon.ico')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url('frontend/assets/img/favicon.ico') }}">
 
     <!-- ======= All CSS Plugins here ======== -->
-    <link rel="stylesheet" href="{{url('frontend/assets/css/plugins/swiper-bundle.min.css')}}">
-    <link rel="stylesheet" href="{{url('frontend/assets/css/plugins/glightbox.min.css')}}">
-    <link href="{{url('frontend/assets/css/plugins/jquery.fancybox.min.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{ url('frontend/assets/css/plugins/swiper-bundle.min.css') }}">
+    <link rel="stylesheet" href="{{ url('frontend/assets/css/plugins/glightbox.min.css') }}">
+    <link href="{{ url('frontend/assets/css/plugins/jquery.fancybox.min.css') }}" rel="stylesheet" type="text/css" />
     <link
-        href="{{url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')}}"
+        href="{{ url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap') }}"
         rel="stylesheet">
 
     <!-- Plugin css -->
-    <link rel="stylesheet" href="{{url('frontend/assets/css/vendor/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ url('frontend/assets/css/vendor/bootstrap.min.css') }}">
 
     <!-- Custom Style CSS -->
-    <link rel="stylesheet" href="{{url('frontend/assets/css/style.css')}}">
+    <link rel="stylesheet" href="{{ url('frontend/assets/css/style.css') }}">
     <style>
         ul#brands-block {
             display: flex;
@@ -133,11 +133,11 @@ $version = 1.0;
 
                             <li class="header__shipping--text text-white d-sm-2-none"><img
                                     class="header__shipping--text__icon"
-                                    src="{{url('frontend/assets/img/icon/bus.png')}}" alt="bus-icon"> Track Your Order
+                                    src="{{ url('frontend/assets/img/icon/bus.png') }}" alt="bus-icon"> Track Your Order
                             </li>
                             <li class="header__shipping--text text-white d-sm-2-none"><img
                                     class="header__shipping--text__icon"
-                                    src="{{url('frontend/assets/img/icon/email.png')}}" alt="email-icon"> <a
+                                    src="{{ url('frontend/assets/img/icon/email.png') }}" alt="email-icon"> <a
                                     class="header__shipping--text__link"
                                     href="mailto:info@pindersschoolwear.com">info@pindersschoolwear.com</a></li>
                         </ul>
@@ -159,8 +159,10 @@ $version = 1.0;
                         </a>
                     </div>
                     <div class="main__logo">
-                        <h1 class="main__logo--title"><a class="main__logo--link" href="/"><img class="main__logo--img"
-                                    src="{{url('frontend/assets/img/logo/logo-workwear.jpg')}}" alt="logo-img"></a></h1>
+                        <h1 class="main__logo--title"><a class="main__logo--link" href="/"><img
+                                    class="main__logo--img"
+                                    src="{{ url('frontend/assets/img/logo/logo-workwear.jpg') }}" alt="logo-img"></a>
+                        </h1>
                     </div>
                     <div class="header__search--widget header__sticky--none d-none d-lg-block">
                         <form class="d-flex header__search--form" action="#">
@@ -180,17 +182,20 @@ $version = 1.0;
                             </div>
                             <div class="header__search--box">
                                 <label>
-                                    <input class="header__search--input" placeholder="Keyword here..." type="text">
+                                    <input class="header__search--input" placeholder="Keyword here..."
+                                        type="text">
                                 </label>
                                 <button class="header__search--button bg__secondary text-white" type="submit"
                                     aria-label="search button">
                                     <svg class="header__search--button__svg" xmlns="http://www.w3.org/2000/svg"
                                         width="27.51" height="26.443" viewBox="0 0 512 512">
                                         <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                            fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32">
+                                            fill="none" stroke="currentColor" stroke-miterlimit="10"
+                                            stroke-width="32">
                                         </path>
                                         <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                            stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"></path>
+                                            stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448">
+                                        </path>
                                     </svg>
                                 </button>
                             </div>
@@ -243,7 +248,7 @@ $version = 1.0;
                         <nav class="header__menu--navigation">
                             <ul class="d-flex">
                                 <!--<li class="header__menu--items style2">
-                                    <a class="header__menu--link" href="/">Shop by Category 
+                                    <a class="header__menu--link" href="/">Shop by Category
                                         <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path  d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z" transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7"/>
                                         </svg>
@@ -252,19 +257,19 @@ $version = 1.0;
                                         <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Gloves</a></li>
                                         <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Footwear</a></li>
                                         <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Trousers</a></li>
-										<li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">T-Shirts</a></li>
-										<li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Jumpers</a></li>
-										<li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Jackets</a></li>
-										<li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Respirators</a></li>
-										<li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Eye Protection</a></li>
-										<li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Head Protection</a></li>
+          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">T-Shirts</a></li>
+          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Jumpers</a></li>
+          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Jackets</a></li>
+          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Respirators</a></li>
+          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Eye Protection</a></li>
+          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Head Protection</a></li>
                                     </ul>
                                 </li>-->
 
                                 <li class="header__menu--items style3">
                                     <a class="header__menu--link " href="/">T-Shirts
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -283,8 +288,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items style3">
                                     <a class="header__menu--link " href="/">Polo Shirts
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -299,8 +304,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items style3">
                                     <a class="header__menu--link " href="/">Hi Vis
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -332,8 +337,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items style3">
                                     <a class="header__menu--link " href="/">Jackets
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -354,8 +359,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items style3">
                                     <a class="header__menu--link " href="/">Hoodies
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -370,8 +375,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items style3">
                                     <a class="header__menu--link " href="/">Bottoms
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -391,8 +396,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items style3">
                                     <a class="header__menu--link " href="/">Knitwear
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -410,8 +415,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items style3">
                                     <a class="header__menu--link " href="/">Headwear
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -504,7 +509,7 @@ $version = 1.0;
                         <nav class="header__menu--navigation">
                             <ul class="d-flex">
                                 <!--<li class="header__menu--items">
-                                    <a class="header__menu--link" href="/">Shop by Category 
+                                    <a class="header__menu--link" href="/">Shop by Category
                                         <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path  d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z" transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7"/>
                                         </svg>
@@ -513,19 +518,19 @@ $version = 1.0;
                                         <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Gloves</a></li>
                                         <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Footwear</a></li>
                                         <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Trousers</a></li>
-										<li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">T-Shirts</a></li>
-										<li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Jumpers</a></li>
-										<li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Jackets</a></li>
-										<li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Respirators</a></li>
-										<li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Eye Protection</a></li>
-										<li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Head Protection</a></li>
+          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">T-Shirts</a></li>
+          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Jumpers</a></li>
+          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Jackets</a></li>
+          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Respirators</a></li>
+          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Eye Protection</a></li>
+          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Head Protection</a></li>
                                     </ul>
                                 </li>-->
 
                                 <li class="header__menu--items">
                                     <a class="header__menu--link " href="/">T-Shirts
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -544,8 +549,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items">
                                     <a class="header__menu--link " href="/">Polo Shirts
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -560,8 +565,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items">
                                     <a class="header__menu--link " href="/">Hi Vis
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -593,8 +598,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items">
                                     <a class="header__menu--link " href="/">Jackets
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -616,8 +621,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items">
                                     <a class="header__menu--link " href="/">Hoodies
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -632,8 +637,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items">
                                     <a class="header__menu--link " href="/">Bottoms
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -653,8 +658,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items">
                                     <a class="header__menu--link " href="/">Knitwear
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -672,8 +677,8 @@ $version = 1.0;
 
                                 <li class="header__menu--items">
                                     <a class="header__menu--link " href="/">Headwear
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12"
-                                            height="7.41" viewBox="0 0 12 7.41">
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
@@ -698,7 +703,7 @@ $version = 1.0;
                             </ul>
                         </nav>
                     </div>
-                    <!--<p class="header__discount--text"><img class="header__discount--icon__img" src="{{url('frontend/assets/img/icon/lamp.png')}}" alt="lamp-img"> Special up to 60% Off all item</p>-->
+                    <!--<p class="header__discount--text"><img class="header__discount--icon__img" src="{{ url('frontend/assets/img/icon/lamp.png') }}" alt="lamp-img"> Special up to 60% Off all item</p>-->
                 </div>
             </div>
         </div>
@@ -708,8 +713,8 @@ $version = 1.0;
             <div class="offcanvas__inner">
                 <div class="offcanvas__logo">
                     <a class="offcanvas__logo_link" href="index.html">
-                        <img src="{{url('frontend/assets/img/logo/logo-workwear.jpg')}}" alt="pinders" width="158"
-                            height="36">
+                        <img src="{{ url('frontend/assets/img/logo/logo-workwear.jpg') }}" alt="pinders"
+                            width="158" height="36">
                     </a>
                     <button class="offcanvas__close--btn" data-offcanvas>close</button>
                 </div>
@@ -721,25 +726,29 @@ $version = 1.0;
                                         <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Gloves</a></li>
                                         <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Footwear</a></li>
                                         <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Trousers</a></li>
-										<li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">T-Shirts</a></li>
-										<li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Jumpers</a></li>
-										<li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Jackets</a></li>
-										<li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Respirators</a></li>
-										<li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Eye Protection</a></li>
-										<li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Head Protection</a></li>
+          <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">T-Shirts</a></li>
+          <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Jumpers</a></li>
+          <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Jackets</a></li>
+          <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Respirators</a></li>
+          <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Eye Protection</a></li>
+          <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Head Protection</a></li>
                                     </ul>
                                 </li>-->
 
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item " href="/">T-Shirts </a>
                             <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">V
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">V
                                         Neck</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Long
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">Long
                                         Sleeve</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Short
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">Short
                                         Sleeve</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Round
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">Round
                                         Neck</a></li>
                             </ul>
                         </li>
@@ -747,9 +756,11 @@ $version = 1.0;
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item " href="/">Polo Shirts </a>
                             <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Long
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">Long
                                         Sleeve</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Short
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">Short
                                         Sleeve</a></li>
                             </ul>
                         </li>
@@ -759,11 +770,14 @@ $version = 1.0;
                             <ul class="offcanvas__sub_menu">
                                 <li class="offcanvas__sub_menu_li"><a href="/"
                                         class="offcanvas__sub_menu_item">Waistcoat</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Vest</a>
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">Vest</a>
                                 </li>
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Long
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">Long
                                         Sleeve Polo</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Polo</a>
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">Polo</a>
                                 </li>
                                 <li class="offcanvas__sub_menu_li"><a href="/"
                                         class="offcanvas__sub_menu_item">Tshirt</a></li>
@@ -790,7 +804,8 @@ $version = 1.0;
                                         class="offcanvas__sub_menu_item">Coats</a></li>
                                 <li class="offcanvas__sub_menu_li"><a href="/"
                                         class="offcanvas__sub_menu_item">Fleece</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Hi Vis
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">Hi Vis
                                         Jackets</a></li>
                                 <li class="offcanvas__sub_menu_li"><a href="/"
                                         class="offcanvas__sub_menu_item">Waterproof</a></li>
@@ -801,9 +816,11 @@ $version = 1.0;
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item " href="/">Hoodies</a>
                             <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Pullover
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">Pullover
                                         hoodies</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Zipper
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">Zipper
                                         hoodies</a></li>
                             </ul>
                         </li>
@@ -830,7 +847,8 @@ $version = 1.0;
                                         class="offcanvas__sub_menu_item">Jumpers</a></li>
                                 <li class="offcanvas__sub_menu_li"><a href="/"
                                         class="offcanvas__sub_menu_item">Cardigans</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">V Neck
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">V Neck
                                         Sweater</a></li>
 
                             </ul>
@@ -839,11 +857,13 @@ $version = 1.0;
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item " href="/">Headwear</a>
                             <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Caps</a>
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">Caps</a>
                                 </li>
                                 <li class="offcanvas__sub_menu_li"><a href="/"
                                         class="offcanvas__sub_menu_item">Beanies</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Hats</a>
+                                <li class="offcanvas__sub_menu_li"><a href="/"
+                                        class="offcanvas__sub_menu_item">Hats</a>
                                 </li>
 
                             </ul>
@@ -860,11 +880,12 @@ $version = 1.0;
                                     viewBox="0 0 512 512">
                                     <path
                                         d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z"
-                                        fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="32" />
+                                        fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="32" />
                                     <path
                                         d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z"
-                                        fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32" />
+                                        fill="none" stroke="currentColor" stroke-miterlimit="10"
+                                        stroke-width="32" />
                                 </svg>
                             </span>
                             <span class="offcanvas__account--items__label">Login / Register</span>
@@ -897,8 +918,8 @@ $version = 1.0;
                 <li class="offcanvas__stikcy--toolbar__list">
                     <a class="offcanvas__stikcy--toolbar__btn" href="shop.html">
                         <span class="offcanvas__stikcy--toolbar__icon">
-                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="18.51" height="17.443"
-                                viewBox="0 0 448 512">
+                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="18.51"
+                                height="17.443" viewBox="0 0 448 512">
                                 <path
                                     d="M416 32H32A32 32 0 0 0 0 64v384a32 32 0 0 0 32 32h384a32 32 0 0 0 32-32V64a32 32 0 0 0-32-32zm-16 48v152H248V80zm-200 0v152H48V80zM48 432V280h152v152zm200 0V280h152v152z">
                                 </path>
@@ -911,11 +932,12 @@ $version = 1.0;
                     <a class="offcanvas__stikcy--toolbar__btn search__open--btn" href="javascript:void(0)"
                         data-offcanvas>
                         <span class="offcanvas__stikcy--toolbar__icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 512 512">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443"
+                                viewBox="0 0 512 512">
                                 <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
                                     fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32" />
-                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
-                                    stroke-width="32" d="M338.29 338.29L448 448" />
+                                <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                    stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448" />
                             </svg>
                         </span>
                         <span class="offcanvas__stikcy--toolbar__label">Search</span>
@@ -958,11 +980,12 @@ $version = 1.0;
             <div class="minicart__product">
                 <div class="minicart__product--items d-flex">
                     <div class="minicart__thumb">
-                        <a href="product-details.html"><img src="{{url('frontend/assets/img/product/product1.png')}}"
-                                alt="prduct-img"></a>
+                        <a href="product-details.html"><img
+                                src="{{ url('frontend/assets/img/product/product1.png') }}" alt="prduct-img"></a>
                     </div>
                     <div class="minicart__text">
-                        <h3 class="minicart__subtitle h4"><a href="product-details.html">Oversize Cotton Dress</a></h3>
+                        <h3 class="minicart__subtitle h4"><a href="product-details.html">Oversize Cotton Dress</a>
+                        </h3>
                         <span class="color__variant"><b>Color:</b> Beige</span>
                         <div class="minicart__price">
                             <span class="current__price">£125.00</span>
@@ -975,7 +998,8 @@ $version = 1.0;
                                 <label>
                                     <input type="number" class="quantity__number" value="1" data-counter />
                                 </label>
-                                <button type="button" class="quantity__value increase" value="Increase Value">+</button>
+                                <button type="button" class="quantity__value increase"
+                                    value="Increase Value">+</button>
                             </div>
                             <button class="minicart__product--remove">Remove</button>
                         </div>
@@ -983,8 +1007,8 @@ $version = 1.0;
                 </div>
                 <div class="minicart__product--items d-flex">
                     <div class="minicart__thumb">
-                        <a href="product-details.html"><img src="{{url('frontend/assets/img/product/product2.png')}}"
-                                alt="prduct-img"></a>
+                        <a href="product-details.html"><img
+                                src="{{ url('frontend/assets/img/product/product2.png') }}" alt="prduct-img"></a>
                     </div>
                     <div class="minicart__text">
                         <h3 class="minicart__subtitle h4"><a href="product-details.html">Boxy Denim Jacket</a></h3>
@@ -995,13 +1019,13 @@ $version = 1.0;
                         </div>
                         <div class="minicart__text--footer d-flex align-items-center">
                             <div class="quantity__box minicart__quantity">
-                                <button type="button" class="quantity__value decrease" aria-label="quantity value"
-                                    value="Decrease Value">-</button>
+                                <button type="button" class="quantity__value decrease"
+                                    aria-label="quantity value" value="Decrease Value">-</button>
                                 <label>
                                     <input type="number" class="quantity__number" value="1" data-counter />
                                 </label>
-                                <button type="button" class="quantity__value increase" aria-label="quantity value"
-                                    value="Increase Value">+</button>
+                                <button type="button" class="quantity__value increase"
+                                    aria-label="quantity value" value="Increase Value">+</button>
                             </div>
                             <button class="minicart__product--remove">Remove</button>
                         </div>
@@ -1041,18 +1065,18 @@ $version = 1.0;
                     <button class="predictive__search--button" aria-label="search button" type="submit"><svg
                             class="header__search--button__svg" xmlns="http://www.w3.org/2000/svg" width="30.51"
                             height="25.443" viewBox="0 0 512 512">
-                            <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none"
-                                stroke="currentColor" stroke-miterlimit="10" stroke-width="32" />
-                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
-                                stroke-width="32" d="M338.29 338.29L448 448" />
+                            <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
+                                fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32" />
+                            <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448" />
                         </svg> </button>
                 </form>
             </div>
             <button class="predictive__search--close__btn" aria-label="search close button" data-offcanvas>
                 <svg class="predictive__search--close__icon" xmlns="http://www.w3.org/2000/svg" width="40.51"
                     height="30.443" viewBox="0 0 512 512">
-                    <path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="32" d="M368 368L144 144M368 144L144 368" />
+                    <path fill="currentColor" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368" />
                 </svg>
             </button>
         </div>
@@ -1252,7 +1276,8 @@ $version = 1.0;
                                     </a>
                                 </li>
                                 <li class="social__shear--list">
-                                    <a class="social__shear--list__icon" target="_blank" href="https://twitter.com">
+                                    <a class="social__shear--list__icon" target="_blank"
+                                        href="https://twitter.com">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16.489" height="13.384"
                                             viewBox="0 0 16.489 13.384">
                                             <path data-name="Path 303"
@@ -1275,7 +1300,8 @@ $version = 1.0;
                                     </a>
                                 </li>
                                 <li class="social__shear--list">
-                                    <a class="social__shear--list__icon" target="_blank" href="https://www.youtube.com">
+                                    <a class="social__shear--list__icon" target="_blank"
+                                        href="https://www.youtube.com">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16.49" height="11.582"
                                             viewBox="0 0 16.49 11.582">
                                             <path data-name="Path 321"
@@ -1294,15 +1320,17 @@ $version = 1.0;
                     <div class="footer__widget">
                         <h2 class="footer__widget--title text-ofwhite h3">Quick Links
                             <button class="footer__widget--button" aria-label="footer widget button">
-                                <svg class="footer__widget--title__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                    width="12.355" height="8.394" viewBox="0 0 10.355 6.394">
+                                <svg class="footer__widget--title__arrowdown--icon"
+                                    xmlns="http://www.w3.org/2000/svg" width="12.355" height="8.394"
+                                    viewBox="0 0 10.355 6.394">
                                     <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z"
                                         transform="translate(-6 -8.59)" fill="currentColor"></path>
                                 </svg>
                             </button>
                         </h2>
                         <ul class="footer__widget--menu footer__widget--inner">
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="/">About
+                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text"
+                                    href="/">About
                                     Us</a></li>
                             <li class="footer__widget--menu__list"><a class="footer__widget--menu__text"
                                     href="/">Contact Us</a></li>
@@ -1312,7 +1340,8 @@ $version = 1.0;
                                     href="/">Privacy Policy</a></li>
                             <li class="footer__widget--menu__list"><a class="footer__widget--menu__text"
                                     href="/">Delivery Information</a></li>
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="/">Return
+                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text"
+                                    href="/">Return
                                     Policy</a></li>
                         </ul>
                     </div>
@@ -1332,34 +1361,40 @@ $version = 1.0;
                             <div class="instagram__thumbnail">
                                 <a class="instagram__thumbnail--img" target="_blank"
                                     href="https://www.instagram.com/p/CZkF3TLBTT7"><img
-                                        src="{{url('frontend/assets/img/other/instagram1.webp')}}" alt="instagram"></a>
+                                        src="{{ url('frontend/assets/img/other/instagram1.webp') }}"
+                                        alt="instagram"></a>
                             </div>
                             <div class="instagram__thumbnail">
                                 <a class="instagram__thumbnail--img" target="_blank"
                                     href="https://www.instagram.com/p/CZkF60sBxhN"><img
-                                        src="{{url('frontend/assets/img/other/instagram2.webp')}}" alt="instagram"></a>
+                                        src="{{ url('frontend/assets/img/other/instagram2.webp') }}"
+                                        alt="instagram"></a>
                             </div>
                             <div class="instagram__thumbnail">
                                 <a class="instagram__thumbnail--img" target="_blank"
                                     href="https://www.instagram.com/p/CZkF90ZB6HG"><img
-                                        src="{{url('frontend/assets/img/other/instagram3.webp')}}" alt="instagram"></a>
+                                        src="{{ url('frontend/assets/img/other/instagram3.webp') }}"
+                                        alt="instagram"></a>
                             </div>
                         </div>
                         <div class="footer__instagram--list d-flex">
                             <div class="instagram__thumbnail">
                                 <a class="instagram__thumbnail--img" target="_blank"
                                     href="https://www.instagram.com/p/CZkGAe6BQeu"><img
-                                        src="{{url('frontend/assets/img/other/instagram4.webp')}}" alt="instagram"></a>
+                                        src="{{ url('frontend/assets/img/other/instagram4.webp') }}"
+                                        alt="instagram"></a>
                             </div>
                             <div class="instagram__thumbnail">
                                 <a class="instagram__thumbnail--img" target="_blank"
                                     href="https://www.instagram.com/p/CZkGCWcBbv9"><img
-                                        src="{{url('frontend/assets/img/other/instagram5.webp')}}" alt="instagram"></a>
+                                        src="{{ url('frontend/assets/img/other/instagram5.webp') }}"
+                                        alt="instagram"></a>
                             </div>
                             <div class="instagram__thumbnail">
                                 <a class="instagram__thumbnail--img" target="_blank"
                                     href="https://www.instagram.com/p/CZkGFDMhoid"><img
-                                        src="{{url('frontend/assets/img/other/instagram6.webp')}}" alt="instagram"></a>
+                                        src="{{ url('frontend/assets/img/other/instagram6.webp') }}"
+                                        alt="instagram"></a>
                             </div>
                         </div>
                     </div>
@@ -1393,7 +1428,7 @@ $version = 1.0;
                 <p class="copyright__content text-ofwhite m-0">Copyright © 2024 Pinders Schoolwear Ltd . All Rights
                     Reserved.</p>
                 <div class="footer__payment text-right">
-                    <img class="display-block" src="{{url('frontend/assets/img/other/payment-visa')}}-card.png"
+                    <img class="display-block" src="{{ url('frontend/assets/img/other/payment-visa') }}-card.png"
                         alt="visa-card">
                 </div>
             </div>
@@ -1417,373 +1452,429 @@ $version = 1.0;
                                         <div class="product__media--preview__items">
                                             <a class="product__media--preview__items--link glightbox"
                                                 data-gallery="product-media-preview"
-                                                href="{{url('assets/img/product/big-product1.jpg')}}"><img
+                                                href="{{ url('assets/img/product/big-product1.jpg') }}"><img
                                                     class="product__media--preview__items--img"
-                                                    src="{{url('frontend/assets/img/product/big-product1.jpg')}}" alt="product-media-img"></a>
+                                                    src="{{ url('frontend/assets/img/product/big-product1.jpg') }}"
+                                                    alt="product-media-img"></a>
                                             <div class="product__media--view__icon">
-                                                <a class="product__media--view__icon--link glightbox" href="{{url('
-                                                    assets/img/product/big-product1.jpg')}}"
+                                                <a class="product__media--view__icon--link glightbox"
+                                                    href="{{ url('
+                                                                                                        assets/img/product/big-product1.jpg') }}"
                                                     data-gallery="product-media-preview">
-                                                <svg class="product__media--view__icon--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" width="22.51" height="22.443"
-                                                    viewBox="0 0 512 512">
-                                                    <path
-                                                        d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                        fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                                        stroke-width="32"></path>
-                                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-miterlimit="10" stroke-width="32"
-                                                        d="M338.29 338.29L448 448"></path>
-                                                </svg>
-                                            </a>
+                                                    <svg class="product__media--view__icon--svg"
+                                                        xmlns="http://www.w3.org/2000/svg" width="22.51"
+                                                        height="22.443" viewBox="0 0 512 512">
+                                                        <path
+                                                            d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
+                                                            fill="none" stroke="currentColor"
+                                                            stroke-miterlimit="10" stroke-width="32"></path>
+                                                        <path fill="none" stroke="currentColor"
+                                                            stroke-linecap="round" stroke-miterlimit="10"
+                                                            stroke-width="32" d="M338.29 338.29L448 448"></path>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="product__media--preview__items">
+                                            <a class="product__media--preview__items--link glightbox"
+                                                data-gallery="product-media-preview"
+                                                href="{{ url('assets/img/product/big-product2.jpg') }}"><img
+                                                    class="product__media--preview__items--img"
+                                                    src="{{ url('frontend/assets/img/product/big-product2.jpg') }}"
+                                                    alt="product-media-img"></a>
+                                            <div class="product__media--view__icon">
+                                                <a class="product__media--view__icon--link glightbox"
+                                                    href="{{ url('
+                                                                                                    assets/img/product/big-product2.jpg') }}"
+                                                    data-gallery="product-media-preview">
+                                                    <svg class="product__media--view__icon--svg"
+                                                        xmlns="http://www.w3.org/2000/svg" width="22.51"
+                                                        height="22.443" viewBox="0 0 512 512">
+                                                        <path
+                                                            d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
+                                                            fill="none" stroke="currentColor"
+                                                            stroke-miterlimit="10" stroke-width="32"></path>
+                                                        <path fill="none" stroke="currentColor"
+                                                            stroke-linecap="round" stroke-miterlimit="10"
+                                                            stroke-width="32" d="M338.29 338.29L448 448">
+                                                        </path>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="product__media--preview__items">
+                                            <a class="product__media--preview__items--link glightbox"
+                                                data-gallery="product-media-preview"
+                                                href="{{ url('assets/img/product/big-product3.jpg') }}"><img
+                                                    class="product__media--preview__items--img"
+                                                    src="{{ url('frontend/assets/img/product/big-product3.jpg') }}"
+                                                    alt="product-media-img"></a>
+                                            <div class="product__media--view__icon">
+                                                <a class="product__media--view__icon--link glightbox"
+                                                    href="{{ url('
+                                                                                                assets/img/product/big-product3.jpg') }}"
+                                                    data-gallery="product-media-preview">
+                                                    <svg class="product__media--view__icon--svg"
+                                                        xmlns="http://www.w3.org/2000/svg" width="22.51"
+                                                        height="22.443" viewBox="0 0 512 512">
+                                                        <path
+                                                            d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
+                                                            fill="none" stroke="currentColor"
+                                                            stroke-miterlimit="10" stroke-width="32"></path>
+                                                        <path fill="none" stroke="currentColor"
+                                                            stroke-linecap="round" stroke-miterlimit="10"
+                                                            stroke-width="32" d="M338.29 338.29L448 448">
+                                                        </path>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="product__media--preview__items">
+                                            <a class="product__media--preview__items--link glightbox"
+                                                data-gallery="product-media-preview"
+                                                href="{{ url('assets/img/product/big-product4.jpg') }}"><img
+                                                    class="product__media--preview__items--img"
+                                                    src="{{ url('frontend/assets/img/product/big-product4.jpg') }}"
+                                                    alt="product-media-img"></a>
+                                            <div class="product__media--view__icon">
+                                                <a class="product__media--view__icon--link glightbox"
+                                                    href="{{ url('
+                                                                                            assets/img/product/big-product4.jpg') }}"
+                                                    data-gallery="product-media-preview">
+                                                    <svg class="product__media--view__icon--svg"
+                                                        xmlns="http://www.w3.org/2000/svg" width="22.51"
+                                                        height="22.443" viewBox="0 0 512 512">
+                                                        <path
+                                                            d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
+                                                            fill="none" stroke="currentColor"
+                                                            stroke-miterlimit="10" stroke-width="32">
+                                                        </path>
+                                                        <path fill="none" stroke="currentColor"
+                                                            stroke-linecap="round" stroke-miterlimit="10"
+                                                            stroke-width="32" d="M338.29 338.29L448 448"></path>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="product__media--preview__items">
+                                            <a class="product__media--preview__items--link glightbox"
+                                                data-gallery="product-media-preview"
+                                                href="{{ url('assets/img/product/big-product5.jpg') }}"><img
+                                                    class="product__media--preview__items--img"
+                                                    src="{{ url('frontend/assets/img/product/big-product5.jpg') }}"
+                                                    alt="product-media-img"></a>
+                                            <div class="product__media--view__icon">
+                                                <a class="product__media--view__icon--link glightbox"
+                                                    href="{{ url('
+                                                                                        assets/img/product/big-product5.jpg') }}"
+                                                    data-gallery="product-media-preview">
+                                                    <svg class="product__media--view__icon--svg"
+                                                        xmlns="http://www.w3.org/2000/svg" width="22.51"
+                                                        height="22.443" viewBox="0 0 512 512">
+                                                        <path
+                                                            d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
+                                                            fill="none" stroke="currentColor"
+                                                            stroke-miterlimit="10" stroke-width="32">
+                                                        </path>
+                                                        <path fill="none" stroke="currentColor"
+                                                            stroke-linecap="round" stroke-miterlimit="10"
+                                                            stroke-width="32" d="M338.29 338.29L448 448"></path>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="product__media--preview__items">
+                                            <a class="product__media--preview__items--link glightbox"
+                                                data-gallery="product-media-preview"
+                                                href="{{ url('assets/img/product/big-product6.jpg') }}"><img
+                                                    class="product__media--preview__items--img"
+                                                    src="{{ url('frontend/assets/img/product/big-product6.jpg') }}"
+                                                    alt="product-media-img"></a>
+                                            <div class="product__media--view__icon">
+                                                <a class="product__media--view__icon--link glightbox"
+                                                    href="{{ url('
+                                                                                    assets/img/product/big-product6.jpg') }}"
+                                                    data-gallery="product-media-preview">
+                                                    <svg class="product__media--view__icon--svg"
+                                                        xmlns="http://www.w3.org/2000/svg" width="22.51"
+                                                        height="22.443" viewBox="0 0 512 512">
+                                                        <path
+                                                            d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
+                                                            fill="none" stroke="currentColor"
+                                                            stroke-miterlimit="10" stroke-width="32"></path>
+                                                        <path fill="none" stroke="currentColor"
+                                                            stroke-linecap="round" stroke-miterlimit="10"
+                                                            stroke-width="32" d="M338.29 338.29L448 448"></path>
+                                                    </svg>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="swiper-slide">
-                                    <div class="product__media--preview__items">
-                                        <a class="product__media--preview__items--link glightbox"
-                                            data-gallery="product-media-preview"
-                                            href="{{url('assets/img/product/big-product2.jpg')}}"><img
-                                                class="product__media--preview__items--img"
-                                                src="{{url('frontend/assets/img/product/big-product2.jpg')}}" alt="product-media-img"></a>
-                                            <div class="product__media--view__icon">
-                                                <a class="product__media--view__icon--link glightbox" href="{{url('
-                                                assets/img/product/big-product2.jpg')}}"
-                                                data-gallery="product-media-preview">
-                                            <svg class="product__media--view__icon--svg"
-                                                xmlns="http://www.w3.org/2000/svg" width="22.51" height="22.443"
-                                                viewBox="0 0 512 512">
+                            </div>
+                            <div class="product__media--nav swiper">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="product__media--nav__items">
+                                            <img class="product__media--nav__items--img"
+                                                src="{{ url('frontend/assets/img/product/small-product7.png') }}"
+                                                alt="product-nav-img">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="product__media--nav__items">
+                                            <img class="product__media--nav__items--img"
+                                                src="{{ url('frontend/assets/img/product/small-product8.png') }}"
+                                                alt="product-nav-img">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="product__media--nav__items">
+                                            <img class="product__media--nav__items--img"
+                                                src="{{ url('frontend/assets/img/product/small-product9.png') }}"
+                                                alt="product-nav-img">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="product__media--nav__items">
+                                            <img class="product__media--nav__items--img"
+                                                src="{{ url('frontend/assets/img/product/small-product10.png') }}"
+                                                alt="product-nav-img">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="product__media--nav__items">
+                                            <img class="product__media--nav__items--img"
+                                                src="{{ url('frontend/assets/img/product/small-product11.png') }}"
+                                                alt="product-nav-img">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="product__media--nav__items">
+                                            <img class="product__media--nav__items--img"
+                                                src="{{ url('frontend/assets/img/product/small-product12.png') }}"
+                                                alt="product-nav-img">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper__nav--btn swiper-button-next"></div>
+                                <div class="swiper__nav--btn swiper-button-prev"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="quickview__info">
+                            <form action="#">
+                                <h2 class="product__details--info__title mb-15">Oversize Cotton Dress</h2>
+                                <div class="product__details--info__price mb-10">
+                                    <span class="current__price">£58.00</span>
+                                    <span class="old__price">£68.00</span>
+                                </div>
+                                <div class="quickview__info--ratting d-flex align-items-center mb-10">
+                                    <ul class="rating d-flex justify-content-center">
+                                        <li class="rating__list">
+                                            <span class="rating__list--icon">
+                                                <svg class="rating__list--icon__svg"
+                                                    xmlns="http://www.w3.org/2000/svg" width="14.105"
+                                                    height="14.732" viewBox="0 0 10.105 9.732">
+                                                    <path data-name="star - Copy"
+                                                        d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
+                                                        transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                        </li>
+                                        <li class="rating__list">
+                                            <span class="rating__list--icon">
+                                                <svg class="rating__list--icon__svg"
+                                                    xmlns="http://www.w3.org/2000/svg" width="14.105"
+                                                    height="14.732" viewBox="0 0 10.105 9.732">
+                                                    <path data-name="star - Copy"
+                                                        d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
+                                                        transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                        </li>
+                                        <li class="rating__list">
+                                            <span class="rating__list--icon">
+                                                <svg class="rating__list--icon__svg"
+                                                    xmlns="http://www.w3.org/2000/svg" width="14.105"
+                                                    height="14.732" viewBox="0 0 10.105 9.732">
+                                                    <path data-name="star - Copy"
+                                                        d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
+                                                        transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                        </li>
+                                        <li class="rating__list">
+                                            <span class="rating__list--icon">
+                                                <svg class="rating__list--icon__svg"
+                                                    xmlns="http://www.w3.org/2000/svg" width="14.105"
+                                                    height="14.732" viewBox="0 0 10.105 9.732">
+                                                    <path data-name="star - Copy"
+                                                        d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
+                                                        transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                        </li>
+                                        <li class="rating__list">
+                                            <span class="rating__list--icon">
+                                                <svg class="rating__list--icon__svg"
+                                                    xmlns="http://www.w3.org/2000/svg" width="14.105"
+                                                    height="14.732" viewBox="0 0 10.105 9.732">
+                                                    <path data-name="star - Copy"
+                                                        d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
+                                                        transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                        </li>
+
+                                    </ul>
+                                    <span class="quickview__info--review__text">(5 reviews)</span>
+                                </div>
+                                <p class="product__details--info__desc mb-15">Lorem ipsum dolor sit amet, consectetur
+                                    adipisicing elit
+                                    is. Deserunt totam dolores ea numquam labore! Illum magnam totam tenetur fuga quo
+                                    dolor.</p>
+                                <div class="product__variant">
+                                    <div class="product__variant--list mb-10">
+                                        <fieldset class="variant__input--fieldset">
+                                            <legend class="product__variant--title mb-8">Color :</legend>
+                                            <input id="color-red1" name="color" type="radio" checked>
+                                            <label class="variant__color--value red" for="color-red1"
+                                                title="Red"><img class="variant__color--value__img"
+                                                    src="{{ url('frontend/assets/img/product/product1.png') }}"
+                                                    alt="variant-color-img"></label>
+                                            <input id="color-red2" name="color" type="radio">
+                                            <label class="variant__color--value red" for="color-red2"
+                                                title="Black"><img class="variant__color--value__img"
+                                                    src="{{ url('frontend/assets/img/product/product2.png') }}"
+                                                    alt="variant-color-img"></label>
+                                            <input id="color-red3" name="color" type="radio">
+                                            <label class="variant__color--value red" for="color-red3"
+                                                title="Pink"><img class="variant__color--value__img"
+                                                    src="{{ url('frontend/assets/img/product/product3.png') }}"
+                                                    alt="variant-color-img"></label>
+                                            <input id="color-red4" name="color" type="radio">
+                                            <label class="variant__color--value red" for="color-red4"
+                                                title="Orange"><img class="variant__color--value__img"
+                                                    src="{{ url('frontend/assets/img/product/product4.png') }}"
+                                                    alt="variant-color-img"></label>
+                                        </fieldset>
+                                    </div>
+                                    <div class="product__variant--list mb-15">
+                                        <fieldset class="variant__input--fieldset weight">
+                                            <legend class="product__variant--title mb-8">Weight :</legend>
+                                            <input id="weight1" name="weight" type="radio" checked>
+                                            <label class="variant__size--value red" for="weight1">5 kg</label>
+                                            <input id="weight2" name="weight" type="radio">
+                                            <label class="variant__size--value red" for="weight2">3 kg</label>
+                                            <input id="weight3" name="weight" type="radio">
+                                            <label class="variant__size--value red" for="weight3">2 kg</label>
+                                        </fieldset>
+                                    </div>
+                                    <div class="quickview__variant--list quantity d-flex align-items-center mb-15">
+                                        <div class="quantity__box">
+                                            <button type="button"
+                                                class="quantity__value quickview__value--quantity decrease"
+                                                aria-label="quantity value" value="Decrease Value">-</button>
+                                            <label>
+                                                <input type="number"
+                                                    class="quantity__number quickview__value--number" value="1"
+                                                    data-counter />
+                                            </label>
+                                            <button type="button"
+                                                class="quantity__value quickview__value--quantity increase"
+                                                aria-label="quantity value" value="Increase Value">+</button>
+                                        </div>
+                                        <button class="primary__btn quickview__cart--btn" type="submit">Add To
+                                            Cart</button>
+                                    </div>
+                                    <div class="quickview__variant--list variant__wishlist mb-15">
+                                        <a class="variant__wishlist--icon" href="wishlist.html"
+                                            title="Add to wishlist">
+                                            <svg class="quickview__variant--wishlist__svg"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                                 <path
-                                                    d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                    fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                                    stroke-width="32"></path>
-                                                <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                    stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448">
-                                                </path>
+                                                    d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z"
+                                                    fill="none" stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="32" />
                                             </svg>
+                                            Add to Wishlist
                                         </a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="product__media--preview__items">
-                                    <a class="product__media--preview__items--link glightbox"
-                                        data-gallery="product-media-preview"
-                                        href="{{url('assets/img/product/big-product3.jpg')}}"><img
-                                            class="product__media--preview__items--img"
-                                            src="{{url('frontend/assets/img/product/big-product3.jpg')}}" alt="product-media-img"></a>
-                                            <div class="product__media--view__icon">
-                                                <a class="product__media--view__icon--link glightbox" href="{{url('
-                                            assets/img/product/big-product3.jpg')}}"
-                                            data-gallery="product-media-preview">
-                                        <svg class="product__media--view__icon--svg" xmlns="http://www.w3.org/2000/svg"
-                                            width="22.51" height="22.443" viewBox="0 0 512 512">
-                                            <path
-                                                d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                                stroke-width="32"></path>
-                                            <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448">
-                                            </path>
-                                        </svg>
-                                    </a>
+                                <div class="quickview__social d-flex align-items-center">
+                                    <label class="quickview__social--title">Social Share:</label>
+                                    <ul class="quickview__social--wrapper mt-0 d-flex">
+                                        <li class="quickview__social--list">
+                                            <a class="quickview__social--icon" target="_blank"
+                                                href="https://www.facebook.com">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="7.667"
+                                                    height="16.524" viewBox="0 0 7.667 16.524">
+                                                    <path data-name="Path 237"
+                                                        d="M967.495,353.678h-2.3v8.253h-3.437v-8.253H960.13V350.77h1.624v-1.888a4.087,4.087,0,0,1,.264-1.492,2.9,2.9,0,0,1,1.039-1.379,3.626,3.626,0,0,1,2.153-.6l2.549.019v2.833h-1.851a.732.732,0,0,0-.472.151.8.8,0,0,0-.246.642v1.719H967.8Z"
+                                                        transform="translate(-960.13 -345.407)"
+                                                        fill="currentColor" />
+                                                </svg>
+                                                <span class="visually-hidden">Facebook</span>
+                                            </a>
+                                        </li>
+                                        <li class="quickview__social--list">
+                                            <a class="quickview__social--icon" target="_blank"
+                                                href="https://twitter.com">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16.489"
+                                                    height="13.384" viewBox="0 0 16.489 13.384">
+                                                    <path data-name="Path 303"
+                                                        d="M966.025,1144.2v.433a9.783,9.783,0,0,1-.621,3.388,10.1,10.1,0,0,1-1.845,3.087,9.153,9.153,0,0,1-3.012,2.259,9.825,9.825,0,0,1-4.122.866,9.632,9.632,0,0,1-2.748-.4,9.346,9.346,0,0,1-2.447-1.11q.4.038.809.038a6.723,6.723,0,0,0,2.24-.376,7.022,7.022,0,0,0,1.958-1.054,3.379,3.379,0,0,1-1.958-.687,3.259,3.259,0,0,1-1.186-1.666,3.364,3.364,0,0,0,.621.056,3.488,3.488,0,0,0,.885-.113,3.267,3.267,0,0,1-1.374-.631,3.356,3.356,0,0,1-.969-1.186,3.524,3.524,0,0,1-.367-1.5v-.057a3.172,3.172,0,0,0,1.544.433,3.407,3.407,0,0,1-1.1-1.214,3.308,3.308,0,0,1-.4-1.609,3.362,3.362,0,0,1,.452-1.694,9.652,9.652,0,0,0,6.964,3.538,3.911,3.911,0,0,1-.075-.772,3.293,3.293,0,0,1,.452-1.694,3.409,3.409,0,0,1,1.233-1.233,3.257,3.257,0,0,1,1.685-.461,3.351,3.351,0,0,1,2.466,1.073,6.572,6.572,0,0,0,2.146-.828,3.272,3.272,0,0,1-.574,1.083,3.477,3.477,0,0,1-.913.8,6.869,6.869,0,0,0,1.958-.546A7.074,7.074,0,0,1,966.025,1144.2Z"
+                                                        transform="translate(-951.23 -1140.849)"
+                                                        fill="currentColor" />
+                                                </svg>
+                                                <span class="visually-hidden">Twitter</span>
+                                            </a>
+                                        </li>
+                                        <li class="quickview__social--list">
+                                            <a class="quickview__social--icon" target="_blank"
+                                                href="https://www.instagram.com">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16.497"
+                                                    height="16.492" viewBox="0 0 19.497 19.492">
+                                                    <path data-name="Icon awesome-instagram"
+                                                        d="M9.747,6.24a5,5,0,1,0,5,5A4.99,4.99,0,0,0,9.747,6.24Zm0,8.247A3.249,3.249,0,1,1,13,11.238a3.255,3.255,0,0,1-3.249,3.249Zm6.368-8.451A1.166,1.166,0,1,1,14.949,4.87,1.163,1.163,0,0,1,16.115,6.036Zm3.31,1.183A5.769,5.769,0,0,0,17.85,3.135,5.807,5.807,0,0,0,13.766,1.56c-1.609-.091-6.433-.091-8.042,0A5.8,5.8,0,0,0,1.64,3.13,5.788,5.788,0,0,0,.065,7.215c-.091,1.609-.091,6.433,0,8.042A5.769,5.769,0,0,0,1.64,19.341a5.814,5.814,0,0,0,4.084,1.575c1.609.091,6.433.091,8.042,0a5.769,5.769,0,0,0,4.084-1.575,5.807,5.807,0,0,0,1.575-4.084c.091-1.609.091-6.429,0-8.038Zm-2.079,9.765a3.289,3.289,0,0,1-1.853,1.853c-1.283.509-4.328.391-5.746.391S5.28,19.341,4,18.837a3.289,3.289,0,0,1-1.853-1.853c-.509-1.283-.391-4.328-.391-5.746s-.113-4.467.391-5.746A3.289,3.289,0,0,1,4,3.639c1.283-.509,4.328-.391,5.746-.391s4.467-.113,5.746.391a3.289,3.289,0,0,1,1.853,1.853c.509,1.283.391,4.328.391,5.746S17.855,15.705,17.346,16.984Z"
+                                                        transform="translate(0.004 -1.492)" fill="currentColor" />
+                                                </svg>
+                                                <span class="visually-hidden">Instagram</span>
+                                            </a>
+                                        </li>
+                                        <li class="quickview__social--list">
+                                            <a class="quickview__social--icon" target="_blank"
+                                                href="https://www.youtube.com">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16.49"
+                                                    height="11.582" viewBox="0 0 16.49 11.582">
+                                                    <path data-name="Path 321"
+                                                        d="M967.759,1365.592q0,1.377-.019,1.717-.076,1.114-.151,1.622a3.981,3.981,0,0,1-.245.925,1.847,1.847,0,0,1-.453.717,2.171,2.171,0,0,1-1.151.6q-3.585.265-7.641.189-2.377-.038-3.387-.085a11.337,11.337,0,0,1-1.5-.142,2.206,2.206,0,0,1-1.113-.585,2.562,2.562,0,0,1-.528-1.037,3.523,3.523,0,0,1-.141-.585c-.032-.2-.06-.5-.085-.906a38.894,38.894,0,0,1,0-4.867l.113-.925a4.382,4.382,0,0,1,.208-.906,2.069,2.069,0,0,1,.491-.755,2.409,2.409,0,0,1,1.113-.566,19.2,19.2,0,0,1,2.292-.151q1.82-.056,3.953-.056t3.952.066q1.821.067,2.311.142a2.3,2.3,0,0,1,.726.283,1.865,1.865,0,0,1,.557.49,3.425,3.425,0,0,1,.434,1.019,5.72,5.72,0,0,1,.189,1.075q0,.095.057,1C967.752,1364.1,967.759,1364.677,967.759,1365.592Zm-7.6.925q1.49-.754,2.113-1.094l-4.434-2.339v4.66Q958.609,1367.311,960.156,1366.517Z"
+                                                        transform="translate(-951.269 -1359.8)"
+                                                        fill="currentColor" />
+                                                </svg>
+                                                <span class="visually-hidden">Youtube</span>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="product__media--preview__items">
-                                <a class="product__media--preview__items--link glightbox"
-                                    data-gallery="product-media-preview"
-                                    href="{{url('assets/img/product/big-product4.jpg')}}"><img
-                                        class="product__media--preview__items--img"
-                                        src="{{url('frontend/assets/img/product/big-product4.jpg')}}" alt="product-media-img"></a>
-                                            <div class="product__media--view__icon">
-                                                <a class="product__media--view__icon--link glightbox" href="{{url('
-                                        assets/img/product/big-product4.jpg')}}" data-gallery="product-media-preview">
-                                    <svg class="product__media--view__icon--svg" xmlns="http://www.w3.org/2000/svg"
-                                        width="22.51" height="22.443" viewBox="0 0 512 512">
-                                        <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                            fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32">
-                                        </path>
-                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                            stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"></path>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="product__media--preview__items">
-                            <a class="product__media--preview__items--link glightbox"
-                                data-gallery="product-media-preview"
-                                href="{{url('assets/img/product/big-product5.jpg')}}"><img
-                                    class="product__media--preview__items--img"
-                                    src="{{url('frontend/assets/img/product/big-product5.jpg')}}" alt="product-media-img"></a>
-                                            <div class="product__media--view__icon">
-                                                <a class="product__media--view__icon--link glightbox" href="{{url('
-                                    assets/img/product/big-product5.jpg')}}" data-gallery="product-media-preview">
-                                <svg class="product__media--view__icon--svg" xmlns="http://www.w3.org/2000/svg"
-                                    width="22.51" height="22.443" viewBox="0 0 512 512">
-                                    <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                        fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32">
-                                    </path>
-                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                        stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="product__media--preview__items">
-                        <a class="product__media--preview__items--link glightbox" data-gallery="product-media-preview"
-                            href="{{url('assets/img/product/big-product6.jpg')}}"><img
-                                class="product__media--preview__items--img"
-                                src="{{url('frontend/assets/img/product/big-product6.jpg')}}" alt="product-media-img"></a>
-                                            <div class="product__media--view__icon">
-                                                <a class="product__media--view__icon--link glightbox" href="{{url('
-                                assets/img/product/big-product6.jpg')}}" data-gallery="product-media-preview">
-                            <svg class="product__media--view__icon--svg" xmlns="http://www.w3.org/2000/svg"
-                                width="22.51" height="22.443" viewBox="0 0 512 512">
-                                <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                    fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path>
-                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
-                                    stroke-width="32" d="M338.29 338.29L448 448"></path>
-                            </svg>
-                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="product__media--nav swiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <div class="product__media--nav__items">
-                    <img class="product__media--nav__items--img"
-                        src="{{url('frontend/assets/img/product/small-product7.png')}}" alt="product-nav-img">
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="product__media--nav__items">
-                    <img class="product__media--nav__items--img"
-                        src="{{url('frontend/assets/img/product/small-product8.png')}}" alt="product-nav-img">
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="product__media--nav__items">
-                    <img class="product__media--nav__items--img"
-                        src="{{url('frontend/assets/img/product/small-product9.png')}}" alt="product-nav-img">
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="product__media--nav__items">
-                    <img class="product__media--nav__items--img"
-                        src="{{url('frontend/assets/img/product/small-product10.png')}}" alt="product-nav-img">
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="product__media--nav__items">
-                    <img class="product__media--nav__items--img"
-                        src="{{url('frontend/assets/img/product/small-product11.png')}}" alt="product-nav-img">
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="product__media--nav__items">
-                    <img class="product__media--nav__items--img"
-                        src="{{url('frontend/assets/img/product/small-product12.png')}}" alt="product-nav-img">
-                </div>
-            </div>
-        </div>
-        <div class="swiper__nav--btn swiper-button-next"></div>
-        <div class="swiper__nav--btn swiper-button-prev"></div>
-    </div>
-    </div>
-    </div>
-    <div class="col">
-        <div class="quickview__info">
-            <form action="#">
-                <h2 class="product__details--info__title mb-15">Oversize Cotton Dress</h2>
-                <div class="product__details--info__price mb-10">
-                    <span class="current__price">£58.00</span>
-                    <span class="old__price">£68.00</span>
-                </div>
-                <div class="quickview__info--ratting d-flex align-items-center mb-10">
-                    <ul class="rating d-flex justify-content-center">
-                        <li class="rating__list">
-                            <span class="rating__list--icon">
-                                <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105"
-                                    height="14.732" viewBox="0 0 10.105 9.732">
-                                    <path data-name="star - Copy"
-                                        d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                        transform="translate(0 -0.018)" fill="currentColor"></path>
-                                </svg>
-                            </span>
-                        </li>
-                        <li class="rating__list">
-                            <span class="rating__list--icon">
-                                <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105"
-                                    height="14.732" viewBox="0 0 10.105 9.732">
-                                    <path data-name="star - Copy"
-                                        d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                        transform="translate(0 -0.018)" fill="currentColor"></path>
-                                </svg>
-                            </span>
-                        </li>
-                        <li class="rating__list">
-                            <span class="rating__list--icon">
-                                <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105"
-                                    height="14.732" viewBox="0 0 10.105 9.732">
-                                    <path data-name="star - Copy"
-                                        d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                        transform="translate(0 -0.018)" fill="currentColor"></path>
-                                </svg>
-                            </span>
-                        </li>
-                        <li class="rating__list">
-                            <span class="rating__list--icon">
-                                <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105"
-                                    height="14.732" viewBox="0 0 10.105 9.732">
-                                    <path data-name="star - Copy"
-                                        d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                        transform="translate(0 -0.018)" fill="currentColor"></path>
-                                </svg>
-                            </span>
-                        </li>
-                        <li class="rating__list">
-                            <span class="rating__list--icon">
-                                <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105"
-                                    height="14.732" viewBox="0 0 10.105 9.732">
-                                    <path data-name="star - Copy"
-                                        d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                        transform="translate(0 -0.018)" fill="currentColor"></path>
-                                </svg>
-                            </span>
-                        </li>
-
-                    </ul>
-                    <span class="quickview__info--review__text">(5 reviews)</span>
-                </div>
-                <p class="product__details--info__desc mb-15">Lorem ipsum dolor sit amet, consectetur adipisicing elit
-                    is. Deserunt totam dolores ea numquam labore! Illum magnam totam tenetur fuga quo dolor.</p>
-                <div class="product__variant">
-                    <div class="product__variant--list mb-10">
-                        <fieldset class="variant__input--fieldset">
-                            <legend class="product__variant--title mb-8">Color :</legend>
-                            <input id="color-red1" name="color" type="radio" checked>
-                            <label class="variant__color--value red" for="color-red1" title="Red"><img
-                                    class="variant__color--value__img"
-                                    src="{{url('frontend/assets/img/product/product1.png')}}"
-                                    alt="variant-color-img"></label>
-                            <input id="color-red2" name="color" type="radio">
-                            <label class="variant__color--value red" for="color-red2" title="Black"><img
-                                    class="variant__color--value__img"
-                                    src="{{url('frontend/assets/img/product/product2.png')}}"
-                                    alt="variant-color-img"></label>
-                            <input id="color-red3" name="color" type="radio">
-                            <label class="variant__color--value red" for="color-red3" title="Pink"><img
-                                    class="variant__color--value__img"
-                                    src="{{url('frontend/assets/img/product/product3.png')}}"
-                                    alt="variant-color-img"></label>
-                            <input id="color-red4" name="color" type="radio">
-                            <label class="variant__color--value red" for="color-red4" title="Orange"><img
-                                    class="variant__color--value__img"
-                                    src="{{url('frontend/assets/img/product/product4.png')}}"
-                                    alt="variant-color-img"></label>
-                        </fieldset>
-                    </div>
-                    <div class="product__variant--list mb-15">
-                        <fieldset class="variant__input--fieldset weight">
-                            <legend class="product__variant--title mb-8">Weight :</legend>
-                            <input id="weight1" name="weight" type="radio" checked>
-                            <label class="variant__size--value red" for="weight1">5 kg</label>
-                            <input id="weight2" name="weight" type="radio">
-                            <label class="variant__size--value red" for="weight2">3 kg</label>
-                            <input id="weight3" name="weight" type="radio">
-                            <label class="variant__size--value red" for="weight3">2 kg</label>
-                        </fieldset>
-                    </div>
-                    <div class="quickview__variant--list quantity d-flex align-items-center mb-15">
-                        <div class="quantity__box">
-                            <button type="button" class="quantity__value quickview__value--quantity decrease"
-                                aria-label="quantity value" value="Decrease Value">-</button>
-                            <label>
-                                <input type="number" class="quantity__number quickview__value--number" value="1"
-                                    data-counter />
-                            </label>
-                            <button type="button" class="quantity__value quickview__value--quantity increase"
-                                aria-label="quantity value" value="Increase Value">+</button>
-                        </div>
-                        <button class="primary__btn quickview__cart--btn" type="submit">Add To Cart</button>
-                    </div>
-                    <div class="quickview__variant--list variant__wishlist mb-15">
-                        <a class="variant__wishlist--icon" href="wishlist.html" title="Add to wishlist">
-                            <svg class="quickview__variant--wishlist__svg" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 512 512">
-                                <path
-                                    d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z"
-                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="32" />
-                            </svg>
-                            Add to Wishlist
-                        </a>
-                    </div>
-                </div>
-                <div class="quickview__social d-flex align-items-center">
-                    <label class="quickview__social--title">Social Share:</label>
-                    <ul class="quickview__social--wrapper mt-0 d-flex">
-                        <li class="quickview__social--list">
-                            <a class="quickview__social--icon" target="_blank" href="https://www.facebook.com">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="7.667" height="16.524"
-                                    viewBox="0 0 7.667 16.524">
-                                    <path data-name="Path 237"
-                                        d="M967.495,353.678h-2.3v8.253h-3.437v-8.253H960.13V350.77h1.624v-1.888a4.087,4.087,0,0,1,.264-1.492,2.9,2.9,0,0,1,1.039-1.379,3.626,3.626,0,0,1,2.153-.6l2.549.019v2.833h-1.851a.732.732,0,0,0-.472.151.8.8,0,0,0-.246.642v1.719H967.8Z"
-                                        transform="translate(-960.13 -345.407)" fill="currentColor" />
-                                </svg>
-                                <span class="visually-hidden">Facebook</span>
-                            </a>
-                        </li>
-                        <li class="quickview__social--list">
-                            <a class="quickview__social--icon" target="_blank" href="https://twitter.com">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16.489" height="13.384"
-                                    viewBox="0 0 16.489 13.384">
-                                    <path data-name="Path 303"
-                                        d="M966.025,1144.2v.433a9.783,9.783,0,0,1-.621,3.388,10.1,10.1,0,0,1-1.845,3.087,9.153,9.153,0,0,1-3.012,2.259,9.825,9.825,0,0,1-4.122.866,9.632,9.632,0,0,1-2.748-.4,9.346,9.346,0,0,1-2.447-1.11q.4.038.809.038a6.723,6.723,0,0,0,2.24-.376,7.022,7.022,0,0,0,1.958-1.054,3.379,3.379,0,0,1-1.958-.687,3.259,3.259,0,0,1-1.186-1.666,3.364,3.364,0,0,0,.621.056,3.488,3.488,0,0,0,.885-.113,3.267,3.267,0,0,1-1.374-.631,3.356,3.356,0,0,1-.969-1.186,3.524,3.524,0,0,1-.367-1.5v-.057a3.172,3.172,0,0,0,1.544.433,3.407,3.407,0,0,1-1.1-1.214,3.308,3.308,0,0,1-.4-1.609,3.362,3.362,0,0,1,.452-1.694,9.652,9.652,0,0,0,6.964,3.538,3.911,3.911,0,0,1-.075-.772,3.293,3.293,0,0,1,.452-1.694,3.409,3.409,0,0,1,1.233-1.233,3.257,3.257,0,0,1,1.685-.461,3.351,3.351,0,0,1,2.466,1.073,6.572,6.572,0,0,0,2.146-.828,3.272,3.272,0,0,1-.574,1.083,3.477,3.477,0,0,1-.913.8,6.869,6.869,0,0,0,1.958-.546A7.074,7.074,0,0,1,966.025,1144.2Z"
-                                        transform="translate(-951.23 -1140.849)" fill="currentColor" />
-                                </svg>
-                                <span class="visually-hidden">Twitter</span>
-                            </a>
-                        </li>
-                        <li class="quickview__social--list">
-                            <a class="quickview__social--icon" target="_blank" href="https://www.instagram.com">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16.497" height="16.492"
-                                    viewBox="0 0 19.497 19.492">
-                                    <path data-name="Icon awesome-instagram"
-                                        d="M9.747,6.24a5,5,0,1,0,5,5A4.99,4.99,0,0,0,9.747,6.24Zm0,8.247A3.249,3.249,0,1,1,13,11.238a3.255,3.255,0,0,1-3.249,3.249Zm6.368-8.451A1.166,1.166,0,1,1,14.949,4.87,1.163,1.163,0,0,1,16.115,6.036Zm3.31,1.183A5.769,5.769,0,0,0,17.85,3.135,5.807,5.807,0,0,0,13.766,1.56c-1.609-.091-6.433-.091-8.042,0A5.8,5.8,0,0,0,1.64,3.13,5.788,5.788,0,0,0,.065,7.215c-.091,1.609-.091,6.433,0,8.042A5.769,5.769,0,0,0,1.64,19.341a5.814,5.814,0,0,0,4.084,1.575c1.609.091,6.433.091,8.042,0a5.769,5.769,0,0,0,4.084-1.575,5.807,5.807,0,0,0,1.575-4.084c.091-1.609.091-6.429,0-8.038Zm-2.079,9.765a3.289,3.289,0,0,1-1.853,1.853c-1.283.509-4.328.391-5.746.391S5.28,19.341,4,18.837a3.289,3.289,0,0,1-1.853-1.853c-.509-1.283-.391-4.328-.391-5.746s-.113-4.467.391-5.746A3.289,3.289,0,0,1,4,3.639c1.283-.509,4.328-.391,5.746-.391s4.467-.113,5.746.391a3.289,3.289,0,0,1,1.853,1.853c.509,1.283.391,4.328.391,5.746S17.855,15.705,17.346,16.984Z"
-                                        transform="translate(0.004 -1.492)" fill="currentColor" />
-                                </svg>
-                                <span class="visually-hidden">Instagram</span>
-                            </a>
-                        </li>
-                        <li class="quickview__social--list">
-                            <a class="quickview__social--icon" target="_blank" href="https://www.youtube.com">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16.49" height="11.582"
-                                    viewBox="0 0 16.49 11.582">
-                                    <path data-name="Path 321"
-                                        d="M967.759,1365.592q0,1.377-.019,1.717-.076,1.114-.151,1.622a3.981,3.981,0,0,1-.245.925,1.847,1.847,0,0,1-.453.717,2.171,2.171,0,0,1-1.151.6q-3.585.265-7.641.189-2.377-.038-3.387-.085a11.337,11.337,0,0,1-1.5-.142,2.206,2.206,0,0,1-1.113-.585,2.562,2.562,0,0,1-.528-1.037,3.523,3.523,0,0,1-.141-.585c-.032-.2-.06-.5-.085-.906a38.894,38.894,0,0,1,0-4.867l.113-.925a4.382,4.382,0,0,1,.208-.906,2.069,2.069,0,0,1,.491-.755,2.409,2.409,0,0,1,1.113-.566,19.2,19.2,0,0,1,2.292-.151q1.82-.056,3.953-.056t3.952.066q1.821.067,2.311.142a2.3,2.3,0,0,1,.726.283,1.865,1.865,0,0,1,.557.49,3.425,3.425,0,0,1,.434,1.019,5.72,5.72,0,0,1,.189,1.075q0,.095.057,1C967.752,1364.1,967.759,1364.677,967.759,1365.592Zm-7.6.925q1.49-.754,2.113-1.094l-4.434-2.339v4.66Q958.609,1367.311,960.156,1366.517Z"
-                                        transform="translate(-951.269 -1359.8)" fill="currentColor" />
-                                </svg>
-                                <span class="visually-hidden">Youtube</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </form>
-        </div>
-    </div>
-    </div>
-    </div>
-    </div>
     </div>
     <!-- Quickview Wrapper End -->
 
@@ -1792,121 +1883,126 @@ $version = 1.0;
 
     <!-- Scroll top bar -->
     <button id="scroll__top"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
-            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48"
-                d="M112 244l144-144 144 144M256 120v292" />
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="48" d="M112 244l144-144 144 144M256 120v292" />
         </svg></button>
 
 
     <!-- Core -->
     <script>
-        var site_url = "<?php echo url("/") ?>";
-        var admin_url = "<?php echo url("/admin/") ?>";
+        var site_url = "<?php echo url('/'); ?>";
+        var admin_url = "<?php echo url('/admin/'); ?>";
         var current_url = "<?php echo url()->current(); ?>";
         var current_full_url = "<?php echo url()->full(); ?>";
         var previous_url = "<?php echo url()->previous(); ?>";
-        var csrf_token = function(){
-            return "<?php echo csrf_token() ?>";
+        var csrf_token = function() {
+            return "<?php echo csrf_token(); ?>";
         }
     </script>
     <!-- All Script JS Plugins here  -->
-    <script src="{{url('frontend/assets/js/vendor/popper.js')}}" defer="defer')}}"></script>
+    <script src="{{ url('frontend/assets/js/vendor/popper.js') }}" defer="defer')}}"></script>
     <!-- jQuery -->
-    <script src="{{url('frontend/assets/js/plugins/jquery-3.6.0.min.js')}}"></script>
-    <script src="{{url('frontend/assets/js/vendor/bootstrap.min.js" defer="defer')}}"></script>
-    <script src="{{url('frontend/assets/js/plugins/swiper-bundle.min.js')}}"></script>
-    <script src="{{url('frontend/assets/js/plugins/glightbox.min.js')}}"></script>
-    <script src="{{url('frontend/assets/js/plugins/jquery.fancybox.min.js')}}"></script>
+    <script src="{{ url('frontend/assets/js/plugins/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ url('frontend/assets/js/vendor/bootstrap.min.js" defer="defer') }}"></script>
+    <script src="{{ url('frontend/assets/js/plugins/swiper-bundle.min.js') }}"></script>
+    <script src="{{ url('frontend/assets/js/plugins/glightbox.min.js') }}"></script>
+    <script src="{{ url('frontend/assets/js/plugins/jquery.fancybox.min.js') }}"></script>
 
     <!-- Customscript js -->
-    <script src="{{url('frontend/assets/js/script.js')}}"></script>
+    <script src="{{ url('frontend/assets/js/script.js') }}"></script>
 
     <script type="text/javascript">
-        $(document).ready(function () {
-        $(".fancybox").fancybox();
+        $(document).ready(function() {
+            $(".fancybox").fancybox();
 
-        //        prodcolour
-        $("select[name=prodcolour]").change(function () {
-            var valThis = $(this).val();
-//            alert(valThis);
-//            alert($("input[name=hfbaseprice]").val());
-            var base_price = parseFloat($("input[name=hfbaseprice]").val());
-            $("input[name=prodprice]").val(base_price.toFixed(2));
-            $("#spnprice").html(' &pound;' + base_price.toFixed(2) + '');
+            //        prodcolour
+            $("select[name=prodcolour]").change(function() {
+                var valThis = $(this).val();
+                //            alert(valThis);
+                //            alert($("input[name=hfbaseprice]").val());
+                var base_price = parseFloat($("input[name=hfbaseprice]").val());
+                $("input[name=prodprice]").val(base_price.toFixed(2));
+                $("#spnprice").html(' &pound;' + base_price.toFixed(2) + '');
 
-            if ($("select[name=prodsize]").length) {
-                $("input[name=hfprodsize]").val('0');
-                $("select[name=prodsize]").val('');
-            }
-            if ($("select[name=prodlength]").length) {
-                $("select[name=prodlength]").val('');
-            }
+                if ($("select[name=prodsize]").length) {
+                    $("input[name=hfprodsize]").val('0');
+                    $("select[name=prodsize]").val('');
+                }
+                if ($("select[name=prodlength]").length) {
+                    $("select[name=prodlength]").val('');
+                }
 
-            if (valThis.length > 0) {
-                var img_url = $("input[name=base_extra_img_url]").val() + valThis + ".jpg";
-                //            alert(img_url);
-                //            document.location.href = valThis;
-                $("img[name=prodlargeimg]").attr("src", img_url);
-                //$(this).addClass('selected');
-                //$( "ul.pro-thumb-img" ).find( "li:eq(2)" ).focus();
-                //        .css( "fontStyle", "italic" );
-            }
-        });
-
-        $("select[name=prodcolour]").on("change touchend", function () {
-            $('select[name=prodsize] option').each(function () {
-//      myOptions.push( this.value );
-                $(this).removeAttr('disabled').removeClass("disabledoption").show();
+                if (valThis.length > 0) {
+                    var img_url = $("input[name=base_extra_img_url]").val() + valThis + ".jpg";
+                    //            alert(img_url);
+                    //            document.location.href = valThis;
+                    $("img[name=prodlargeimg]").attr("src", img_url);
+                    //$(this).addClass('selected');
+                    //$( "ul.pro-thumb-img" ).find( "li:eq(2)" ).focus();
+                    //        .css( "fontStyle", "italic" );
+                }
             });
 
-
-            var t_excludesizes = $("select[name=prodcolour] option:checked").attr('excludesizes');
-
-            if (t_excludesizes.indexOf('_') >= 0) {
-                var t_arrSizes = t_excludesizes.split('_');
-                t_arrSizes.forEach(arrSizesIterator);
-
-                function arrSizesIterator(value, index, array) {
-//                    txt = txt + value + "<br>";
-                    $("select[name=prodsize] option[value='" + value + "']").attr('disabled', 'disabled').addClass("disabledoption").hide();
-                }
-            } else {
-                $("select[name=prodsize] option[value='" + t_excludesizes + "']").attr('disabled', 'disabled').addClass("disabledoption").hide();
-            }
-
-        });
-
-        $("select[name=prodsize]").on("change touchend", function () {
-            if ($("select[name=prodlength]").length) {
-                $("select[name=prodlength]").val('');
+            $("select[name=prodcolour]").on("change touchend", function() {
+                $('select[name=prodsize] option').each(function() {
+                    //      myOptions.push( this.value );
+                    $(this).removeAttr('disabled').removeClass("disabledoption").show();
+                });
 
 
-//        $("select[name=prodsize]").change(function () {
-                $("select[name=prodlength] option").removeAttr('disabled').removeClass("disabledoption").show();
-//            var t_cur_size_id = $(this).val();
+                var t_excludesizes = $("select[name=prodcolour] option:checked").attr('excludesizes');
 
-                var t_excludelengths = $("select[name=prodsize] option:checked").attr('excludelengths');
-//            var t_excludelengths = $("input[name=hfsize" + t_cur_size_id + "excludelengths").val();
+                if (t_excludesizes.indexOf('_') >= 0) {
+                    var t_arrSizes = t_excludesizes.split('_');
+                    t_arrSizes.forEach(arrSizesIterator);
 
-                if (t_excludelengths.indexOf('_') >= 0) {
-                    var t_arrLengths = t_excludelengths.split('_');
-                    t_arrLengths.forEach(arrLengthsIterator);
-
-                    function arrLengthsIterator(value, index, array) {
-//                    txt = txt + value + "<br>";
-                        $("select[name=prodlength] option[value='" + value + "']").attr('disabled', 'disabled').addClass("disabledoption").hide();
+                    function arrSizesIterator(value, index, array) {
+                        //                    txt = txt + value + "<br>";
+                        $("select[name=prodsize] option[value='" + value + "']").attr('disabled',
+                            'disabled').addClass("disabledoption").hide();
                     }
                 } else {
-                    $("select[name=prodlength] option[value='" + t_excludelengths + "']").attr('disabled', 'disabled').addClass("disabledoption").hide();
+                    $("select[name=prodsize] option[value='" + t_excludesizes + "']").attr('disabled',
+                        'disabled').addClass("disabledoption").hide();
                 }
-//            alert(t_cur_size_id + ' : ' + t_excludelengths);
-//            if (t_cur_size_id == 1) {
-//                $("select[name=prodlength] option[value='29']").hide();
-//            } else {
-//                $("select[name=prodlength] option").show();
-//            }
-            }
+
+            });
+
+            $("select[name=prodsize]").on("change touchend", function() {
+                if ($("select[name=prodlength]").length) {
+                    $("select[name=prodlength]").val('');
+
+
+                    //        $("select[name=prodsize]").change(function () {
+                    $("select[name=prodlength] option").removeAttr('disabled').removeClass("disabledoption")
+                        .show();
+                    //            var t_cur_size_id = $(this).val();
+
+                    var t_excludelengths = $("select[name=prodsize] option:checked").attr('excludelengths');
+                    //            var t_excludelengths = $("input[name=hfsize" + t_cur_size_id + "excludelengths").val();
+
+                    if (t_excludelengths.indexOf('_') >= 0) {
+                        var t_arrLengths = t_excludelengths.split('_');
+                        t_arrLengths.forEach(arrLengthsIterator);
+
+                        function arrLengthsIterator(value, index, array) {
+                            //                    txt = txt + value + "<br>";
+                            $("select[name=prodlength] option[value='" + value + "']").attr('disabled',
+                                'disabled').addClass("disabledoption").hide();
+                        }
+                    } else {
+                        $("select[name=prodlength] option[value='" + t_excludelengths + "']").attr(
+                            'disabled', 'disabled').addClass("disabledoption").hide();
+                    }
+                    //            alert(t_cur_size_id + ' : ' + t_excludelengths);
+                    //            if (t_cur_size_id == 1) {
+                    //                $("select[name=prodlength] option[value='29']").hide();
+                    //            } else {
+                    //                $("select[name=prodlength] option").show();
+                    //            }
+                }
+            });
         });
-    });
     </script>
 
 </body>
