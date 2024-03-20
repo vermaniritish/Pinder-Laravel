@@ -14,19 +14,19 @@ $version = 1.0;
   <title>Pinders Work Wear</title>
   <meta name="description" content="Morden Bootstrap HTML5 Template">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="{{url('frontend/assets/img/favicon.ico')}}">
     
    <!-- ======= All CSS Plugins here ======== -->
-  <link rel="stylesheet" href="assets/css/plugins/swiper-bundle.min.css">
-  <link rel="stylesheet" href="assets/css/plugins/glightbox.min.css">
-  <link href="assets/css/plugins/jquery.fancybox.min.css" rel="stylesheet" type="text/css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{url('frontend/assets/css/plugins/swiper-bundle.min.css')}}">
+  <link rel="stylesheet" href="{{url('frontend/assets/css/plugins/glightbox.min.css')}}">
+  <link href="{{url('frontend/assets/css/plugins/jquery.fancybox.min.css')}}" rel="stylesheet" type="text/css"/>
+  <link href="{{url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')}}" rel="stylesheet">
 
   <!-- Plugin css -->
-  <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="{{url('frontend/assets/css/vendor/bootstrap.min.css')}}">
 
   <!-- Custom Style CSS -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="{{url('frontend/assets/css/style.css')}}">
   <style>
     ul#brands-block {
     display: flex;
@@ -127,8 +127,8 @@ $version = 1.0;
                     <div class="language__currency d-none d-lg-block">
                         <ul class="header__shipping--wrapper d-flex">
                             
-                            <li class="header__shipping--text text-white d-sm-2-none"><img class="header__shipping--text__icon" src="assets/img/icon/bus.png" alt="bus-icon"> Track Your Order</li>
-                            <li class="header__shipping--text text-white d-sm-2-none"><img class="header__shipping--text__icon" src="assets/img/icon/email.png" alt="email-icon"> <a class="header__shipping--text__link" href="mailto:info@pindersschoolwear.com">info@pindersschoolwear.com</a></li>
+                            <li class="header__shipping--text text-white d-sm-2-none"><img class="header__shipping--text__icon" src="{{url('frontend/assets/img/icon/bus.png" alt="bus-icon"> Track Your Order</li>
+                            <li class="header__shipping--text text-white d-sm-2-none"><img class="header__shipping--text__icon" src="{{url('frontend/assets/img/icon/email.png" alt="email-icon"> <a class="header__shipping--text__link" href="mailto:info@pindersschoolwear.com">info@pindersschoolwear.com</a></li>
                         </ul>
                     </div>
                 </div>
@@ -144,7 +144,7 @@ $version = 1.0;
                         </a>
                     </div>
                     <div class="main__logo">
-                        <h1 class="main__logo--title"><a class="main__logo--link" href="/"><img class="main__logo--img" src="assets/img/logo/logo-workwear.jpg" alt="logo-img"></a></h1>
+                        <h1 class="main__logo--title"><a class="main__logo--link" href="/"><img class="main__logo--img" src="{{url('frontend/assets/img/logo/logo-workwear.jpg" alt="logo-img"></a></h1>
                     </div>
                     <div class="header__search--widget header__sticky--none d-none d-lg-block">
                         <form class="d-flex header__search--form" action="#">
@@ -530,7 +530,7 @@ $version = 1.0;
                             </ul>
                         </nav>
                     </div>
-                    <!--<p class="header__discount--text"><img class="header__discount--icon__img" src="assets/img/icon/lamp.png" alt="lamp-img"> Special up to 60% Off all item</p>-->
+                    <!--<p class="header__discount--text"><img class="header__discount--icon__img" src="{{url('frontend/assets/img/icon/lamp.png" alt="lamp-img"> Special up to 60% Off all item</p>-->
                 </div>
             </div>
         </div>
@@ -540,7 +540,7 @@ $version = 1.0;
             <div class="offcanvas__inner">
                 <div class="offcanvas__logo">
                     <a class="offcanvas__logo_link" href="index.html">
-                        <img src="assets/img/logo/logo-workwear.jpg" alt="pinders" width="158" height="36">
+                        <img src="{{url('frontend/assets/img/logo/logo-workwear.jpg" alt="pinders" width="158" height="36">
                     </a>
                     <button class="offcanvas__close--btn" data-offcanvas>close</button>
                 </div>
@@ -724,7 +724,7 @@ $version = 1.0;
             <div class="minicart__product">
                 <div class="minicart__product--items d-flex">
                     <div class="minicart__thumb">
-                        <a href="product-details.html"><img src="assets/img/product/product1.png" alt="prduct-img"></a>
+                        <a href="product-details.html"><img src="{{url('frontend/assets/img/product/product1.png" alt="prduct-img"></a>
                     </div>
                     <div class="minicart__text">
                         <h3 class="minicart__subtitle h4"><a href="product-details.html">Oversize Cotton Dress</a></h3>
@@ -747,7 +747,7 @@ $version = 1.0;
                 </div>
                 <div class="minicart__product--items d-flex">
                     <div class="minicart__thumb">
-                        <a href="product-details.html"><img src="assets/img/product/product2.png" alt="prduct-img"></a>
+                        <a href="product-details.html"><img src="{{url('frontend/assets/img/product/product2.png" alt="prduct-img"></a>
                     </div>
                     <div class="minicart__text">
                         <h3 class="minicart__subtitle h4"><a href="product-details.html">Boxy Denim Jacket</a></h3>
@@ -1011,24 +1011,24 @@ $version = 1.0;
                     <div class="footer__instagram footer__widget--inner">
                         <div class="footer__instagram--list d-flex">
                             <div class="instagram__thumbnail">
-                                <a class="instagram__thumbnail--img" target="_blank" href="https://www.instagram.com/p/CZkF3TLBTT7"><img src="assets/img/other/instagram1.webp" alt="instagram"></a>
+                                <a class="instagram__thumbnail--img" target="_blank" href="https://www.instagram.com/p/CZkF3TLBTT7"><img src="{{url('frontend/assets/img/other/instagram1.webp" alt="instagram"></a>
                             </div>
                             <div class="instagram__thumbnail">
-                                <a class="instagram__thumbnail--img" target="_blank" href="https://www.instagram.com/p/CZkF60sBxhN"><img src="assets/img/other/instagram2.webp" alt="instagram"></a>
+                                <a class="instagram__thumbnail--img" target="_blank" href="https://www.instagram.com/p/CZkF60sBxhN"><img src="{{url('frontend/assets/img/other/instagram2.webp" alt="instagram"></a>
                             </div>
                             <div class="instagram__thumbnail">
-                                <a class="instagram__thumbnail--img" target="_blank" href="https://www.instagram.com/p/CZkF90ZB6HG"><img src="assets/img/other/instagram3.webp" alt="instagram"></a>
+                                <a class="instagram__thumbnail--img" target="_blank" href="https://www.instagram.com/p/CZkF90ZB6HG"><img src="{{url('frontend/assets/img/other/instagram3.webp" alt="instagram"></a>
                             </div>
                         </div>
                         <div class="footer__instagram--list d-flex">
                             <div class="instagram__thumbnail">
-                                <a class="instagram__thumbnail--img" target="_blank" href="https://www.instagram.com/p/CZkGAe6BQeu"><img src="assets/img/other/instagram4.webp" alt="instagram"></a>
+                                <a class="instagram__thumbnail--img" target="_blank" href="https://www.instagram.com/p/CZkGAe6BQeu"><img src="{{url('frontend/assets/img/other/instagram4.webp" alt="instagram"></a>
                             </div>
                             <div class="instagram__thumbnail">
-                                <a class="instagram__thumbnail--img" target="_blank" href="https://www.instagram.com/p/CZkGCWcBbv9"><img src="assets/img/other/instagram5.webp" alt="instagram"></a>
+                                <a class="instagram__thumbnail--img" target="_blank" href="https://www.instagram.com/p/CZkGCWcBbv9"><img src="{{url('frontend/assets/img/other/instagram5.webp" alt="instagram"></a>
                             </div>
                             <div class="instagram__thumbnail">
-                                <a class="instagram__thumbnail--img" target="_blank" href="https://www.instagram.com/p/CZkGFDMhoid"><img src="assets/img/other/instagram6.webp" alt="instagram"></a>
+                                <a class="instagram__thumbnail--img" target="_blank" href="https://www.instagram.com/p/CZkGFDMhoid"><img src="{{url('frontend/assets/img/other/instagram6.webp" alt="instagram"></a>
                             </div>
                         </div>
                     </div>
@@ -1057,7 +1057,7 @@ $version = 1.0;
             <div class="footer__bottom d-flex justify-content-between align-items-center">
                 <p class="copyright__content text-ofwhite m-0">Copyright © 2024 Pinders Schoolwear Ltd . All Rights Reserved.</p>
                 <div class="footer__payment text-right">
-                    <img class="display-block" src="assets/img/other/payment-visa-card.png" alt="visa-card">
+                    <img class="display-block" src="{{url('frontend/assets/img/other/payment-visa-card.png" alt="visa-card">
                 </div>
             </div>
         </div>
@@ -1078,7 +1078,7 @@ $version = 1.0;
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
                                         <div class="product__media--preview__items">
-                                            <a class="product__media--preview__items--link glightbox" data-gallery="product-media-preview" href="assets/img/product/big-product1.jpg"><img class="product__media--preview__items--img" src="assets/img/product/big-product1.jpg" alt="product-media-img"></a>
+                                            <a class="product__media--preview__items--link glightbox" data-gallery="product-media-preview" href="assets/img/product/big-product1.jpg"><img class="product__media--preview__items--img" src="{{url('frontend/assets/img/product/big-product1.jpg" alt="product-media-img"></a>
                                             <div class="product__media--view__icon">
                                                 <a class="product__media--view__icon--link glightbox" href="assets/img/product/big-product1.jpg" data-gallery="product-media-preview">
                                                     <svg class="product__media--view__icon--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="22.443" viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"></path></svg>
@@ -1088,7 +1088,7 @@ $version = 1.0;
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="product__media--preview__items">
-                                            <a class="product__media--preview__items--link glightbox" data-gallery="product-media-preview" href="assets/img/product/big-product2.jpg"><img class="product__media--preview__items--img" src="assets/img/product/big-product2.jpg" alt="product-media-img"></a>
+                                            <a class="product__media--preview__items--link glightbox" data-gallery="product-media-preview" href="assets/img/product/big-product2.jpg"><img class="product__media--preview__items--img" src="{{url('frontend/assets/img/product/big-product2.jpg" alt="product-media-img"></a>
                                             <div class="product__media--view__icon">
                                                 <a class="product__media--view__icon--link glightbox" href="assets/img/product/big-product2.jpg" data-gallery="product-media-preview">
                                                     <svg class="product__media--view__icon--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="22.443" viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"></path></svg>
@@ -1098,7 +1098,7 @@ $version = 1.0;
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="product__media--preview__items">
-                                            <a class="product__media--preview__items--link glightbox" data-gallery="product-media-preview" href="assets/img/product/big-product3.jpg"><img class="product__media--preview__items--img" src="assets/img/product/big-product3.jpg" alt="product-media-img"></a>
+                                            <a class="product__media--preview__items--link glightbox" data-gallery="product-media-preview" href="assets/img/product/big-product3.jpg"><img class="product__media--preview__items--img" src="{{url('frontend/assets/img/product/big-product3.jpg" alt="product-media-img"></a>
                                             <div class="product__media--view__icon">
                                                 <a class="product__media--view__icon--link glightbox" href="assets/img/product/big-product3.jpg" data-gallery="product-media-preview">
                                                     <svg class="product__media--view__icon--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="22.443" viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"></path></svg>
@@ -1108,7 +1108,7 @@ $version = 1.0;
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="product__media--preview__items">
-                                            <a class="product__media--preview__items--link glightbox" data-gallery="product-media-preview" href="assets/img/product/big-product4.jpg"><img class="product__media--preview__items--img" src="assets/img/product/big-product4.jpg" alt="product-media-img"></a>
+                                            <a class="product__media--preview__items--link glightbox" data-gallery="product-media-preview" href="assets/img/product/big-product4.jpg"><img class="product__media--preview__items--img" src="{{url('frontend/assets/img/product/big-product4.jpg" alt="product-media-img"></a>
                                             <div class="product__media--view__icon">
                                                 <a class="product__media--view__icon--link glightbox" href="assets/img/product/big-product4.jpg" data-gallery="product-media-preview">
                                                     <svg class="product__media--view__icon--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="22.443" viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"></path></svg>
@@ -1118,7 +1118,7 @@ $version = 1.0;
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="product__media--preview__items">
-                                            <a class="product__media--preview__items--link glightbox" data-gallery="product-media-preview" href="assets/img/product/big-product5.jpg"><img class="product__media--preview__items--img" src="assets/img/product/big-product5.jpg" alt="product-media-img"></a>
+                                            <a class="product__media--preview__items--link glightbox" data-gallery="product-media-preview" href="assets/img/product/big-product5.jpg"><img class="product__media--preview__items--img" src="{{url('frontend/assets/img/product/big-product5.jpg" alt="product-media-img"></a>
                                             <div class="product__media--view__icon">
                                                 <a class="product__media--view__icon--link glightbox" href="assets/img/product/big-product5.jpg" data-gallery="product-media-preview">
                                                     <svg class="product__media--view__icon--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="22.443" viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"></path></svg>
@@ -1128,7 +1128,7 @@ $version = 1.0;
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="product__media--preview__items">
-                                            <a class="product__media--preview__items--link glightbox" data-gallery="product-media-preview" href="assets/img/product/big-product6.jpg"><img class="product__media--preview__items--img" src="assets/img/product/big-product6.jpg" alt="product-media-img"></a>
+                                            <a class="product__media--preview__items--link glightbox" data-gallery="product-media-preview" href="assets/img/product/big-product6.jpg"><img class="product__media--preview__items--img" src="{{url('frontend/assets/img/product/big-product6.jpg" alt="product-media-img"></a>
                                             <div class="product__media--view__icon">
                                                 <a class="product__media--view__icon--link glightbox" href="assets/img/product/big-product6.jpg" data-gallery="product-media-preview">
                                                     <svg class="product__media--view__icon--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="22.443" viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"></path></svg>
@@ -1142,32 +1142,32 @@ $version = 1.0;
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
                                         <div class="product__media--nav__items">
-                                            <img class="product__media--nav__items--img" src="assets/img/product/small-product7.png" alt="product-nav-img">
+                                            <img class="product__media--nav__items--img" src="{{url('frontend/assets/img/product/small-product7.png" alt="product-nav-img">
                                         </div>
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="product__media--nav__items">
-                                            <img class="product__media--nav__items--img" src="assets/img/product/small-product8.png" alt="product-nav-img">
+                                            <img class="product__media--nav__items--img" src="{{url('frontend/assets/img/product/small-product8.png" alt="product-nav-img">
                                         </div>
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="product__media--nav__items">
-                                            <img class="product__media--nav__items--img" src="assets/img/product/small-product9.png" alt="product-nav-img">
+                                            <img class="product__media--nav__items--img" src="{{url('frontend/assets/img/product/small-product9.png" alt="product-nav-img">
                                         </div>
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="product__media--nav__items">
-                                            <img class="product__media--nav__items--img" src="assets/img/product/small-product10.png" alt="product-nav-img">
+                                            <img class="product__media--nav__items--img" src="{{url('frontend/assets/img/product/small-product10.png" alt="product-nav-img">
                                         </div>
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="product__media--nav__items">
-                                            <img class="product__media--nav__items--img" src="assets/img/product/small-product11.png" alt="product-nav-img">
+                                            <img class="product__media--nav__items--img" src="{{url('frontend/assets/img/product/small-product11.png" alt="product-nav-img">
                                         </div>
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="product__media--nav__items">
-                                            <img class="product__media--nav__items--img" src="assets/img/product/small-product12.png" alt="product-nav-img">
+                                            <img class="product__media--nav__items--img" src="{{url('frontend/assets/img/product/small-product12.png" alt="product-nav-img">
                                         </div>
                                     </div>
                                 </div>
@@ -1231,13 +1231,13 @@ $version = 1.0;
                                         <fieldset class="variant__input--fieldset">
                                             <legend class="product__variant--title mb-8">Color :</legend>
                                             <input id="color-red1" name="color" type="radio" checked>
-                                            <label class="variant__color--value red" for="color-red1" title="Red"><img class="variant__color--value__img" src="assets/img/product/product1.png" alt="variant-color-img"></label>
+                                            <label class="variant__color--value red" for="color-red1" title="Red"><img class="variant__color--value__img" src="{{url('frontend/assets/img/product/product1.png" alt="variant-color-img"></label>
                                             <input id="color-red2" name="color" type="radio">
-                                            <label class="variant__color--value red" for="color-red2" title="Black"><img class="variant__color--value__img" src="assets/img/product/product2.png" alt="variant-color-img"></label>
+                                            <label class="variant__color--value red" for="color-red2" title="Black"><img class="variant__color--value__img" src="{{url('frontend/assets/img/product/product2.png" alt="variant-color-img"></label>
                                             <input id="color-red3" name="color" type="radio">
-                                            <label class="variant__color--value red" for="color-red3" title="Pink"><img class="variant__color--value__img" src="assets/img/product/product3.png" alt="variant-color-img"></label>
+                                            <label class="variant__color--value red" for="color-red3" title="Pink"><img class="variant__color--value__img" src="{{url('frontend/assets/img/product/product3.png" alt="variant-color-img"></label>
                                             <input id="color-red4" name="color" type="radio">
-                                            <label class="variant__color--value red" for="color-red4" title="Orange"><img class="variant__color--value__img" src="assets/img/product/product4.png" alt="variant-color-img"></label>
+                                            <label class="variant__color--value red" for="color-red4" title="Orange"><img class="variant__color--value__img" src="{{url('frontend/assets/img/product/product4.png" alt="variant-color-img"></label>
                                         </fieldset>
                                     </div>
                                     <div class="product__variant--list mb-15">
@@ -1333,16 +1333,16 @@ $version = 1.0;
         }
     </script>
   <!-- All Script JS Plugins here  -->
-  <script src="assets/js/vendor/popper.js" defer="defer"></script>
+  <script src="{{url('frontend/assets/js/vendor/popper.js')}}" defer="defer')}}"></script>
   <!-- jQuery -->
-  <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
-  <script src="assets/js/vendor/bootstrap.min.js" defer="defer"></script>
-  <script src="assets/js/plugins/swiper-bundle.min.js"></script>
-  <script src="assets/js/plugins/glightbox.min.js"></script>
-  <script src="assets/js/plugins/jquery.fancybox.min.js"></script>
+  <script src="{{url('frontend/assets/js/plugins/jquery-3.6.0.min.js')}}"></script>
+  <script src="{{url('frontend/assets/js/vendor/bootstrap.min.js" defer="defer')}}"></script>
+  <script src="{{url('frontend/assets/js/plugins/swiper-bundle.min.js')}}"></script>
+  <script src="{{url('frontend/assets/js/plugins/glightbox.min.js')}}"></script>
+  <script src="{{url('frontend/assets/js/plugins/jquery.fancybox.min.js')}}"></script>
 
   <!-- Customscript js -->
-  <script src="assets/js/script.js"></script>
+  <script src="{{url('frontend/assets/js/script.js')}}"></script>
   
   <script type="text/javascript">
     $(document).ready(function () {
