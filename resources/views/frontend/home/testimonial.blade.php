@@ -9,7 +9,7 @@
                     <div class="swiper-slide">
                         <div class="testimonial__items text-center">
                             <div class="testimonial__items--thumbnail">
-                                <img class="testimonial__items--thumbnail__img border-radius-50" src="assets/img/other/testimonial-thumb1.png" alt="testimonial-img">
+                                <img class="testimonial__items--thumbnail__img border-radius-50" src="{{url('frontend/assets/img/other/testimonial-thumb1.png')}}" alt="testimonial-img">
                             </div>
                             <div class="testimonial__items--content">
                                 <h3 class="testimonial__items--title">Nike Mardson</h3>
@@ -59,7 +59,7 @@
                     <div class="swiper-slide">
                         <div class="testimonial__items text-center">
                             <div class="testimonial__items--thumbnail">
-                                <img class="testimonial__items--thumbnail__img border-radius-50" src="assets/img/other/testimonial-thumb2.png" alt="testimonial-img">
+                                <img class="testimonial__items--thumbnail__img border-radius-50" src="{{url('frontend/assets/img/other/testimonial-thumb2.png')}}" alt="testimonial-img">
                             </div>
                             <div class="testimonial__items--content">
                                 <h3 class="testimonial__items--title">Laura Johnson</h3>
@@ -109,7 +109,7 @@
                     <div class="swiper-slide">
                         <div class="testimonial__items text-center">
                             <div class="testimonial__items--thumbnail">
-                                <img class="testimonial__items--thumbnail__img border-radius-50" src="assets/img/other/testimonial-thumb3.png" alt="testimonial-img">
+                                <img class="testimonial__items--thumbnail__img border-radius-50" src="{{url('frontend/assets/img/other/testimonial-thumb3.png')}}" alt="testimonial-img">
                             </div>
                             <div class="testimonial__items--content">
                                 <h3 class="testimonial__items--title">Richard Smith</h3>
@@ -159,7 +159,7 @@
                     <div class="swiper-slide">
                         <div class="testimonial__items text-center">
                             <div class="testimonial__items--thumbnail">
-                                <img class="testimonial__items--thumbnail__img border-radius-50" src="assets/img/other/testimonial-thumb1.png" alt="testimonial-img">
+                                <img class="testimonial__items--thumbnail__img border-radius-50" src="{{url('frontend/assets/img/other/testimonial-thumb1.png')}}" alt="testimonial-img">
                             </div>
                             <div class="testimonial__items--content">
                                 <h3 class="testimonial__items--title">Nike Mardson</h3>

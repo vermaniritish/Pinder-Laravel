@@ -17,8 +17,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product1.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product1.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product1.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product1.png')}}" alt="product-img">
                                         </a>
                                         
                                     </div>
@@ -53,8 +53,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product2.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product2.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product2.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product2.png')}}" alt="product-img">
                                         </a>
                                         
                                     </div>
@@ -88,8 +88,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product3.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product3.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product3.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product3.png')}}" alt="product-img">
                                         </a>
                                         <div class="product__badge">
                                             <span class="product__badge--items sale">Sale</span>
@@ -126,8 +126,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product4.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product4.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product4.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product4.png')}}" alt="product-img">
                                         </a>
                                         
                                     </div>
@@ -161,8 +161,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product5.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product5.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product5.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product5.png')}}" alt="product-img">
                                         </a>
                                         
                                     </div>
@@ -203,8 +203,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product1.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product1.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product1.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product1.png')}}" alt="product-img">
                                         </a>
                                         
                                     </div>
@@ -239,8 +239,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product2.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product2.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product2.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product2.png')}}" alt="product-img">
                                         </a>
                                         
                                     </div>
@@ -274,8 +274,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product3.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product3.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product3.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product3.png')}}" alt="product-img">
                                         </a>
                                         <div class="product__badge">
                                             <span class="product__badge--items sale">Sale</span>
@@ -312,8 +312,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product4.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product4.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product4.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product4.png')}}" alt="product-img">
                                         </a>
                                         
                                     </div>
@@ -347,8 +347,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product5.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product5.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product5.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product5.png')}}" alt="product-img">
                                         </a>
                                         
                                     </div>
@@ -388,8 +388,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product1.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product1.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product1.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product1.png')}}" alt="product-img">
                                         </a>
                                         
                                     </div>
@@ -424,8 +424,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product2.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product2.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product2.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product2.png')}}" alt="product-img">
                                         </a>
                                         
                                     </div>
@@ -459,8 +459,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product3.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product3.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product3.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product3.png')}}" alt="product-img">
                                         </a>
                                         <div class="product__badge">
                                             <span class="product__badge--items sale">Sale</span>
@@ -497,8 +497,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product4.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product4.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product4.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product4.png')}}" alt="product-img">
                                         </a>
                                         
                                     </div>
@@ -532,8 +532,8 @@
                                 <div class="product__items ">
                                     <div class="product__items--thumbnail">
                                         <a class="product__items--link" href="product-details.php">
-                                            <img class="product__items--img product__primary--img" src="assets/img/product/product5.png" alt="product-img">
-                                            <img class="product__items--img product__secondary--img" src="assets/img/product/product5.png" alt="product-img">
+                                            <img class="product__items--img product__primary--img" src="{{url('frontend/assets/img/product/product5.png')}}" alt="product-img">
+                                            <img class="product__items--img product__secondary--img" src="{{url('frontend/assets/img/product/product5.png')}}" alt="product-img">
                                         </a>
                                         
                                     </div>

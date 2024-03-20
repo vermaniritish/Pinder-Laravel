@@ -6,7 +6,7 @@
             </button>
             <div class="box newsletter__popup--box d-flex align-items-center">
                 <div class="newsletter__popup--thumbnail">
-                    <img class="newsletter__popup--thumbnail__img display-block" src="assets/img/banner/newsletter-popup-thumb2.png" alt="newsletter-popup-thumb">
+                    <img class="newsletter__popup--thumbnail__img display-block" src="{{url('frontend/assets/img/banner/newsletter-popup-thumb2.png')}}" alt="newsletter-popup-thumb">
                 </div>
                 <div class="newsletter__popup--box__right">
                     <h2 class="newsletter__popup--title">Join Our Newsletter</h2>

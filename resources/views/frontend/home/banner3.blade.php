@@ -4,7 +4,7 @@
             <div class="row row-cols-1">
                 <div class="col">
                     <div class="banner__section--inner position__relative">
-                        <a class="banner__items--thumbnail display-block" href="/"><img class="banner__items--thumbnail__img banner__img--height__md display-block" src="assets/img/banner/banner-bg2.png" alt="banner-img">
+                        <a class="banner__items--thumbnail display-block" href="/"><img class="banner__items--thumbnail__img banner__img--height__md display-block" src="{{url('frontend/assets/img/banner/banner-bg2.png')}}" alt="banner-img">
                             <div class="banner__content--style2">
                                 <h2 class="banner__content--style2__title text-white">Need Winter Boots? </h2>
                                 <p class="banner__content--style2__desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam, quis nostrud exercitation </p>

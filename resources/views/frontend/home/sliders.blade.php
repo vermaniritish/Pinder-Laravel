@@ -9,7 +9,7 @@
                             <div class="row row-cols-1">
                                 <div class="col">
                                     <div class="slider__content">
-                                        <p class="slider__content--desc desc1 mb-15"><img class="slider__text--shape__icon" src="assets/img/icon/text-shape-icon.png" alt="text-shape-icon"> PRO PREMIUM POLO</p> 
+                                        <p class="slider__content--desc desc1 mb-15"><img class="slider__text--shape__icon" src="{{url('frontend/assets/img/icon/text-shape-icon.png')}}" alt="text-shape-icon"> PRO PREMIUM POLO</p> 
                                         <h2 class="slider__content--maintitle h1">New Style <br>
                                             Collection 2023</h2>
                                         <p class="slider__content--desc desc2 d-sm-2-none mb-40">Up To 40% Off Final Sale Items. <br>
@@ -33,7 +33,7 @@
                             <div class="col">
                                 <div class="hero__slider--items__inner">
                                     <div class="slider__content">
-                                        <p class="slider__content--desc desc1 mb-15"><img class="slider__text--shape__icon" src="assets/img/icon/text-shape-icon.png" alt="text-shape-icon"> PRO PREMIUM POLO</p> 
+                                        <p class="slider__content--desc desc1 mb-15"><img class="slider__text--shape__icon" src="{{url('frontend/assets/img/icon/text-shape-icon.png')}}" alt="text-shape-icon"> PRO PREMIUM POLO</p> 
                                         <h2 class="slider__content--maintitle h1">New Style <br>
                                             Collection 2023</h2>
                                         <p class="slider__content--desc desc2 d-sm-2-none mb-40 ">Up To 40% Off Final Sale Items. <br>
