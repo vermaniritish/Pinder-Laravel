@@ -16,11 +16,8 @@ Route::middleware(['guest'])->group(function () {
 
 	//Admin public
 	include "Admin/auth.php";
-
-	//Public Routes
-	Route::get('/', function () {
-	    return view('welcome');
-	});
+	include "Frontend/home.php";
+	
 });
 
 Route::prefix('admin')->middleware(['adminAuth'])->group(function () {	
@@ -47,10 +44,9 @@ Route::prefix('admin')->middleware(['adminAuth'])->group(function () {
 	include "Admin/sliders.php";
 });
 
-//Frontend Routes
+// Frontend Routes
 // Route::middleware(['frontendauth'])->group(function () {
 	
-// 	Auth Routes
-// 	include "Frontend/auth.php";
+	// Auth Routes
 
 // });
