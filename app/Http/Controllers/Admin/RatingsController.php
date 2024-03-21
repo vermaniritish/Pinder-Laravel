@@ -229,6 +229,7 @@ class RatingsController extends AppController
 						'message' => 'required|string|max:2000',
 						'image_status' => 'nullable|boolean',
 						'image' => ['nullable'],
+						'status' => ['nullable']
 					],
 		        );
 

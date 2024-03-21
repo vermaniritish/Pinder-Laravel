@@ -99,6 +99,19 @@
 									@enderror
 								</div>
 							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+								<label class="form-control-label" for="input-first-name">Status</label>
+									<div class="custom-control mt-2">
+										<label class="custom-toggle">
+											<input type="checkbox" name="status" value="1"
+												<?php echo old('status', $page->status) ? 'checked' : ''; ?>>
+											<span class="custom-toggle-slider rounded-circle"
+												data-label-off="No" data-label-on="Yes"></span>
+										</label>
+									</div>
+								</div>
+							</div>
 						</div>
 						<hr class="my-4" />
 						<!-- Address -->

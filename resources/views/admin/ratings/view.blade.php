@@ -92,6 +92,18 @@ use App\Models\Admin\Permissions;
 										</td>
 									</tr>
 									<tr>
+										<th>Status</th>
+										<td>
+											<div class="custom-control">
+												<label class="custom-toggle">
+													<?php $switchUrl =  route('admin.actions.switchUpdate', ['relation' => 'ratings', 'field' => 'status', 'id' => $page->id]); ?>
+													<input type="checkbox" name="status" onchange="switch_action('<?php echo $switchUrl ?>', this)" value="1" <?php echo ($page->status ? 'checked' : '') ?>>
+													<span class="custom-toggle-slider rounded-circle" data-label-off="OFF" data-label-on="ON"></span>
+												</label>
+											</div>
+										</td>
+									</tr>
+									<tr>
 										<th colspan="2">Message:<br /><?php echo nl2br($page->message) ?></th>
 									</tr>
 								</tbody>
