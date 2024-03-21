@@ -70,7 +70,7 @@
 											class="upload-image-section"
 											data-type="image"
 											data-multiple="false"
-											data-path="pages"
+											data-path="brands"
 											data-resize-large="70*18"
 											data-resize-small="70*18"
 										>
