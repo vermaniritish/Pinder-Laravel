@@ -236,6 +236,8 @@ class RatingsController extends AppController
 		        if(!$validator->fails())
 		        {
 		        	unset($data['_token']);
+					$data['status'] = isset($data['status']) && $data['status'] ? $data['status'] : 0;
+					$data['image_status'] = isset($data['image_status']) && $data['image_status'] ? $data['image_status'] : 0;
 		        	if(Ratings::modify($id, $data))
 		        	{
 		        		$request->session()->flash('success', 'Rating updated successfully.');
