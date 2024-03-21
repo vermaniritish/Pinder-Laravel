@@ -73,14 +73,14 @@ $version = 1.0;
 
 
 <body>
-    @include('frontend.layouts.partials.preloader')
-    @include('frontend.layouts.partials.header')
+    @include('frontend.layouts.preloader')
+    @include('frontend.layouts.header')
     <main class="main__content_wrapper">
         @yield('content')
     </main>
-    @include('frontend.layouts.partials.shipping')
-    @include('frontend.layouts.partials.footer')
-    @include('frontend.layouts.partials.quickView')
+    @include('frontend.layouts.shipping')
+    @include('frontend.layouts.footer')
+    @include('frontend.layouts.quickView')
 
     <!-- End News letter popup -->
 

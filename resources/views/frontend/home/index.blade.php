@@ -1,6 +1,6 @@
 @extends('layouts.frontendlayout')
 @section('content')
-   @include('frontend.home.sliders')		
+   @include('frontend.home.partials.sliders')		
     <!--<div class="row row-10 section--padding pt-0">
         <div class="col-lg-12 col-md-12 col-12 mt-40 mb-40">
             <ul id="brands-block">	
@@ -19,14 +19,14 @@
 
         </div>
     </div>-->
-    @include('frontend.home.banner1')
-    @include('frontend.home.product')
-    @include('frontend.home.dealBanner')
-    @include('frontend.home.product2')
-    @include('frontend.home.banner2')
-    @include('frontend.home.testimonial')
-    @include('frontend.home.banner3')
-    @include('frontend.home.newsLetter')
+    @include('frontend.home.partials.banner1')
+    @include('frontend.home.partials.product')
+    @include('frontend.home.partials.dealBanner')
+    @include('frontend.home.partials.product2')
+    @include('frontend.home.partials.banner2')
+    @include('frontend.home.partials.testimonial')
+    @include('frontend.home.partials.banner3')
+    @include('frontend.home.partials.newsLetter')
 @endsection
 
 
