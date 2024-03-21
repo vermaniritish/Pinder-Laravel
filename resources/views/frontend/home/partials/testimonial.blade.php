@@ -10,9 +10,10 @@
                     <div class="swiper-slide">
                         <div class="testimonial__items text-center">
                             <div class="testimonial__items--thumbnail">
-                                <img class="testimonial__items--thumbnail__img border-radius-50"
-                                    src="{{ url('frontend/assets/img/other/testimonial-thumb1.png') }}"
-                                    alt="testimonial-img">
+                                @if ($testimonial->image_status && $testimonial->image)
+                                    <img class="testimonial__items--thumbnail__img border-radius-50"
+                                        src="{{ $testimonial->image }}" alt="testimonial-img">
+                                @endif
                             </div>
                             <div class="testimonial__items--content">
                                 <h3 class="testimonial__items--title">{{ $testimonial->name }}</h3>

@@ -120,7 +120,7 @@
 										<i class="fas fa-sort" data-field="ratings.message"></i>
 										<?php endif; ?>
 									</th>
-									<th class="sort" width="17%">
+									<th class="sort" width="8.5%">
 										Image(On/Off)
 										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.image_status' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
 										<i class="fas fa-sort-down active" data-field="ratings.image_status" data-sort="asc"></i>
@@ -128,6 +128,16 @@
 										<i class="fas fa-sort-up active" data-field="ratings.image_status" data-sort="desc"></i>
 										<?php else: ?>
 										<i class="fas fa-sort" data-field="ratings.image_status"></i>
+										<?php endif; ?>
+									</th>
+									<th class="sort" width="8.5%">
+										Status
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'ratings.status' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="ratings.status" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'ratings.status' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="ratings.status" data-sort="desc"></i>
+										<?php else: ?>
+										<i class="fas fa-sort" data-field="ratings.status"></i>
 										<?php endif; ?>
 									</th>
 									<th width="5%">

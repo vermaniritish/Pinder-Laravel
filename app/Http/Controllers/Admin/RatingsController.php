@@ -157,6 +157,7 @@ class RatingsController extends AppController
 					'rating' => 'required|numeric|min:1|max:5', 
 					'message' => 'required|string|max:2000',
 					'image_status' => 'nullable|boolean',
+                    'image' => ['nullable'],
 				],
 	        );
 	        if(!$validator->fails())
@@ -227,6 +228,7 @@ class RatingsController extends AppController
 						'rating' => 'required|numeric|min:1|max:5', 
 						'message' => 'required|string|max:2000',
 						'image_status' => 'nullable|boolean',
+						'image' => ['nullable'],
 					],
 		        );
 

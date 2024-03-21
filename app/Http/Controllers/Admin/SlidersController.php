@@ -207,6 +207,7 @@ class SlidersController extends AppController
                         'sub_heading' => 'nullable|string',
                         'button_title' => 'exclude_if:button_status,0|required_if:button_status,1|string|max:255',
                         'button_url' => 'exclude_if:button_status,0|required_if:button_status,1|url|max:255',
+                        'image' => ['nullable'],
                     ],
                 );
 
