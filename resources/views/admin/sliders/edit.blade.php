@@ -102,7 +102,7 @@
 						</div>
 						<hr class="my-4" />
 						<!-- Address -->
-						<h6 class="heading-small text-muted mb-4">Slider Information</h6>
+						<h6 class="heading-small text-muted mb-4">Publish Slider Image</h6>
 						<div class="pl-lg-4">
 							<div class="row">
 								<div class="col-lg-6">
