@@ -146,7 +146,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label" for="input-username">Size</label>
-											<select class="form-control no-selectpicker" v-on:change="updateSelectedSize" v-model ="selectedSize" name="size[]" required multiple>
+											<select class="form-control no-selectpicker" v-on:change="updateSelectedSize" v-model ="selectedSizeIds" name="size[]" required multiple>
 												<option v-for="size in sizes" :key="size.id" :value="size.id">
 													@{{ size.size_title }} - (@{{ size.from_cm }} - @{{ size.to_cm }})
 												</option>

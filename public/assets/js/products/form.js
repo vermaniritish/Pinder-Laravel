@@ -4,6 +4,7 @@ let order = new Vue({
         mounting: true,
         sizes: [],
         selectedSize: [],
+        selectedSizeIds: [],
         selectedGender: '',
         loading: false,
         url: ''
@@ -41,13 +42,15 @@ let order = new Vue({
             };
         },
         updateSelectedSize: function(){
-            for (let sizeId of this.selectedSize) {
+            this.selectedSize = [];
+            for (let sizeId of this.selectedSizeIds) {
                 let size = this.sizes.find(s => s.id === sizeId);
                 if (size) {
                     size.price = 0; 
                     this.selectedSize.push(size);
                 }
             }
+            console.log(this.selectedSize);
         },
         removeSize(index, sizeId) {
             this.sizes.splice(index, 1);
