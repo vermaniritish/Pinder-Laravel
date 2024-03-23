@@ -30,7 +30,8 @@
 				</div>
 				<div class="card-body">
 					<div id="product" >
-						<form id="product-form" method="post" action="<?php echo route('admin.products.add') ?>" class="form-validation">
+						<p v-if="mounting" class="text-center big" style="padding: 15%"><i style="font-size: 30px" class="fa fa-spin fa-spinner"></i></p>
+						<form id="product-form" method="post" action="<?php echo route('admin.products.add') ?>" class="form-validation d-none">
 							@if (isset($page) && $page->id)
 								<pre id="edit-form" class="d-none">{{ $page }}</pre>
 							@endif
@@ -40,7 +41,7 @@
 							<div class="pl-lg-4">
 								<div class="form-group">
 									<label class="form-control-label" for="input-first-name">Category</label>
-									<select class="form-control" name="category[]" multiple required>
+									<select class="no-selectpicker form-control" name="category[]" multiple required>
 									<?php foreach($categories as $c): ?>
 										<option 
 											value="<?php echo $c->id ?>" 
@@ -185,7 +186,7 @@
 											<tr v-for="(size, index) in selectedSize" :key="index">
 												<td>@{{ index + 1 }}</td>
 												<td>@{{ size.size_title }}</td>
-												<td><input type="number" v-on:change="updateQuantity(index)"  v-model="size.price" min="1"></td>
+												<td><input type="number" v-model="size.price" min="1"></td>
 												<td><i class="fa fa-times" v-on:click="removeSize(index,size.id)"></i></td>
 											</tr>
 										</tbody>

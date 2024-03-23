@@ -4,13 +4,27 @@ let order = new Vue({
         mounting: true,
         sizes: [],
         selectedSize: [],
-        selectedGender: ''
+        selectedGender: '',
+        loading: false,
+        url: ''
     },
     mounted: function() {
         this.initBasics();
+        this.initTagIt();
         this.mounting = false;
+        document.getElementById('product-form').classList.remove('d-none');
     },
     methods: {
+        initTagIt: function () {
+            $(".tag-it").tagit();
+            $(".tag-it-capital").tagit({
+                allowSpaces: true,
+                preprocessTag: function(val) {
+                    if (!val) { return ''; }
+                    return val[0].toUpperCase() + val.slice(1, val.length);
+                }
+            });
+        },
         initBasics: function () {
             setTimeout(function () {
                 $('select').removeClass('no-selectpicker');
@@ -53,22 +67,25 @@ let order = new Vue({
             }
         },
         submitForm: async function() {
-            let formData = new FormData(document.getElementById('product-form'));
-            let productIdsAndQuantities = this.productsData.map(product => ({ id: product.id, quantity: product.quantity }));
-            formData.append('sizeData', JSON.stringify(productIdsAndQuantities));
-            let response = await fetch(this.url, {
-                method: 'POST',
-                body: formData,
-            });
-            response = await response.json();
-            if(response && response.status)
-            {
-                setTimeout(function () {
-                    window.location.href = (admin_url + '/products/' + response.id + '/view');
-                }, 200)
-            }else{
-                set_notification('error', response.message);
-                
+            if ($('#product-form').valid()) {
+                let formData = new FormData(document.getElementById('product-form'));
+                let sizeIdAndPrice = this.selectedSize.map(size => ({ id: size.id, price: size.price }));
+                formData.append('sizeData', JSON.stringify(sizeIdAndPrice));
+                let response = await fetch(this.url, {
+                    method: 'POST',
+                    body: formData,
+                });
+                response = await response.json();
+                if(response && response.status)
+                {
+                    setTimeout(function () {
+                        window.location.href = (admin_url + '/products/' + response.id + '/view');
+                    }, 200)
+                }else{
+                    set_notification('error', response.message);
+                }
+            } else {
+                return false;
             }
         }, 
     },
