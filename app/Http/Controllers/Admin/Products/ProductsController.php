@@ -33,6 +33,7 @@ use App\Http\Controllers\Admin\AppController;
 use App\Models\Admin\BrandProducts;
 use App\Models\Admin\Brands;
 use App\Models\Admin\Colours;
+use App\Models\Admin\Sizes;
 
 class ProductsController extends AppController
 {
@@ -312,11 +313,25 @@ class ProductsController extends AppController
 				],
 	    		'colours.color_code desc'
 	    	);
+
+		$sizes = Sizes::getAll(
+	    		[
+	    			'sizes.id',
+	    			'sizes.type',
+	    			'sizes.size_title',
+	    			'sizes.from_cm',
+	    			'sizes.to_cm',
+	    		],
+	    	    [
+				],
+	    		'sizes.size_title desc'
+	    	);
 	    return view("admin/products/add", [
 	    			'categories' => $categories,
 	    			'users' => $users,
 					'brands' => $brands,
-					'colors' => $colors
+					'colors' => $colors,
+					'sizes' => $sizes
 	    		]);
     }
 
@@ -529,4 +544,13 @@ class ProductsController extends AppController
 	        ], 200);	
     	}
     }
+
+	public function getSize($gender)
+	{
+		$sizes = Sizes::select(['id','size_title','from_cm','to_cm'])->whereType($gender)->get();
+		return response()->json([
+			'status' => true,
+			'sizes' => $sizes,
+		]);
+	}
 }

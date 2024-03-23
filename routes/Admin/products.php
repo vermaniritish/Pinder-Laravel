@@ -1,4 +1,7 @@
 <?php
+
+use App\Http\Controllers\Admin\Products\ProductsController;
+
 Route::get('/products', '\App\Http\Controllers\Admin\Products\ProductsController@index')
     ->name('admin.products');
 
@@ -22,6 +25,8 @@ Route::post('/products/bulkActions/{action}', '\App\Http\Controllers\Admin\Produ
 
 Route::get('/products/{id}/delete', '\App\Http\Controllers\Admin\Products\ProductsController@delete')
     ->name('admin.products.delete');
+
+Route::get('/products/getSize/{gender}', [ProductsController::class, 'getSize'])->name('admin.products.getSize');
 
 
 /*** Categories **/

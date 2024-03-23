@@ -43,16 +43,16 @@
 										<?php echo old('category') && in_array($c->id, old('category'))  ? 'selected' : '' ?> 
 									><?php echo $c->title ?></option>
 								<?php endforeach; ?>
-							    </select>
+								</select>
 								@error('category')
-								    <small class="text-danger">{{ $message }}</small>
+									<small class="text-danger">{{ $message }}</small>
 								@enderror
 							</div>
 							<div class="form-group">
 								<label class="form-control-label" for="input-first-name">Title</label>
 								<input type="text" class="form-control" name="title" placeholder="Title" required value="{{ old('title') }}">
 								@error('title')
-								    <small class="text-danger">{{ $message }}</small>
+									<small class="text-danger">{{ $message }}</small>
 								@enderror
 							</div>
 							<div class="row">
@@ -61,97 +61,138 @@
 										<label class="form-control-label">Description</label>
 										<textarea rows="2" id="editor1" class="form-control" placeholder="Description" required name="description">{{ old('description') }}</textarea>
 										@error('description')
-										    <small class="text-danger">{{ $message }}</small>
-										@enderror
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label class="form-control-label">Color</label>
-										<select class="form-control" name="color_id" required>
-											<option value="">Select</option>
-											<?php 
-												foreach($colors as $s): 
-												$content = $s->color_code;
-											?>
-											<option 
-												value="<?php echo $s->id ?>" 
-												<?php echo old('color_id') == $s->id  ? 'selected' : '' ?>
-												data-content="<?php echo $content ?>"
-											>
-												<?php echo $s->name; ?>		
-											</option>
-											<?php endforeach; ?>
-										</select>
-										@error('colr_id')
-										<small class="text-danger">{{ $message }}</small>
-										@enderror
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label class="form-control-label" for="input-username">Gender Specific To ?</label>
-										<select required class="form-control" name="gender">
-											<option {{ old('gender') == 'Male' ? 'selected' : '' }}
-												value="Male"> Male</option>
-											<option {{ old('gender') == 'Female' ? 'selected' : '' }}
-												value="Female"> Female</option>
-											<option {{ old('gender') == 'Unisex' ? 'selected' : '' }}
-												value="Unisex"> Unisex</option>
-										</select>
-										@error('gender')
 											<small class="text-danger">{{ $message }}</small>
 										@enderror
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label class="form-control-label" for="input-first-name">Price</label>
-										<input type="number" min="0" class="form-control" name="price" placeholder="Price" required value="{{ old('price') }}">
-										@error('price')
-										    <small class="text-danger">{{ $message }}</small>
-										@enderror
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label class="form-control-label" for="input-first-name">Sale Price</label>
-										<div class="custom-control inline float-right">
-											<label class="custom-toggle">
-												<input 
-													type="checkbox"
-													<?php echo (old('sale_price') != '' ? 'checked' : '') ?>
-													onchange="$(this).is(':checked') ? $(this).parents('.custom-control').next('input').attr('readonly', false) : $(this).parents('.custom-control').next('input').attr('readonly', true)"
+							<div id="product" >
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label class="form-control-label">Color</label>
+											<select class="form-control no-selectpicker" name="color_id" required>
+												<option value="">Select</option>
+												<?php 
+													foreach($colors as $s): 
+													$content = $s->color_code;
+												?>
+												<option 
+													value="<?php echo $s->id ?>" 
+													<?php echo old('color_id') == $s->id  ? 'selected' : '' ?>
+													data-content="<?php echo $content ?>"
 												>
-												<span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
-											</label>
+													<?php echo $s->name; ?>		
+												</option>
+												<?php endforeach; ?>
+											</select>
+											@error('colr_id')
+											<small class="text-danger">{{ $message }}</small>
+											@enderror
 										</div>
-										<input type="number" class="form-control" name="sale_price" <?php echo (old('status') == '' ? 'readonly' : '') ?> placeholder="Sale Price" value="{{ old('sale_price') }}">
-										@error('sale_price')
-										    <small class="text-danger">{{ $message }}</small>
-										@enderror
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label class="form-control-label" for="input-username">Gender Specific To ?</label>
+											<select v-model="selectedGender" required class="form-control no-selectpicker" name="gender">
+												<option {{ old('gender') == 'Male' ? 'selected' : '' }}
+													value="Male"> Male</option>
+												<option {{ old('gender') == 'Female' ? 'selected' : '' }}
+													value="Female"> Female</option>
+												<option {{ old('gender') == 'Unisex' ? 'selected' : '' }}
+													value="Unisex"> Unisex</option>
+											</select>
+											@error('gender')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
 									</div>
 								</div>
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label class="form-control-label" for="input-first-name">Price</label>
+											<input type="number" min="0" class="form-control" name="price" placeholder="Price" required value="{{ old('price') }}">
+											@error('price')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label class="form-control-label" for="input-first-name">Sale Price</label>
+											<div class="custom-control inline float-right">
+												<label class="custom-toggle">
+													<input 
+														type="checkbox"
+														<?php echo (old('sale_price') != '' ? 'checked' : '') ?>
+														onchange="$(this).is(':checked') ? $(this).parents('.custom-control').next('input').attr('readonly', false) : $(this).parents('.custom-control').next('input').attr('readonly', true)"
+													>
+													<span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
+												</label>
+											</div>
+											<input type="number" class="form-control" name="sale_price" <?php echo (old('status') == '' ? 'readonly' : '') ?> placeholder="Sale Price" value="{{ old('sale_price') }}">
+											@error('sale_price')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
+									</div>
+								</div>
+								<div id="size-form" class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label class="form-control-label" for="input-username">Size</label>
+											<select class="form-control no-selectpicker" v-model ="selectedSize" name="size[]" required multiple>
+												<option v-for="size in sizes" :key="size.id" :value="size.id">
+													@{{ size.size_title }} - (@{{ size.from_cm }} - @{{ size.to_cm }})
+												</option>
+											</select>
+											@error('size')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label class="form-control-label" for="input-username">Brand</label>
+											<select class="form-control no-selectpicker" name="brand[]" required multiple>
+												@foreach ($brands as $key => $value)
+												<option <?php echo (is_array(old('brand')) && in_array($value['id'], old('brand'))) ? 'selected' : ''; ?>
+													value="<?php echo $value['id']; ?>"><?php echo $value['title']; ?></option>
+												@endforeach
+											</select>
+											@error('brand')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
+									</div>
+								</div>
+								<div class="table-responsive" v-if="selectedSize.length > 0">
+									<hr class="my-4" />
+									<table class="table align-items-center table-flush view-table">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Size Title</th>
+												<th>Price</th>
+												<th>Remove Item</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="(product, index) in productsData" :key="index">
+												<td>@{{ index + 1 }}</td>
+												<td>@{{ product.title }}</td>
+												<td>@{{ product.rate.toFixed(2) }}</td>
+												<td><input type="number" v-on:change="updateQuantity(index)"  v-model="product.quantity" min="1"></td>
+												<td>@{{ (product.rate * product.quantity).toFixed(2) }}</td>
+												<td><i class="fa fa-times" v-on:click="removeItem(index,product.id)"></i></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<hr class="my-4" />
 							</div>
 							<div class="row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label class="form-control-label" for="input-username">Brand</label>
-										<select class="form-control" name="brand[]" required multiple>
-											@foreach ($brands as $key => $value)
-											<option <?php echo (is_array(old('brand')) && in_array($value['id'], old('brand'))) ? 'selected' : ''; ?>
-												value="<?php echo $value['id']; ?>"><?php echo $value['title']; ?></option>
-											@endforeach
-										</select>
-										@error('brand')
-											<small class="text-danger">{{ $message }}</small>
-										@enderror
-									</div>
-								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
 										<label class="form-control-label" for="input-email">Duration Of Service</label>
@@ -161,8 +202,6 @@
 										@enderror
 									</div>
 								</div>
-							</div>
-							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
 										<label class="form-control-label" for="input-tags">Tag</label>
@@ -172,8 +211,7 @@
 										@enderror
 									</div>
 								</div>
-							</div>
-							
+							</div>	
 						</div>
 						<hr class="my-4" />
 						<!-- Address -->
@@ -196,23 +234,23 @@
 											<div class="upload-section">
 												<div class="button-ref mb-3">
 													<button class="btn btn-icon btn-primary btn-lg" type="button">
-										                <span class="btn-inner--icon"><i class="fas fa-upload"></i></span>
-										                <span class="btn-inner--text">Upload Image</span>
-									              	</button>
-									            </div>
-									            <!-- PROGRESS BAR -->
+														<span class="btn-inner--icon"><i class="fas fa-upload"></i></span>
+														<span class="btn-inner--text">Upload Image</span>
+														</button>
+												</div>
+												<!-- PROGRESS BAR -->
 												<div class="progress d-none">
-								                  <div class="progress-bar bg-default" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-								                </div>
-								            </div>
-							                <!-- INPUT WITH FILE URL -->
-							                <textarea class="d-none" required name="image"><?php echo old('image') ?></textarea>
-							                <div class="show-section <?php echo !old('image') ? 'd-none' : "" ?>">
-							                	@include('admin.partials.previewFileRender', ['file' => old('image') ])
-							                </div>
+													<div class="progress-bar bg-default" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+												</div>
+											</div>
+											<!-- INPUT WITH FILE URL -->
+											<textarea class="d-none" required name="image"><?php echo old('image') ?></textarea>
+											<div class="show-section <?php echo !old('image') ? 'd-none' : "" ?>">
+												@include('admin.partials.previewFileRender', ['file' => old('image') ])
+											</div>
 										</div>
 										@error('image')
-										    <small class="text-danger">{{ $message }}</small>
+											<small class="text-danger">{{ $message }}</small>
 										@enderror
 									</div>
 								</div>
