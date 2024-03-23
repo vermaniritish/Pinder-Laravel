@@ -6,13 +6,14 @@ let order = new Vue({
         selectedSize: [],
         selectedSizeIds: [],
         selectedGender: '',
-        selectedCategory: '',
+        selectedCategory: [],
         loading: false,
         url: ''
     },
     mounted: function() {
         this.initBasics();
         this.initTagIt();
+        this.initEditValues();
         this.mounting = false;
         document.getElementById('product-form').classList.remove('d-none');
     },
@@ -37,6 +38,7 @@ let order = new Vue({
             if ($('#edit-form').length > 0) {
                 let data = JSON.parse($('#edit-form').text());
                 this.url = admin_url + '/products/' + data.id + '/edit';
+                console.log(data);
                 this.selectedCategory = data && data.categories && data.categories.length > 0 ? data.categories.map(category => category.id) : [];
 
             }
