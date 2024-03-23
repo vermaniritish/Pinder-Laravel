@@ -114,7 +114,6 @@ class SizeController extends AppController
 				}
 				else
 				{
-					dd($validator->errors());
 					$request->session()->flash('error', 'Please provide valid inputs.');
 					return redirect()->back()->withErrors($validator)->withInput();
 				}

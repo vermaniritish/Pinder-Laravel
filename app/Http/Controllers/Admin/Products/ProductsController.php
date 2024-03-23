@@ -211,7 +211,10 @@ class ProductsController extends AppController
     		$data = $request->toArray();
     		unset($data['_token']);
 			$sizeData = [];
-			$sizeData = json_decode($data['sizeData'], true);
+			if(isset($data['sizeData']) && $data['sizeData']) {
+				$data['sizeData'] = json_decode($data['sizeData'], true);
+				$sizeData = $data['sizeData'];
+			}
 			if (isset($data['tags']) && $data['tags']) {
 				$data['tags'] = explode(',', $data['tags']);
 			}
