@@ -80,12 +80,12 @@
 						</table>
 					</div>
 				</div>
-				<?php if(Permissions::hasPermission('products', 'listing')): ?>
+				<?php if(Permissions::hasPermission('orders', 'listing')): ?>
 					<div class="card listing-block">
 						<div class="card-header">
 							<div class="row align-items-center">
-								<div class="col-md-8">
-									<h3 class="mb-0">Customer's Product</h3>
+								<div class="col-md-6">
+									<h3 class="mb-0">Customer Orders</h3>
 								</div>
 								<div class="col-md-4">
 									<div class="input-group input-group-alternative input-group-merge">
@@ -95,10 +95,13 @@
 										<input class="form-control listing-search" placeholder="Search" type="text" value="<?php echo (isset($_GET['search']) && $_GET['search'] ? $_GET['search'] : '') ?>">
 									</div>
 								</div>
+								<div class="col-md-2">
+									@include('admin.users.orders.filters',['id' => $user->id])
+								</div>
 							</div>
 						</div>
 						<div class="card-body p-0">
-							@include('admin.orders.orderedProducts.index',['listing' => $listing])
+							@include('admin.staff.orders.index',['listing' => $listing])
 						</div>
 					</div>
 				<?php endif; ?>
