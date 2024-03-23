@@ -29,44 +29,47 @@
 					</div>
 				</div>
 				<div class="card-body">
-					<form method="post" action="<?php echo route('admin.products.add') ?>" class="form-validation">
-						<!--!! CSRF FIELD !!-->
-						{{ @csrf_field() }}
-						<h6 class="heading-small text-muted mb-4">Product information</h6>
-						<div class="pl-lg-4">
-							<div class="form-group">
-								<label class="form-control-label" for="input-first-name">Category</label>
-								<select class="form-control" name="category[]" multiple required>
-								<?php foreach($categories as $c): ?>
-									<option 
-										value="<?php echo $c->id ?>" 
-										<?php echo old('category') && in_array($c->id, old('category'))  ? 'selected' : '' ?> 
-									><?php echo $c->title ?></option>
-								<?php endforeach; ?>
-								</select>
-								@error('category')
-									<small class="text-danger">{{ $message }}</small>
-								@enderror
-							</div>
-							<div class="form-group">
-								<label class="form-control-label" for="input-first-name">Title</label>
-								<input type="text" class="form-control" name="title" placeholder="Title" required value="{{ old('title') }}">
-								@error('title')
-									<small class="text-danger">{{ $message }}</small>
-								@enderror
-							</div>
-							<div class="row">
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label class="form-control-label">Description</label>
-										<textarea rows="2" id="editor1" class="form-control" placeholder="Description" required name="description">{{ old('description') }}</textarea>
-										@error('description')
-											<small class="text-danger">{{ $message }}</small>
-										@enderror
+					<div id="product" >
+						<form id="product-form" method="post" action="<?php echo route('admin.products.add') ?>" class="form-validation">
+							@if (isset($page) && $page->id)
+								<pre id="edit-form" class="d-none">{{ $page }}</pre>
+							@endif
+							<!--!! CSRF FIELD !!-->
+							{{ @csrf_field() }}
+							<h6 class="heading-small text-muted mb-4">Product information</h6>
+							<div class="pl-lg-4">
+								<div class="form-group">
+									<label class="form-control-label" for="input-first-name">Category</label>
+									<select class="form-control" name="category[]" multiple required>
+									<?php foreach($categories as $c): ?>
+										<option 
+											value="<?php echo $c->id ?>" 
+											<?php echo old('category') && in_array($c->id, old('category'))  ? 'selected' : '' ?> 
+										><?php echo $c->title ?></option>
+									<?php endforeach; ?>
+									</select>
+									@error('category')
+										<small class="text-danger">{{ $message }}</small>
+									@enderror
+								</div>
+								<div class="form-group">
+									<label class="form-control-label" for="input-first-name">Title</label>
+									<input type="text" class="form-control" name="title" placeholder="Title" required value="{{ old('title') }}">
+									@error('title')
+										<small class="text-danger">{{ $message }}</small>
+									@enderror
+								</div>
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label class="form-control-label">Description</label>
+											<textarea rows="2" id="editor1" class="form-control" placeholder="Description" required name="description">{{ old('description') }}</textarea>
+											@error('description')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
 									</div>
 								</div>
-							</div>
-							<div id="product" >
 								<div class="row">
 									<div class="col-lg-6">
 										<div class="form-group">
@@ -142,7 +145,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label" for="input-username">Size</label>
-											<select class="form-control no-selectpicker" v-model ="selectedSize" name="size[]" required multiple>
+											<select class="form-control no-selectpicker" v-on:change="updateSelectedSize" v-model ="selectedSize" name="size[]" required multiple>
 												<option v-for="size in sizes" :key="size.id" :value="size.id">
 													@{{ size.size_title }} - (@{{ size.from_cm }} - @{{ size.to_cm }})
 												</option>
@@ -179,100 +182,99 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr v-for="(product, index) in productsData" :key="index">
+											<tr v-for="(size, index) in selectedSize" :key="index">
 												<td>@{{ index + 1 }}</td>
-												<td>@{{ product.title }}</td>
-												<td>@{{ product.rate.toFixed(2) }}</td>
-												<td><input type="number" v-on:change="updateQuantity(index)"  v-model="product.quantity" min="1"></td>
-												<td>@{{ (product.rate * product.quantity).toFixed(2) }}</td>
-												<td><i class="fa fa-times" v-on:click="removeItem(index,product.id)"></i></td>
+												<td>@{{ size.size_title }}</td>
+												<td><input type="number" v-on:change="updateQuantity(index)"  v-model="size.price" min="1"></td>
+												<td><i class="fa fa-times" v-on:click="removeSize(index,size.id)"></i></td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
 								<hr class="my-4" />
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label class="form-control-label" for="input-email">Duration Of Service</label>
+											<input type="time" id="input-email" class="form-control" name="duration_of_service"  value="{{ old('duration_of_service') }}">
+											@error('duration_of_service')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label class="form-control-label" for="input-tags">Tag</label>
+											<input type="text" class="form-control tag-it" name="tags" placeholder="Enter tags here." value="{{ old('tags') }}">
+											@error('tags.*')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
+									</div>
+								</div>	
 							</div>
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label class="form-control-label" for="input-email">Duration Of Service</label>
-										<input type="time" id="input-email" class="form-control" name="duration_of_service"  value="{{ old('duration_of_service') }}">
-										@error('duration_of_service')
-											<small class="text-danger">{{ $message }}</small>
-										@enderror
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label class="form-control-label" for="input-tags">Tag</label>
-										<input type="text" class="form-control tag-it" name="tags" placeholder="Enter tags here." value="{{ old('tags') }}">
-										@error('tags.*')
-											<small class="text-danger">{{ $message }}</small>
-										@enderror
-									</div>
-								</div>
-							</div>	
-						</div>
-						<hr class="my-4" />
-						<!-- Address -->
-						<h6 class="heading-small text-muted mb-4">Publish Information</h6>
-						<div class="pl-lg-4">
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<!-- FILE OR IMAGE UPLOAD. FOLDER PATH SET HERE in data-path AND CHANGE THE data-multiple TO TRUE SEE MAGIC  -->
-										<div 
-											class="upload-image-section"
-											data-type="image"
-											data-multiple="true"
-											data-path="products"
-											data-resize-large="802*574"
-											data-resize-medium="415*296"
-											data-resize-small="110*85"
+							<hr class="my-4" />
+							<!-- Address -->
+							<h6 class="heading-small text-muted mb-4">Publish Information</h6>
+							<div class="pl-lg-4">
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<!-- FILE OR IMAGE UPLOAD. FOLDER PATH SET HERE in data-path AND CHANGE THE data-multiple TO TRUE SEE MAGIC  -->
+											<div 
+												class="upload-image-section"
+												data-type="image"
+												data-multiple="true"
+												data-path="products"
+												data-resize-large="802*574"
+												data-resize-medium="415*296"
+												data-resize-small="110*85"
 
-										>
-											<div class="upload-section">
-												<div class="button-ref mb-3">
-													<button class="btn btn-icon btn-primary btn-lg" type="button">
-														<span class="btn-inner--icon"><i class="fas fa-upload"></i></span>
-														<span class="btn-inner--text">Upload Image</span>
-														</button>
+											>
+												<div class="upload-section">
+													<div class="button-ref mb-3">
+														<button class="btn btn-icon btn-primary btn-lg" type="button">
+															<span class="btn-inner--icon"><i class="fas fa-upload"></i></span>
+															<span class="btn-inner--text">Upload Image</span>
+															</button>
+													</div>
+													<!-- PROGRESS BAR -->
+													<div class="progress d-none">
+														<div class="progress-bar bg-default" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+													</div>
 												</div>
-												<!-- PROGRESS BAR -->
-												<div class="progress d-none">
-													<div class="progress-bar bg-default" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+												<!-- INPUT WITH FILE URL -->
+												<textarea class="d-none" required name="image"><?php echo old('image') ?></textarea>
+												<div class="show-section <?php echo !old('image') ? 'd-none' : "" ?>">
+													@include('admin.partials.previewFileRender', ['file' => old('image') ])
 												</div>
 											</div>
-											<!-- INPUT WITH FILE URL -->
-											<textarea class="d-none" required name="image"><?php echo old('image') ?></textarea>
-											<div class="show-section <?php echo !old('image') ? 'd-none' : "" ?>">
-												@include('admin.partials.previewFileRender', ['file' => old('image') ])
-											</div>
+											@error('image')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
 										</div>
-										@error('image')
-											<small class="text-danger">{{ $message }}</small>
-										@enderror
 									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form-group">
-										<div class="custom-control">
-											<label class="custom-toggle">
-												<input type="hidden" name="status" value="0">
-												<input type="checkbox" name="status" value="1" <?php echo (old('status') != '0' ? 'checked' : '') ?>>
-												<span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
-											</label>
-											<label class="custom-control-label">Do you want to publish this product ?</label>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<div class="custom-control">
+												<label class="custom-toggle">
+													<input type="hidden" name="status" value="0">
+													<input type="checkbox" name="status" value="1" <?php echo (old('status') != '0' ? 'checked' : '') ?>>
+													<span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
+												</label>
+												<label class="custom-control-label">Do you want to publish this product ?</label>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<hr class="my-4" />
-						<button href="#" class="btn btn-sm py-2 px-3 btn-primary float-right">
-							<i class="fa fa-save"></i> Submit
-						</button>
-					</form>
+							<hr class="my-4" />
+							<button type="button" class="btn btn-primary finish-steps float-right"
+									v-on:click="submitForm()"><i class="fa fa-spin fa-spinner" v-if="loading"></i><i v-else
+									class="fa fa-save"></i> Save 
+							</button>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>

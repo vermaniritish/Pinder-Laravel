@@ -210,6 +210,8 @@ class ProductsController extends AppController
     	{
     		$data = $request->toArray();
     		unset($data['_token']);
+			$sizeData = [];
+			$sizeData = json_decode($data['sizeData'], true);
 			if (isset($data['tags']) && $data['tags']) {
 				$data['tags'] = explode(',', $data['tags']);
 			}
@@ -226,12 +228,19 @@ class ProductsController extends AppController
 					'tags' => ['nullable', 'array'],
 					'tags.*' => ['string','max:20',],
 					'color_id' => ['required', Rule::exists(Colours::class,'id')],
-					'gender' => ['required', Rule::in(['Male','Female','Unisex'])]
+					'gender' => ['required', Rule::in(['Male','Female','Unisex'])],
+					'sizeData' => ['required', 'array'],
+					'sizeData.*.id' => ['required', Rule::exists(Products::class, 'id')->where(function ($query) {
+						$query->where('status', 1)->whereNull('deleted_at');
+					})],
+					'sizeData.*.price' => ['required', 'integer', 'min:0'],
 	            ]
 	        );
 
 	        if(!$validator->fails())
 	        {
+				unset($data['size_id']);
+				unset($data['sizeData']);
 	        	$categories = [];
 				$brands = [];
 	        	if(isset($data['category']) && $data['category']) {
@@ -245,6 +254,9 @@ class ProductsController extends AppController
 	        	$product = Products::create($data);
 	        	if($product)
 	        	{
+					if (!empty($sizeData)) {
+						Products::handleSizes($product->id, $sizeData);
+					}
 	        		if(!empty($categories))
 	        		{  
 	        			Products::handleCategories($product->id, $categories);
@@ -254,19 +266,27 @@ class ProductsController extends AppController
 	        			Products::handleBrands($product->id, $brands);
 	        		}
 
-	        		$request->session()->flash('success', 'Product created successfully.');
-	        		return redirect()->route('admin.products');
+					$request->session()->flash('success', "Product created successfully.");
+					return Response()->json([
+						'status' => true,
+						'message' => "Product created successfully.",
+						'id' => $product->id
+					]);
 	        	}
 	        	else
 	        	{
-	        		$request->session()->flash('error', 'Product could not be save. Please try again.');
-		    		return redirect()->back()->withErrors($validator)->withInput();
+					return Response()->json([
+						'status' => false,
+						'message' => 'Product could not be saved. Please try again.'
+					], 400);
 	        	}
 		    }
 		    else
 		    {
-		    	$request->session()->flash('error', 'Please provide valid inputs.');
-		    	return redirect()->back()->withErrors($validator)->withInput();
+				return Response()->json([
+					'status' => false,
+					'message' => current(current($validator->errors()->getMessages()))
+				], 400);
 		    }
 		}
 	    

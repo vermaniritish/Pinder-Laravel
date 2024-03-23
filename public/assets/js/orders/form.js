@@ -38,11 +38,6 @@ let order = new Vue({
             this.selectedProducts = this.selectedProducts.filter(id => id !== productId); 
             this.updateTotal(); 
         },
-        removeItem(index, productId) {
-            this.productsData.splice(index, 1);
-            this.selectedProducts = this.selectedProducts.filter(id => id !== productId); 
-            this.updateTotal(); 
-        },
         initEditValues: function () {
             if ($('#edit-form').length > 0) {
                 let data = JSON.parse($('#edit-form').text());

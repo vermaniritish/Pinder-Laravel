@@ -409,4 +409,28 @@ class Products extends AppModel
 
         $product = Products::find($id);
     }
+
+    public static function handleSizes($id, $sizeData)
+    {
+        ProductSizeRelation::where('size_id', $id)->delete();
+        foreach ($sizeData as $sizeData) {
+            $relation = new ProductSizeRelation();
+            $size = Sizes::find($sizeData['id']);
+            if ($size) {
+                $relation->size_title = $size->size_title;
+                $relation->from_cm = $size->from_cm;
+                $relation->to_cm = $size->to_cm;
+                $relation->chest = $size->chest;
+                $relation->waist = $size->waist;
+                $relation->hip = $size->hip;
+                $relation->length = $size->length;
+                $relation->product_id = $id;
+                $relation->size_id = $size->id;
+                $relation->price = $sizeData['price'];
+                $relation->created_at = now();
+                $relation->updated_at = now();
+                $relation->save();
+            }
+        }
+    }
 }
