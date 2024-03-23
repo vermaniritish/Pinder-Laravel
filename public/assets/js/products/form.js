@@ -75,9 +75,13 @@ let order = new Vue({
             console.log(this.selectedSize);
         },
         removeSize(index, sizeId) {
-            this.sizes.splice(index, 1);
-            this.selectedSize = this.selectedSize.filter(id => id !== sizeId); 
+            this.selectedSizeIds.splice(index, 1);
+            const sizeIndex = this.selectedSize.findIndex(size => size.id === sizeId);
+            if (sizeIndex !== -1) {
+                this.selectedSize.splice(sizeIndex, 1);
+            }
         },
+        
         updateSizes: async function() {
             let response = await fetch(admin_url + "/products/getSize/" + this.selectedGender);
             response = await response.json();
