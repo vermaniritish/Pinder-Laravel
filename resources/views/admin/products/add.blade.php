@@ -55,7 +55,7 @@
 								</div>
 								<div class="form-group">
 									<label class="form-control-label" for="input-first-name">Title</label>
-									<input type="text" class="form-control" name="title" placeholder="Title" required value="{{ old('title') }}">
+									<input type="text" v-model="title" class="form-control" name="title" placeholder="Title" required value="{{ old('title') }}">
 									@error('title')
 										<small class="text-danger">{{ $message }}</small>
 									@enderror
@@ -75,7 +75,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label">Color</label>
-											<select class="form-control no-selectpicker" name="color_id" required>
+											<select class="form-control no-selectpicker" v-model="selectedColor" name="color_id" required>
 												<option value="">Select</option>
 												<?php 
 													foreach($colors as $s): 
@@ -116,7 +116,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label" for="input-first-name">Price</label>
-											<input type="number" min="0" class="form-control" name="price" placeholder="Price" required value="{{ old('price') }}">
+											<input type="number" min="0" class="form-control" v-model="price" name="price" placeholder="Price" required value="{{ old('price') }}">
 											@error('price')
 												<small class="text-danger">{{ $message }}</small>
 											@enderror
@@ -135,7 +135,7 @@
 													<span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
 												</label>
 											</div>
-											<input type="number" class="form-control" name="sale_price" <?php echo (old('status') == '' ? 'readonly' : '') ?> placeholder="Sale Price" value="{{ old('sale_price') }}">
+											<input type="number" class="form-control" v-model="salePrice" name="sale_price" <?php echo (old('status') == '' ? 'readonly' : '') ?> placeholder="Sale Price" value="{{ old('sale_price') }}">
 											@error('sale_price')
 												<small class="text-danger">{{ $message }}</small>
 											@enderror
@@ -159,7 +159,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label" for="input-username">Brand</label>
-											<select class="form-control no-selectpicker" name="brand[]" required multiple>
+											<select v-model="selectedBrand" class="form-control no-selectpicker" name="brand[]" required multiple>
 												@foreach ($brands as $key => $value)
 												<option <?php echo (is_array(old('brand')) && in_array($value['id'], old('brand'))) ? 'selected' : ''; ?>
 													value="<?php echo $value['id']; ?>"><?php echo $value['title']; ?></option>
@@ -197,7 +197,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label" for="input-email">Duration Of Service</label>
-											<input type="time" id="input-email" class="form-control" name="duration_of_service"  value="{{ old('duration_of_service') }}">
+											<input type="time" id="input-email" class="form-control" v-model="durationOfService" name="duration_of_service"  value="{{ old('duration_of_service') }}">
 											@error('duration_of_service')
 												<small class="text-danger">{{ $message }}</small>
 											@enderror

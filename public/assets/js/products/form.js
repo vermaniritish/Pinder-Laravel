@@ -7,6 +7,12 @@ let order = new Vue({
         selectedSizeIds: [],
         selectedGender: '',
         selectedCategory: [],
+        title: '',
+        selectedColor: '',
+        price: '',
+        salePrice: '',
+        selectedBrand: '',
+        durationOfService: '',
         loading: false,
         url: ''
     },
@@ -38,9 +44,14 @@ let order = new Vue({
             if ($('#edit-form').length > 0) {
                 let data = JSON.parse($('#edit-form').text());
                 this.url = admin_url + '/products/' + data.id + '/edit';
-                console.log(data);
                 this.selectedCategory = data && data.categories && data.categories.length > 0 ? data.categories.map(category => category.id) : [];
-
+                this.title = data.title;
+                this.selectedColor = data.color_id;
+                this.selectedGender = data.gender;
+                this.price = data.price;
+                this.salePrice = data.sale_price;
+                this.selectedBrand = data && data.brands && data.brands.length > 0 ? data.brands.map(brand => brand.id) : [];
+                this.durationOfService = data.duration_of_service;
             }
             else {
                 this.url = admin_url + '/products/add';
