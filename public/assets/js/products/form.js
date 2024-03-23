@@ -11,7 +11,7 @@ let order = new Vue({
         selectedColor: '',
         price: '',
         salePrice: '',
-        selectedBrand: '',
+        selectedBrand: [],
         durationOfService: '',
         loading: false,
         url: ''
@@ -51,6 +51,7 @@ let order = new Vue({
                 this.price = data.price;
                 this.salePrice = data.sale_price;
                 this.selectedBrand = data && data.brands && data.brands.length > 0 ? data.brands.map(brand => brand.id) : [];
+                this.selectedSizeIds = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(size => size.id) : [];
                 this.durationOfService = data.duration_of_service;
             }
             else {

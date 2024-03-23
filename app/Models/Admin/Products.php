@@ -63,6 +63,17 @@ class Products extends AppModel
     }
 
     /**
+    * Product -> Sizes belongsToMany relation
+    *
+    * @return Sizes
+    */
+    public function sizes()
+    {
+        return $this->belongsToMany(Sizes::class, 'product_sizes', 'product_id', 'size_id')
+        ->withPivot('price');
+    }
+
+    /**
     * Get resize images
     *
     * @return array
@@ -212,6 +223,9 @@ class Products extends AppModel
                 },
                 'owner' => function($query) {
                     $query->select(['id', 'first_name', 'last_name', 'status']);
+                },
+                'sizes' => function($query) {
+                    $query->select(['sizes.id', 'sizes.size_title', 'price']);
                 },
             ])
             ->first();
