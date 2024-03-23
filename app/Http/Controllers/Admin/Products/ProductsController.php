@@ -233,8 +233,8 @@ class ProductsController extends AppController
 					'color_id' => ['required', Rule::exists(Colours::class,'id')],
 					'gender' => ['required', Rule::in(['Male','Female','Unisex'])],
 					'sizeData' => ['required', 'array'],
-					'sizeData.*.id' => ['required', Rule::exists(Products::class, 'id')->where(function ($query) {
-						$query->where('status', 1)->whereNull('deleted_at');
+					'sizeData.*.id' => ['required', Rule::exists(Sizes::class, 'id')->where(function ($query) {
+						$query->whereNull('deleted_at');
 					})],
 					'sizeData.*.price' => ['required', 'integer', 'min:0'],
 	            ]
@@ -243,6 +243,7 @@ class ProductsController extends AppController
 	        if(!$validator->fails())
 	        {
 				unset($data['size_id']);
+				unset($data['size']);
 				unset($data['sizeData']);
 	        	$categories = [];
 				$brands = [];

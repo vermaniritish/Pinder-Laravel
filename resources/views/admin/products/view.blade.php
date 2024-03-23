@@ -110,11 +110,10 @@
 								<tr>
 									<th>Tags</th>
 									<td>
-										<?php echo
-										implode(', ', $product->tags) 
-										?>	
+										<?php echo is_array($product->tags) ? implode(', ', $product->tags) : ($product->tags ?? ''); ?>	
 									</td>
 								</tr>
+								
 								<tr>
 									<th>Price</th>
 									<td><?php echo $product->price ?></td>
