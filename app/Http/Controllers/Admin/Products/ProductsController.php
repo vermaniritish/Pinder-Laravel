@@ -242,7 +242,6 @@ class ProductsController extends AppController
 
 	        if(!$validator->fails())
 	        {
-				unset($data['size_id']);
 				unset($data['size']);
 				unset($data['sizeData']);
 	        	$categories = [];
@@ -372,6 +371,11 @@ class ProductsController extends AppController
 	    	if($request->isMethod('post'))
 	    	{
 	    		$data = $request->toArray();
+				$sizeData = [];
+				if(isset($data['sizeData']) && $data['sizeData']) {
+					$data['sizeData'] = json_decode($data['sizeData'], true);
+					$sizeData = $data['sizeData'];
+				}
 				if (isset($data['tags']) && $data['tags']) {
 					$data['tags'] = explode(',', $data['tags']);
 				}
@@ -395,12 +399,19 @@ class ProductsController extends AppController
 							'tags' => ['nullable', 'array'],
 							'tags.*' => ['string','max:20',],
 							'color_id' => ['required', Rule::exists(Colours::class,'id')],
-							'gender' => ['required', Rule::in(['Male','Female','Unisex'])]
-		            ]
+							'gender' => ['required', Rule::in(['Male','Female','Unisex'])],
+							'sizeData' => ['required', 'array'],
+							'sizeData.*.id' => ['required', Rule::exists(Sizes::class, 'id')->where(function ($query) {
+								$query->whereNull('deleted_at');
+							})],
+							'sizeData.*.price' => ['required', 'integer', 'min:0'],
+		            	]
 		        );
 		        if(!$validator->fails())
 		        {
 		        	unset($data['_token']);
+					unset($data['sizeData']);
+					unset($data['size']);
 	        		/** ONLY IN CASE OF MULTIPLE IMAGE USE THIS **/
 	        		if(isset($data['image']) && $data['image'])
 	        		{
@@ -428,6 +439,9 @@ class ProductsController extends AppController
 
 		        	if(Products::modify($id, $data))
 		        	{
+						if (!empty($sizeData)) {
+							Products::handleSizes($product->id, $sizeData);
+						}
 		        		if(!empty($categories))
 		        		{
 		        			Products::handleCategories($product->id, $categories);
