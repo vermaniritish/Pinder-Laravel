@@ -494,7 +494,7 @@ class ProductsController extends AppController
 				],
 	    		'colours.color_code desc'
 	    	);
-			return view("admin/products/edit", [
+			return view("admin/products/add", [
     			'product' => $product,
     			'categories' => $categories,
     			'users' => $users,
