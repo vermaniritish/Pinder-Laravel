@@ -12,7 +12,7 @@
 		<?php echo $row->quantity ?>
 	</td>
     <td>
-		<?php echo $row->amount ?>
+		<?php echo $currency . ' ' . $row->amount ?>
 	</td>
 </tr>
 <?php endforeach; ?>

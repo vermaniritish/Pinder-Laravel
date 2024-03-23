@@ -239,7 +239,7 @@ use App\Models\Admin\Settings;
 								</tr>
 								<tr>
 									<th>Tax & Charges</th>
-									<td><?php echo $page->tax ?></td>
+									<td><?php echo $currency . ' ' . $page->tax ?></td>
 								</tr>
 								<tr>
 									<th>Total Amount</th>

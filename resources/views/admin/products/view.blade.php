@@ -1,4 +1,8 @@
-<?php use App\Models\Admin\Settings; ?>
+<?php
+use App\Models\Admin\Permissions;
+use App\Models\Admin\Settings;
+	$currency = Settings::get('currency_symbol'); 
+?>
 @extends('layouts.adminlayout')
 @section('content')
 	<div class="header bg-primary pb-6">
@@ -113,10 +117,9 @@
 										<?php echo is_array($product->tags) ? implode(', ', $product->tags) : ($product->tags ?? ''); ?>	
 									</td>
 								</tr>
-								
 								<tr>
 									<th>Price</th>
-									<td><?php echo $product->price ?></td>
+									<td><?php echo $currency . ' ' . $product->price ?></td>
 								</tr>
 								<tr>
 									<td colspan="2">
