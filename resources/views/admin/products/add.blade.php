@@ -41,7 +41,7 @@
 							<div class="pl-lg-4">
 								<div class="form-group">
 									<label class="form-control-label" for="input-first-name">Category</label>
-									<select class="no-selectpicker form-control" name="category[]" multiple required>
+									<select v-model="selectedCategory" class="no-selectpicker form-control" name="category[]" multiple required>
 									<?php foreach($categories as $c): ?>
 										<option 
 											value="<?php echo $c->id ?>" 
