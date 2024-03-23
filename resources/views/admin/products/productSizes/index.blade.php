@@ -5,42 +5,42 @@
             <tr>
                 <th class="sort" width="22.5%">
                     Size Title
-                    <?php if(isset($_GET['sort']) && $_GET['sort'] == 'order_products.product_title' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-                    <i class="fas fa-sort-down active" data-field="order_products.product_title" data-sort="asc"></i>
-                    <?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'order_products.product_title' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-                    <i class="fas fa-sort-up active" data-field="order_products.product_title" data-sort="desc"></i>
+                    <?php if(isset($_GET['sort']) && $_GET['sort'] == 'product_sizes.product_title' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+                    <i class="fas fa-sort-down active" data-field="product_sizes.product_title" data-sort="asc"></i>
+                    <?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'product_sizes.product_title' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+                    <i class="fas fa-sort-up active" data-field="product_sizes.product_title" data-sort="desc"></i>
                     <?php else: ?>
-                    <i class="fas fa-sort" data-field="order_products.product_title"></i>
+                    <i class="fas fa-sort" data-field="product_sizes.product_title"></i>
                     <?php endif; ?>
                 </th>
                 <th class="sort" width="22.5%">
                     Price
-                    <?php if(isset($_GET['sort']) && $_GET['sort'] == 'order_products.quantity' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-                    <i class="fas fa-sort-down active" data-field="order_products.quantity" data-sort="asc"></i>
-                    <?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'order_products.quantity' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-                    <i class="fas fa-sort-up active" data-field="order_products.quantity" data-sort="desc"></i>
+                    <?php if(isset($_GET['sort']) && $_GET['sort'] == 'product_sizes.price' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+                    <i class="fas fa-sort-down active" data-field="product_sizes.price" data-sort="asc"></i>
+                    <?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'product_sizes.price' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+                    <i class="fas fa-sort-up active" data-field="product_sizes.price" data-sort="desc"></i>
                     <?php else: ?>
-                    <i class="fas fa-sort" data-field="order_products.quantity"></i>
+                    <i class="fas fa-sort" data-field="product_sizes.price"></i>
                     <?php endif; ?>
                 </th>				
-                <th class="sort" width="22.5%" >
-                    From cm
-                    <?php if(isset($_GET['sort']) && $_GET['sort'] == 'order_products.amount' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-                    <i class="fas fa-sort-down active" data-field="order_products.amount" data-sort="asc"></i>
-                    <?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'order_products.amount' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-                    <i class="fas fa-sort-up active" data-field="order_products.amount" data-sort="desc"></i>
+                <th class="sort" width="10%" >
+                    From cm 
+                    <?php if(isset($_GET['sort']) && $_GET['sort'] == 'product_sizes.from_cm' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+                    <i class="fas fa-sort-down active" data-field="product_sizes.from_cm" data-sort="asc"></i>
+                    <?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'product_sizes.from_cm' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+                    <i class="fas fa-sort-up active" data-field="product_sizes.from_cm" data-sort="desc"></i>
                     <?php else: ?>
-                    <i class="fas fa-sort" data-field="order_products.amount"></i>
+                    <i class="fas fa-sort" data-field="product_sizes.from_cm"></i>
                     <?php endif; ?>
                 </th>
-                <th class="sort" width="10%">
-                    Price
-                    <?php if(isset($_GET['sort']) && $_GET['sort'] == 'order_products.id' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-                    <i class="fas fa-sort-down active" data-field="order_products.id" data-sort="asc"></i>
-                    <?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'order_products.id' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-                    <i class="fas fa-sort-up active" data-field="order_products.id" data-sort="desc"></i>
+                <th class="sort" width="12.5%" >
+                    To cm
+                    <?php if(isset($_GET['sort']) && $_GET['sort'] == 'product_sizes.to_cm' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+                    <i class="fas fa-sort-down active" data-field="product_sizes.to_cm" data-sort="asc"></i>
+                    <?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'product_sizes.to_cm' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+                    <i class="fas fa-sort-up active" data-field="product_sizes.to_cm" data-sort="desc"></i>
                     <?php else: ?>
-                    <i class="fas fa-sort" data-field="order_products.id" data-sort="asc"></i>
+                    <i class="fas fa-sort" data-field="product_sizes.to_cm"></i>
                     <?php endif; ?>
                 </th>
             </tr>
