@@ -53,6 +53,11 @@ let order = new Vue({
                 this.selectedBrand = data && data.brands && data.brands.length > 0 ? data.brands.map(brand => brand.id) : [];
                 this.selectedSizeIds = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(size => size.id) : [];
                 this.durationOfService = data.duration_of_service;
+                this.selectedSize = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(sizes => ({
+                    id: sizes.id,
+                    size_title: sizes.size_title,
+                    price: parseFloat(sizes.price)
+                })) : [];
             }
             else {
                 this.url = admin_url + '/products/add';
