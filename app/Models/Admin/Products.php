@@ -427,10 +427,10 @@ class Products extends AppModel
         $product = Products::find($id);
     }
 
-    public static function handleSizes($id, $sizeData)
+    public static function handleSizes($id, $sizesData)
     {
-        ProductSizeRelation::where('size_id', $id)->delete();
-        foreach ($sizeData as $sizeData) {
+        ProductSizeRelation::where('product_id', $id)->delete();
+        foreach ($sizesData as $sizeData) {
             $relation = new ProductSizeRelation();
             $size = Sizes::find($sizeData['id']);
             if ($size) {
