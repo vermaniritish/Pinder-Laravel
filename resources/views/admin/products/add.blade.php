@@ -32,8 +32,8 @@
 					<div id="product" >
 						<p v-if="mounting" class="text-center big" style="padding: 15%"><i style="font-size: 30px" class="fa fa-spin fa-spinner"></i></p>
 						<form id="product-form" method="post" action="<?php echo route('admin.products.add') ?>" class="form-validation d-none">
-							@if (isset($page) && $page->id)
-								<pre id="edit-form" class="d-none">{{ $page }}</pre>
+							@if (isset($product) && $product->id)
+								<pre id="edit-form" class="d-none">{{ $product }}</pre>
 							@endif
 							<!--!! CSRF FIELD !!-->
 							{{ @csrf_field() }}

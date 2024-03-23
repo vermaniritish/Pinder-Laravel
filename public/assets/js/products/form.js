@@ -11,9 +11,9 @@ let order = new Vue({
         url: ''
     },
     mounted: function() {
+        this.initEditValues();
         this.initBasics();
         this.initTagIt();
-        this.initEditValues();
         this.mounting = false;
         document.getElementById('product-form').classList.remove('d-none');
     },
