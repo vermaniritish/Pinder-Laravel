@@ -128,6 +128,26 @@
 						</table>
 					</div>
 				</div>
+				<div class="card listing-block">
+					<div class="card-header">
+						<div class="row align-items-center">
+							<div class="col-md-8">
+								<h3 class="mb-0">Product Size's</h3>
+							</div>
+							<div class="col-md-4">
+								<div class="input-group input-group-alternative input-group-merge">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fas fa-search"></i></span>
+									</div>
+									<input class="form-control listing-search" placeholder="Search" type="text" value="<?php echo (isset($_GET['search']) && $_GET['search'] ? $_GET['search'] : '') ?>">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-body p-0">
+						@include('admin.products.productSizes.index',['listing' => $listing])
+					</div>
+				</div>
 			</div>
 			<div class="col-xl-4 order-xl-1">
 				<?php if($product->image): ?>

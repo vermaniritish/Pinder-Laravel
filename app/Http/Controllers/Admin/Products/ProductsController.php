@@ -33,6 +33,7 @@ use App\Http\Controllers\Admin\AppController;
 use App\Models\Admin\BrandProducts;
 use App\Models\Admin\Brands;
 use App\Models\Admin\Colours;
+use App\Models\Admin\ProductSizeRelation;
 use App\Models\Admin\Sizes;
 
 class ProductsController extends AppController
@@ -186,10 +187,24 @@ class ProductsController extends AppController
     	}
 
     	$product = Products::get($id);
+		$where = ['product_sizes.product_id' => $id];
+		if($request->get('search'))
+    	{
+    		$search = $request->get('search');
+    		$search = '%' . $search . '%';
+    		$where['(
+				product_sizes.id LIKE ? or
+				product_sizes.size_title LIKE ? or
+				product_sizes.from_cm LIKE ? or
+				product_sizes.price LIKE ? or
+				product_sizes.to_cm LIKE ?)'] = [$search, $search, $search, $search, $search];
+    	}
+		$listing = ProductSizeRelation::getListing($request, $where);
     	if($product)
     	{
 	    	return view("admin/products/view", [
-    			'product' => $product
+    			'product' => $product,
+				'listing' => $listing
     		]);
 		}
 		else
