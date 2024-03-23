@@ -233,7 +233,7 @@ class ProductsController extends AppController
 					'color_id' => ['required', Rule::exists(Colours::class,'id')],
 					'gender' => ['required', Rule::in(['Male','Female','Unisex'])],
 					'sizeData' => ['required', 'array'],
-					'sizeData.*.id' => ['required', Rule::exists(Sizes::class, 'id')->where(function ($query) {
+					'sizeData.*.id' => ['distinct','required', Rule::exists(Sizes::class, 'id')->where(function ($query) {
 						$query->whereNull('deleted_at');
 					})],
 					'sizeData.*.price' => ['required', 'integer', 'min:0'],
@@ -401,7 +401,7 @@ class ProductsController extends AppController
 							'color_id' => ['required', Rule::exists(Colours::class,'id')],
 							'gender' => ['required', Rule::in(['Male','Female','Unisex'])],
 							'sizeData' => ['required', 'array'],
-							'sizeData.*.id' => ['required', Rule::exists(Sizes::class, 'id')->where(function ($query) {
+							'sizeData.*.id' => ['distinct','required', Rule::exists(Sizes::class, 'id')->where(function ($query) {
 								$query->whereNull('deleted_at');
 							})],
 							'sizeData.*.price' => ['required', 'integer', 'min:0'],
@@ -450,19 +450,27 @@ class ProductsController extends AppController
 		        		{
 		        			Products::handleBrands($product->id, $brands);
 		        		}
-		        		$request->session()->flash('success', 'Product updated successfully.');
-		        		return redirect()->route('admin.products');
+		        		$request->session()->flash('success', "Product updated successfully.");
+						return Response()->json([
+							'status' => true,
+							'message' => "Product created successfully.",
+							'id' => $product->id
+						]);
 		        	}
 		        	else
 		        	{
-		        		$request->session()->flash('error', 'Product could not be save. Please try again.');
-			    		return redirect()->back()->withErrors($validator)->withInput();
+						return Response()->json([
+							'status' => false,
+							'message' => 'Product could not be saved. Please try again.'
+						], 400);
 		        	}
 			    }
 			    else
 			    {
-			    	$request->session()->flash('error', 'Please provide valid inputs.');
-			    	return redirect()->back()->withErrors($validator)->withInput();
+					return Response()->json([
+						'status' => false,
+						'message' => current(current($validator->errors()->getMessages()))
+					], 400);
 			    }
 			}
 
