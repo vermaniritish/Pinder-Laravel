@@ -63,9 +63,10 @@ class ProductSubCategories extends AppModel
     	$listing = ProductSubCategories::select([
 	    		'sub_categories.*',
                 'owner.first_name as owner_first_name',
-                'owner.last_name as owner_last_name'
+                'owner.last_name as owner_last_name',
 	    	])
             ->leftJoin('admins as owner', 'owner.id', '=', 'sub_categories.created_by')
+            ->leftJoin('product_categories as category', 'category.id', '=', 'sub_categories.category_id')
 	    	->orderBy($orderBy, $direction);
 
         if(!empty($where))

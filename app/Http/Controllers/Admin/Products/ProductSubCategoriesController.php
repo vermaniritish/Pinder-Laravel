@@ -43,7 +43,7 @@ class ProductSubCategoriesController extends AppController
     	{
     		$search = $request->get('search');
     		$search = '%' . strtolower($search) . '%';
-    		$where['(lower(sub_categories.title) LIKE ? or lower(owner.first_name) LIKE ? or lower(owner.last_name) LIKE ?)'] = [$search, $search, $search];
+			$where['(lower(sub_categories.title) LIKE ? or lower(category.title) LIKE ? or lower(owner.first_name) LIKE ? or lower(owner.last_name) LIKE ?)'] = [$search, $search, $search, $search];
     	}
 
     	if($request->get('created_on'))
