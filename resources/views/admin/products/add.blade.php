@@ -39,11 +39,11 @@
 							{{ @csrf_field() }}
 							<h6 class="heading-small text-muted mb-4">Product information</h6>
 							<div class="pl-lg-4">
-								<div class="row">
+								<div id="sub-category-form" class="row">
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="form-control-label" for="input-first-name">Category</label>
-											<select v-model="selectedCategory" class="no-selectpicker form-control" name="category[]" multiple required>
+											<select v-model="selectedCategory" class="no-selectpicker form-control" name="category" required>
 											<?php foreach($categories as $c): ?>
 												<option 
 													value="<?php echo $c->id ?>" 
@@ -59,13 +59,10 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="form-control-label" for="input-first-name">Sub Category</label>
-											<select v-model="selectedCategory" class="no-selectpicker form-control" name="category[]" multiple required>
-											<?php foreach($categories as $c): ?>
-												<option 
-													value="<?php echo $c->id ?>" 
-													<?php echo old('category') && in_array($c->id, old('category'))  ? 'selected' : '' ?> 
-												><?php echo $c->title ?></option>
-											<?php endforeach; ?>
+											<select class="form-control no-selectpicker" name="sub_category[]" required multiple>
+												<option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id">
+													@{{ subCategory.title }}
+												</option>
 											</select>
 											@error('category')
 												<small class="text-danger">{{ $message }}</small>

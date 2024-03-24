@@ -427,6 +427,24 @@ class Products extends AppModel
         $product = Products::find($id);
     }
 
+    public static function handleSubCategory($id, $subCategories)
+    {
+        //Delete all first
+        ProductSubCategoryRelation::where('product_id', $id)->delete();
+        // Then Save
+        foreach($subCategories as $c)
+        {
+            $subCategory = ProductSubCategories::find($c['id']);
+            $relation = new ProductSubCategoryRelation();
+            $relation->product_id = $id;
+            $relation->category_id = $c;
+            $relation->sub_category_title = $subCategory->title;
+            $relation->save();
+        }
+
+        $product = Products::find($id);
+    }
+
     public static function handleSizes($id, $sizesData)
     {
         ProductSizeRelation::where('product_id', $id)->delete();

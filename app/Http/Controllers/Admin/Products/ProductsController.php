@@ -34,6 +34,7 @@ use App\Models\Admin\BrandProducts;
 use App\Models\Admin\Brands;
 use App\Models\Admin\Colours;
 use App\Models\Admin\ProductSizeRelation;
+use App\Models\Admin\ProductSubCategories;
 use App\Models\Admin\Sizes;
 
 class ProductsController extends AppController
@@ -264,6 +265,9 @@ class ProductsController extends AppController
 	        	if(isset($data['category']) && $data['category']) {
 	        		$categories = $data['category'];
 	        	}
+				if(isset($data['sub_category']) && $data['sub_category']) {
+	        		$subCategory = $data['sub_category'];
+	        	}
 				if(isset($data['brand']) && $data['brand']) {
 	        		$brands = $data['brand'];
 	        	}
@@ -283,7 +287,10 @@ class ProductsController extends AppController
 	        		{
 	        			Products::handleBrands($product->id, $brands);
 	        		}
-
+					if(!empty($subCategory))
+	        		{
+	        			Products::handleSubCategory($product->id, $subCategory);
+	        		}
 					$request->session()->flash('success', "Product created successfully.");
 					return Response()->json([
 						'status' => true,
@@ -613,6 +620,15 @@ class ProductsController extends AppController
 		return response()->json([
 			'status' => true,
 			'sizes' => $sizes,
+		]);
+	}
+
+	public function getSubCategory($categoryId)
+	{
+		$subCategory = ProductSubCategories::select(['id','title','status'])->whereStatus(1)->whereCategoryId($categoryId)->get();
+		return response()->json([
+			'status' => true,
+			'subCategory' => $subCategory,
 		]);
 	}
 }

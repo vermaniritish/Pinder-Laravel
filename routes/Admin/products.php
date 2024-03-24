@@ -27,6 +27,7 @@ Route::get('/products/{id}/delete', '\App\Http\Controllers\Admin\Products\Produc
     ->name('admin.products.delete');
 
 Route::get('/products/getSize/{gender}', [ProductsController::class, 'getSize'])->name('admin.products.getSize');
+Route::get('/products/getSubCategory/{category}', [ProductsController::class, 'getSubCategory'])->name('admin.products.getSubCategory');
 
 
 /*** Categories **/
