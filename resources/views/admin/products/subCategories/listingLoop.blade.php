@@ -14,7 +14,16 @@
 		</span>
 	</td>
 	<td>
-		<?php echo $row->parent_title ? $row->parent_title : $row->title ?>
+		<?php echo $row->title ?>
+	</td>
+	<td>
+		@if($row->category)
+			<a href="{{ route('admin.products.categories') }}">
+				{{ $row->category->title }}
+			</a>
+		@else
+			{{ '-' }}
+		@endif
 	</td>
 	<td>
 		<div class="custom-control">

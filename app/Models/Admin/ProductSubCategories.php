@@ -16,15 +16,14 @@ class ProductSubCategories extends AppModel
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-
     /**
-    * ProductCategories -> Product belongsToMany relation
-    *
-    * @return ProductCategories
+    * Products -> Admins belongsTO relation
+    * 
+    * @return Admins
     */
-    public function products()
+    public function category()
     {
-        return $this->belongsToMany(Products::class, 'product_category_relation', 'category_id', 'product_id');
+        return $this->belongsTo(ProductCategories::class, 'category_id', 'id');
     }
 
     /**

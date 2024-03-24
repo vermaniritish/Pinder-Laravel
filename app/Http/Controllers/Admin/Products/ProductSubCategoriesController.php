@@ -174,8 +174,21 @@ class ProductSubCategoriesController extends AppController
 		    	return redirect()->back()->withErrors($validator)->withInput();
 		    }
 		}
+		$categories = ProductCategories::getAll(
+			[
+				'product_categories.id',
+				'product_categories.title'
+			],
+			[
+				'status' => 1,
+			],
+			'product_categories.title desc'
+		);
 
-	    return view("admin/products/subCategories/add");
+	    return view("admin/products/subCategories/add",
+		[
+			'categories' => $categories
+		]);
     }
 
     function edit(Request $request, $id)
@@ -241,9 +254,19 @@ class ProductSubCategoriesController extends AppController
 			    	return redirect()->back()->withErrors($validator)->withInput();
 			    }
 			}
-    		
+			$categories = ProductCategories::getAll(
+				[
+					'product_categories.id',
+					'product_categories.title'
+				],
+				[
+					'status' => 1,
+				],
+				'product_categories.title desc'
+			);
 		    return view("admin/products/subCategories/edit", [
-		    		'category' => $category
+		    		'category' => $category,
+					'categories' => $categories
 	    		]);
 		}
 		else

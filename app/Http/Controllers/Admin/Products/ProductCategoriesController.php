@@ -269,7 +269,6 @@ class ProductCategoriesController extends AppController
 				],
 				'product_categories.title desc'
 			);
-
 		    return view("admin/products/categories/edit", [
 		    		'categories' => $categories
 	    		]);

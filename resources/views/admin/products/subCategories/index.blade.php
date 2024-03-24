@@ -28,7 +28,7 @@
 					<!-- Card header -->
 					<div class="card-header border-0">
 						<div class="heading">
-							<h3 class="mb-0">Here Is Your Product Categories!</h3>
+							<h3 class="mb-0">Here Is Your Sub Categories!</h3>
 						</div>
 						<div class="actions">
 							<div class="input-group input-group-alternative input-group-merge">
@@ -77,14 +77,24 @@
 										<i class="fas fa-sort" data-field="product_categories.id" data-sort="asc"></i>
 										<?php endif; ?>
 									</th>
-									<th class="sort" width="28.3%">
-										Category
+									<th class="sort" width="10%">
+										Title
 										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'parent.title' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
 										<i class="fas fa-sort-down active" data-field="parent.title" data-sort="asc"></i>
 										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'parent.title' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
 										<i class="fas fa-sort-up active" data-field="parent.title" data-sort="desc"></i>
 										<?php else: ?>
 										<i class="fas fa-sort" data-field="product_categories.title"></i>
+										<?php endif; ?>
+									</th>
+									<th class="sort" width="18.3%">
+										Category
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'parent.category_id' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="parent.category_id" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'parent.category_id' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="parent.category_id" data-sort="desc"></i>
+										<?php else: ?>
+										<i class="fas fa-sort" data-field="product_categories.category_id"></i>
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="28.3%">

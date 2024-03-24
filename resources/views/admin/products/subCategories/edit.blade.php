@@ -36,12 +36,30 @@
 						<div class="pl-lg-4">
 							<div class="row">
 								<div class="col-lg-6">
-									<div class="form-group">
-										<label class="form-control-label" for="input-first-name">Title</label>
-										<input type="text" class="form-control" name="title" required placeholder="Title" value="{{ old('title',$category->title) }}">
-										@error('title')
-										    <small class="text-danger">{{ $message }}</small>
-										@enderror
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label class="form-control-label" for="input-first-name">Title</label>
+											<input type="text" class="form-control" name="title" required placeholder="Title" value="{{ old('title', $category->title) }}">
+											@error('title')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="form-control-label" for="input-first-name">Category</label>
+											<select class="form-control" name="category_id" required>
+											<?php foreach($categories as $c): ?>
+												<option 
+													value="<?php echo $c->id ?>" 
+													<?php echo old('category_id',$category->category_id) && in_array($c->id, old('category_id',$category->category_id))  ? 'selected' : '' ?> 
+												><?php echo $c->title ?></option>
+											<?php endforeach; ?>
+											</select>
+											@error('category_id')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
 									</div>
 								</div>
 								<div class="col-lg-6">
