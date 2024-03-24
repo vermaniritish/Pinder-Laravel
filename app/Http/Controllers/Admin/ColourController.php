@@ -144,7 +144,7 @@ class ColourController extends AppController
     		$validator = Validator::make(
 	            $request->toArray(),
 				[
-					'title' => ['required', 'string', 'max:255'],
+					'title' => ['required', 'string', 'max:255', Rule::unique('colours','title')->whereNull('deleted_at'),],
 					'color_code' => ['required','regex:/^#[a-fA-F0-9]{6}$/', Rule::unique('colours','color_code')->whereNull('deleted_at'), ],
 					'image' => ['nullable'],
 				],
@@ -218,7 +218,7 @@ class ColourController extends AppController
 	    		$validator = Validator::make(
 		            $request->toArray(),
 					[
-						'title' => ['required', 'string', 'max:255'],
+						'title' => ['required', 'string', 'max:255', Rule::unique('colours','title')->ignore($id)->whereNull('deleted_at'),],
 						'color_code' => ['required','regex:/^#[a-fA-F0-9]{6}$/', Rule::unique('colours','color_code')->ignore($id)->whereNull('deleted_at'), ],
 						'image' => ['nullable'],
 					],
