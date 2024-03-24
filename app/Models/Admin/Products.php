@@ -418,10 +418,10 @@ class Products extends AppModel
         // Then Save
         foreach($subCategories as $c)
         {
-            $subCategory = ProductSubCategories::find($c['id']);
+            $subCategory = ProductSubCategories::find($c);
             $relation = new ProductSubCategoryRelation();
             $relation->product_id = $id;
-            $relation->category_id = $c;
+            $relation->sub_category_id = (int)$c;
             $relation->sub_category_title = $subCategory->title;
             $relation->save();
         }
