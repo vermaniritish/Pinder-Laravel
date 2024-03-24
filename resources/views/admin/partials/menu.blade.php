@@ -80,10 +80,12 @@
                 <span class="nav-link-text">Products</span>
             </a>
             <ul class="list-unstyled submenu collapse<?php echo ($active ? ' show' : '') ?>" id="submenu_products">
-                <?php $active = strpos(request()->route()->getAction()['as'], 'admin.products.categories') > -1;?>
+                <?php $activeProducts = strpos(request()->route()->getAction()['as'], 'admin.products') > -1;?>
+                <?php $activeCategories = strpos(request()->route()->getAction()['as'], 'admin.products.categories') > -1;?>
+                <?php $activeSubCategories = strpos(request()->route()->getAction()['as'], 'admin.products.subCategories') > -1;?>
                 <?php if(Permissions::hasPermission('products', 'listing')): ?>
                 <li class="nav-item">
-                    <a class="nav-link<?php echo (!$active ? ' active' : '') ?>" href="<?php echo route('admin.products') ?>">
+                    <a class="nav-link<?php echo (!$activeProducts ? ' active' : '') ?>" href="<?php echo route('admin.products') ?>">
                         <span class="badge badge-dot mr-4">
                             <i class="bg-pink"></i>
                             <span class="status">Products</span>
@@ -93,7 +95,7 @@
                 <?php endif; ?>
                 <?php if(Permissions::hasPermission('product_categories', 'listing')): ?>
                 <li class="nav-item">
-                    <a class="nav-link<?php echo ($active ? ' active' : '') ?>" href="<?php echo route('admin.products.categories') ?>">
+                    <a class="nav-link<?php echo ($activeCategories ? ' active' : '') ?>" href="<?php echo route('admin.products.categories') ?>">
                         <span class="badge badge-dot mr-4">
                             <i class="bg-pink"></i>
                             <span class="status">Categories</span>
@@ -103,7 +105,7 @@
                 <?php endif; ?>
                 <?php if(Permissions::hasPermission('sub_categories', 'listing')): ?>
                 <li class="nav-item">
-                    <a class="nav-link<?php echo ($active ? ' active' : '') ?>" href="<?php echo route('admin.products.subCategories') ?>">
+                    <a class="nav-link<?php echo ($activeSubCategories  ? ' active' : '') ?>" href="<?php echo route('admin.products.subCategories') ?>">
                         <span class="badge badge-dot mr-4">
                             <i class="bg-pink"></i>
                             <span class="status">Sub Categories</span>
