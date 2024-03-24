@@ -146,7 +146,7 @@ class SlidersController extends AppController
                     'heading' => 'nullable|string',
                     'sub_heading' => 'nullable|string',
                     'button_title' => 'nullable|required_if:button_status,1|string|max:255',
-                    'button_url' => 'nullable|required_if:button_status,1|url|max:255',
+                    'button_url' => 'nullable|required_if:button_status,1',
                     'image' => ['nullable'],
                 ],
             );
@@ -161,7 +161,6 @@ class SlidersController extends AppController
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
             } else {
-                dd($validator->errors());
                 $request->session()->flash('error', 'Please provide valid inputs.');
                 return redirect()->back()->withErrors($validator)->withInput();
             }
@@ -206,7 +205,7 @@ class SlidersController extends AppController
                         'heading' => 'nullable|string',
                         'sub_heading' => 'nullable|string',
                         'button_title' => 'exclude_if:button_status,0|required_if:button_status,1|string|max:255',
-                        'button_url' => 'exclude_if:button_status,0|required_if:button_status,1|url|max:255',
+                        'button_url' => 'exclude_if:button_status,0|required_if:button_status,1',
                         'image' => ['nullable'],
                     ],
                 );

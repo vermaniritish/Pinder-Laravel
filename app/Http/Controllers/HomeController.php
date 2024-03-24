@@ -11,8 +11,8 @@ class HomeController extends BaseController
 {
     public function index(Request $request)
     {
-        $sliders = Sliders::where('status',1)->whereNull('deleted_at')->get();
-        $testimonials = Ratings::where('status',1)->whereNull('deleted_at')->get();
+        $sliders = Sliders::where('status',1)->get();
+        $testimonials = Ratings::where('status',1)->get();
         return view('frontend.home.index', ['sliders' => $sliders,'testimonials' => $testimonials]);
     }
 }

@@ -44,6 +44,30 @@
 									@enderror
 								</div>
 							</div>
+							
+						</div>
+						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-control-label">Heading</label>
+									<textarea rows="2" class="form-control" placeholder="Heading" required name="heading">{{ old('heading') }}</textarea>
+									@error('heading')
+										<small class="text-danger">{{ $message }}</small>
+									@enderror
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-control-label">Sub Heading</label>
+									<textarea rows="2" class="form-control" placeholder="Sub Heading" name="sub_heading">{{ old('sub_heading') }}</textarea>
+									@error('sub_heading')
+										<small class="text-danger">{{ $message }}</small>
+									@enderror
+								</div>
+							</div>
+						</div>
+						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label class="form-control-label" for="input-first-name">Button (on/off)</label>
@@ -80,26 +104,6 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="form-control-label">Heading</label>
-									<textarea rows="2" id="editor1" class="form-control" placeholder="Heading" name="heading">{{ old('heading') }}</textarea>
-									@error('heading')
-										<small class="text-danger">{{ $message }}</small>
-									@enderror
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="form-control-label">Sub Heading</label>
-									<textarea rows="2" id="editor2" class="form-control" placeholder="Sub Heading" required name="sub_heading">{{ old('sub_heading') }}</textarea>
-									@error('sub_heading')
-										<small class="text-danger">{{ $message }}</small>
-									@enderror
-								</div>
-							</div>
-						</div>
 						<hr class="my-4" />
 						<!-- Address -->
 						<h6 class="heading-small text-muted mb-4">Publish Slider Image</h6>
@@ -113,8 +117,8 @@
 											data-type="image"
 											data-multiple="false"
 											data-path="sliders"
-											data-resize-large="70*18"
-											data-resize-small="70*18"
+											data-resize-large="1920*753"
+											data-resize-small="192*74"
 										>
 											<div class="upload-section">
 												<div class="button-ref mb-3">
@@ -122,6 +126,7 @@
 										                <span class="btn-inner--icon"><i class="fas fa-upload"></i></span>
 										                <span class="btn-inner--text">Upload Image</span>
 									              	</button>
+													<p><small>Recomeded Size: 1920*753</small></p>
 									            </div>
 									            <!-- PROGRESS BAR -->
 												<div class="progress d-none">

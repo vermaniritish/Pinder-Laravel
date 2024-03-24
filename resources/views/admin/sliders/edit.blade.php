@@ -44,13 +44,37 @@
 									@enderror
 								</div>
 							</div>
+							
+						</div>
+						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-control-label">Heading</label>
+									<textarea rows="2" class="form-control" placeholder="Heading" required name="heading">{{ old('heading', $page->heading) }}</textarea>
+									@error('heading')
+										<small class="text-danger">{{ $message }}</small>
+									@enderror
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-control-label">Sub Heading</label>
+									<textarea rows="2" class="form-control" placeholder="Sub Heading" name="sub_heading">{{ old('sub_heading', $page->sub_heading) }}</textarea>
+									@error('sub_heading')
+										<small class="text-danger">{{ $message }}</small>
+									@enderror
+								</div>
+							</div>
+						</div>
+						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label class="form-control-label" for="input-first-name">Button (on/off)</label>
 									<div class="custom-control mt-2">
 										<label class="custom-toggle">
 											<input type="checkbox" name="button_status" id="buttonStatus" value="1"
-												<?php echo old('button_status',$page->button_status) ? 'checked' : ''; ?>>
+												<?php echo old('button_status', $page->button_status) ? 'checked' : ''; ?>>
 											<span class="custom-toggle-slider rounded-circle"
 												data-label-off="No" data-label-on="Yes"></span>
 										</label>
@@ -63,7 +87,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="form-control-label" for="input-first-name">Button Title</label>
-										<input type="text" class="form-control" name="button_title" placeholder="Button Title" value="{{ old('button_title',$page->button_title) }}">
+										<input type="text" class="form-control" name="button_title" placeholder="Button Title" value="{{ old('button_title', $page->button_title) }}">
 										@error('button_title')
 											<small class="text-danger">{{ $message }}</small>
 										@enderror
@@ -72,31 +96,11 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="form-control-label" for="input-first-name">Button Url</label>
-										<input type="text" class="form-control" name="button_url" placeholder="Button Url" value="{{ old('button_url',$page->button_url) }}">
+										<input type="text" class="form-control" name="button_url" placeholder="Button Url" value="{{ old('button_url', $page->button_url) }}">
 										@error('button_url')
 											<small class="text-danger">{{ $message }}</small>
 										@enderror
 									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="form-control-label">Heading</label>
-									<textarea rows="2" id="editor1" class="form-control" placeholder="Heading" name="heading">{{ old('heading',$page->heading) }}</textarea>
-									@error('heading')
-										<small class="text-danger">{{ $message }}</small>
-									@enderror
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="form-control-label">Sub Heading</label>
-									<textarea rows="2" id="editor2" class="form-control" placeholder="Sub Heading" required name="sub_heading">{{ old('sub_heading',$page->sub_heading) }}</textarea>
-									@error('sub_heading')
-										<small class="text-danger">{{ $message }}</small>
-									@enderror
 								</div>
 							</div>
 						</div>
