@@ -112,6 +112,13 @@ use App\Models\Admin\Permissions;
 					</div>
 				</div>
 				<div class="col-xl-4 order-xl-1">
+					<?php if($page->image): ?>
+					<div class="card">
+						<div class="card-body">
+							<img src="<?php echo url($page->image) ?>">
+						</div>
+					</div>
+					<?php endif; ?>
 					<div class="card">
 						<div class="card-header">
 							<div class="row align-items-center">

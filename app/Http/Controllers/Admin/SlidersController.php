@@ -198,19 +198,19 @@ class SlidersController extends AppController
         if($page) {
             if($request->isMethod('post')) {
                 $data = $request->toArray();
+                $data['button_status'] = isset($data['button_status']) && $data['button_status'] ? $data['button_status'] : 0;
                 $validator = Validator::make(
                     $request->toArray(),
                     [
                         'label' => 'required|string|max:255',
                         'heading' => 'nullable|string',
                         'sub_heading' => 'nullable|string',
-                        'button_title' => 'exclude_if:button_status,0|required_if:button_status,1|string|max:255',
+                        'button_title' => 'nullable|exclude_if:button_status,0|required_if:button_status,1|string|max:255',
                         'button_url' => 'exclude_if:button_status,0|required_if:button_status,1',
                         'image' => ['nullable'],
                     ],
                 );
                 $data['status'] = isset($data['status']) && $data['status'] ? $data['status'] : 0;
-                $data['button_status'] = isset($data['button_status']) && $data['button_status'] ? $data['button_status'] : 0;
                 if(!$validator->fails()) {
                     unset($data['_token']);
                     if(Sliders::modify($id, $data)) {
