@@ -26,13 +26,6 @@ let order = new Vue({
     methods: {
         initTagIt: function () {
             $(".tag-it").tagit();
-            $(".tag-it-capital").tagit({
-                allowSpaces: true,
-                preprocessTag: function(val) {
-                    if (!val) { return ''; }
-                    return val[0].toUpperCase() + val.slice(1, val.length);
-                }
-            });
         },
         initBasics: function () {
             setTimeout(function () {

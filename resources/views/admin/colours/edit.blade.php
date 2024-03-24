@@ -37,6 +37,15 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
+									<label class="form-control-label" for="input-first-name">Color Title</label>
+									<input type="text" class="form-control" name="title" required placeholder="Colour Title" value="{{ old('title', $page->title) }}">
+									@error('title')
+										<small class="text-danger">{{ $message }}</small>
+									@enderror
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
 									<label class="form-control-label" for="input-first-name">Color Code</label>
 									<input type="text" class="form-control" name="color_code" required placeholder="Colour Code" value="{{ old('color_code',$page->color_code) }}">
 									@error('color_code')

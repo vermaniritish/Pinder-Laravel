@@ -14,6 +14,9 @@
 		</span>
 	</td>
 	<td>
+		<?php echo $row->title ?>
+	</td>
+	<td>
 		<?php echo $row->color_code ?>
 	</td>
 	<td>

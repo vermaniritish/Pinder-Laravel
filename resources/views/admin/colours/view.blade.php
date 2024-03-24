@@ -68,6 +68,10 @@ use App\Models\Admin\Permissions;
 										<td><?php echo $page->id ?></td>
 									</tr>
 									<tr>
+										<th>Color Title</th>
+										<td><?php echo $page->title ?></td>
+									</tr>
+									<tr>
 										<th>Color Code</th>
 										<td><?php echo $page->color_code ?></td>
 									</tr>

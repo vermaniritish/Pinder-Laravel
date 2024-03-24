@@ -103,7 +103,17 @@
 										<i class="fas fa-sort" data-field="colours.id" data-sort="asc"></i>
 										<?php endif; ?>
 									</th>
-									<th class="sort" width="20%">
+									<th class="sort" width="10%">
+										Colour Title
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.title' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="colours.title" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.title' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="colours.title" data-sort="desc"></i>
+										<?php else: ?>
+										<i class="fas fa-sort" data-field="colours.title"></i>
+										<?php endif; ?>
+									</th>
+									<th class="sort" width="15%">
 										Colour Code
 										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
 										<i class="fas fa-sort-down active" data-field="colours.color_code" data-sort="asc"></i>
@@ -113,7 +123,7 @@
 										<i class="fas fa-sort" data-field="colours.color_code"></i>
 										<?php endif; ?>
 									</th>
-									<th class="sort" width="15%">
+									<th class="sort" width="10%">
 										Created ON
 										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.created' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
 										<i class="fas fa-sort-down active" data-field="colours.created" data-sort="asc"></i>
