@@ -211,12 +211,6 @@ class Sliders extends AppModel
     	$staff->modified = date('Y-m-d H:i:s');
 	    if($staff->save())
 	    {
-            if(isset($data['title']) && $data['title'])
-            {
-                $staff->slug = Str::slug($staff->title) . '-' . General::encode($staff->id);
-                $staff->save();
-            }
-
 	    	return $staff;
 	    }
 	    else
