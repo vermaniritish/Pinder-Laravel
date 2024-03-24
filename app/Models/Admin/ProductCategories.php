@@ -28,6 +28,16 @@ class ProductCategories extends AppModel
     }
 
     /**
+    * Products -> Admins belongsTO relation
+    * 
+    * @return Admins
+    */
+    public function owner()
+    {
+        return $this->belongsTo(Admins::class, 'created_by', 'id');
+    }
+
+    /**
     * Get resize images
     *
     * @return array

@@ -179,7 +179,20 @@ class ProductCategoriesController extends AppController
 		    }
 		}
 
-	    return view("admin/products/categories/add");
+		$categories = ProductCategories::getAll(
+			[
+				'product_categories.id',
+				'product_categories.title'
+			],
+			[
+				'status' => 1,
+			],
+			'product_categories.title desc'
+		);
+
+	    return view("admin/products/categories/add",[
+			'categories' => $categories
+		]);
     }
 
     function edit(Request $request, $id)
@@ -246,8 +259,19 @@ class ProductCategoriesController extends AppController
 			    }
 			}
     		
+			$categories = ProductCategories::getAll(
+				[
+					'product_categories.id',
+					'product_categories.title'
+				],
+				[
+					'status' => 1,
+				],
+				'product_categories.title desc'
+			);
+
 		    return view("admin/products/categories/edit", [
-		    		'category' => $category
+		    		'categories' => $categories
 	    		]);
 		}
 		else

@@ -5,13 +5,13 @@
 			<div class="header-body">
 				<div class="row align-items-center py-4">
 					<div class="col-lg-6 col-7">
-						<h6 class="h2 text-white d-inline-block mb-0">Manage Product Categories</h6>
+						<h6 class="h2 text-white d-inline-block mb-0">Manage Sub Categories</h6>
 					</div>
 					<div class="col-lg-6 col-5 text-right">
-						<?php if(Permissions::hasPermission('product_categories', 'create')): ?>
-						<a href="<?php echo route('admin.products.categories.add') ?>" class="btn btn-neutral"><i class="fas fa-plus"></i> New</a>
+						<?php if(Permissions::hasPermission('sub_categories', 'create')): ?>
+						<a href="<?php echo route('admin.products.subCategories.add') ?>" class="btn btn-neutral"><i class="fas fa-plus"></i> New</a>
 						<?php endif;?>
-						@include('admin.products.categories.filters')
+						@include('admin.products.subCategories.filters')
 					</div>
 				</div>
 			</div>
@@ -37,7 +37,7 @@
 								</div>
 								<input class="form-control listing-search" placeholder="Search" type="text" value="<?php echo (isset($_GET['search']) && $_GET['search'] ? $_GET['search'] : '') ?>">
 							</div>
-							<?php if(Permissions::hasPermission('product_categories', 'delete')): ?>
+							<?php if(Permissions::hasPermission('sub_categories', 'delete')): ?>
 							<div class="dropdown" data-toggle="tooltip" data-title="Bulk Actions" >
 								<a class="btn btn-sm btn-icon-only text-warning" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<i class="fas fa-ellipsis-v"></i>
@@ -46,7 +46,7 @@
 		                            <a 
 		                            	href="javascript:void(0);" 
 		                            	class="waves-effect waves-block dropdown-item text-danger" 
-		                            	onclick="bulk_actions('<?php echo route('admin.products.categories.bulkActions', ['action' => 'delete']) ?>', 'delete');">
+		                            	onclick="bulk_actions('<?php echo route('admin.products.subCategories.bulkActions', ['action' => 'delete']) ?>', 'delete');">
 											<i class="fas fa-times text-danger"></i>
 											<span class="status text-danger">Delete</span>
 		                            </a>
@@ -114,7 +114,7 @@
 							</thead>
 							<tbody class="list">
 								<?php if(!empty($listing->items())): ?>
-									@include('admin.products.categories.listingLoop')
+									@include('admin.products.subCategories.listingLoop')
 								<?php else: ?>
 									<td align="left" colspan="7">
 		                            	No records found!

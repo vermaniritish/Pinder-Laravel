@@ -12,6 +12,15 @@ class ProductReports extends AppModel
     protected $primaryKey = 'id';
     public $timestamps = false;
 
+	/**
+    * Products -> Admins belongsTO relation
+    * 
+    * @return Admins
+    */
+    public function owner()
+    {
+        return $this->belongsTo(Admins::class, 'created_by', 'id');
+    }
 
     /**
     * To search and get pagination listing

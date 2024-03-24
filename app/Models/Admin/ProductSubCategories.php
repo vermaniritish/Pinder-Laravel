@@ -12,7 +12,7 @@ use App\Libraries\General;
 
 class ProductSubCategories extends AppModel
 {
-    protected $table = 'product_categories';
+    protected $table = 'sub_categories';
     protected $primaryKey = 'id';
     public $timestamps = false;
 
@@ -25,6 +25,16 @@ class ProductSubCategories extends AppModel
     public function products()
     {
         return $this->belongsToMany(Products::class, 'product_category_relation', 'category_id', 'product_id');
+    }
+
+    /**
+    * Products -> Admins belongsTO relation
+    * 
+    * @return Admins
+    */
+    public function owner()
+    {
+        return $this->belongsTo(Admins::class, 'created_by', 'id');
     }
 
     /**
