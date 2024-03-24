@@ -43,13 +43,24 @@ class Products extends AppModel
     }
 
     /**
+    * Product -> ProductSubCategories belongsToMany relation
+    *
+    * @return ProductSubCategories
+    */
+    public function subCategories()
+    {
+        return $this->belongsToMany(ProductSubCategories::class, 'product_sub_category_relation', 'product_id', 'sub_category_id')
+                    ->withPivot('sub_category_title','sub_category_id');
+    }
+
+    /**
     * Product -> ProductCategories belongsToMany relation
     *
     * @return ProductCategories
     */
     public function categories()
     {
-        return $this->belongsToMany(ProductCategories::class, 'product_category_relation', 'product_id', 'category_id');
+        return $this->belongsTo(ProductCategories::class, 'category_id', 'id');
     }
 
     /**
@@ -212,8 +223,8 @@ class Products extends AppModel
     {
     	$record = Products::where('id', $id)
             ->with([
-                'categories' => function($query) {
-                    $query->select(['product_categories.id', 'product_categories.title']);
+                'subCategories' => function($query) {
+                    $query->select(['sub_category_title', 'sub_category_id']);
                 },
                 'brands' => function($query) {
                     $query->select(['brands.id', 'brands.title']);

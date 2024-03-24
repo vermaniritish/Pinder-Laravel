@@ -75,17 +75,26 @@ use App\Models\Admin\Settings;
 									<td><?php echo $product->color ? $product->color->color_code : null ?></td>
 								</tr>
 								<tr>
-									<th>Categories</th>
+									<th>Category</th>
 									<td>
 										<?php 
 										if(isset($product->categories) && $product->categories ): 
-											foreach ($product->categories as $key => $pc):
-												echo '<span class="badge badge-warning">'.$pc['title'].'</span> ';
-											endforeach;
+												echo '<span class="badge badge-warning">'.$product->categories->title.'</span> ';
 										endif; 
 										?>
-											
-										</td>
+									</td>
+								</tr>
+								<tr>
+									<th>Sub Categories</th>
+									<td>
+										<?php 
+										if(isset($product->subCategories) && $product->subCategories ): 
+											foreach ($product->subCategories as $key => $pc):
+												echo '<span class="badge badge-warning">'.$pc['sub_category_title'].'</span> ';
+											endforeach;
+										endif; 
+										?>	
+									</td>
 								</tr>
 								<tr>
 									<th>Brands</th>

@@ -59,7 +59,7 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="form-control-label" for="input-first-name">Sub Category</label>
-											<select class="form-control no-selectpicker" name="sub_category[]" required multiple>
+											<select class="form-control no-selectpicker" v-model="selectedSubCategory" name="sub_category[]" required multiple>
 												<option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id">
 													@{{ subCategory.title }}
 												</option>

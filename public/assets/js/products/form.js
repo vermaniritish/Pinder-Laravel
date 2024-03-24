@@ -16,6 +16,7 @@ let order = new Vue({
         durationOfService: '',
         loading: false,
         url: '',
+        selectedSubCategory: []
     },
     mounted: function() {
         this.initEditValues();
@@ -38,7 +39,8 @@ let order = new Vue({
             if ($('#edit-form').length > 0) {
                 let data = JSON.parse($('#edit-form').text());
                 this.url = admin_url + '/products/' + data.id + '/edit';
-                this.selectedCategory = data && data.categories && data.categories.length > 0 ? data.categories.map(category => category.id) : [];
+                this.selectedSubCategory = data && data.subCategories && data.subCategories.length > 0 ? data.subCategories.map(category => category.id) : [];
+                this.selectedCategory = data.category_id;
                 this.title = data.title;
                 this.selectedColor = data.color_id;
                 this.selectedGender = data.gender;

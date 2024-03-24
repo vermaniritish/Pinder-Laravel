@@ -22,8 +22,7 @@
 	</td>
 	<td>
     	<?php 
-        	$categoryTitles = $row->categories->pluck('title')->implode(', ');
-        	echo $categoryTitles;
+        	echo $row->categories ? $row->categories->title : null;
     	?>
 	</td>
 	<td>
@@ -41,7 +40,7 @@
 	<td>
 		<?php echo _dt($row->created) ?>
 	</td>
-	<td class="text-right">
+	<td class="text-left">
 		<div class="dropdown">
 			<a class="btn btn-sm btn-icon-only text-warning" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<i class="fas fa-ellipsis-v"></i>
