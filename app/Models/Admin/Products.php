@@ -411,22 +411,6 @@ class Products extends AppModel
         }
     }
 
-    public static function handleCategories($id, $categories)
-    {
-        //Delete all first
-        ProductCategoryRelation::where('product_id', $id)->delete();
-        // Then Save
-        foreach($categories as $c)
-        {
-            $relation = new ProductCategoryRelation();
-            $relation->product_id = $id;
-            $relation->category_id = $c;
-            $relation->save();
-        }
-
-        $product = Products::find($id);
-    }
-
     public static function handleSubCategory($id, $subCategories)
     {
         //Delete all first
