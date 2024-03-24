@@ -72,7 +72,7 @@ use App\Models\Admin\Settings;
 								</tr>
 								<tr>
 									<th>Color</th>
-									<td><?php echo $product->color ? $product->color->color_code : null ?></td>
+									<td><?php echo $product->color ? $product->color->title . ' (' . $product->color->color_code . ')' : null ?></td>
 								</tr>
 								<tr>
 									<th>Category</th>
