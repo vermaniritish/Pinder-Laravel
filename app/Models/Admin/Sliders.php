@@ -249,13 +249,15 @@ class Sliders extends AppModel
         $images = $staff->getResizeImagesAttribute();
     	if($staff->delete())
         {
-            foreach($images as $img)
-            {
-                foreach($img as $i)
+            if($images){
+                foreach($images as $img)
                 {
-                    if($i && is_dir(public_path($i)) && file_exists(public_path($i)))
+                    foreach($img as $i)
                     {
-                        unlink(public_path($i));
+                        if($i && is_dir(public_path($i)) && file_exists(public_path($i)))
+                        {
+                            unlink(public_path($i));
+                        }
                     }
                 }
             }

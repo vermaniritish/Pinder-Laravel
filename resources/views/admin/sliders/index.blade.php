@@ -39,27 +39,50 @@
 								<input class="form-control listing-search" placeholder="Search" type="text" value="<?php echo (isset($_GET['search']) && $_GET['search'] ? $_GET['search'] : '') ?>">
 							</div>
 							<?php if(Permissions::hasPermission('sliders', 'update') || Permissions::hasPermission('sliders', 'delete')): ?>
-								<div class="dropdown" data-toggle="tooltip" data-title="Bulk Actions">
-									<a class="btn btn-sm btn-icon-only text-warning" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<i class="fas fa-ellipsis-v"></i>
-									</a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-										<?php if(Permissions::hasPermission('sliders', 'delete')): ?>
-											<a 
-												href="javascript:void(0);" 
-												class="waves-effect waves-block dropdown-item text-danger" 
-												onclick="bulk_actions('<?php echo route('admin.sliders.bulkActions', ['action' => 'delete']) ?>', 'delete');">
-													<i class="fas fa-times text-danger"></i>
-													<span class="status text-danger">Delete</span>
-											</a>
-										<?php endif; ?>
-									</div>
+							<div class="dropdown" data-toggle="tooltip" data-title="Bulk Actions">
+								<a class="btn btn-sm btn-icon-only text-warning" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="fas fa-ellipsis-v"></i>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+									<?php if(Permissions::hasPermission('sliders', 'update')): ?>
+										<a 
+											class="dropdown-item" 
+											href="javascript:;"
+											onclick="bulk_actions('<?php echo route('admin.sliders.bulkActions', ['action' => 'active']) ?>', 'active');"
+										>
+											<span class="badge badge-dot mr-4">
+												<i class="bg-success"></i>
+												<span class="status">Active</span>
+											</span>
+										</a>
+										<a 
+											class="dropdown-item" 
+											href="javascript:;"
+											onclick="bulk_actions('<?php echo route('admin.sliders.bulkActions', ['action' => 'inactive']) ?>', 'inactive');"
+										>
+											<span class="badge badge-dot mr-4">
+												<i class="bg-warning"></i>
+												<span class="status">Inactive</span>
+											</span>
+										</a>
+										<div class="dropdown-divider"></div>
+									<?php endif; ?>
+									<?php if(Permissions::hasPermission('sliders', 'delete')): ?>
+										<a 
+											href="javascript:void(0);" 
+											class="waves-effect waves-block dropdown-item text-danger" 
+											onclick="bulk_actions('<?php echo route('admin.sliders.bulkActions', ['action' => 'delete']) ?>', 'delete');">
+												<i class="fas fa-times text-danger"></i>
+												<span class="status text-danger">Delete</span>
+										</a>
+									<?php endif; ?>
 								</div>
-							<?php endif; ?>
+							</div>
+						<?php endif; ?>
 						</div>
 					</div>
 					<div class="table-responsive">
-<!--!!!!! DO NOT REMOVE listing-table, mark_all  CLASSES. INCLUDE THIS IN ALL TABLES LISTING PAGES !!!!!-->
+						<!--!!!!! DO NOT REMOVE listing-table, mark_all  CLASSES. INCLUDE THIS IN ALL TABLES LISTING PAGES !!!!!-->
 						<table class="table align-items-center table-flush listing-table">
 							<thead class="thead-light">
 								<tr>
