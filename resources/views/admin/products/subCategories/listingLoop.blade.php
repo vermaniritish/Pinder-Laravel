@@ -28,7 +28,7 @@
 	<td>
 		<div class="custom-control">
 			<label class="custom-toggle">
-				<?php $switchUrl =  route('admin.actions.switchUpdate', ['relation' => 'product_categories', 'field' => 'status', 'id' => $row->id]); ?>
+				<?php $switchUrl =  route('admin.actions.switchUpdate', ['relation' => 'sub_categories', 'field' => 'status', 'id' => $row->id]); ?>
 				<input type="checkbox" name="status" onchange="switch_action('<?php echo $switchUrl ?>', this)" value="1" <?php echo ($row->status ? 'checked' : '') ?>>
 				<span class="custom-toggle-slider rounded-circle" data-label-off="OFF" data-label-on="ON"></span>
 			</label>
@@ -38,20 +38,20 @@
 		<?php echo _dt($row->created) ?>
 	</td>
 	<td class="text-right">
-		<?php if(Permissions::hasPermission('product_categories', 'update') || Permissions::hasPermission('product_categories', 'delete')): ?>
+		<?php if(Permissions::hasPermission('sub_categories', 'update') || Permissions::hasPermission('sub_categories', 'delete')): ?>
 			<div class="dropdown">
 				<a class="btn btn-sm btn-icon-only text-warning" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<i class="fas fa-ellipsis-v"></i>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-					<?php if(Permissions::hasPermission('product_categories', 'update')): ?>
+					<?php if(Permissions::hasPermission('sub_categories', 'update')): ?>
 					<a class="dropdown-item" href="<?php echo route('admin.products.categories.edit', ['id' => $row->id]) ?>">
 						<i class="fas fa-pencil-alt text-info"></i>
 						<span class="status">Edit</span>
 					</a>
 					<?php endif; ?>
 					
-					<?php if(Permissions::hasPermission('product_categories', 'delete')): ?>
+					<?php if(Permissions::hasPermission('sub_categories', 'delete')): ?>
 					<div class="dropdown-divider"></div>
 					<a 
 						class="dropdown-item _delete" 
