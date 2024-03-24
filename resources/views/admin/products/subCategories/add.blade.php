@@ -44,8 +44,6 @@
 										@enderror
 									</div>
 								</div>
-							</div>
-							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
 										<!-- FILE OR IMAGE UPLOAD. FOLDER PATH SET HERE in data-path AND CHANGE THE data-multiple TO TRUE SEE MAGIC  -->

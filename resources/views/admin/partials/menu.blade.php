@@ -101,6 +101,16 @@
                     </a>
                 </li>
                 <?php endif; ?>
+                <?php if(Permissions::hasPermission('sub_categories', 'listing')): ?>
+                <li class="nav-item">
+                    <a class="nav-link<?php echo ($active ? ' active' : '') ?>" href="<?php echo route('admin.products.subCategories') ?>">
+                        <span class="badge badge-dot mr-4">
+                            <i class="bg-pink"></i>
+                            <span class="status">Sub Categories</span>
+                        </span>
+                    </a>
+                </li>
+                <?php endif; ?>
             </ul>
         </li>
         <?php endif; ?>
