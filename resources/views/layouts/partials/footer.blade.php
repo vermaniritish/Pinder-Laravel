@@ -1,9 +1,10 @@
+<?php use App\Models\Admin\HomePage; ?>
 <!-- Start footer section -->
     <footer class="footer__section bg__black">
         <div class="container-fluid">
             <div class="main__footer d-flex justify-content-between">
                 <div class="footer__widget footer__widget--width">
-                    <h2 class="footer__widget--title text-ofwhite h3">About Us
+                    <h2 class="footer__widget--title text-ofwhite h3">{{HomePage::get('footer_title')}}
                         <button class="footer__widget--button" aria-label="footer widget button">
                             <svg class="footer__widget--title__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
                                 width="12.355" height="8.394" viewBox="0 0 10.355 6.394">
@@ -13,15 +14,13 @@
                         </button>
                     </h2>
                     <div class="footer__widget--inner">
-                        <p class="footer__widget--desc text-ofwhite mb-20">Lorem ipsum dolor sit amet, consectetur
-                            adipisici ti elit seddo eiusmod tempor incididunt utlabore et dolore magna aliqua enim ad
-                            minim veniam quisnostrud exercitation ullamco</p>
+                        <p class="footer__widget--desc text-ofwhite mb-20">{{HomePage::get('footer_description')}}</p>
                         <div class="footer__social">
                             <h3 class="social__title text-ofwhite h4 mb-15">Follow Us</h3>
                             <ul class="social__shear d-flex">
                                 <li class="social__shear--list">
                                     <a class="social__shear--list__icon" target="_blank"
-                                        href="https://www.facebook.com">
+                                        href="{{ HomePage::get('facebook') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="7.667" height="16.524"
                                             viewBox="0 0 7.667 16.524">
                                             <path data-name="Path 237"
@@ -33,7 +32,7 @@
                                 </li>
                                 <li class="social__shear--list">
                                     <a class="social__shear--list__icon" target="_blank"
-                                        href="https://twitter.com">
+                                        href="{{ HomePage::get('twitter') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16.489" height="13.384"
                                             viewBox="0 0 16.489 13.384">
                                             <path data-name="Path 303"
@@ -45,7 +44,7 @@
                                 </li>
                                 <li class="social__shear--list">
                                     <a class="social__shear--list__icon" target="_blank"
-                                        href="https://www.instagram.com">
+                                        href="{{ HomePage::get('instagram') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16.497" height="16.492"
                                             viewBox="0 0 19.497 19.492">
                                             <path data-name="Icon awesome-instagram"
@@ -57,7 +56,7 @@
                                 </li>
                                 <li class="social__shear--list">
                                     <a class="social__shear--list__icon" target="_blank"
-                                        href="https://www.youtube.com">
+                                        href="{{ HomePage::get('youtube') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16.49" height="11.582"
                                             viewBox="0 0 16.49 11.582">
                                             <path data-name="Path 321"
@@ -74,7 +73,7 @@
                 <div class="footer__widget--menu__wrapper d-flex footer__widget--width">
 
                     <div class="footer__widget">
-                        <h2 class="footer__widget--title text-ofwhite h3">Quick Links
+                        <h2 class="footer__widget--title text-ofwhite h3">{{ HomePage::get('quick_links_title') }}
                             <button class="footer__widget--button" aria-label="footer widget button">
                                 <svg class="footer__widget--title__arrowdown--icon"
                                     xmlns="http://www.w3.org/2000/svg" width="12.355" height="8.394"
@@ -85,20 +84,42 @@
                             </button>
                         </h2>
                         <ul class="footer__widget--menu footer__widget--inner">
+                            <?php $url = HomePage::get('footer_link1'); ?>
+                            <?php $title = HomePage::get('footer_link1_title'); ?>
+                            <?php if($title && $url): ?>
                             <li class="footer__widget--menu__list"><a class="footer__widget--menu__text"
-                                    href="/">About
-                                    Us</a></li>
+                                    href="{{ $url }}">{{ $title }}</a></li>
+                            <?php endif;?>
+                            <?php $url = HomePage::get('footer_link2'); ?>
+                            <?php $title = HomePage::get('footer_link2_title'); ?>
+                            <?php if($title && $url): ?>
                             <li class="footer__widget--menu__list"><a class="footer__widget--menu__text"
-                                    href="/">Contact Us</a></li>
+                                    href="{{ $url }}">{{ $title }}</a></li>
+                            <?php endif;?>
+                            <?php $url = HomePage::get('footer_link3'); ?>
+                            <?php $title = HomePage::get('footer_link3_title'); ?>
+                            <?php if($title && $url): ?>
                             <li class="footer__widget--menu__list"><a class="footer__widget--menu__text"
-                                    href="/">FAQs</a></li>
+                                    href="{{ $url }}">{{ $title }}</a></li>
+                            <?php endif;?>
+                            <?php $url = HomePage::get('footer_link4'); ?>
+                            <?php $title = HomePage::get('footer_link4_title'); ?>
+                            <?php if($title && $url): ?>
                             <li class="footer__widget--menu__list"><a class="footer__widget--menu__text"
-                                    href="/">Privacy Policy</a></li>
+                                    href="{{ $url }}">{{ $title }}</a></li>
+                            <?php endif;?>
+                            <?php $url = HomePage::get('footer_link5'); ?>
+                            <?php $title = HomePage::get('footer_link5_title'); ?>
+                            <?php if($title && $url): ?>
                             <li class="footer__widget--menu__list"><a class="footer__widget--menu__text"
-                                    href="/">Delivery Information</a></li>
+                                    href="{{ $url }}">{{ $title }}</a></li>
+                            <?php endif;?>
+                            <?php $url = HomePage::get('footer_link6'); ?>
+                            <?php $title = HomePage::get('footer_link6_title'); ?>
+                            <?php if($title && $url): ?>
                             <li class="footer__widget--menu__list"><a class="footer__widget--menu__text"
-                                    href="/">Return
-                                    Policy</a></li>
+                                    href="{{ $url }}">{{ $title }}</a></li>
+                            <?php endif;?>
                         </ul>
                     </div>
                 </div>
@@ -113,46 +134,7 @@
                         </button>
                     </h2>
                     <div class="footer__instagram footer__widget--inner">
-                        <div class="footer__instagram--list d-flex">
-                            <div class="instagram__thumbnail">
-                                <a class="instagram__thumbnail--img" target="_blank"
-                                    href="https://www.instagram.com/p/CZkF3TLBTT7"><img
-                                        src="{{ url('frontend/assets/img/other/instagram1.webp') }}"
-                                        alt="instagram"></a>
-                            </div>
-                            <div class="instagram__thumbnail">
-                                <a class="instagram__thumbnail--img" target="_blank"
-                                    href="https://www.instagram.com/p/CZkF60sBxhN"><img
-                                        src="{{ url('frontend/assets/img/other/instagram2.webp') }}"
-                                        alt="instagram"></a>
-                            </div>
-                            <div class="instagram__thumbnail">
-                                <a class="instagram__thumbnail--img" target="_blank"
-                                    href="https://www.instagram.com/p/CZkF90ZB6HG"><img
-                                        src="{{ url('frontend/assets/img/other/instagram3.webp') }}"
-                                        alt="instagram"></a>
-                            </div>
-                        </div>
-                        <div class="footer__instagram--list d-flex">
-                            <div class="instagram__thumbnail">
-                                <a class="instagram__thumbnail--img" target="_blank"
-                                    href="https://www.instagram.com/p/CZkGAe6BQeu"><img
-                                        src="{{ url('frontend/assets/img/other/instagram4.webp') }}"
-                                        alt="instagram"></a>
-                            </div>
-                            <div class="instagram__thumbnail">
-                                <a class="instagram__thumbnail--img" target="_blank"
-                                    href="https://www.instagram.com/p/CZkGCWcBbv9"><img
-                                        src="{{ url('frontend/assets/img/other/instagram5.webp') }}"
-                                        alt="instagram"></a>
-                            </div>
-                            <div class="instagram__thumbnail">
-                                <a class="instagram__thumbnail--img" target="_blank"
-                                    href="https://www.instagram.com/p/CZkGFDMhoid"><img
-                                        src="{{ url('frontend/assets/img/other/instagram6.webp') }}"
-                                        alt="instagram"></a>
-                            </div>
-                        </div>
+                        <?php echo HomePage::get('instagram_widget') ?>
                     </div>
                 </div>
                 <div class="footer__widget footer__widget--width">
@@ -166,8 +148,7 @@
                         </button>
                     </h2>
                     <div class="footer__widget--inner">
-                        <p class="footer__widget--desc text-ofwhite m-0">Fill their seed open meat. Sea you <br> great
-                            Saw image stl</p>
+                        <p class="footer__widget--desc text-ofwhite m-0"><?php echo nl2br(Homepage::get('newsletter_text')) ?></p>
                         <div class="newsletter__subscribe">
                             <form class="newsletter__subscribe--form" action="#">
                                 <label>
@@ -181,7 +162,7 @@
                 </div>
             </div>
             <div class="footer__bottom d-flex justify-content-between align-items-center">
-                <p class="copyright__content text-ofwhite m-0">Copyright © 2024 Pinders Schoolwear Ltd . All Rights
+                <p class="copyright__content text-ofwhite m-0">Copyright ©{{date('Y')}} Pinders Schoolwear Ltd . All Rights
                     Reserved.</p>
                 <div class="footer__payment text-right">
                     <img class="display-block" src="{{ url('frontend/assets/img/other/payment-visa') }}-card.png"

@@ -23,6 +23,7 @@ use App\Libraries\General;
 use App\Models\Admin\Pages;
 use App\Models\Admin\Admins;
 use App\Models\Admin\BlogCategories;
+use App\Models\Admin\HomePage;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 use App\Libraries\FileSystem;
@@ -206,7 +207,6 @@ class PagesController extends AppController
 			abort(404);
 		}
     }
-
     
 
     function edit(Request $request, $id)
@@ -296,6 +296,24 @@ class PagesController extends AppController
 			abort(404);
 		}
     }
+
+
+	function home(Request $request)
+    {
+
+		if($request->isMethod('post'))
+		{
+			$data = $request->toArray();
+			foreach($data as $k => $v)
+			{
+				HomePage::put($k, $v);
+			}
+			$request->session()->flash('success', 'Page updated successfully.');
+		    return redirect()->back();
+		}
+		return view("admin/pages/homepage");
+    }
+
 
     function delete(Request $request, $id)
     {

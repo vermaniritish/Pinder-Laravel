@@ -76,24 +76,13 @@
 								</div>
 							</div>
 							<div class="col-md-6">
-								<div class="form-group">
-								<label class="form-control-label" for="input-first-name">Image (on/off)</label>
-									<div class="custom-control mt-2">
-										<label class="custom-toggle">
-											<input type="checkbox" name="image_status" value="1"
-												<?php echo old('image_status', $page->image_status) ? 'checked' : ''; ?>>
-											<span class="custom-toggle-slider rounded-circle"
-												data-label-off="No" data-label-on="Yes"></span>
-										</label>
-									</div>
-								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label class="form-control-label">Message</label>
-									<textarea required rows="2" id="editor1" class="form-control" placeholder="Message" required name="message">{{ old('message',$page->message) }}</textarea>
+									<textarea required rows="2" class="form-control" placeholder="Message" required name="message">{{ old('message',$page->message) }}</textarea>
 									@error('message')
 										<small class="text-danger">{{ $message }}</small>
 									@enderror
@@ -118,6 +107,19 @@
 						<h6 class="heading-small text-muted mb-4">Publish Rating Image</h6>
 						<div class="pl-lg-4">
 							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+									<label class="form-control-label" for="input-first-name">Image (on/off)</label>
+										<div class="custom-control mt-2">
+											<label class="custom-toggle">
+												<input type="checkbox" name="image_status" value="1"
+													<?php echo old('image_status', $page->image_status) ? 'checked' : ''; ?>>
+												<span class="custom-toggle-slider rounded-circle"
+													data-label-off="No" data-label-on="Yes"></span>
+											</label>
+										</div>
+									</div>
+								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
 										<!-- FILE OR IMAGE UPLOAD. FOLDER PATH SET HERE in data-path AND CHANGE THE data-multiple TO TRUE SEE MAGIC. DO NOT REMOVE THE NESTED CALSSES -->
@@ -126,8 +128,8 @@
 											data-type="image"
 											data-multiple="false"
 											data-path="ratings"
-											data-resize-large="70*18"
-											data-resize-small="70*18"
+											data-resize-large="150*150"
+
 										>
 											<div class="upload-section">
 												<div class="button-ref mb-3">
@@ -135,6 +137,7 @@
 										                <span class="btn-inner--icon"><i class="fas fa-upload"></i></span>
 										                <span class="btn-inner--text">Upload Image</span>
 									              	</button>
+													<p><small>Rcommended Size: 150*150</small></p>
 									            </div>
 									            <!-- PROGRESS BAR -->
 												<div class="progress d-none">

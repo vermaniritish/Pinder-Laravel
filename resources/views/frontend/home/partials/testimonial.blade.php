@@ -1,3 +1,4 @@
+<?php if($testimonials && $testimonials->count() > 0): ?>
 <!-- Start testimonial section -->
 <section class="testimonial__section section--padding pt-0">
     <div class="container-fluid">
@@ -43,3 +44,4 @@
     </div>
 </section>
 <!-- End testimonial section -->
+<?php endif; ?>

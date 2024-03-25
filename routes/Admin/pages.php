@@ -8,6 +8,12 @@ Route::get('/pages/add', '\App\Http\Controllers\Admin\PagesController@add')
 Route::post('/pages/add', '\App\Http\Controllers\Admin\PagesController@add')
     ->name('admin.pages.add');
 
+Route::get('/pages/home', '\App\Http\Controllers\Admin\PagesController@home')
+    ->name('admin.pages.home');
+
+Route::post('/pages/home', '\App\Http\Controllers\Admin\PagesController@home')
+    ->name('admin.pages.home');
+
 Route::get('/pages/{id}/view', '\App\Http\Controllers\Admin\PagesController@view')
     ->name('admin.pages.view');
 
