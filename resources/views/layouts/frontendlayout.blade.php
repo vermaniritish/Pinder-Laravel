@@ -71,6 +71,10 @@ $version = 1.0;
         }
     </style>
 
+    <!-- Icons -->
+	<link rel="stylesheet" href="<?php echo url('assets/vendor/nucleo/css/nucleo.css') ?>" type="text/css">
+	<link rel="stylesheet" href="<?php echo url('assets/vendor/@fortawesome/fontawesome-free/css/all.min.css') ?>" type="text/css">
+
 </head>
 
 

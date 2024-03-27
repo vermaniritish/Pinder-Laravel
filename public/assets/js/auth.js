@@ -1,7 +1,8 @@
 let auth = new Vue({
     el: '#auth',
     data: {
-    mounting: true
+    mounting: true,
+    loading: false,
     },
     mounted: function() {
         this.mounting = false;
@@ -9,16 +10,20 @@ let auth = new Vue({
     methods: {
         register: async function() {
             if ($('#register-form')[0].checkValidity()) {
+console.log('byi');
+this.loading = true;
                 const password = document.getElementById('password').value;
                 const confirmPassword = document.getElementById('confirmPassword').value;
                 if (password !== confirmPassword) {
                     set_notification('error','Passwords do not match');
+                    this.loading = false;
                     return false;
                 }
-
+console.log('hi');
                 const termsConditionsChecked = document.getElementById('check2').checked;
                 if (!termsConditionsChecked) {
                     set_notification('error','Please agree to the terms & conditions');
+                    this.loading = false;
                     return false;
                 }
 
@@ -36,6 +41,7 @@ let auth = new Vue({
                 }else{
                     set_notification('error', response.message);
                 }
+                this.loading = false;
             }
             else{
                 return false;
