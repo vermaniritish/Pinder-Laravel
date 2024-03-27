@@ -1,3 +1,10 @@
+<?php 
+use App\Models\Admin\HomePage;
+use App\Models\Admin\Settings;
+use App\Models\Admin\ProductSubCategories;
+use Illuminate\Support\Str;
+
+ ?>
     <!-- Start header area -->
     <header class="header__section">
         <div class="header__topbar bg__secondary">
@@ -5,7 +12,7 @@
                 <div class="header__topbar--inner d-flex align-items-center justify-content-between">
                     <div class="header__shipping">
                         <ul class="header__shipping--wrapper d-flex">
-                            <li class="header__shipping--text text-white">Welcome to Pinders Work Wear</li>
+                            <li class="header__shipping--text text-white">{{ HomePage::get('title') }}</li>
 
                         </ul>
                     </div>
@@ -58,7 +65,6 @@
                                     <option value="7">Bottoms </option>
                                     <option value="8">Knitwear </option>
                                     <option value="9">Headwear </option>
-
                                 </select>
                             </div>
                             <div class="header__search--box">
@@ -128,191 +134,32 @@
                     <div class="header__menu d-none header__sticky--block d-lg-block">
                         <nav class="header__menu--navigation">
                             <ul class="d-flex">
-                                <!--<li class="header__menu--items style2">
-                                    <a class="header__menu--link" href="/">Shop by Category
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path  d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z" transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7"/>
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Gloves</a></li>
-                                        <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Footwear</a></li>
-                                        <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Trousers</a></li>
-          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">T-Shirts</a></li>
-          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Jumpers</a></li>
-          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Jackets</a></li>
-          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Respirators</a></li>
-          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Eye Protection</a></li>
-          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Head Protection</a></li>
-                                    </ul>
-                                </li>-->
-
-                                <li class="header__menu--items style3">
-                                    <a class="header__menu--link " href="/">T-Shirts
+                                <?php $menu = HomePage::get('menu_header'); 
+                                    $menu = $menu ? json_decode($menu) : [];
+                                ?>
+                                @foreach($menu as $m)
+                                    <?php $submenu = ProductSubCategories::where('category_id', $m->id)->get() ?>
+                                <li class="header__menu--items style3 pind">
+                                    
+                                    <a class="header__menu--link " href="{{ url('/' . Str::slug($m->title)) }}">{{$m->title}}
+                                        @if($submenu && $submenu->count() > 0)
                                         <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
                                             width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
+                                        @endif
                                     </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">V Neck</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Long Sleeve</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Short Sleeve</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Round Neck</a></li>
-                                    </ul>
+                                    <?php if($submenu && $submenu->count() > 0): ?>
+                                        <ul class="header__sub--menu">
+                                        @foreach ($submenu as $s)
+                                            <li class="header__sub--menu__items"><a href="{{ url('/' . Str::slug($m->title)) . '/' . $s->slug }}"
+                                                    class="header__sub--menu__link">{{$s->title}}</a></li>
+                                        @endforeach
+                                        </ul>
+                                    <?php endif; ?>
                                 </li>
-
-                                <li class="header__menu--items style3">
-                                    <a class="header__menu--link " href="/">Polo Shirts
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Long Sleeve</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Short Sleeve</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="header__menu--items style3">
-                                    <a class="header__menu--link " href="/">Hi Vis
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Waistcoat</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Vest</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Long Sleeve Polo</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Polo</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Tshirt</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Sweatshirt</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Hoodies</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Fleece</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Trouser</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Jacket</a></li>
-
-                                    </ul>
-                                </li>
-
-                                <li class="header__menu--items style3">
-                                    <a class="header__menu--link " href="/">Jackets
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Bombers</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Coats</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Fleece</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Hi Vis Jackets</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Waterproof</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="header__menu--items style3">
-                                    <a class="header__menu--link " href="/">Hoodies
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Pullover hoodies</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Zipper hoodies</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="header__menu--items style3">
-                                    <a class="header__menu--link " href="/">Bottoms
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Cargo</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Chinos</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Joggers</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Trousers</a></li>
-
-                                    </ul>
-                                </li>
-
-                                <li class="header__menu--items style3">
-                                    <a class="header__menu--link " href="/">Knitwear
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Jumpers</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Cardigans</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">V Neck Sweater</a></li>
-
-                                    </ul>
-                                </li>
-
-                                <li class="header__menu--items style3">
-                                    <a class="header__menu--link " href="/">Headwear
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Caps</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Beanies</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Hats</a></li>
-
-                                    </ul>
-                                </li>
-
+                                @endforeach
                                 <li class="header__menu--items style3">
                                     <a class="header__menu--link " href="/" style="color:#ee2761;">SALE </a>
                                 </li>
@@ -389,194 +236,31 @@
                     <div class="header__menu">
                         <nav class="header__menu--navigation">
                             <ul class="d-flex">
-                                <!--<li class="header__menu--items">
-                                    <a class="header__menu--link" href="/">Shop by Category
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path  d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z" transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7"/>
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Gloves</a></li>
-                                        <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Footwear</a></li>
-                                        <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Trousers</a></li>
-          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">T-Shirts</a></li>
-          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Jumpers</a></li>
-          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Jackets</a></li>
-          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Respirators</a></li>
-          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Eye Protection</a></li>
-          <li class="header__sub--menu__items"><a href="/" class="header__sub--menu__link">Head Protection</a></li>
-                                    </ul>
-                                </li>-->
-
+                                <?php $menu = HomePage::get('menu_header'); 
+                                    $menu = $menu ? json_decode($menu) : [];
+                                ?>
+                                @foreach($menu as $m)
+                                    <?php $submenu = ProductSubCategories::where('category_id', $m->id)->get() ?>
                                 <li class="header__menu--items">
-                                    <a class="header__menu--link " href="/">T-Shirts
+                                    <a class="header__menu--link " href="{{ url('/' . Str::slug($m->title)) }}">{{$m->title}}
+                                        @if($submenu && $submenu->count() > 0)
                                         <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
                                             width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
                                                 transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
                                         </svg>
+                                        @endif
                                     </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">V Neck</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Long Sleeve</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Short Sleeve</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Round Neck</a></li>
-                                    </ul>
+                                    <?php if($submenu && $submenu->count() > 0): ?>
+                                        <ul class="header__sub--menu">
+                                        @foreach ($submenu as $s)
+                                            <li class="header__sub--menu__items"><a href="{{ url('/' . Str::slug($m->title)) . '/' . $s->slug }}"
+                                                    class="header__sub--menu__link">{{$s->title}}</a></li>
+                                        @endforeach
+                                        </ul>
+                                    <?php endif; ?>
                                 </li>
-
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link " href="/">Polo Shirts
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Long Sleeve</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Short Sleeve</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link " href="/">Hi Vis
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Waistcoat</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Vest</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Long Sleeve Polo</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Polo</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Tshirt</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Sweatshirt</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Hoodies</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Fleece</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Trouser</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Jacket</a></li>
-
-                                    </ul>
-                                </li>
-
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link " href="/">Jackets
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Bombers</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Coats</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Fleece</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Hi Vis Jackets</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Waterproof</a></li>
-                                    </ul>
-                                </li>
-
-
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link " href="/">Hoodies
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Pullover hoodies</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Zipper hoodies</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link " href="/">Bottoms
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Cargo</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Chinos</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Joggers</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Trousers</a></li>
-
-                                    </ul>
-                                </li>
-
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link " href="/">Knitwear
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Jumpers</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Cardigans</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">V Neck Sweater</a></li>
-
-                                    </ul>
-                                </li>
-
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link " href="/">Headwear
-                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
-                                            width="12" height="7.41" viewBox="0 0 12 7.41">
-                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
-                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Caps</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Beanies</a></li>
-                                        <li class="header__sub--menu__items"><a href="/"
-                                                class="header__sub--menu__link">Hats</a></li>
-
-                                    </ul>
-                                </li>
-
-
-
+                                @endforeach
                                 <li class="header__menu--items">
                                     <a class="header__menu--link " href="/" style="color:#ee2761;">SALE </a>
                                 </li>
@@ -601,161 +285,27 @@
                 </div>
                 <nav class="offcanvas__menu">
                     <ul class="offcanvas__menu_ul">
-                        <!-- <li class="offcanvas__menu_li">
-                                    <a class="offcanvas__menu_item" href="/">Shop by Category</a>
-                                    <ul class="offcanvas__sub_menu">
-                                        <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Gloves</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Footwear</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Trousers</a></li>
-          <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">T-Shirts</a></li>
-          <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Jumpers</a></li>
-          <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Jackets</a></li>
-          <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Respirators</a></li>
-          <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Eye Protection</a></li>
-          <li class="offcanvas__sub_menu_li"><a href="/" class="offcanvas__sub_menu_item">Head Protection</a></li>
-                                    </ul>
-                                </li>-->
-
+                        @foreach($menu as $m)
+                        <?php $submenu = ProductSubCategories::where('category_id', $m->id)->get() ?>
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item " href="/">T-Shirts </a>
+                            <a class="offcanvas__menu_item " href="{{ url('/' . Str::slug($m->title)) }}">{{$m->title}} </a>
+                            <?php if($submenu && $submenu->count() > 0): ?>
                             <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">V
-                                        Neck</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Long
-                                        Sleeve</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Short
-                                        Sleeve</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Round
-                                        Neck</a></li>
+                                @foreach ($submenu as $s)
+                                <li class="offcanvas__sub_menu_li"><a href="{{ url('/' . Str::slug($m->title)) . '/' . $s->slug }}"
+                                        class="offcanvas__sub_menu_item">{{$s->title}}yy</a></li>
+                                @endforeach
                             </ul>
+                            <?php endif; ?>
                         </li>
-
-                        <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item " href="/">Polo Shirts </a>
-                            <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Long
-                                        Sleeve</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Short
-                                        Sleeve</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item " href="/">Hi Vis </a>
-                            <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Waistcoat</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Vest</a>
-                                </li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Long
-                                        Sleeve Polo</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Polo</a>
-                                </li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Tshirt</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Sweatshirt</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Hoodies</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Fleece</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Trouser</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Jacket</a></li>
-
-                            </ul>
-                        </li>
-
-                        <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item " href="/">Jackets</a>
-                            <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Bombers</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Coats</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Fleece</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Hi Vis
-                                        Jackets</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Waterproof</a></li>
-                            </ul>
-                        </li>
-
-
-                        <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item " href="/">Hoodies</a>
-                            <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Pullover
-                                        hoodies</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Zipper
-                                        hoodies</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item " href="/">Bottoms</a>
-                            <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Cargo</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Chinos</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Joggers</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Trousers</a></li>
-
-                            </ul>
-                        </li>
-
-                        <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item " href="/">Knitwear</a>
-                            <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Jumpers</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Cardigans</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">V Neck
-                                        Sweater</a></li>
-
-                            </ul>
-                        </li>
-
-                        <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item " href="/">Headwear</a>
-                            <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Caps</a>
-                                </li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Beanies</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="/"
-                                        class="offcanvas__sub_menu_item">Hats</a>
-                                </li>
-
-                            </ul>
-                        </li>
-
+                        @endforeach
+                        
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item " href="/" style="color:#ee2761;">SALE </a>
                         </li>
                     </ul>
                     <div class="offcanvas__account--items">
-                        <a class="offcanvas__account--items__btn d-flex align-items-center" href="login.html">
+                        <a class="offcanvas__account--items__btn d-flex align-items-center" href="{{ url('/login') }}">
                             <span class="offcanvas__account--items__icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20.51" height="19.443"
                                     viewBox="0 0 512 512">

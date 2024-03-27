@@ -411,7 +411,6 @@ class ProductsController extends AppController
 							'sale_price' => ['nullable', 'numeric', 'min:0'],
 							'category' => [
 								'required',
-								'array',
 								Rule::exists(ProductCategories::class, 'id')->where(function ($query) {
 									$query->where('status', 1);
 							})],
@@ -450,10 +449,16 @@ class ProductsController extends AppController
 
 		        	$categories = [];
 					$brands = [];
+					if(isset($data['sub_category']) && $data['sub_category']) {
+						$subCategory = $data['sub_category'];
+					}
 					if(isset($data['brand']) && $data['brand']) {
 						$brands = $data['brand'];
 					}
-		        	unset($data['brand']);
+					unset($data['brand']);
+					unset($data['sub_category']);
+					$data['category_id'] = $data['category'];
+					unset($data['category']);
 
 		        	if(Products::modify($id, $data))
 		        	{
@@ -468,6 +473,10 @@ class ProductsController extends AppController
 		        		{
 		        			Products::handleBrands($product->id, $brands);
 		        		}
+						if(!empty($subCategory))
+						{
+							Products::handleSubCategory($product->id, $subCategory);
+						}
 		        		$request->session()->flash('success', "Product updated successfully.");
 						return Response()->json([
 							'status' => true,

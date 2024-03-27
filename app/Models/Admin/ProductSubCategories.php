@@ -278,7 +278,7 @@ class ProductSubCategories extends AppModel
 	    {
             if(isset($data['title']) && $data['title'])
             {
-                $category->slug = Str::slug($category->title) . '-' . General::encode($category->id);
+                $category->slug = Str::slug($category->title);
                 $category->save();
             }
 	    	return $category;

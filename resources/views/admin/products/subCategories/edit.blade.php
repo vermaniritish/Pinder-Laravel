@@ -35,7 +35,6 @@
 						<h6 class="heading-small text-muted mb-4">General information</h6>
 						<div class="pl-lg-4">
 							<div class="row">
-								<div class="col-lg-6">
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label" for="input-first-name">Title</label>
@@ -52,7 +51,7 @@
 											<?php foreach($categories as $c): ?>
 												<option 
 													value="<?php echo $c->id ?>" 
-													<?php echo old('category_id',$category->category_id) && in_array($c->id, old('category_id',$category->category_id))  ? 'selected' : '' ?> 
+													<?php echo old('category_id',$category->category_id) && $c->id == old('category_id',$category->category_id)  ? 'selected' : '' ?> 
 												><?php echo $c->title ?></option>
 											<?php endforeach; ?>
 											</select>
@@ -60,7 +59,6 @@
 												<small class="text-danger">{{ $message }}</small>
 											@enderror
 										</div>
-									</div>
 								</div>
 								<div class="col-lg-6">
 									<div 

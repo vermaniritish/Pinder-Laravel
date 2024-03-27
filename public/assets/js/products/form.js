@@ -22,6 +22,7 @@ let order = new Vue({
         this.initEditValues();
         this.initBasics();
         this.initTagIt();
+        init_editor('#product-editor');
         this.mounting = false;
         document.getElementById('product-form').classList.remove('d-none');
     },

@@ -1,5 +1,5 @@
 /** Ckeditor Image upload **/
-function init_editor(selector, settings) {
+function init_editor(selector) {
     CKEDITOR.config.allowedContent = true;
     options = [];
     if(!$(selector).attr('id'))
@@ -11,6 +11,7 @@ function init_editor(selector, settings) {
     else
     {
         id = $(selector).attr('id');
+        console.log(id, options);
         CKEDITOR.replace( id, options);
     }
 

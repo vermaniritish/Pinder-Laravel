@@ -81,7 +81,7 @@
 									<div class="col-lg-12">
 										<div class="form-group">
 											<label class="form-control-label">Description</label>
-											<textarea rows="2" id="editor1" class="form-control" placeholder="Description" required name="description">{{ old('description') }}</textarea>
+											<textarea rows="2" id="product-editor" class="form-control" placeholder="Description" required name="description">{{ old('description') }}</textarea>
 											@error('description')
 												<small class="text-danger">{{ $message }}</small>
 											@enderror
@@ -244,9 +244,8 @@
 												data-type="image"
 												data-multiple="true"
 												data-path="products"
-												data-resize-large="802*574"
-												data-resize-medium="415*296"
-												data-resize-small="110*85"
+												data-resize-large="580*630"
+												data-resize-small="200*200"
 
 											>
 												<div class="upload-section">
