@@ -6,7 +6,7 @@
         </div>
         <div class="account__login--inner">
             <form id="register-form">
-                <input required class="account__login--input" name="name" placeholder="First Name" type="text">
+                <input required class="account__login--input" name="first_name" placeholder="First Name" type="text">
                 <input required class="account__login--input" name="email" placeholder="Email Addres" type="email">
                 <input required class="account__login--input" name="password" placeholder="Password" id="password" type="password">
                 <input required class="account__login--input" name="password_confirmation" placeholder="Confirm Password" id="confirmPassword" type="password">

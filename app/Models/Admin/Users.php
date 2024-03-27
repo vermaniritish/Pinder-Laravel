@@ -9,9 +9,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Libraries\FileSystem;
 use App\Models\API\UsersPermissions;
+use App\Traits\OtpVerification;
+use Illuminate\Notifications\Notifiable;
 
 class Users extends AppModel
 {
+    use OtpVerification, Notifiable;
     protected $table = 'users';
     protected $primaryKey = 'id';
     public $timestamps = false;

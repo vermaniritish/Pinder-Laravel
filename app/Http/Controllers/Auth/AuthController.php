@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Libraries\General;
 use App\Models\Admin\Users;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -31,21 +32,30 @@ class AuthController extends Controller {
 						Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised(), 'max:36'
 					],
 					'password_confirmation' => ['required', 'same:password'],
-					'name' => ['required', 'string', 'max:30'],
+					'first_name' => ['required', 'string', 'max:30'],
 	            ]
 	        );
 			if(!$validator->fails())
 	        {
 				$data['password'] = Hash::make($data['password']);
-				Users::create($data);
+				unset($data['password_confirmation']);
+				unset($data['_token']);
+				$user = Users::create($data);
 				$user = Users::whereEmail($data['email'])->first();
 				$session_key = $user->generateSessionKey();
 				$email_otp = $user->generateEmailVerificationOtp($session_key);
-				$user->sendEmailVerificationOtpNotification($email_otp);
+				$codes = [
+					'{id}' => $user->id,
+					'{otp}' => $email_otp
+				];
+				$emails = [
+					$data['email']
+				];
+				General::sendTemplateEmail($emails, 'registration', $codes);
 				return response()->json([
 					'message' => trans('REGISTER_SUCCESSFULL'),
 					'email' => $user->email,
-					'user_id' => $data['id'],
+					'user_id' => $user->id,
 					'session_key' => $session_key
 				], Response::HTTP_OK);
 			} else {
@@ -98,7 +108,8 @@ class AuthController extends Controller {
 		]);
 
 		return $this->success([
-			'sucess' => true, 'token' => $token,
+			'sucess' => true, 
+			'token' => $token,
 			'user_id' => $user->id
 		], Response::HTTP_OK, trans('LOGIN_SUCCESSFUL'));
 	}
