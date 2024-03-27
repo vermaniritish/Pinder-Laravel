@@ -6,10 +6,10 @@
         </div>
         <div class="account__login--inner">
             <form id="register-form">
-                <input required class="account__login--input" placeholder="First Name" type="text">
-                <input required class="account__login--input" placeholder="Email Addres" type="email">
-                <input required class="account__login--input" placeholder="Password" id="password" type="password">
-                <input required class="account__login--input" placeholder="Confirm Password" id="confirmPassword" type="password">
+                <input required class="account__login--input" name="name" placeholder="First Name" type="text">
+                <input required class="account__login--input" name="email" placeholder="Email Addres" type="email">
+                <input required class="account__login--input" name="password" placeholder="Password" id="password" type="password">
+                <input required class="account__login--input" name="password_confirmation" placeholder="Confirm Password" id="confirmPassword" type="password">
                 <button type="button" class="account__login--btn primary__btn mb-10" v-on:click="register()"><i class="fa fa-spin fa-spinner" v-if="loading"></i><i v-else
 								class="fa fa-save"></i> Submit & Register </button>
                 <div class="account__login--remember position__relative">

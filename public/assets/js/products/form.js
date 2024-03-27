@@ -28,7 +28,7 @@ let order = new Vue({
     },
     methods: {
         initTagIt: function () {
-            $(".tag-it").tagit();
+            $(".tag").tagit();
         },
         initBasics: function () {
             setTimeout(function () {

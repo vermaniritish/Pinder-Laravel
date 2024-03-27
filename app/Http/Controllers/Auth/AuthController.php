@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
@@ -19,29 +20,40 @@ class AuthController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function register(Request $request) {
-    	if($request->isMethod('post')){
-			$credentials = $request->validate([
-				'email' => ['required', 'email', Rule::unique(Users::class, 'email')],
-				'password' => [
-					'required', 'string',
-					Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised(), 'max:36'
-				],
-				'password_confirmation' => ['required', 'same:password'],
-				'firstname' => ['required', 'string', 'max:30'],
-				'lastname' => ['required', 'string', 'max:30']
-			]);
-			$credentials['password'] = Hash::make($credentials['password']);
-			Users::create($credentials);
-			$user = Users::whereEmail($credentials['email'])->first();
-			$session_key = $user->generateSessionKey();
-			$email_otp = $user->generateEmailVerificationOtp($session_key);
-			$user->sendEmailVerificationOtpNotification($email_otp);
-			return response()->json([
-				'message' => trans('REGISTER_SUCCESSFULL'),
-				'email' => $user->email,
-				'user_id' => $credentials['id'],
-				'session_key' => $session_key
-			], Response::HTTP_OK);
+		if($request->isMethod('post')){
+    		$data = $request->toArray();
+			$validator = Validator::make(
+	            $request->toArray(),
+	            [
+					'email' => ['required', 'email', Rule::unique(Users::class, 'email')],
+					'password' => [
+						'required', 'string',
+						Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised(), 'max:36'
+					],
+					'password_confirmation' => ['required', 'same:password'],
+					'name' => ['required', 'string', 'max:30'],
+	            ]
+	        );
+			if(!$validator->fails())
+	        {
+				$data['password'] = Hash::make($data['password']);
+				Users::create($data);
+				$user = Users::whereEmail($data['email'])->first();
+				$session_key = $user->generateSessionKey();
+				$email_otp = $user->generateEmailVerificationOtp($session_key);
+				$user->sendEmailVerificationOtpNotification($email_otp);
+				return response()->json([
+					'message' => trans('REGISTER_SUCCESSFULL'),
+					'email' => $user->email,
+					'user_id' => $data['id'],
+					'session_key' => $session_key
+				], Response::HTTP_OK);
+			} else {
+				return Response()->json([
+					'status' => false,
+					'message' => current(current($validator->errors()->getMessages()))
+				], Response::HTTP_OK);
+			}
 		}
 		return view('frontend.auth.auth');
 	}

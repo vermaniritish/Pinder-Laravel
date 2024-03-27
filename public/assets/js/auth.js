@@ -10,8 +10,7 @@ let auth = new Vue({
     methods: {
         register: async function() {
             if ($('#register-form')[0].checkValidity()) {
-console.log('byi');
-this.loading = true;
+                this.loading = true;
                 const password = document.getElementById('password').value;
                 const confirmPassword = document.getElementById('confirmPassword').value;
                 if (password !== confirmPassword) {
@@ -19,7 +18,6 @@ this.loading = true;
                     this.loading = false;
                     return false;
                 }
-console.log('hi');
                 const termsConditionsChecked = document.getElementById('check2').checked;
                 if (!termsConditionsChecked) {
                     set_notification('error','Please agree to the terms & conditions');
@@ -28,16 +26,16 @@ console.log('hi');
                 }
 
                 let formData = new FormData(document.getElementById('register-form'));
-                let response = await fetch(admin_url + '/auth/register', {
+                formData.append('_token', csrf_token()); 
+                let response = await fetch(site_url+'/auth/register', {
                     method: 'POST',
                     body: formData,
                 });
                 response = await response.json();
                 if(response && response.status)
                 {
-                    setTimeout(function () {
-                        window.location.href = (admin_url + '/order/' + response.id + '/view');
-                    }, 200)
+                    set_notification('success', response.message);
+
                 }else{
                     set_notification('error', response.message);
                 }
