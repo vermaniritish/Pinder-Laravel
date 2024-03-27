@@ -113,11 +113,14 @@ $version = 1.0;
     <script src="{{ url('frontend/assets/js/vendor/popper.js') }}" defer="defer')}}"></script>
     <!-- jQuery -->
     <script src="{{ url('frontend/assets/js/plugins/jquery-3.6.0.min.js') }}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="<?php echo url('assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js') ?>"></script>
+
     <script src="{{ url('frontend/assets/js/vendor/bootstrap.min.js" defer="defer') }}"></script>
     <script src="{{ url('frontend/assets/js/plugins/swiper-bundle.min.js') }}"></script>
     <script src="{{ url('frontend/assets/js/plugins/glightbox.min.js') }}"></script>
     <script src="{{ url('frontend/assets/js/plugins/jquery.fancybox.min.js') }}"></script>
-
+	<script src="<?php echo url('assets/js/bootstrap-notify.js') ?>"></script>
     <!-- Customscript js -->
     <script src="{{ url('frontend/assets/js/script.js') }}"></script>
 
