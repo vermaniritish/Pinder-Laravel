@@ -14,20 +14,16 @@
 namespace App\Http\Controllers\Admin\Products;
 
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Admin\Settings;
 use App\Models\Admin\Permissions;
-use App\Models\Admin\AdminAuth;
-use App\Libraries\General;
 use App\Models\Admin\ProductCategories;
 use App\Models\Admin\Admins;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Str;
 use App\Libraries\FileSystem;
 use App\Http\Controllers\Admin\AppController;
+use App\Models\Admin\ProductSubCategories;
 
-class ProductCategoriesController extends AppController
+class ProductSubCategoriesController extends AppController
 {
 	function __construct()
 	{
@@ -36,7 +32,7 @@ class ProductCategoriesController extends AppController
 
     function index(Request $request)
     {
-    	if(!Permissions::hasPermission('product_categories', 'listing'))
+    	if(!Permissions::hasPermission('sub_categories', 'listing'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
@@ -47,18 +43,18 @@ class ProductCategoriesController extends AppController
     	{
     		$search = $request->get('search');
     		$search = '%' . strtolower($search) . '%';
-    		$where['(lower(product_categories.title) LIKE ? or lower(owner.first_name) LIKE ? or lower(owner.last_name) LIKE ?)'] = [$search, $search, $search];
+			$where['(lower(sub_categories.title) LIKE ? or lower(category.title) LIKE ? or lower(owner.first_name) LIKE ? or lower(owner.last_name) LIKE ?)'] = [$search, $search, $search, $search];
     	}
 
     	if($request->get('created_on'))
     	{
     		$createdOn = $request->get('created_on');
     		if(isset($createdOn[0]) && !empty($createdOn[0]))
-    			$where['product_categories.created >= ?'] = [
+    			$where['sub_categories.created >= ?'] = [
     				date('Y-m-d', strtotime($createdOn[0]))
     			];
     		if(isset($createdOn[1]) && !empty($createdOn[1]))
-    			$where['product_categories.created <= ?'] = [
+    			$where['sub_categories.created <= ?'] = [
     				date('Y-m-d', strtotime($createdOn[1]))
     			];
     	}
@@ -67,22 +63,22 @@ class ProductCategoriesController extends AppController
     	{
     		$ids = $request->get('category');
     		$ids = implode(',', $ids);
-    		$where[] = 'product_categories.parent_id IN ('.$ids.')';
+    		$where[] = 'sub_categories.parent_id IN ('.$ids.')';
     	}
 
     	if($request->get('admins'))
     	{
     		$admins = $request->get('admins');
     		$admins = $admins ? implode(',', $admins) : 0;
-    		$where[] = 'product_categories.created_by IN ('.$admins.')';
+    		$where[] = 'sub_categories.created_by IN ('.$admins.')';
     	}
 
-    	$listing = ProductCategories::getListing($request, $where);
+    	$listing = ProductSubCategories::getListing($request, $where);
 
     	if($request->ajax())
     	{
 		    $html = view(
-	    		"admin/products/categories/listingLoop", 
+	    		"admin/products/subCategories/listingLoop", 
 	    		[
 	    			'listing' => $listing
 	    		]
@@ -100,14 +96,14 @@ class ProductCategoriesController extends AppController
 		else
 		{
 			/** Filter Data **/
-			$categories = ProductCategories::getAll(
+			$categories = ProductSubCategories::getAll(
 	    		[
-	    			'product_categories.id',
-	    			'product_categories.title'
+	    			'sub_categories.id',
+	    			'sub_categories.title'
 	    		],
 	    		[
 	    		],
-	    		'product_categories.title desc'
+	    		'sub_categories.title desc'
 	    	);
 
 	    	$admins = Admins::getAll(
@@ -124,7 +120,7 @@ class ProductCategoriesController extends AppController
 	    	/** Filter Data **/
 
 	    	return view(
-	    		"admin/products/categories/index", 
+	    		"admin/products/subCategories/index", 
 	    		[
 	    			'listing' => $listing,
 	    			'categories' => $categories,
@@ -136,7 +132,7 @@ class ProductCategoriesController extends AppController
 
     function add(Request $request)
     {
-    	if(!Permissions::hasPermission('product_categories', 'create'))
+    	if(!Permissions::hasPermission('sub_categories', 'create'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
@@ -160,15 +156,15 @@ class ProductCategoriesController extends AppController
 
 	        if(!$validator->fails())
 	        {
-	        	$category = ProductCategories::create($data);
+	        	$category = ProductSubCategories::create($data);
 	        	if($category)
 	        	{
-	        		$request->session()->flash('success', 'Product category created successfully.');
-	        		return redirect()->route('admin.products.categories');
+	        		$request->session()->flash('success', 'Sub category created successfully.');
+	        		return redirect()->route('admin.products.subCategories');
 	        	}
 	        	else
 	        	{
-	        		$request->session()->flash('error', 'Category could not be save. Please try again.');
+	        		$request->session()->flash('error', 'Sub Category could not be save. Please try again.');
 		    		return redirect()->back()->withErrors($validator)->withInput();
 	        	}
 		    }
@@ -178,7 +174,6 @@ class ProductCategoriesController extends AppController
 		    	return redirect()->back()->withErrors($validator)->withInput();
 		    }
 		}
-
 		$categories = ProductCategories::getAll(
 			[
 				'product_categories.id',
@@ -190,20 +185,21 @@ class ProductCategoriesController extends AppController
 			'product_categories.title desc'
 		);
 
-	    return view("admin/products/categories/add",[
+	    return view("admin/products/subCategories/add",
+		[
 			'categories' => $categories
 		]);
     }
 
     function edit(Request $request, $id)
     {
-    	if(!Permissions::hasPermission('product_categories', 'update'))
+    	if(!Permissions::hasPermission('sub_categories', 'update'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
     	}
 
-    	$category = ProductCategories::get($id);
+    	$category = ProductSubCategories::get($id);
     	if($category)
     	{
 	    	if($request->isMethod('post'))
@@ -234,7 +230,7 @@ class ProductCategoriesController extends AppController
 		        		
 		        	}
 		        	/** IN CASE OF SINGLE UPLOAD **/
-		        	if(ProductCategories::modify($id, $data))
+		        	if(ProductSubCategories::modify($id, $data))
 		        	{
 		        		/** IN CASE OF SINGLE UPLOAD **/
 		        		if(isset($oldImage) && $oldImage)
@@ -243,12 +239,12 @@ class ProductCategoriesController extends AppController
 		        		}
 		        		/** IN CASE OF SINGLE UPLOAD **/
 
-		        		$request->session()->flash('success', 'Product category updated successfully.');
-		        		return redirect()->route('admin.products.categories');
+		        		$request->session()->flash('success', 'Sub category updated successfully.');
+		        		return redirect()->route('admin.products.subCategories');
 		        	}
 		        	else
 		        	{
-		        		$request->session()->flash('error', 'Category could not be save. Please try again.');
+		        		$request->session()->flash('error', 'Sub Category could not be save. Please try again.');
 			    		return redirect()->back()->withErrors($validator)->withInput();
 		        	}
 			    }
@@ -258,7 +254,6 @@ class ProductCategoriesController extends AppController
 			    	return redirect()->back()->withErrors($validator)->withInput();
 			    }
 			}
-    		
 			$categories = ProductCategories::getAll(
 				[
 					'product_categories.id',
@@ -269,8 +264,9 @@ class ProductCategoriesController extends AppController
 				],
 				'product_categories.title desc'
 			);
-		    return view("admin/products/categories/edit", [
-		    		'categories' => $categories
+		    return view("admin/products/subCategories/edit", [
+		    		'category' => $category,
+					'categories' => $categories
 	    		]);
 		}
 		else
@@ -281,23 +277,23 @@ class ProductCategoriesController extends AppController
 
     function delete(Request $request, $id)
     {
-    	if(!Permissions::hasPermission('product_categories', 'delete'))
+    	if(!Permissions::hasPermission('sub_categories', 'delete'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
     	}
 
-    	$product = ProductCategories::find($id);
+    	$product = ProductSubCategories::find($id);
     	if($product->delete())
     	{
     		$request->session()->flash('success', 'Category deleted successfully.');
-    		return redirect()->route('admin.products.categories');
+    		return redirect()->route('admin.products.subCategories');
     	}
     }
 
     function bulkActions(Request $request, $action)
     {
-    	if( ($action != 'delete' && !Permissions::hasPermission('product_categories', 'update')) || ($action == 'delete' && !Permissions::hasPermission('product_categories', 'delete')) ) 
+    	if( ($action != 'delete' && !Permissions::hasPermission('sub_categories', 'update')) || ($action == 'delete' && !Permissions::hasPermission('sub_categories', 'delete')) ) 
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
@@ -308,7 +304,7 @@ class ProductCategoriesController extends AppController
     	{
     		switch ($action) {
     			case 'delete':
-    				ProductCategories::removeAll($ids);
+    				ProductSubCategories::removeAll($ids);
     				$message = count($ids) . ' records has been deleted.';
     			break;
     		}

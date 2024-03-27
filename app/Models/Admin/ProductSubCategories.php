@@ -10,21 +10,20 @@ use App\Libraries\FileSystem;
 use Illuminate\Support\Str;
 use App\Libraries\General;
 
-class ProductCategories extends AppModel
+class ProductSubCategories extends AppModel
 {
-    protected $table = 'product_categories';
+    protected $table = 'sub_categories';
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-
     /**
-    * ProductCategories -> Product belongsToMany relation
-    *
-    * @return ProductCategories
+    * Products -> Admins belongsTO relation
+    * 
+    * @return Admins
     */
-    public function products()
+    public function category()
     {
-        return $this->belongsToMany(Products::class, 'product_category_relation', 'category_id', 'product_id');
+        return $this->belongsTo(ProductCategories::class, 'category_id', 'id');
     }
 
     /**
@@ -55,18 +54,19 @@ class ProductCategories extends AppModel
 
     public static function getListing(Request $request, $where = [])
     {
-    	$orderBy = $request->get('sort') ? $request->get('sort') : 'product_categories.id';
+    	$orderBy = $request->get('sort') ? $request->get('sort') : 'sub_categories.id';
     	$direction = $request->get('direction') ? $request->get('direction') : 'desc';
     	$page = $request->get('page') ? $request->get('page') : 1;
     	$limit = self::$paginationLimit;
     	$offset = ($page - 1) * $limit;
     	
-    	$listing = ProductCategories::select([
-	    		'product_categories.*',
+    	$listing = ProductSubCategories::select([
+	    		'sub_categories.*',
                 'owner.first_name as owner_first_name',
-                'owner.last_name as owner_last_name'
+                'owner.last_name as owner_last_name',
 	    	])
-            ->leftJoin('admins as owner', 'owner.id', '=', 'product_categories.created_by')
+            ->leftJoin('admins as owner', 'owner.id', '=', 'sub_categories.created_by')
+            ->leftJoin('product_categories as category', 'category.id', '=', 'sub_categories.category_id')
 	    	->orderBy($orderBy, $direction);
 
         if(!empty($where))
@@ -100,9 +100,9 @@ class ProductCategories extends AppModel
     * @param $orderBy
     * @param $limit
     */
-    public static function getAll($select = [], $where = [], $orderBy = 'product_categories.id desc', $limit = null)
+    public static function getAll($select = [], $where = [], $orderBy = 'sub_categories.id desc', $limit = null)
     {
-    	$listing = ProductCategories::orderByRaw($orderBy);
+    	$listing = ProductSubCategories::orderByRaw($orderBy);
         
     	if(!empty($select))
     	{
@@ -111,7 +111,7 @@ class ProductCategories extends AppModel
     	else
     	{
     		$listing->select([
-    			'product_categories.*'
+    			'sub_categories.*'
     		]);	
     	}
 
@@ -148,7 +148,7 @@ class ProductCategories extends AppModel
     */
     public static function getAllCategorySubCategory($ids = [])
     {
-        $listing = ProductCategories::select([
+        $listing = ProductSubCategories::select([
                 'id',
                 'parent_id',
                 'title',
@@ -167,7 +167,7 @@ class ProductCategories extends AppModel
             $finalSubCategories[$value->parent_id][] = $value;
         }
 
-        $listing = ProductCategories::select([
+        $listing = ProductSubCategories::select([
                 'id',
                 'parent_id',
                 'title'
@@ -199,7 +199,7 @@ class ProductCategories extends AppModel
     */
     public static function get($id)
     {
-    	$record = ProductCategories::where('id', $id)
+    	$record = ProductSubCategories::where('id', $id)
             ->first();
 
 	    return $record;
@@ -210,9 +210,9 @@ class ProductCategories extends AppModel
     * @param $where
     * @param $orderBy
     */
-    public static function getRow($where = [], $orderBy = 'product_categories.id desc')
+    public static function getRow($where = [], $orderBy = 'sub_categories.id desc')
     {
-    	$record = ProductCategories::orderByRaw($orderBy);
+    	$record = ProductSubCategories::orderByRaw($orderBy);
 
 	    foreach($where as $query => $values)
 	    {
@@ -236,7 +236,7 @@ class ProductCategories extends AppModel
     */
     public static function create($data)
     {
-    	$category = new ProductCategories();
+    	$category = new ProductSubCategories();
 
     	foreach($data as $k => $v)
     	{
@@ -267,7 +267,7 @@ class ProductCategories extends AppModel
     */
     public static function modify($id, $data)
     {
-    	$category = ProductCategories::find($id);
+    	$category = ProductSubCategories::find($id);
     	foreach($data as $k => $v)
     	{
     		$category->{$k} = $v;
@@ -299,7 +299,7 @@ class ProductCategories extends AppModel
     {
     	if(!empty($ids))
     	{
-    		return ProductCategories::whereIn('product_categories.id', $ids)
+    		return ProductSubCategories::whereIn('sub_categories.id', $ids)
 		    		->update($data);
 	    }
 	    else
@@ -315,7 +315,7 @@ class ProductCategories extends AppModel
     */
     public static function remove($id)
     {
-    	$category = ProductCategories::find($id);
+    	$category = ProductSubCategories::find($id);
     	return $category->delete();
     }
 
@@ -328,7 +328,7 @@ class ProductCategories extends AppModel
     {
     	if(!empty($ids))
     	{
-    		return ProductCategories::whereIn('product_categories.id', $ids)
+    		return ProductSubCategories::whereIn('sub_categories.id', $ids)
 		    		->delete();
 	    }
 	    else

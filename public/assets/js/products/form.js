@@ -5,8 +5,9 @@ let order = new Vue({
         sizes: [],
         selectedSize: [],
         selectedSizeIds: [],
+        selectedCategory: null,
+        subCategories: [],
         selectedGender: '',
-        selectedCategory: [],
         title: '',
         selectedColor: '',
         price: '',
@@ -14,7 +15,8 @@ let order = new Vue({
         selectedBrand: [],
         durationOfService: '',
         loading: false,
-        url: ''
+        url: '',
+        selectedSubCategory: []
     },
     mounted: function() {
         this.initEditValues();
@@ -26,13 +28,6 @@ let order = new Vue({
     methods: {
         initTagIt: function () {
             $(".tag-it").tagit();
-            $(".tag-it-capital").tagit({
-                allowSpaces: true,
-                preprocessTag: function(val) {
-                    if (!val) { return ''; }
-                    return val[0].toUpperCase() + val.slice(1, val.length);
-                }
-            });
         },
         initBasics: function () {
             setTimeout(function () {
@@ -44,7 +39,8 @@ let order = new Vue({
             if ($('#edit-form').length > 0) {
                 let data = JSON.parse($('#edit-form').text());
                 this.url = admin_url + '/products/' + data.id + '/edit';
-                this.selectedCategory = data && data.categories && data.categories.length > 0 ? data.categories.map(category => category.id) : [];
+                this.selectedSubCategory = data && data.subCategories && data.subCategories.length > 0 ? data.subCategories.map(category => category.id) : [];
+                this.selectedCategory = data.category_id;
                 this.title = data.title;
                 this.selectedColor = data.color_id;
                 this.selectedGender = data.gender;
@@ -72,7 +68,6 @@ let order = new Vue({
                     this.selectedSize.push(size);
                 }
             }
-            console.log(this.selectedSize);
         },
         removeSize(index, sizeId) {
             this.selectedSizeIds.splice(index, 1);
@@ -80,8 +75,7 @@ let order = new Vue({
             if (sizeIndex !== -1) {
                 this.selectedSize.splice(sizeIndex, 1);
             }
-        },
-        
+        },        
         updateSizes: async function() {
             let response = await fetch(admin_url + "/products/getSize/" + this.selectedGender);
             response = await response.json();
@@ -90,6 +84,19 @@ let order = new Vue({
                 this.sizes = response.sizes;
                 setTimeout(function () {
                     $("#size-form select").selectpicker("refresh");
+                }, 50);
+            } else{
+                set_notification('error', response.message);
+            }
+        },
+        updateSubCategory: async function() {
+            let response = await fetch(admin_url + "/products/getSubCategory/" + this.selectedCategory);
+            response = await response.json();
+            if(response && response.status)
+            {
+                this.subCategories = response.subCategory;
+                setTimeout(function () {
+                    $("#sub-category-form select").selectpicker("refresh");
                 }, 50);
             } else{
                 set_notification('error', response.message);
@@ -121,6 +128,9 @@ let order = new Vue({
     watch: {
         selectedGender: function () {
             this.updateSizes();
+        },
+        selectedCategory: function () {
+            this.updateSubCategory();
         },
     },
 });

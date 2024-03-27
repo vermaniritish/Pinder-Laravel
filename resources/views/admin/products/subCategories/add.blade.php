@@ -5,10 +5,10 @@
 		<div class="header-body">
 			<div class="row align-items-center py-4">
 				<div class="col-lg-6 col-7">
-					<h6 class="h2 text-white d-inline-block mb-0">Manage Product Categories</h6>
+					<h6 class="h2 text-white d-inline-block mb-0">Manage Sub Categories</h6>
 				</div>
 				<div class="col-lg-6 col-5 text-right">
-					<a href="<?php echo route('admin.products.categories') ?>" class="btn btn-neutral"><i class="ni ni-bold-left"></i> Back</a>
+					<a href="<?php echo route('admin.products.subCategories') ?>" class="btn btn-neutral"><i class="ni ni-bold-left"></i> Back</a>
 				</div>
 			</div>
 		</div>
@@ -24,12 +24,12 @@
 				<div class="card-header">
 					<div class="row align-items-center">
 						<div class="col-8">
-							<h3 class="mb-0">Create New Category Here.</h3>
+							<h3 class="mb-0">Create New Sub Category Here.</h3>
 						</div>
 					</div>
 				</div>
 				<div class="card-body">
-					<form method="post" action="<?php echo route('admin.products.categories.add') ?>" class="form-validation">
+					<form method="post" action="<?php echo route('admin.products.subCategories.add') ?>" class="form-validation">
 						<!--!! CSRF FIELD !!-->
 						{{ @csrf_field() }}
 						<h6 class="heading-small text-muted mb-4">General information</h6>
@@ -41,6 +41,22 @@
 										<input type="text" class="form-control" name="title" required placeholder="Title" value="{{ old('title') }}">
 										@error('title')
 										    <small class="text-danger">{{ $message }}</small>
+										@enderror
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="form-control-label" for="input-first-name">Category</label>
+										<select class="form-control" name="category_id" required>
+										<?php foreach($categories as $c): ?>
+											<option 
+												value="<?php echo $c->id ?>" 
+												<?php echo old('category_id') && in_array($c->id, old('category_id'))  ? 'selected' : '' ?> 
+											><?php echo $c->title ?></option>
+										<?php endforeach; ?>
+										</select>
+										@error('category_id')
+											<small class="text-danger">{{ $message }}</small>
 										@enderror
 									</div>
 								</div>

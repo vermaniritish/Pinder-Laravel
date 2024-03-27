@@ -75,7 +75,7 @@
 													<span class="status text-danger">Delete</span>
 											</a>
 										<?php endif; ?>
-										coupon_code		</div>
+									</div>
 								</div>
 							<?php endif; ?>
 						</div>

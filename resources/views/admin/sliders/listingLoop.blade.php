@@ -20,6 +20,15 @@
 	<td>
     	<?php echo Str::limit($row->heading, 100, '...'); ?>
 	</td>
+	<td>
+		<div class="custom-control">
+			<label class="custom-toggle">
+				<?php $switchUrl =  route('admin.actions.switchUpdate', ['relation' => 'sliders', 'field' => 'status', 'id' => $row->id]); ?>
+				<input type="checkbox" name="status" onchange="switch_action('<?php echo $switchUrl ?>', this)" value="1" <?php echo ($row->status ? 'checked' : '') ?>>
+				<span class="custom-toggle-slider rounded-circle" data-label-off="OFF" data-label-on="ON"></span>
+			</label>
+		</div>
+	</td>
 	<td class="text-center">
 	<?php if(Permissions::hasPermission('sliders', 'update') || Permissions::hasPermission('sliders', 'delete')): ?>
 		<div class="dropdown">

@@ -39,19 +39,36 @@
 							{{ @csrf_field() }}
 							<h6 class="heading-small text-muted mb-4">Product information</h6>
 							<div class="pl-lg-4">
-								<div class="form-group">
-									<label class="form-control-label" for="input-first-name">Category</label>
-									<select v-model="selectedCategory" class="no-selectpicker form-control" name="category[]" multiple required>
-									<?php foreach($categories as $c): ?>
-										<option 
-											value="<?php echo $c->id ?>" 
-											<?php echo old('category') && in_array($c->id, old('category'))  ? 'selected' : '' ?> 
-										><?php echo $c->title ?></option>
-									<?php endforeach; ?>
-									</select>
-									@error('category')
-										<small class="text-danger">{{ $message }}</small>
-									@enderror
+								<div id="sub-category-form" class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="form-control-label" for="input-first-name">Category</label>
+											<select v-model="selectedCategory" class="no-selectpicker form-control" name="category" required>
+											<?php foreach($categories as $c): ?>
+												<option 
+													value="<?php echo $c->id ?>" 
+													<?php echo old('category') && in_array($c->id, old('category'))  ? 'selected' : '' ?> 
+												><?php echo $c->title ?></option>
+											<?php endforeach; ?>
+											</select>
+											@error('category')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="form-control-label" for="input-first-name">Sub Category</label>
+											<select class="form-control no-selectpicker" v-model="selectedSubCategory" name="sub_category[]" required multiple>
+												<option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id">
+													@{{ subCategory.title }}
+												</option>
+											</select>
+											@error('category')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
+									</div>
 								</div>
 								<div class="form-group">
 									<label class="form-control-label" for="input-first-name">Title</label>
@@ -79,7 +96,7 @@
 												<option value="">Select</option>
 												<?php 
 													foreach($colors as $s): 
-													$content = $s->color_code;
+													$content = $s->title . ' (' . $s->color_code . ')';
 												?>
 												<option 
 													value="<?php echo $s->id ?>" 
