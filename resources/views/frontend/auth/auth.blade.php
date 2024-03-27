@@ -6,7 +6,7 @@
         <div class="login__section section--padding">
             <div class="container">
                 <div class="login__section--inner">
-                    <div class="row row-cols-md-2 row-cols-1">
+                    <div id="auth" class="row row-cols-md-2 row-cols-1">
                         @include('frontend.auth.login')		
                         @include('frontend.auth.register')		
                     </div>
@@ -14,4 +14,5 @@
             </div>     
         </div>
     <!-- End login section  -->
+	<script src="<?php echo url('assets/js/auth.js') ?>"></script>
 @endsection

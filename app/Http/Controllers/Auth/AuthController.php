@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Admin\Users;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
@@ -23,50 +21,21 @@ class AuthController extends Controller {
 	public function register(Request $request) {
     	if($request->isMethod('post')){
 			$credentials = $request->validate([
-				'email' => ['required', 'email', Rule::unique(User::class, 'email')],
-				'phone_number' => [
-					'required', 'regex:/^\+\d{1,3}\d{5,15}$/',
-					Rule::unique(User::class, 'phone_number')
-				],
+				'email' => ['required', 'email', Rule::unique(Users::class, 'email')],
 				'password' => [
 					'required', 'string',
-					Password::min(12)->mixedCase()->numbers()->symbols()->uncompromised(), 'max:36'
+					Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised(), 'max:36'
 				],
 				'password_confirmation' => ['required', 'same:password'],
-				'profile_for' => [
-					'required', 'string',
-					Rule::in(['Self', 'Son', 'Daughter', 'Relative', 'Friend', 'Sister', 'Brother', 'Client Marriage Bureau'])
-				],
-				'gender' => ['required', 'string', 'in:Male,Female'],
 				'firstname' => ['required', 'string', 'max:30'],
-				'lastname' => ['required', 'string', 'max:30'],
-				'privacy_policy_accepted' => ['required', Rule::in([true])]
-			], [
-				'privacy_policy_accepted.required' => trans('validation.accepted'),
-				'privacy_policy_accepted.in' => trans('validation.accepted')
+				'lastname' => ['required', 'string', 'max:30']
 			]);
-	
-			$phone_number_format = config('otp.phone_number_format');
-	
-			if ($phone_number_format == 'without_plus_sign') {
-				$phone_number = Str::replace('+', '', $credentials['phone_number']);
-			} else {
-				$phone_number = $credentials['phone_number'];
-			}
-	
-			$credentials['id'] = Str::uuid();
 			$credentials['password'] = Hash::make($credentials['password']);
-			$credentials['provider'] = 'matrimonial';
-			User::create($credentials);
-	
-			$user = User::whereEmail($credentials['email'])->first();
+			Users::create($credentials);
+			$user = Users::whereEmail($credentials['email'])->first();
 			$session_key = $user->generateSessionKey();
 			$email_otp = $user->generateEmailVerificationOtp($session_key);
 			$user->sendEmailVerificationOtpNotification($email_otp);
-			$phone_otp = $user->generatePhoneVerificationOtp($session_key);
-			$user->sendPhoneVerificationOtp($credentials['email'], $phone_otp, $phone_number);
-			Artisan::call('privacy:seed ' . $credentials['id']);
-	
 			return response()->json([
 				'message' => trans('REGISTER_SUCCESSFULL'),
 				'email' => $user->email,

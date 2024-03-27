@@ -5,17 +5,19 @@
             <p class="account__login--header__desc">Register here if you are a new customer</p>
         </div>
         <div class="account__login--inner">
-            <input class="account__login--input" placeholder="First Name" type="text">
-            <input class="account__login--input" placeholder="Email Addres" type="email">
-            <input class="account__login--input" placeholder="Password" type="password">
-            <input class="account__login--input" placeholder="Confirm Password" type="password">
-            <button class="account__login--btn primary__btn mb-10" type="submit">Submit & Register</button>
-            <div class="account__login--remember position__relative">
-                <input class="checkout__checkbox--input" id="check2" type="checkbox">
-                <span class="checkout__checkbox--checkmark"></span>
-                <label class="checkout__checkbox--label login__remember--label" for="check2">
-                    I have read and agree to the terms & conditions</label>
-            </div>
+            <form id="register-form">
+                <input required class="account__login--input" placeholder="First Name" type="text">
+                <input required class="account__login--input" placeholder="Email Addres" type="email">
+                <input required class="account__login--input" placeholder="Password" id="password" type="password">
+                <input required class="account__login--input" placeholder="Confirm Password" id="confirmPassword" type="password">
+                <button class="account__login--btn primary__btn mb-10" v-on:click="register" type="submit">Submit & Register</button>
+                <div class="account__login--remember position__relative">
+                    <input class="checkout__checkbox--input" id="check2" type="checkbox">
+                    <span class="checkout__checkbox--checkmark"></span>
+                    <label class="checkout__checkbox--label login__remember--label" for="check2">
+                        I have read and agree to the terms & conditions</label>
+                </div>
+            </form>
         </div>
     </div>
 </div>

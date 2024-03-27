@@ -29,6 +29,9 @@ $version = 1.0;
 
     <!-- Custom Style CSS -->
     <link rel="stylesheet" href="{{ url('frontend/assets/css/style.css') }}">
+
+    <!-- Vue js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <style>
         ul#brands-block {
             display: flex;
