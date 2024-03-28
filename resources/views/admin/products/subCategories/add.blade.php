@@ -80,7 +80,7 @@
 											class="upload-image-section"
 											data-type="image"
 											data-multiple="false"
-											data-path="categories"
+											data-path="subCategories"
 											data-resize-large="400*320"
 										>
 											<div class="upload-section">
