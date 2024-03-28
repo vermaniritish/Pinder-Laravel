@@ -40,7 +40,7 @@ let order = new Vue({
             if ($('#edit-form').length > 0) {
                 let data = JSON.parse($('#edit-form').text());
                 this.url = admin_url + '/products/' + data.id + '/edit';
-                this.selectedSubCategory = data && data.subCategories && data.subCategories.length > 0 ? data.subCategories.map(category => category.id) : [];
+                this.selectedSubCategory = data && data.sub_categories && data.sub_categories.length > 0 ? data.sub_categories.map(category => category.sub_category_id) : [];
                 this.selectedCategory = data.category_id;
                 this.title = data.title;
                 this.selectedColor = data.color_id;

@@ -49,8 +49,7 @@ class Products extends AppModel
     */
     public function subCategories()
     {
-        return $this->belongsToMany(ProductSubCategories::class, 'product_sub_category_relation', 'product_id', 'sub_category_id')
-                    ->withPivot('sub_category_title','sub_category_id');
+        return $this->belongsToMany(ProductSubCategories::class, 'product_sub_category_relation', 'product_id', 'sub_category_id');
     }
 
     /**
