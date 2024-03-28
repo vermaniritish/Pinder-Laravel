@@ -236,7 +236,7 @@ class Products extends AppModel
                     $query->select(['id', 'first_name', 'last_name', 'status']);
                 },
                 'sizes' => function($query) {
-                    $query->select(['sizes.id', 'sizes.size_title', 'price']);
+                    $query->select(['sizes.id', 'sizes.size_title', 'sizes.from_cm',  'sizes.to_cm', 'price']);
                 },
             ])
             ->first();

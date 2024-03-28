@@ -81,7 +81,7 @@
 									<div class="col-lg-12">
 										<div class="form-group">
 											<label class="form-control-label">Description</label>
-											<textarea rows="2" id="product-editor" class="form-control" placeholder="Description" required name="description">{{ old('description') }}</textarea>
+											<textarea rows="2" id="product-editor" class="form-control" placeholder="Description" name="description">{{ old('description') }}</textarea>
 											@error('description')
 												<small class="text-danger">{{ $message }}</small>
 											@enderror

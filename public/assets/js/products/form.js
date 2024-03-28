@@ -53,7 +53,9 @@ let order = new Vue({
                 this.selectedSize = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(sizes => ({
                     id: sizes.id,
                     size_title: sizes.size_title,
-                    price: parseFloat(sizes.price)
+                    price: parseFloat(sizes.price),
+                    from_cm: parseFloat(sizes.from_cm),
+                    to_cm: parseFloat(sizes.to_cm),
                 })) : [];
             }
             else {
