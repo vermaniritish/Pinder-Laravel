@@ -195,6 +195,7 @@
 											<tr>
 												<th>#</th>
 												<th>Size Title</th>
+												<th>Size (From - To)</th>
 												<th>Price</th>
 												<th>Remove Item</th>
 											</tr>
@@ -203,6 +204,9 @@
 											<tr v-for="(size, index) in selectedSize" :key="index">
 												<td>@{{ index + 1 }}</td>
 												<td>@{{ size.size_title }}</td>
+												<td>
+													@{{ size.from_cm }} - @{{ size.to_cm }} (cm)
+												</td>
 												<td><input type="number" v-model="size.price" min=""></td>
 												<td><i class="fa fa-times" v-on:click="removeSize(index,size.id)"></i></td>
 											</tr>

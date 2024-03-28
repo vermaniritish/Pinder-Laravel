@@ -12,14 +12,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::middleware(['guest'])->group(function () {
-
-	//Admin public
-	include "Admin/auth.php";
-	include "Frontend/home.php";
-	include "Frontend/auth.php";
-	
-});
 
 Route::prefix('admin')->middleware(['adminAuth'])->group(function () {	
 	include "Admin/dashboard.php";
@@ -45,6 +37,14 @@ Route::prefix('admin')->middleware(['adminAuth'])->group(function () {
 	include "Admin/sliders.php";
 });
 
+Route::middleware(['guest'])->group(function () {
+
+	//Admin public
+	include "Admin/auth.php";
+	include "Frontend/home.php";
+	include "Frontend/auth.php";
+	
+});
 // Frontend Routes
 // Route::middleware(['frontendauth'])->group(function () {
 	
