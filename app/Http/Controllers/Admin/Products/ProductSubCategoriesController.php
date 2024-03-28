@@ -275,6 +275,27 @@ class ProductSubCategoriesController extends AppController
 		}
     }
 
+	function view(Request $request, $id)
+    {
+    	if(!Permissions::hasPermission('sub_categories', 'listing'))
+    	{
+    		$request->session()->flash('error', 'Permission denied.');
+    		return redirect()->route('admin.dashboard');
+    	}
+
+    	$page = ProductSubCategories::get($id);
+    	if($page)
+    	{
+	    	return view("admin/products/subCategories/view", [
+    			'page' => $page
+    		]);
+		}
+		else
+		{
+			abort(404);
+		}
+    }
+
     function delete(Request $request, $id)
     {
     	if(!Permissions::hasPermission('sub_categories', 'delete'))

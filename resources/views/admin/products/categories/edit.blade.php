@@ -44,7 +44,20 @@
 										@enderror
 									</div>
 								</div>
-								<div class="col-lg-6">
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="form-control-label">Description</label>
+										<textarea rows="2" id="editor1" class="form-control" placeholder="Description" required name="description">{{ old('description',$category->description) }}</textarea>
+										@error('description')
+										    <small class="text-danger">{{ $message }}</small>
+										@enderror
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
 									<div 
 										class="upload-image-section"
 										data-type="image"

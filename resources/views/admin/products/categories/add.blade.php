@@ -46,6 +46,17 @@
 								</div>
 							</div>
 							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="form-control-label">Description</label>
+										<textarea rows="2" id="editor1" class="form-control" placeholder="Description" required name="description">{{ old('description') }}</textarea>
+										@error('description')
+										    <small class="text-danger">{{ $message }}</small>
+										@enderror
+									</div>
+								</div>
+							</div>
+							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
 										<!-- FILE OR IMAGE UPLOAD. FOLDER PATH SET HERE in data-path AND CHANGE THE data-multiple TO TRUE SEE MAGIC  -->

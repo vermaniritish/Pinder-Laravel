@@ -52,6 +52,9 @@ Route::post('/products/categories/bulkActions/{action}', '\App\Http\Controllers\
 Route::get('/products/categories/{id}/delete', '\App\Http\Controllers\Admin\Products\ProductCategoriesController@delete')
     ->name('admin.products.categories.delete');
 
+Route::get('/products/categories/{id}/view', '\App\Http\Controllers\Admin\Products\ProductCategoriesController@view')
+    ->name('admin.products.categories.view');
+
 /*** Sub Categories **/
 Route::get('/products/subCategories', '\App\Http\Controllers\Admin\Products\ProductSubCategoriesController@index')
     ->name('admin.products.subCategories');
@@ -73,6 +76,9 @@ Route::post('/products/subCategories/bulkActions/{action}', '\App\Http\Controlle
 
 Route::get('/products/subCategories/{id}/delete', '\App\Http\Controllers\Admin\Products\ProductSubCategoriesController@delete')
     ->name('admin.products.subCategories.delete');
+  
+Route::get('/products/subCategories/{id}/view', '\App\Http\Controllers\Admin\Products\ProductSubCategoriesController@view')
+    ->name('admin.products.subCategories.view');
 
 /** Report  **/
 Route::get('/products/reports', '\App\Http\Controllers\Admin\Products\ReportsController@index')

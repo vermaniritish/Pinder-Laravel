@@ -35,11 +35,16 @@
 					<i class="fas fa-ellipsis-v"></i>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-					<?php if(Permissions::hasPermission('product_categories', 'update')): ?>
-					<a class="dropdown-item" href="<?php echo route('admin.products.categories.edit', ['id' => $row->id]) ?>">
-						<i class="fas fa-pencil-alt text-info"></i>
-						<span class="status">Edit</span>
+					<a class="dropdown-item" href="<?php echo route('admin.products.categories.view', ['id' => $row->id]) ?>">
+						<i class="fas fa-eye text-yellow"></i>
+						<span class="status">View</span>
 					</a>
+					<?php if(Permissions::hasPermission('product_categories', 'update')): ?>
+					<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="<?php echo route('admin.products.categories.edit', ['id' => $row->id]) ?>">
+							<i class="fas fa-pencil-alt text-info"></i>
+							<span class="status">Edit</span>
+						</a>
 					<?php endif; ?>
 					
 					<?php if(Permissions::hasPermission('product_categories', 'delete')): ?>

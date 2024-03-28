@@ -153,7 +153,10 @@ class ProductCategoriesController extends AppController
 	                'title' => [
 	                	'required',
 	                	Rule::unique('product_categories')->whereNull('deleted_at')
-	                ]
+					],
+					'description' => [
+						'nullable'
+					]
 
 	            ]
 	        );
@@ -215,7 +218,10 @@ class ProductCategoriesController extends AppController
 		                'title' => [
 		                	'required',
 		                	Rule::unique('product_categories')->ignore($category->id)->whereNull('deleted_at'),
-		                ]
+						],
+						'description' => [
+							'nullable'
+						]
 		            ]
 		        );
 
@@ -270,8 +276,30 @@ class ProductCategoriesController extends AppController
 				'product_categories.title desc'
 			);
 		    return view("admin/products/categories/edit", [
-		    		'categories' => $categories
+		    		'categories' => $categories,
+					'category' => $category
 	    		]);
+		}
+		else
+		{
+			abort(404);
+		}
+    }
+
+	function view(Request $request, $id)
+    {
+    	if(!Permissions::hasPermission('product_categories', 'listing'))
+    	{
+    		$request->session()->flash('error', 'Permission denied.');
+    		return redirect()->route('admin.dashboard');
+    	}
+
+    	$page = ProductCategories::get($id);
+    	if($page)
+    	{
+	    	return view("admin/products/categories/view", [
+    			'page' => $page
+    		]);
 		}
 		else
 		{
