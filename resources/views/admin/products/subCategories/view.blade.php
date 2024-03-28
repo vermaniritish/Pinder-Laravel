@@ -79,11 +79,11 @@ use App\Models\Admin\Settings;
 			</div>
 			<div class="col-xl-4 order-xl-1">
 				<?php if($page->image): ?>
-				<div class="card">
-					<div class="card-header">
-						@include('admin.partials.viewImage', ['files' => $page->getResizeImagesAttribute()])
-				    </div>
-				</div>
+					<div class="card">
+						<div class="card-header">
+							@include('admin.partials.viewImage', ['files' => $page->getResizeImagesAttribute()])
+						</div>
+					</div>
 				<?php endif; ?>
 				<div class="card">
 					<div class="card-header">

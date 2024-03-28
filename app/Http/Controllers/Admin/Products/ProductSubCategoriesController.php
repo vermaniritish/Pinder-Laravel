@@ -149,7 +149,10 @@ class ProductSubCategoriesController extends AppController
 	                'title' => [
 	                	'required',
 	                	Rule::unique('product_categories')->whereNull('deleted_at')
-	                ]
+					],
+					'description' => [
+						'nullable'
+					],
 
 	            ]
 	        );
@@ -211,7 +214,10 @@ class ProductSubCategoriesController extends AppController
 		                'title' => [
 		                	'required',
 		                	Rule::unique('product_categories')->ignore($category->id)->whereNull('deleted_at'),
-		                ]
+						],
+						'description' => [
+							'nullable'
+						]
 		            ]
 		        );
 
