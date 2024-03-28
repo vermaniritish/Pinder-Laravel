@@ -262,6 +262,7 @@ class ProductsController extends AppController
 				unset($data['sizeData']);
 	        	$categories = [];
 				$brands = [];
+				$subCategory = [];
 				if(isset($data['sub_category']) && $data['sub_category']) {
 	        		$subCategory = $data['sub_category'];
 	        	}
@@ -394,6 +395,7 @@ class ProductsController extends AppController
 	    	{
 	    		$data = $request->toArray();
 				$sizeData = [];
+				$subCategory= [];
 				if(isset($data['sizeData']) && $data['sizeData']) {
 					$data['sizeData'] = json_decode($data['sizeData'], true);
 					$sizeData = $data['sizeData'];
@@ -401,6 +403,9 @@ class ProductsController extends AppController
 				if (isset($data['tags']) && $data['tags']) {
 					$data['tags'] = explode(',', $data['tags']);
 				}
+				if(isset($data['sub_category']) && $data['sub_category']) {
+	        		$subCategory = $data['sub_category'];
+	        	}
 	    		$validator = Validator::make(
 		            $data,
 			            [
@@ -409,14 +414,8 @@ class ProductsController extends AppController
 							'duration_of_service' => ['nullable'],
 							'price' => ['required', 'numeric', 'min:0'],
 							'sale_price' => ['nullable', 'numeric', 'min:0'],
-							'category' => [
-								'required',
-								Rule::exists(ProductCategories::class, 'id')->where(function ($query) {
-									$query->where('status', 1);
-							})],
-							'brand' => ['required', 'array', Rule::exists(Brands::class, 'id')->where(function ($query) {
-								$query->where('status', 1);
-							})],
+							'category' => ['required', Rule::exists(ProductCategories::class,'id')],
+							'brand' => 'required',
 							'tags' => ['nullable', 'array'],
 							'tags.*' => ['string','max:20',],
 							'color_id' => ['required', Rule::exists(Colours::class,'id')],
@@ -433,6 +432,7 @@ class ProductsController extends AppController
 		        	unset($data['_token']);
 					unset($data['sizeData']);
 					unset($data['size']);
+					unset($data['sub_category']);
 	        		/** ONLY IN CASE OF MULTIPLE IMAGE USE THIS **/
 	        		if(isset($data['image']) && $data['image'])
 	        		{
