@@ -104,7 +104,7 @@ use App\Models\Admin\Settings;
 									<td>
 										<div class="custom-control">
                                             <label class="custom-toggle">
-                                                <?php $switchUrl =  route('admin.actions.switchUpdate', ['relation' => 'product_sub_categories', 'field' => 'status', 'id' => $page->id]); ?>
+                                                <?php $switchUrl =  route('admin.actions.switchUpdate', ['relation' => 'sub_categories', 'field' => 'status', 'id' => $page->id]); ?>
                                                 <input type="checkbox" name="status" onchange="switch_action('<?php echo $switchUrl ?>', this)" value="1" <?php echo ($page->status ? 'checked' : '') ?>>
                                                 <span class="custom-toggle-slider rounded-circle" data-label-off="OFF" data-label-on="ON"></span>
                                             </label>

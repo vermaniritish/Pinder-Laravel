@@ -18,7 +18,7 @@
 	</td>
 	<td>
 		@if($row->category)
-			<a href="{{ route('admin.products.categories') }}">
+			<a href="{{ route('admin.products.subCategories') }}">
 				{{ $row->category->title }}
 			</a>
 		@else
@@ -44,13 +44,13 @@
 					<i class="fas fa-ellipsis-v"></i>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-					<a class="dropdown-item" href="<?php echo route('admin.products.categories.view', ['id' => $row->id]) ?>">
+					<a class="dropdown-item" href="<?php echo route('admin.products.subCategories.view', ['id' => $row->id]) ?>">
 						<i class="fas fa-eye text-yellow"></i>
 						<span class="status">View</span>
 					</a>
 					<?php if(Permissions::hasPermission('sub_categories', 'update')): ?>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="<?php echo route('admin.products.categories.edit', ['id' => $row->id]) ?>">
+					<a class="dropdown-item" href="<?php echo route('admin.products.subCategories.edit', ['id' => $row->id]) ?>">
 						<i class="fas fa-pencil-alt text-info"></i>
 						<span class="status">Edit</span>
 					</a>
