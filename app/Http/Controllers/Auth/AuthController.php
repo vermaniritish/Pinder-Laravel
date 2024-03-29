@@ -107,11 +107,12 @@ class AuthController extends Controller {
 				'last_login_at' => Carbon::now()->timestamp,
 				'last_login_ip' => $request->getClientIp(),
 			]);
-			return $this->success([
-				'sucess' => true, 
+			return response()->json([
+				'message' => trans('LOGIN_SUCCESSFUL'),
+				'email' => $user->email,
+				'user_id' => $user->id,
 				'token' => $token,
-				'user_id' => $user->id
-			], Response::HTTP_OK, trans('LOGIN_SUCCESSFUL'));
+			], Response::HTTP_OK);
 		}
 		else {
 			return Response()->json([
@@ -245,35 +246,5 @@ class AuthController extends Controller {
 		$user->save();
 
 		return $this->success(['email' => $email], Response::HTTP_OK, trans('USER_VERIFIED_SUCCESSFULLY'));
-	}
-
-		/**
-	 * Return a success JSON response.
-	 *
-	 * @param  mixed  $data
-	 * @param  int  $code
-	 * @param  string|null  $message
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function success($data, int $code = 200, string $message = null) {
-		return response()->json([
-			'message' => $message,
-			'data' => $data
-		], $code);
-	}
-
-	/**
-	 * Return an error JSON response.
-	 *
-	 * @param  string  $message
-	 * @param  int  $code
-	 * @param  array|string|null  $errors
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function error(string $message = null, int $code, $errors = null) {
-		return response()->json([
-			'message' => $message,
-			'errors' => $errors
-		], $code);
 	}
 }
