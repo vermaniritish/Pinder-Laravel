@@ -10,7 +10,7 @@ let auth = new Vue({
     },
     methods: {
         register: async function() {
-            // if ($('#register-form')[0].checkValidity()) {
+            if ($('#register-form').valid()) {
                 this.loading = true;
                 const password = document.getElementById('password').value;
                 const confirmPassword = document.getElementById('confirmPassword').value;
@@ -42,13 +42,13 @@ let auth = new Vue({
                     this.loading = false;
                     set_notification('error', response.message);
                 }
-            // }
-            // else{
-            //     return false;
-            // }
+            }
+            else{
+                return false;
+            }
         },    
         login: async function() {
-            // if ($('#register-form')[0].checkValidity()) {
+            if ($('#login-form').valid()) {
                 this.loginloading = true;
                 let formData = new FormData(document.getElementById('login-form'));
                 formData.append('_token', csrf_token()); 
@@ -66,10 +66,10 @@ let auth = new Vue({
                     this.loginloading = false;
                     set_notification('error', response.message);
                 }
-            // }
-            // else{
-            //     return false;
-            // }
+            }
+            else{
+                return false;
+            }
         },  
     },
 });

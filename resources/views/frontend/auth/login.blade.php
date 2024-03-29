@@ -6,8 +6,8 @@
         </div>
         <div class="account__login--inner">
             <form id="login-form">
-                <input class="account__login--input" name="email" placeholder="Email Address" type="text">
-                <input class="account__login--input" name="password" placeholder="Password" type="password">
+                <input class="account__login--input" required name="email" placeholder="Email Address" type="text">
+                <input class="account__login--input" required name="password" placeholder="Password" type="password">
                 <div class="account__login--remember__forgot mb-15 d-flex justify-content-between align-items-center">
                     <div class="account__login--remember position__relative">
                         <input class="checkout__checkbox--input" id="check1" type="checkbox">
