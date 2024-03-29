@@ -48,9 +48,11 @@ class AuthController extends Controller {
 				$user = Users::create($data);
 				$user = Users::whereEmail($data['email'])->first();
 				$session_key = $user->generateSessionKey();
+				$verificationUrl = route('home', ['token' => $session_key]);
 				$codes = [
 					'{name}' => $user->first_name . ' ' . $user->last_name,
-					'{email}' => $user->email
+					'{email}' => $user->email,
+					'{url}' => General::urlToAnchor($verificationUrl)
 				];
 				$emails = [
 					$data['email']
