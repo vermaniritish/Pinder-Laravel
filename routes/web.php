@@ -41,8 +41,8 @@ Route::middleware(['guest'])->group(function () {
 
 	//Admin public
 	include "Admin/auth.php";
-	include "Frontend/home.php";
 	include "Frontend/auth.php";
+	include "Frontend/home.php";
 	
 });
 // Frontend Routes

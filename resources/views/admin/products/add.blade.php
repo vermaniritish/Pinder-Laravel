@@ -81,7 +81,7 @@
 									<div class="col-lg-12">
 										<div class="form-group">
 											<label class="form-control-label">Description</label>
-											<textarea rows="2" id="product-editor" class="form-control" placeholder="Description" name="description">{{ old('description') }}</textarea>
+											<textarea v-model="description" rows="2" id="product-editor" class="form-control" placeholder="Description" name="description">{{ old('description') }}</textarea>
 											@error('description')
 												<small class="text-danger">{{ $message }}</small>
 											@enderror
@@ -141,19 +141,9 @@
 									</div>
 									<div class="col-lg-6">
 										<div class="form-group">
-											<label class="form-control-label" for="input-first-name">Sale Price</label>
-											<div class="custom-control inline float-right">
-												<label class="custom-toggle">
-													<input 
-														type="checkbox"
-														<?php echo (old('sale_price') != '' ? 'checked' : '') ?>
-														onchange="$(this).is(':checked') ? $(this).parents('.custom-control').next('input').attr('readonly', false) : $(this).parents('.custom-control').next('input').attr('readonly', true)"
-													>
-													<span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
-												</label>
-											</div>
-											<input type="number" class="form-control" v-model="salePrice" name="sale_price" <?php echo (old('status') == '' ? 'readonly' : '') ?> placeholder="Sale Price" value="{{ old('sale_price') }}">
-											@error('sale_price')
+											<label class="form-control-label" for="input-first-name">Max Price</label>
+											<input type="number" class="form-control" v-model="maxPrice" name="max_price" <?php echo (old('status')) ?> placeholder="Max Price" value="{{ old('max_price') }}">
+											@error('max_price')
 												<small class="text-danger">{{ $message }}</small>
 											@enderror
 										</div>
@@ -227,7 +217,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label" for="input-tags">Tag</label>
-											<input type="text" class="form-control tag" name="tags" placeholder="Enter tags here." value="{{ old('tags') }}">
+											<input type="text" class="form-control tag" name="tags" v-model="tags" placeholder="Enter tags here." value="{{ old('tags') }}">
 											@error('tags.*')
 												<small class="text-danger">{{ $message }}</small>
 											@enderror

@@ -413,7 +413,7 @@ class ProductsController extends AppController
 							'description' => 'nullable',
 							'duration_of_service' => ['nullable'],
 							'price' => ['required', 'numeric', 'min:0'],
-							'sale_price' => ['nullable', 'numeric', 'min:0'],
+							'max_price' => ['nullable', 'numeric', 'min:0'],
 							'category' => ['required', Rule::exists(ProductCategories::class,'id')],
 							'brand' => 'required',
 							'tags' => ['nullable', 'array'],

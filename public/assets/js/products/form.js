@@ -11,12 +11,14 @@ let order = new Vue({
         title: '',
         selectedColor: '',
         price: '',
-        salePrice: '',
+        maxPrice: '',
         selectedBrand: [],
         durationOfService: '',
         loading: false,
         url: '',
-        selectedSubCategory: []
+        selectedSubCategory: [],
+        description: null,
+        tags: null
     },
     mounted: function() {
         this.initEditValues();
@@ -46,10 +48,11 @@ let order = new Vue({
                 this.selectedColor = data.color_id;
                 this.selectedGender = data.gender;
                 this.price = data.price;
-                this.salePrice = data.sale_price;
+                this.maxPrice = data.max_price;
                 this.selectedBrand = data && data.brands && data.brands.length > 0 ? data.brands.map(brand => brand.id) : [];
                 this.selectedSizeIds = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(size => size.id) : [];
                 this.durationOfService = data.duration_of_service;
+                this.description = data.description;
                 this.selectedSize = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(sizes => ({
                     id: sizes.id,
                     size_title: sizes.size_title,

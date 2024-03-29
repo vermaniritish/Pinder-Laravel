@@ -14,9 +14,10 @@ Route::get('/contact-us', '\App\Http\Controllers\PagesController@contactUs')
 Route::get('/privacy-policy', '\App\Http\Controllers\PagesController@privacyPolicy')
     ->name('privacyPolicy');
 
-    Route::get('/delivery-information', '\App\Http\Controllers\PagesController@deliveryInformation')
+Route::get('/delivery-information', '\App\Http\Controllers\PagesController@deliveryInformation')
     ->name('deliveryInformation');
-    Route::get('/return-policy', '\App\Http\Controllers\PagesController@returnPolicy')
+
+Route::get('/return-policy', '\App\Http\Controllers\PagesController@returnPolicy')
     ->name('returnPolicy');
 
 Route::get('/{category}', '\App\Http\Controllers\HomeController@listing')
