@@ -3,6 +3,7 @@ let auth = new Vue({
     data: {
     mounting: true,
     loading: false,
+    loginloading: false
     },
     mounted: function() {
         this.mounting = false;
@@ -46,6 +47,29 @@ let auth = new Vue({
             //     return false;
             // }
         },    
-            
+        login: async function() {
+            // if ($('#register-form')[0].checkValidity()) {
+                this.loginloading = true;
+                let formData = new FormData(document.getElementById('login-form'));
+                formData.append('_token', csrf_token()); 
+                let response = await fetch(site_url+'/auth/login', {
+                    method: 'POST',
+                    body: formData,
+                });
+                response = await response.json();
+                if(response && response.status)
+                {
+                    this.loginloading = false;
+                    set_notification('success', response.message);
+
+                }else{
+                    this.loginloading = false;
+                    set_notification('error', response.message);
+                }
+            // }
+            // else{
+            //     return false;
+            // }
+        },  
     },
 });

@@ -10,8 +10,7 @@
                 <input required class="account__login--input" name="email" placeholder="Email Addres" type="email">
                 <input required class="account__login--input" name="password" placeholder="Password" id="password" type="password">
                 <input required class="account__login--input" name="password_confirmation" placeholder="Confirm Password" id="confirmPassword" type="password">
-                <button type="button" class="account__login--btn primary__btn mb-10" v-on:click="register()"><i class="fa fa-spin fa-spinner" v-if="loading"></i><i v-else
-								class="fa fa-save"></i> Submit & Register </button>
+                <button type="button" class="account__login--btn primary__btn mb-10" v-on:click="register()"><i class="fa fa-spin fa-spinner" v-if="loading"></i>Submit & Register </button>
                 <div class="account__login--remember position__relative">
                     <input class="checkout__checkbox--input" id="check2" type="checkbox">
                     <span class="checkout__checkbox--checkmark"></span>

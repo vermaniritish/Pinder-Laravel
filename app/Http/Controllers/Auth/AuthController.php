@@ -75,43 +75,51 @@ class AuthController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function login(Request $request) {
-		$credentials = $request->validate([
-			'email' => [
-				'required', 'bail', 'string', 'max:255', 'email',
-				Rule::exists(Users::class, 'email')
-			],
-			'password' => ['required', 'string', 'max:36']
-		]);
-
-		$user = Users::whereEmail($credentials['email'])->first();
-
-		$password = $credentials['password'];
-		if (!$user || $credentials['password'] != Hash::check($password, $user->password)) {
-			return response()->json(['message' => trans('INVALID_CREDENTIALS')], Response::HTTP_UNAUTHORIZED);
+		$data = $request->toArray();
+		$validator = Validator::make(
+			$data,
+			[
+				'email' => [
+					'required', 'bail', 'string', 'max:255', 'email',
+					Rule::exists(Users::class, 'email')
+				],
+				'password' => ['required', 'string', 'max:36']
+			]
+		);
+		if(!$validator->fails())
+		{
+			$user = Users::whereEmail($data['email'])->first();
+			$password = $data['password'];
+			if (!$user || $data['password'] != Hash::check($password, $user->password)) {
+				return response()->json(['message' => trans('INVALID_CREDENTIALS')], Response::HTTP_UNAUTHORIZED);
+			}
+			if (!$user->hasVerifiedEmail()) {
+				$session_key = $user->generateSessionKey();
+				$email_otp = $user->generateEmailVerificationOtp($session_key);
+				$user->sendEmailVerificationOtpNotification($email_otp);
+				$phone_otp = $user->generatePhoneVerificationOtp($session_key);
+				$user->sendPhoneVerificationOtp($data['email'], $phone_otp, $user->phone_number);
+	
+				return $this->error(trans('EMAIL_IS_NOT_VERIFIED'), Response::HTTP_UNAUTHORIZED, ['session_key' => $session_key]);
+			}
+			$token = $user->createToken($request->email)->plainTextToken;
+			Users::whereEmail($data['email'])->update([
+				'last_login_at' => Carbon::now()->timestamp,
+				'last_login_ip' => $request->getClientIp(),
+			]);
+			return $this->success([
+				'sucess' => true, 
+				'token' => $token,
+				'user_id' => $user->id
+			], Response::HTTP_OK, trans('LOGIN_SUCCESSFUL'));
+		}
+		else {
+			return Response()->json([
+				'status' => false,
+				'message' => current(current($validator->errors()->getMessages()))
+			], Response::HTTP_OK);
 		}
 
-		if (!$user->hasVerifiedEmail()) {
-			$session_key = $user->generateSessionKey();
-			$email_otp = $user->generateEmailVerificationOtp($session_key);
-			$user->sendEmailVerificationOtpNotification($email_otp);
-			$phone_otp = $user->generatePhoneVerificationOtp($session_key);
-			$user->sendPhoneVerificationOtp($credentials['email'], $phone_otp, $user->phone_number);
-
-			return $this->error(trans('EMAIL_IS_NOT_VERIFIED'), Response::HTTP_UNAUTHORIZED, ['session_key' => $session_key]);
-		}
-
-		$token = $user->createToken($request->email)->plainTextToken;
-
-		User::whereEmail($credentials['email'])->update([
-			'last_login_at' => Carbon::now()->timestamp,
-			'last_login_ip' => $request->getClientIp(),
-		]);
-
-		return $this->success([
-			'sucess' => true, 
-			'token' => $token,
-			'user_id' => $user->id
-		], Response::HTTP_OK, trans('LOGIN_SUCCESSFUL'));
 	}
 
 	/**
@@ -136,7 +144,7 @@ class AuthController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function updatePassword(Request $request) {
-		$credentials = $request->validate([
+		$data = $request->validate([
 			'email' => ['required', 'string', 'min:6', 'email', Rule::exists(User::class, 'email')],
 			'current_password' => ['required', 'string', 'min:8', 'max:12'],
 			'new_password' => [
