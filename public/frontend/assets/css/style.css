@@ -13064,5 +13064,28 @@ details > summary::-webkit-details-marker {
 }
 /*# sourceMappingURL=style.css.map */
 
+.bg-green
+{
+    background-color: #2dce89 !important;
+}
 
+a.bg-green:hover,
+a.bg-green:focus,
+button.bg-green:hover,
+button.bg-green:focus
+{
+    background-color: #24a46d !important;
+}
 
+.bg-red
+{
+    background-color: #f5365c !important;
+}
+
+a.bg-red:hover,
+a.bg-red:focus,
+button.bg-red:hover,
+button.bg-red:focus
+{
+    background-color: #ec0c38 !important;
+}

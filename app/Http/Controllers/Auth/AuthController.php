@@ -78,12 +78,12 @@ class AuthController extends Controller {
 		$credentials = $request->validate([
 			'email' => [
 				'required', 'bail', 'string', 'max:255', 'email',
-				Rule::exists(User::class, 'email')->where('provider', 'matrimonial')
+				Rule::exists(Users::class, 'email')
 			],
-			'password' => ['required', 'string', 'max:24']
+			'password' => ['required', 'string', 'max:36']
 		]);
 
-		$user = User::whereEmail($credentials['email'])->first();
+		$user = Users::whereEmail($credentials['email'])->first();
 
 		$password = $credentials['password'];
 		if (!$user || $credentials['password'] != Hash::check($password, $user->password)) {

@@ -896,7 +896,6 @@ newsletterPopup();
 
 function set_notification(type, text, placementFrom, placementAlign, animateEnter, animateExit)
 {
-
     if(type == 'success')
         var colorName = 'bg-green';
     else if(type == 'error')

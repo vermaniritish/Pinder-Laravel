@@ -22,5 +22,8 @@
     "CATEGORY_NOT_FOUND": "Category not found.",
     "CATEGORY_DELETED": "Category deleted successfully.",
     "USER_NOT_FOUND": "User not found.",
-    "REGISTER_SUCCESSFULL": "Registration successful."
+    "REGISTER_SUCCESSFULL": "Registration successful.",
+    "LOGIN_SUCCESSFUL": "Logged in Successfully.",
+    "LOGOUT_SUCCESSFUL": "Logged out successfully.",
+    "INVALID_CREDENTIALS": "The login credentials are invalid."
 }
