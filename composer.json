@@ -15,6 +15,7 @@
         "hashids/hashids": "^4.1",
         "intervention/image": "^2.5",
         "laravel/framework": "^8.12",
+        "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.5",
         "sendgrid/sendgrid": "^7.9",
         "spatie/laravel-activitylog": "^4.7",
