@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller {
 	/**
@@ -20,7 +21,8 @@ class AuthController extends Controller {
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function register(Request $request) {
+	public function register(Request $request)
+	{
 		if($request->isMethod('post')){
     		$data = $request->toArray();
 			$validator = Validator::make(
@@ -45,10 +47,9 @@ class AuthController extends Controller {
 				$lastName = implode(' ', array_slice($nameParts, 1));
 				$data['first_name'] = ucfirst(strtolower($firstName));
 				$data['last_name'] = ucfirst(strtolower($lastName));
+				$data['token'] = General::hash();
 				$user = Users::create($data);
-				$user = Users::whereEmail($data['email'])->first();
-				$session_key = $user->generateSessionKey();
-				$verificationUrl = route('home', ['token' => $session_key]);
+				$verificationUrl = route('home', ['token' => $data['token']]);
 				$codes = [
 					'{name}' => $user->first_name . ' ' . $user->last_name,
 					'{email}' => $user->email,
@@ -61,8 +62,7 @@ class AuthController extends Controller {
 				return response()->json([
 					'message' => trans('REGISTER_SUCCESSFULL'),
 					'email' => $user->email,
-					'user_id' => $user->id,
-					'session_key' => $session_key
+					'user_id' => $user->id
 				], Response::HTTP_OK);
 			} else {
 				return Response()->json([
@@ -80,7 +80,8 @@ class AuthController extends Controller {
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function login(Request $request) {
+	public function login(Request $request)
+	{
 		$data = $request->toArray();
 		$validator = Validator::make(
 			$data,
