@@ -40,13 +40,17 @@ class AuthController extends Controller {
 				$data['password'] = Hash::make($data['password']);
 				unset($data['password_confirmation']);
 				unset($data['_token']);
+				$nameParts = explode(' ', $data['first_name']);
+				$firstName = $nameParts[0];
+				$lastName = implode(' ', array_slice($nameParts, 1));
+				$data['first_name'] = ucfirst(strtolower($firstName));
+				$data['last_name'] = ucfirst(strtolower($lastName));
 				$user = Users::create($data);
 				$user = Users::whereEmail($data['email'])->first();
 				$session_key = $user->generateSessionKey();
-				$email_otp = $user->generateEmailVerificationOtp($session_key);
 				$codes = [
-					'{id}' => $user->id,
-					'{otp}' => $email_otp
+					'{name}' => $user->first_name . ' ' . $user->last_name,
+					'{email}' => $user->email
 				];
 				$emails = [
 					$data['email']
