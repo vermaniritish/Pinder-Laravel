@@ -203,10 +203,31 @@ class ProductsController extends AppController
 		$listing = ProductSizeRelation::getListing($request, $where);
     	if($product)
     	{
-	    	return view("admin/products/view", [
-    			'product' => $product,
-				'listing' => $listing
-    		]);
+			if($request->ajax())
+			{
+				$html = view(
+					"admin/products/productSizes/listingLoop", 
+					[
+						'listing' => $listing
+					]
+				)->render();
+	
+				return Response()->json([
+					'status' => 'success',
+					'html' => $html,
+					'page' => $listing->currentPage(),
+					'counter' => $listing->perPage(),
+					'count' => $listing->total(),
+					'pagination_counter' => $listing->currentPage() * $listing->perPage()
+				], 200);
+			}
+			else
+			{
+				return view("admin/products/view", [
+					'product' => $product,
+					'listing' => $listing
+				]);
+			}
 		}
 		else
 		{
