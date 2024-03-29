@@ -17,7 +17,7 @@
                     </div>
                     <button class="account__login--forgot" type="button">Forgot Your Password?</button>
                 </div>
-                <button class="account__login--btn primary__btn" v-on:click="login()" type="button"><i class="fa fa-spin fa-spinner" v-if="loading"></i>Login</button>
+                <button class="account__login--btn primary__btn" v-on:click="login()" type="button"><i class="fa fa-spin fa-spinner" v-if="loginloading"></i>Login</button>
                 <p class="account__login--signup__text">Don,t Have an Account? <button type="button">Sign up now</button></p>
             </form>
         </div>

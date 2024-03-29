@@ -10,9 +10,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Libraries\FileSystem;
 use App\Models\API\UsersPermissions;
 use App\Traits\OtpVerification;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
-
-class Users extends AppModel
+use Illuminate\Foundation\Auth\User as Authenticatable;
+class Users extends Authenticatable implements MustVerifyEmail
 {
     use OtpVerification, Notifiable;
     protected $table = 'users';
