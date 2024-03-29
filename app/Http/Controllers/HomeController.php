@@ -17,8 +17,8 @@ class HomeController extends BaseController
         $token = $request->query('token');
         if ($token) {
             $user = Users::where('token', $token)->first();
-            if ($user && is_null($user->email_verified_at)) {
-                $user->email_verified_at = now(); 
+            if ($user && is_null($user->verified_at)) {
+                $user->verified_at = now(); 
                 $user->save();
             }
         }
