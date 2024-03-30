@@ -123,6 +123,7 @@ let auth = new Vue({
                             this.$set(this.forgotErrorMessages, field, response.message[field]);
                         }
                     }
+                    console.log(this.forgotErrorMessages.email);
                 }
             }
             else{

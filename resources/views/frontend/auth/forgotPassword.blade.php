@@ -7,7 +7,7 @@
         <div class="account__login--inner">
             <form id="forgot-form">
                 <input class="account__login--input" required name="email" placeholder="Email Address" type="text">
-                <div v-if="forgotErrorMessages.email" class="text-danger text-center">@{{ loginErrorMessages.password }}</div>
+                <div v-if="forgotErrorMessages.email" class="text-danger text-center">@{{ forgotErrorMessages.email }}</div>
                 <div class="account__login--remember__forgot mb-15 d-flex justify-content-between align-items-center">
                     <button class="account__login--forgot" v-on:click="disableForgotPassword()" type="button"><i class="fas fa-arrow-left" ></i> Back</button>
                 </div>
