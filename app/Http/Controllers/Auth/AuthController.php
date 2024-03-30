@@ -60,14 +60,16 @@ class AuthController extends Controller {
 				];
 				General::sendTemplateEmail($emails, 'registration', $codes);
 				return response()->json([
+					'status' => true,
 					'message' => trans('REGISTER_SUCCESSFULL'),
 					'email' => $user->email,
 					'user_id' => $user->id
 				], Response::HTTP_OK);
 			} else {
+				$errors = $validator->errors()->toArray();
 				return Response()->json([
 					'status' => false,
-					'message' => current(current($validator->errors()->getMessages()))
+					'message' => $errors
 				], Response::HTTP_OK);
 			}
 		}
@@ -98,20 +100,18 @@ class AuthController extends Controller {
 			$user = Users::whereEmail($data['email'])->first();
 			$password = $data['password'];
 			if (!$user || $data['password'] != Hash::check($password, $user->password)) {
-				return response()->json(['message' => trans('INVALID_CREDENTIALS')], Response::HTTP_UNAUTHORIZED);
+				$errors = ['password' => [trans('INVALID_CREDENTIALS')]];
+				return response()->json(['status' => false, 'message' => $errors], Response::HTTP_UNAUTHORIZED);
 			}
-			if (!$user->hasVerifiedEmail()) {
-				return Response()->json([
-					'status' => false,
-					'message' => trans('EMAIL_IS_NOT_VERIFIED')
-				], Response::HTTP_OK);
-			}
+			
 			$token = $user->createToken($request->email)->plainTextToken;
 			Users::whereEmail($data['email'])->update([
+				'token' => $token,
 				'last_login_at' => Carbon::now()->timestamp,
 				'last_login_ip' => $request->getClientIp(),
 			]);
 			return response()->json([
+				'status' => true,
 				'message' => trans('LOGIN_SUCCESSFUL'),
 				'email' => $user->email,
 				'user_id' => $user->id,
@@ -119,14 +119,74 @@ class AuthController extends Controller {
 			], Response::HTTP_OK);
 		}
 		else {
+			$errors = $validator->errors()->toArray();
 			return Response()->json([
 				'status' => false,
-				'message' => current(current($validator->errors()->getMessages()))
+				'message' => $errors
 			], Response::HTTP_OK);
 		}
-
 	}
 
+	function forgotPassword(Request $request)
+    {
+    	if($request->isMethod('post'))
+    	{
+			$data = $request->toArray();
+			$validator = Validator::make(
+				$data,
+				[
+					'email' => [
+						'required', 'bail', 'string', 'max:255', 'email',
+						Rule::exists(Users::class, 'email')
+					]
+				]
+			);
+			if(!$validator->fails())
+			{
+				$user = Users::where('email', $data['email'])->first();
+				$otp = mt_rand(100000, 999999);
+				$user->otp = $otp;
+				$user->token = General::hash();
+				$user->save();
+				if($user->save()){
+					$codes = [
+						'{first_name}' => $user->first_name,
+						'{last_name}' => $user->last_name,
+						'{email}' => $user->email,
+						'{otp}' => $user->otp,
+						'{recovery_link}' => General::urlToAnchor(route('user.otpVerify', ['hash' => $user->token]))
+					];
+
+					General::sendTemplateEmail(
+						$user->email, 
+						'user-forgot-password',
+						$codes
+					);
+
+					return Response()->json([
+						'status' => true,
+						'message' => 'We have sent you a recovery link on your email. Please follow the email.'
+					], Response::HTTP_OK);	
+				}	
+				else
+				{
+					return Response()->json([
+						'status' => false,
+						'message' => 'Something went wrong. Please try again.'
+					], Response::HTTP_OK);
+				}
+			}
+			else {
+				$errors = $validator->errors()->toArray();
+				return Response()->json([
+					'status' => false,
+					'message' => $errors
+				], Response::HTTP_OK);
+			}
+	    }
+		return view('frontend.auth.forgotPassword');
+    }
+	
 	/**
 	 * Remove the specified resource
 	 *
@@ -175,80 +235,113 @@ class AuthController extends Controller {
 			'message' => trans('PASSWORD_UPDATED_SUCCESSFULLY'),
 		], Response::HTTP_OK);
 	}
+	
+    function otpVerify(Request $request, $hash)
+    {
+    	$user = Users::getRow([
+    			'token like ?' => [$hash]
+    		]);
+    	if($user)
+    	{
+	    	if($request->isMethod('post'))
+	    	{
+	    		$data = $request->toArray();
+	            $validator = Validator::make(
+		            $request->toArray(),
+		            [
+		                'otp' => [
+		                	'required',
+						    'numeric'
+		                ],
+		            ]
+		        );
+		        if(!$validator->fails())
+		        {
+		        	unset($data['_token']);
+					if ($user->otp == $data['otp']) {
+						return Response()->json([
+							'status' => true,
+							'message' => 'OTP Verified.'
+						], Response::HTTP_OK);	
+					} else {
 
-	/**
-	 * Verify email verification otp.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function verifyVerificationOtp(Request $request) {
-		$input = $request->validate([
-			'email' => [
-				'bail', 'required', 'email', Rule::exists(User::class, 'email')
-			],
-			'phone_otp' => ['required', 'string'],
-			'email_otp' => ['required', 'string'],
-			'key' => ['required', 'string'],
-		]);
-
-		$phone_otp = $input['phone_otp'];
-		$email_otp = $input['email_otp'];
-		$key = $input['key'];
-		$email = $input['email'];
-
-		$user = User::whereEmail($email)->first();
-		if ($user->hasVerifiedEmail() && $user->phone_number_verified_at) {
-			return $this->error(trans('USER_ALREADY_VERIFIED'), Response::HTTP_UNPROCESSABLE_ENTITY);
+						$errors = ['otp' => ['Incorrect OTP. Please try again.']];
+						return response()->json(['status' => false, 'message' => $errors], Response::HTTP_UNAUTHORIZED);
+					}
+			    }
+			    else
+			    {
+					$errors = $validator->errors()->toArray();
+					return Response()->json([
+						'status' => false,
+						'message' => $errors
+					], Response::HTTP_OK);
+			    }
+			}
+			return view("frontend.auth.verifyOtp");
 		}
-
-		if (!$user->checkEmailVerificationOtp($email_otp, $key)) {
-			return $this->error(trans('INVALID_EMAIL_OTP'), Response::HTTP_UNPROCESSABLE_ENTITY);
+		else
+		{
+			abort(404);
 		}
-		if (!$user->checkPhoneVerificationOtp($phone_otp, $key)) {
-			return $this->error(trans('INVALID_PHONE_NUMBER_OTP'), Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    function recoverPassword(Request $request, $hash)
+    {
+    	$user = Users::getRow([
+    			'token like ?' => [$hash]
+    		]);
+    	if($user)
+    	{
+	    	if($request->isMethod('post'))
+	    	{
+	    		$data = $request->toArray();
+	            $validator = Validator::make(
+		            $request->toArray(),
+		            [
+		                'new_password' => [
+		                	'required',
+						    'string',
+							Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised(), 'max:36'
+		                ],
+		                'confirm_password' => [
+		                	'required',
+						    'same:new_password'
+		                ]
+		            ]
+		        );
+		        if(!$validator->fails())
+		        {
+		        	unset($data['_token']);
+	        			$user->password = $data['new_password'];
+	        			if($user->save())
+	        			{
+							return Response()->json([
+								'status' => true,
+								'message' => 'Password updated successfully. Login with new credentials to proceed.'
+							], Response::HTTP_OK);
+	        			}
+	        			else
+	        			{
+							return Response()->json([
+								'status' => false,
+								'message' => 'New password could be updated.'
+							], Response::HTTP_OK);			
+	        			}
+			    }
+			    else
+			    {
+					return Response()->json([
+						'status' => false,
+						'message' => $validator->errors()->toArray()
+					], Response::HTTP_OK);
+			    }
+			}
+			return view("frontend.auth.recoverPassword");
 		}
-
-		$user->email_verified_at = Carbon::now()->toDateTimeString();
-		$user->phone_number_verified_at = Carbon::now()->toDateTimeString();
-		$user->save();
-		$token = $user->createToken($email)->plainTextToken;
-
-		return $this->success(['token' => $token, 'email' => $email], Response::HTTP_OK, trans('USER_VERIFIED_SUCCESSFULLY'));
-	}
-
-	/**
-	 * Verify phone number verification otp.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function verifyPhoneVerificationOtp(Request $request) {
-		$input = $request->validate([
-			'email' => [
-				'bail', 'required', 'email', Rule::exists(User::class, 'email')
-			],
-			'otp' => ['required', 'string'],
-			'key' => ['required', 'string'],
-		]);
-
-		$otp = $input['otp'];
-		$key = $input['key'];
-		$email = $input['email'];
-
-		$user = User::whereEmail($email)->first();
-
-		if ($user->phone_number_verified_at) {
-			return $this->error(trans('PHONE_NUMBER_ALREADY_VERIFIED'), Response::HTTP_UNPROCESSABLE_ENTITY);
+		else
+		{
+			abort(404);
 		}
-
-		if (!$user->checkPhoneVerificationOtp($otp, $key)) {
-			return $this->error(trans('INVALID_PHONE_NUMBER_OTP'), Response::HTTP_UNPROCESSABLE_ENTITY);
-		}
-
-		$user->phone_number_verified_at = Carbon::now()->toDateTimeString();
-		$user->save();
-
-		return $this->success(['email' => $email], Response::HTTP_OK, trans('USER_VERIFIED_SUCCESSFULLY'));
-	}
+    }
 }

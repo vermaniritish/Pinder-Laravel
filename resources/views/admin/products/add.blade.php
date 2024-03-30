@@ -92,7 +92,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label">Color</label>
-											<select class="form-control no-selectpicker" v-model="selectedColor" name="color_id" required>
+											<select class="form-control no-selectpicker" v-model="selectedColor" name="color_id[]" multiple required>
 												<option value="">Select</option>
 												<?php 
 													foreach($colors as $s): 
@@ -207,15 +207,6 @@
 								</div>
 								<hr class="my-4" />
 								<div class="row">
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label" for="input-email">Duration Of Service</label>
-											<input type="time" id="input-email" class="form-control" v-model="durationOfService" name="duration_of_service"  value="{{ old('duration_of_service') }}">
-											@error('duration_of_service')
-												<small class="text-danger">{{ $message }}</small>
-											@enderror
-										</div>
-									</div>
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label" for="input-tags">Tag</label>

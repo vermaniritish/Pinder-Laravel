@@ -63,4 +63,9 @@ function put_editor_html(selector, value)
 {
     CKEDITOR.instances[selector].insertHtml(value.trim());
 }
+
+function get_editor_html(selector)
+{
+    return CKEDITOR.instances[selector].getData();
+}
 /** Ckeditor Image upload **/

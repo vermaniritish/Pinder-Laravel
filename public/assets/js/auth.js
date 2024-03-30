@@ -3,7 +3,14 @@ let auth = new Vue({
     data: {
     mounting: true,
     loading: false,
-    loginloading: false
+    loginloading: false,
+    forgotLoading: false,
+    showLoginForm: true,
+    showRegisterForm: true,
+    showForgotPasswordForm: false,
+    loginErrorMessages: {} ,
+    registerErrorMessages: {},
+    forgotErrorMessages: {}
     },
     mounted: function() {
         this.mounting = false;
@@ -14,11 +21,6 @@ let auth = new Vue({
                 this.loading = true;
                 const password = document.getElementById('password').value;
                 const confirmPassword = document.getElementById('confirmPassword').value;
-                if (password !== confirmPassword) {
-                    set_notification('error','Passwords do not match');
-                    this.loading = false;
-                    return false;
-                }
                 const termsConditionsChecked = document.getElementById('check2').checked;
                 if (!termsConditionsChecked) {
                     set_notification('error','Please agree to the terms & conditions');
@@ -34,13 +36,21 @@ let auth = new Vue({
                 });
                 response = await response.json();
                 if(response && response.status)
-                {
+                { 
+                    document.getElementById('register-form').reset();
                     this.loading = false;
                     set_notification('success', response.message);
 
                 }else{
                     this.loading = false;
-                    set_notification('error', response.message);
+                    this.registerErrorMessages = {};
+                    for (let field in response.message) {
+                        if (Array.isArray(response.message[field])) {
+                            this.$set(this.registerErrorMessages, field, response.message[field].join(', '));
+                        } else {
+                            this.$set(this.registerErrorMessages, field, response.message[field]);
+                        }
+                    }
                 }
             }
             else{
@@ -64,12 +74,156 @@ let auth = new Vue({
 
                 }else{
                     this.loginloading = false;
-                    set_notification('error', response.message);
+                    this.loginErrorMessages = {};
+                    for (let field in response.message) {
+                        if (Array.isArray(response.message[field])) {
+                            this.$set(this.loginErrorMessages, field, response.message[field].join(', '));
+                        } else {
+                            this.$set(this.loginErrorMessages, field, response.message[field]);
+                        }
+                    }
                 }
             }
             else{
                 return false;
             }
         },  
+        showForgotPassword: function() {
+            this.showLoginForm = false;
+            this.showRegisterForm = false;
+            this.showForgotPasswordForm = true;
+        },
+        disableForgotPassword: function() {
+            this.showLoginForm = true;
+            this.showRegisterForm = true;
+            this.showForgotPasswordForm = false;
+        },
+        postForgotPassword: async function(){
+            if ($('#forgot-form').valid()) {
+                this.forgotLoading = true;
+                let formData = new FormData(document.getElementById('forgot-form'));
+                formData.append('_token', csrf_token()); 
+                let response = await fetch(site_url+'/auth/forgot-password', {
+                    method: 'POST',
+                    body: formData,
+                });
+                response = await response.json();
+                if(response && response.status)
+                {
+                    this.forgotLoading = false;
+                    document.getElementById('forgot-form').reset();
+                    set_notification('success', response.message);
+
+                }else{
+                    this.forgotLoading = false;
+                    this.forgotErrorMessages = {};
+                    for (let field in response.message) {
+                        if (Array.isArray(response.message[field])) {
+                            this.$set(this.forgotErrorMessages, field, response.message[field].join(', '));
+                        } else {
+                            this.$set(this.forgotErrorMessages, field, response.message[field]);
+                        }
+                    }
+                }
+            }
+            else{
+                return false;
+            }
+        }
+    },
+});
+
+let verifyOtp = new Vue({
+    el: '#verifyOtp',
+    data: {
+    mounting: true,
+    loading: false,
+    errorMessages: {} ,
+    },
+    mounted: function() {
+        this.mounting = false;
+    },
+    methods: {
+        verifyOtp: async function() {
+            if ($('#otp-form').valid()) {
+                this.loading = true;
+                let formData = new FormData(document.getElementById('otp-form'));
+                formData.append('_token', csrf_token()); 
+                let hash = window.location.pathname.split('/').pop();
+                let url = `${site_url}/auth/otp-verify/${hash}`;
+                let response = await fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                });
+                response = await response.json();
+                if(response && response.status)
+                { 
+                    document.getElementById('otp-form').reset();
+                    this.loading = false;
+                    set_notification('success', response.message);
+                    window.location.href = `${site_url}/auth/recover-password/${hash}`;
+                }else{
+                    this.loading = false;
+                    this.errorMessages = {};
+                    for (let field in response.message) {
+                        if (Array.isArray(response.message[field])) {
+                            this.$set(this.errorMessages, field, response.message[field].join(', '));
+                        } else {
+                            this.$set(this.errorMessages, field, response.message[field]);
+                        }
+                    }
+                }
+            }
+            else{
+                return false;
+            }
+        },    
+    },
+});
+
+let recoverPassword = new Vue({
+    el: '#recoverPassword',
+    data: {
+    mounting: true,
+    loading: false,
+    errorMessages: {} ,
+    },
+    mounted: function() {
+        this.mounting = false;
+    },
+    methods: {
+        recovePassword: async function() {
+            if ($('#recover-password-form').valid()) {
+                this.loading = true;
+                let formData = new FormData(document.getElementById('recover-password-form'));
+                formData.append('_token', csrf_token()); 
+                let hash = window.location.pathname.split('/').pop();
+                let url = `${site_url}/auth/recover-password/${hash}`;
+                let response = await fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                });
+                response = await response.json();
+                if(response && response.status)
+                { 
+                    document.getElementById('recover-password-form').reset();
+                    this.loading = false;
+                    set_notification('success', response.message);
+                }else{
+                    this.loading = false;
+                    this.errorMessages = {};
+                    for (let field in response.message) {
+                        if (Array.isArray(response.message[field])) {
+                            this.$set(this.errorMessages, field, response.message[field].join(', '));
+                        } else {
+                            this.$set(this.errorMessages, field, response.message[field]);
+                        }
+                    }
+                }
+            }
+            else{
+                return false;
+            }
+        },    
     },
 });

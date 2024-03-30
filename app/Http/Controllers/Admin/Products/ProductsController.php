@@ -248,12 +248,24 @@ class ProductsController extends AppController
     		$data = $request->toArray();
     		unset($data['_token']);
 			$sizeData = [];
+			$colors = [];
+			$subCategory = [];
+			$brands = [];
 			if(isset($data['sizeData']) && $data['sizeData']) {
 				$data['sizeData'] = json_decode($data['sizeData'], true);
 				$sizeData = $data['sizeData'];
 			}
 			if (isset($data['tags']) && $data['tags']) {
 				$data['tags'] = explode(',', $data['tags']);
+			}
+			if (isset($data['color_id']) && $data['color_id']) {
+				$colors = $data['color_id'];
+			}
+			if(isset($data['sub_category']) && $data['sub_category']) {
+				$subCategory = $data['sub_category'];
+			}
+			if(isset($data['brand']) && $data['brand']) {
+				$brands = $data['brand'];
 			}
     		$validator = Validator::make(
 	            $data,
@@ -267,7 +279,8 @@ class ProductsController extends AppController
 	                'brand' => 'required',
 					'tags' => ['nullable', 'array'],
 					'tags.*' => ['string','max:20',],
-					'color_id' => ['required', Rule::exists(Colours::class,'id')],
+					'color_id' => ['nullable', 'array'],
+					'color_id.*' => ['required', Rule::exists(Colours::class,'id')],
 					'gender' => ['required', Rule::in(['Male','Female','Unisex'])],
 					'sizeData' => ['required', 'array'],
 					'sizeData.*.id' => ['distinct','required', Rule::exists(Sizes::class, 'id')->where(function ($query) {
@@ -281,17 +294,10 @@ class ProductsController extends AppController
 	        {
 				unset($data['size']);
 				unset($data['sizeData']);
-	        	$categories = [];
-				$brands = [];
-				$subCategory = [];
-				if(isset($data['sub_category']) && $data['sub_category']) {
-	        		$subCategory = $data['sub_category'];
-	        	}
-				if(isset($data['brand']) && $data['brand']) {
-	        		$brands = $data['brand'];
-	        	}
+				unset($data['color_id']);
 	        	unset($data['brand']);
 	        	unset($data['sub_category']);
+		
 				$data['category_id'] = $data['category'];
 				unset($data['category']);
 	        	$product = Products::create($data);
@@ -300,13 +306,13 @@ class ProductsController extends AppController
 					if (!empty($sizeData)) {
 						Products::handleSizes($product->id, $sizeData);
 					}
-	        		if(!empty($categories))
-	        		{  
-	        			Products::handleCategories($product->id, $categories);
-	        		}
 					if(!empty($brands))
 	        		{
 	        			Products::handleBrands($product->id, $brands);
+	        		}
+					if(!empty($colors))
+	        		{
+	        			Products::handleColors($product->id, $colors);
 	        		}
 					if(!empty($subCategory))
 	        		{
@@ -417,6 +423,8 @@ class ProductsController extends AppController
 	    		$data = $request->toArray();
 				$sizeData = [];
 				$subCategory= [];
+				$brands = [];
+				$colors = [];
 				if(isset($data['sizeData']) && $data['sizeData']) {
 					$data['sizeData'] = json_decode($data['sizeData'], true);
 					$sizeData = $data['sizeData'];
@@ -427,6 +435,12 @@ class ProductsController extends AppController
 				if(isset($data['sub_category']) && $data['sub_category']) {
 	        		$subCategory = $data['sub_category'];
 	        	}
+				if(isset($data['color_id']) && $data['color_id']) {
+	        		$colors = $data['color_id'];
+	        	}
+				if(isset($data['brand']) && $data['brand']) {
+					$brands = $data['brand'];
+				}
 	    		$validator = Validator::make(
 		            $data,
 			            [
@@ -439,7 +453,8 @@ class ProductsController extends AppController
 							'brand' => 'required',
 							'tags' => ['nullable', 'array'],
 							'tags.*' => ['string','max:20',],
-							'color_id' => ['required', Rule::exists(Colours::class,'id')],
+							'color_id' => ['nullable', 'array'],
+							'color_id.*' => ['required', Rule::exists(Colours::class,'id')],
 							'gender' => ['required', Rule::in(['Male','Female','Unisex'])],
 							'sizeData' => ['required', 'array'],
 							'sizeData.*.id' => ['distinct','required', Rule::exists(Sizes::class, 'id')->where(function ($query) {
@@ -454,6 +469,7 @@ class ProductsController extends AppController
 					unset($data['sizeData']);
 					unset($data['size']);
 					unset($data['sub_category']);
+					unset($data['color_id']);
 	        		/** ONLY IN CASE OF MULTIPLE IMAGE USE THIS **/
 	        		if(isset($data['image']) && $data['image'])
 	        		{
@@ -467,29 +483,15 @@ class ProductsController extends AppController
 		        		unset($data['image']);
 		        	}
 		        	/** ONLY IN CASE OF MULTIPLE IMAGE USE THIS **/
-
-		        	$categories = [];
-					$brands = [];
-					if(isset($data['sub_category']) && $data['sub_category']) {
-						$subCategory = $data['sub_category'];
-					}
-					if(isset($data['brand']) && $data['brand']) {
-						$brands = $data['brand'];
-					}
 					unset($data['brand']);
 					unset($data['sub_category']);
 					$data['category_id'] = $data['category'];
 					unset($data['category']);
-
 		        	if(Products::modify($id, $data))
 		        	{
 						if (!empty($sizeData)) {
 							Products::handleSizes($product->id, $sizeData);
 						}
-		        		if(!empty($categories))
-		        		{
-		        			Products::handleCategories($product->id, $categories);
-		        		}
 						if(!empty($brands))
 		        		{
 		        			Products::handleBrands($product->id, $brands);
@@ -497,6 +499,10 @@ class ProductsController extends AppController
 						if(!empty($subCategory))
 						{
 							Products::handleSubCategory($product->id, $subCategory);
+						}
+						if(!empty($colors))
+						{
+							Products::handleColors($product->id, $colors);
 						}
 		        		$request->session()->flash('success', "Product updated successfully.");
 						return Response()->json([
@@ -558,7 +564,8 @@ class ProductsController extends AppController
 			$colors = Colours::getAll(
 	    		[
 	    			'colours.id',
-	    			'colours.color_code'
+	    			'colours.color_code',
+	    			'colours.title',
 	    		],
 	    	    [
 				],
