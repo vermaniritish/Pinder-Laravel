@@ -266,6 +266,7 @@ class ProductsController extends AppController
 			}
 			if(isset($data['brand']) && $data['brand']) {
 				$brands = $data['brand'];
+				$data['sub_category'] = json_decode($data['sub_category'], true);
 			}
     		$validator = Validator::make(
 	            $data,
@@ -423,6 +424,8 @@ class ProductsController extends AppController
 	    		$data = $request->toArray();
 				$sizeData = [];
 				$subCategory= [];
+				$brands = [];
+				$colors = [];
 				if(isset($data['sizeData']) && $data['sizeData']) {
 					$data['sizeData'] = json_decode($data['sizeData'], true);
 					$sizeData = $data['sizeData'];
@@ -436,6 +439,9 @@ class ProductsController extends AppController
 				if(isset($data['color_id']) && $data['color_id']) {
 	        		$colors = $data['color_id'];
 	        	}
+				if(isset($data['brand']) && $data['brand']) {
+					$brands = $data['brand'];
+				}
 	    		$validator = Validator::make(
 		            $data,
 			            [
@@ -478,16 +484,10 @@ class ProductsController extends AppController
 		        		unset($data['image']);
 		        	}
 		        	/** ONLY IN CASE OF MULTIPLE IMAGE USE THIS **/
-					$brands = [];
-					$colors = [];
-					if(isset($data['brand']) && $data['brand']) {
-						$brands = $data['brand'];
-					}
 					unset($data['brand']);
 					unset($data['sub_category']);
 					$data['category_id'] = $data['category'];
 					unset($data['category']);
-
 		        	if(Products::modify($id, $data))
 		        	{
 						if (!empty($sizeData)) {
