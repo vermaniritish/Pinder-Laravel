@@ -288,7 +288,7 @@ class AuthController extends Controller {
 					], Response::HTTP_OK);
 			    }
 			}
-			return view("user/auth/recoverPassword");
+			return view("frontend.auth.recoverPassword");
 		}
 		else
 		{

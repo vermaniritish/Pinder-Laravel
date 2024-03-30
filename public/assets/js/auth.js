@@ -132,3 +132,49 @@ let auth = new Vue({
         }
     },
 });
+
+let recoverPassword = new Vue({
+    el: '#recoverPassword',
+    data: {
+    mounting: true,
+    loading: false,
+    errorMessages: {} ,
+    },
+    mounted: function() {
+        this.mounting = false;
+    },
+    methods: {
+        verifyOtp: async function() {
+            if ($('#otp-form').valid()) {
+                this.loading = true;
+                let formData = new FormData(document.getElementById('otp-form'));
+                formData.append('_token', csrf_token()); 
+                let response = await fetch(site_url+'/auth/recover-password', {
+                    method: 'POST',
+                    body: formData,
+                });
+                response = await response.json();
+                if(response && response.status)
+                { 
+                    document.getElementById('otp-form').reset();
+                    this.loading = false;
+                    set_notification('success', response.message);
+
+                }else{
+                    this.loading = false;
+                    this.errorMessages = {};
+                    for (let field in response.message) {
+                        if (Array.isArray(response.message[field])) {
+                            this.$set(this.errorMessages, field, response.message[field].join(', '));
+                        } else {
+                            this.$set(this.errorMessages, field, response.message[field]);
+                        }
+                    }
+                }
+            }
+            else{
+                return false;
+            }
+        },    
+    },
+});
