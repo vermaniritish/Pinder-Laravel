@@ -33,13 +33,13 @@ class Products extends AppModel
     use SoftDeletes;
 
     /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function color()
+    * Product -> Colours belongsToMany relation
+    *
+    * @return Colours
+    */
+    public function colors()
     {
-        return $this->hasOne(Colours::class, 'id', 'color_id');
+        return $this->belongsToMany(Colours::class, 'product_colors', 'product_id', 'color_id');
     }
 
     /**
@@ -236,6 +236,9 @@ class Products extends AppModel
                 },
                 'sizes' => function($query) {
                     $query->select(['sizes.id', 'sizes.size_title', 'sizes.from_cm',  'sizes.to_cm', 'price']);
+                },
+                'colors' => function($query) {
+                    $query->select(['color_id']);
                 },
             ])
             ->first();
