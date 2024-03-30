@@ -144,12 +144,16 @@ class AuthController extends Controller {
 			if(!$validator->fails())
 			{
 				$user = Users::where('email', $data['email'])->first();
+				$otp = mt_rand(100000, 999999);
+				$user->otp = $otp;
 				$user->token = General::hash();
+				$user->save();
 				if($user->save()){
 					$codes = [
 						'{first_name}' => $user->first_name,
 						'{last_name}' => $user->last_name,
 						'{email}' => $user->email,
+						'{otp}' => $user->otp,
 						'{recovery_link}' => General::urlToAnchor(route('user.recoverPassword', ['hash' => $user->token]))
 					];
 
