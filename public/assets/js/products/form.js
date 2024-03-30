@@ -45,6 +45,7 @@ let order = new Vue({
                 this.selectedCategory = data.category_id;
                 this.title = data.title;
                 this.selectedColor = data && data.colors && data.colors.length > 0 ? data.colors.map(colors => colors.id) : [];
+                console.log(this.selectedColor);
                 this.selectedGender = data.gender;
                 this.price = data.price;
                 this.maxPrice = data.max_price;

@@ -564,7 +564,8 @@ class ProductsController extends AppController
 			$colors = Colours::getAll(
 	    		[
 	    			'colours.id',
-	    			'colours.color_code'
+	    			'colours.color_code',
+	    			'colours.title',
 	    		],
 	    	    [
 				],
