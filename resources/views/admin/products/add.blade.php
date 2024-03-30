@@ -92,7 +92,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label">Color</label>
-											<select class="form-control no-selectpicker" v-model="selectedColor" name="color_id" required>
+											<select class="form-control no-selectpicker" v-model="selectedColor" name="color_id[]" multiple required>
 												<option value="">Select</option>
 												<?php 
 													foreach($colors as $s): 

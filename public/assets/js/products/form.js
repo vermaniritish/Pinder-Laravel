@@ -9,7 +9,7 @@ let order = new Vue({
         subCategories: [],
         selectedGender: '',
         title: '',
-        selectedColor: '',
+        selectedColor: [],
         price: '',
         maxPrice: '',
         selectedBrand: [],
