@@ -20,10 +20,10 @@ let order = new Vue({
         tags: null
     },
     mounted: function() {
-        this.initEditValues();
         this.initBasics();
         this.initTagIt();
         init_editor('#product-editor');
+        this.initEditValues();
         this.mounting = false;
         document.getElementById('product-form').classList.remove('d-none');
     },
@@ -44,13 +44,14 @@ let order = new Vue({
                 this.selectedSubCategory = data && data.sub_categories && data.sub_categories.length > 0 ? data.sub_categories.map(category => category.sub_category_id) : [];
                 this.selectedCategory = data.category_id;
                 this.title = data.title;
-                this.selectedColor = data && data.colors && data.colors.length > 0 ? data.colors.map(colors => colors.color_id) : [];
+                this.selectedColor = data && data.colors && data.colors.length > 0 ? data.colors.map(colors => colors.id) : [];
                 this.selectedGender = data.gender;
                 this.price = data.price;
                 this.maxPrice = data.max_price;
                 this.selectedBrand = data && data.brands && data.brands.length > 0 ? data.brands.map(brand => brand.id) : [];
                 this.selectedSizeIds = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(size => size.id) : [];
-                this.description = data.description;//put editor work, here
+                this.description = data.description;
+                put_editor_html('product-editor', this.description);        
                 this.selectedSize = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(sizes => ({
                     id: sizes.id,
                     size_title: sizes.size_title,
@@ -111,6 +112,7 @@ let order = new Vue({
                 let formData = new FormData(document.getElementById('product-form'));
                 let sizeIdAndPrice = this.selectedSize.map(size => ({ id: size.id, price: size.price }));
                 formData.append('sizeData', JSON.stringify(sizeIdAndPrice));
+                formData.append('description', get_editor_html('product-editor'));
                 let response = await fetch(this.url, {
                     method: 'POST',
                     body: formData,
