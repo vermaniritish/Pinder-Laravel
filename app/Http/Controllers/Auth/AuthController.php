@@ -101,13 +101,10 @@ class AuthController extends Controller {
 				return response()->json(['message' => trans('INVALID_CREDENTIALS')], Response::HTTP_UNAUTHORIZED);
 			}
 			if (!$user->hasVerifiedEmail()) {
-				$session_key = $user->generateSessionKey();
-				$email_otp = $user->generateEmailVerificationOtp($session_key);
-				$user->sendEmailVerificationOtpNotification($email_otp);
-				$phone_otp = $user->generatePhoneVerificationOtp($session_key);
-				$user->sendPhoneVerificationOtp($data['email'], $phone_otp, $user->phone_number);
-	
-				return $this->error(trans('EMAIL_IS_NOT_VERIFIED'), Response::HTTP_UNAUTHORIZED, ['session_key' => $session_key]);
+				return Response()->json([
+					'status' => false,
+					'message' => trans('EMAIL_IS_NOT_VERIFIED')
+				], Response::HTTP_OK);
 			}
 			$token = $user->createToken($request->email)->plainTextToken;
 			Users::whereEmail($data['email'])->update([
