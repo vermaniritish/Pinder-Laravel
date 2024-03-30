@@ -99,8 +99,10 @@ class AuthController extends Controller {
 			$user = Users::whereEmail($data['email'])->first();
 			$password = $data['password'];
 			if (!$user || $data['password'] != Hash::check($password, $user->password)) {
-				return response()->json(['message' => trans('INVALID_CREDENTIALS')], Response::HTTP_UNAUTHORIZED);
+				$errors = ['password' => [trans('INVALID_CREDENTIALS')]];
+				return response()->json(['status' => false, 'message' => $errors], Response::HTTP_UNAUTHORIZED);
 			}
+			
 			$token = $user->createToken($request->email)->plainTextToken;
 			Users::whereEmail($data['email'])->update([
 				'token' => $token,
@@ -115,12 +117,12 @@ class AuthController extends Controller {
 			], Response::HTTP_OK);
 		}
 		else {
+			$errors = $validator->errors()->toArray();
 			return Response()->json([
 				'status' => false,
-				'message' => current(current($validator->errors()->getMessages()))
+				'message' => $errors
 			], Response::HTTP_OK);
 		}
-
 	}
 
 	function forgotPassword(Request $request)

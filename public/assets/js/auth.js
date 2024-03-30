@@ -72,7 +72,14 @@ let auth = new Vue({
 
                 }else{
                     this.loginloading = false;
-                    this.loginErrorMessages = response.message;
+                    this.loginErrorMessages = {};
+                    for (let field in response.message) {
+                        if (Array.isArray(response.message[field])) {
+                            this.$set(this.loginErrorMessages, field, response.message[field].join(', '));
+                        } else {
+                            this.$set(this.loginErrorMessages, field, response.message[field]);
+                        }
+                    }
                 }
             }
             else{
