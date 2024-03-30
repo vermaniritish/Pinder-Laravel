@@ -72,7 +72,15 @@ use App\Models\Admin\Settings;
 								</tr>
 								<tr>
 									<th>Color</th>
-									<td><?php echo $product->color ? $product->color->title . ' (' . $product->color->color_code . ')' : null ?></td>
+									<td>
+										<?php 
+											if(isset($product->colors) && $product->colors ): 
+												foreach ($product->colors as $color):
+												echo '<span class="badge badge-warning">'.$color->title .'</span> ';
+												endforeach;
+											endif; 
+										?>
+									</td>
 								</tr>
 								<tr>
 									<th>Category</th>

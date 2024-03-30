@@ -39,8 +39,9 @@ class Products extends AppModel
     */
     public function colors()
     {
-        return $this->belongsToMany(Colours::class, 'product_colors', 'product_id', 'color_id');
-    }
+        return $this->belongsToMany(Colours::class, 'product_colors', 'product_id', 'color_id')
+            ->withPivot(['color_code', 'color_title']);
+    }    
 
     /**
     * Product -> ProductSubCategories belongsToMany relation
@@ -238,7 +239,7 @@ class Products extends AppModel
                     $query->select(['sizes.id', 'sizes.size_title', 'sizes.from_cm',  'sizes.to_cm', 'price']);
                 },
                 'colors' => function($query) {
-                    $query->select(['color_id']);
+                    $query->select(['colours.id', 'colours.title', 'colours.color_code']);
                 },
             ])
             ->first();
