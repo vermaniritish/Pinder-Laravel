@@ -259,7 +259,10 @@ class AuthController extends Controller {
 		        {
 		        	unset($data['_token']);
 					if ($user->otp == $data['otp']) {
-						return redirect()->route('user.recoverPassword', ['hash' => $hash]);
+						return Response()->json([
+							'status' => true,
+							'message' => 'OTP Verified.'
+						], Response::HTTP_OK);	
 					} else {
 
 						$errors = ['otp' => ['Incorrect OTP. Please try again.']];
