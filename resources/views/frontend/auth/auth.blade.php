@@ -9,6 +9,7 @@
                     <div id="auth" class="row row-cols-md-2 row-cols-1">
                         @include('frontend.auth.login')		
                         @include('frontend.auth.register')		
+                        @include('frontend.auth.forgotPassword')		
                     </div>
                 </div>
             </div>     

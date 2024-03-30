@@ -1,4 +1,4 @@
-<div class="col">
+<div v-if="showLoginForm" class="col">
     <div class="account__login">
         <div class="account__login--header mb-25">
             <h2 class="account__login--header__title h3 mb-10">Login</h2>
@@ -15,7 +15,7 @@
                         <label class="checkout__checkbox--label login__remember--label" for="check1">
                             Remember me</label>
                     </div>
-                    <button class="account__login--forgot" v-on:click="forgotPassword" type="button">Forgot Your Password?</button>
+                    <button class="account__login--forgot" v-on:click="showForgotPassword()" type="button">Forgot Your Password?</button>
                 </div>
                 <button class="account__login--btn primary__btn" v-on:click="login()" type="button"><i class="fa fa-spin fa-spinner" v-if="loginloading"></i>Login</button>
                 <p class="account__login--signup__text">Don,t Have an Account? <button v-on:click="forgotPassword()" type="button">Sign up now</button></p>

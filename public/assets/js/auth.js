@@ -4,7 +4,10 @@ let auth = new Vue({
     mounting: true,
     loading: false,
     loginloading: false,
-    forgotLoading: false
+    forgotLoading: false,
+    showLoginForm: true,
+    showRegisterForm: true,
+    showForgotPasswordForm: false
     },
     mounted: function() {
         this.mounting = false;
@@ -72,8 +75,10 @@ let auth = new Vue({
                 return false;
             }
         },  
-        forgotPassword: function(){
-            window.location.href =  site_url+'/auth/forgot-password';
+        showForgotPassword: function() {
+            this.showLoginForm = false;
+            this.showRegisterForm = false;
+            this.showForgotPasswordForm = true;
         },
         postForgotPassword: async function(){
             if ($('#forgot-form').valid()) {

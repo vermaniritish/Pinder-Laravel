@@ -1,4 +1,4 @@
-<div class="col">
+<div v-if="showRegisterForm" class="col">
     <div class="account__login register">
         <div class="account__login--header mb-25">
             <h2 class="account__login--header__title h3 mb-10">Create an Account</h2>
