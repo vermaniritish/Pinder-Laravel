@@ -266,7 +266,6 @@ class ProductsController extends AppController
 			}
 			if(isset($data['brand']) && $data['brand']) {
 				$brands = $data['brand'];
-				$data['sub_category'] = json_decode($data['sub_category'], true);
 			}
     		$validator = Validator::make(
 	            $data,
