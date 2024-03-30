@@ -143,14 +143,14 @@ class AuthController extends Controller {
 			);
 			if(!$validator->fails())
 			{
-				$user = Users::where('email', $data['email'])->get();
+				$user = Users::where('email', $data['email'])->first();
 				$user->token = General::hash();
 				if($user->save()){
 					$codes = [
 						'{first_name}' => $user->first_name,
 						'{last_name}' => $user->last_name,
 						'{email}' => $user->email,
-						'{recovery_link}' => url()->route('user.recoverPassword', ['hash' => $user->token])
+						'{recovery_link}' => General::urlToAnchor(route('user.recoverPassword', ['hash' => $user->token]))
 					];
 
 					General::sendTemplateEmail(

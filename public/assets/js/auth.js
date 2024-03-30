@@ -111,6 +111,7 @@ let auth = new Vue({
                 if(response && response.status)
                 {
                     this.forgotLoading = false;
+                    document.getElementById('forgot-form').reset();
                     set_notification('success', response.message);
 
                 }else{
@@ -123,7 +124,6 @@ let auth = new Vue({
                             this.$set(this.forgotErrorMessages, field, response.message[field]);
                         }
                     }
-                    console.log(this.forgotErrorMessages.email);
                 }
             }
             else{

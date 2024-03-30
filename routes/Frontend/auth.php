@@ -22,7 +22,7 @@ Route::prefix('auth')->group(function () {
 	Route::post('login', [AuthController::class, 'login'])->name('login');
 	Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
 	Route::get('/recover-password/{hash}', [AuthController::class, 'recoverPassword'])
-    ->name('admin.recoverPassword');
+    ->name('user.recoverPassword');
 	Route::post('/recover-password/{hash}', [AuthController::class, 'recoverPassword'])
-		->name('admin.recoverPassword');
+		->name('user.recoverPassword');
 });
