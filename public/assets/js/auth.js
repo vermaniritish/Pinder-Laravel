@@ -9,7 +9,8 @@ let auth = new Vue({
     showRegisterForm: true,
     showForgotPasswordForm: false,
     loginErrorMessages: {} ,
-    registerErrorMessages: {}
+    registerErrorMessages: {},
+    forgotErrorMessages: {}
     },
     mounted: function() {
         this.mounting = false;
@@ -91,6 +92,11 @@ let auth = new Vue({
             this.showRegisterForm = false;
             this.showForgotPasswordForm = true;
         },
+        disableForgotPassword: function() {
+            this.showLoginForm = true;
+            this.showRegisterForm = true;
+            this.showForgotPasswordForm = false;
+        },
         postForgotPassword: async function(){
             if ($('#forgot-form').valid()) {
                 this.forgotLoading = true;
@@ -108,7 +114,14 @@ let auth = new Vue({
 
                 }else{
                     this.forgotLoading = false;
-                    set_notification('error', response.message);
+                    this.forgotErrorMessages = {};
+                    for (let field in response.message) {
+                        if (Array.isArray(response.message[field])) {
+                            this.$set(this.forgotErrorMessages, field, response.message[field].join(', '));
+                        } else {
+                            this.$set(this.forgotErrorMessages, field, response.message[field]);
+                        }
+                    }
                 }
             }
             else{

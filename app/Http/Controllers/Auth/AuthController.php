@@ -173,9 +173,10 @@ class AuthController extends Controller {
 				}
 			}
 			else {
+				$errors = $validator->errors()->toArray();
 				return Response()->json([
 					'status' => false,
-					'message' => current(current($validator->errors()->getMessages()))
+					'message' => $errors
 				], Response::HTTP_OK);
 			}
 	    }
