@@ -108,6 +108,7 @@ class AuthController extends Controller {
 			}
 			$token = $user->createToken($request->email)->plainTextToken;
 			Users::whereEmail($data['email'])->update([
+				'token' => $token,
 				'last_login_at' => Carbon::now()->timestamp,
 				'last_login_ip' => $request->getClientIp(),
 			]);
