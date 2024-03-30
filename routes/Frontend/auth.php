@@ -21,8 +21,8 @@ Route::prefix('auth')->group(function () {
 	Route::get('register', [AuthController::class, 'register']);
 	Route::post('login', [AuthController::class, 'login'])->name('login');
 	Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
-	Route::get('/recover-password/{hash}', [AuthController::class, 'recoverPassword'])
-    ->name('user.recoverPassword');
-	Route::post('/recover-password/{hash}', [AuthController::class, 'recoverPassword'])
-		->name('user.recoverPassword');
+	Route::get('/otp-verify/{hash}', [AuthController::class, 'otpVerify'])
+    ->name('user.otpVerify');
+	Route::post('/otp-verify/{hash}', [AuthController::class, 'otpVerify'])
+		->name('user.otpVerify');
 });

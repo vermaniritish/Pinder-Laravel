@@ -6,7 +6,7 @@
         <div class="login__section section--padding">
             <div class="container">
                 <div class="login__section--inner">
-                    <div id="recoverPassword" class="row row-cols-md-2 row-cols-1">
+                    <div id="verifyOtp" class="row row-cols-md-2 row-cols-1">
 						<div class="col">
 							<div class="account__login">
 								<div class="account__login--header mb-25">

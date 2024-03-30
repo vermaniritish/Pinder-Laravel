@@ -154,7 +154,7 @@ class AuthController extends Controller {
 						'{last_name}' => $user->last_name,
 						'{email}' => $user->email,
 						'{otp}' => $user->otp,
-						'{recovery_link}' => General::urlToAnchor(route('user.recoverPassword', ['hash' => $user->token]))
+						'{recovery_link}' => General::urlToAnchor(route('user.otpVerify', ['hash' => $user->token]))
 					];
 
 					General::sendTemplateEmail(
@@ -235,8 +235,67 @@ class AuthController extends Controller {
 			'message' => trans('PASSWORD_UPDATED_SUCCESSFULLY'),
 		], Response::HTTP_OK);
 	}
-
 	
+    function otpVerify(Request $request, $hash)
+    {
+    	$user = Users::getRow([
+    			'token like ?' => [$hash]
+    		]);
+    	if($user)
+    	{
+	    	if($request->isMethod('post'))
+	    	{
+	    		$data = $request->toArray();
+	            $validator = Validator::make(
+		            $request->toArray(),
+		            [
+		                'new_password' => [
+		                	'required',
+						    'string',
+							Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised(), 'max:36'
+		                ],
+		                'confirm_password' => [
+		                	'required',
+						    'same:new_password'
+		                ]
+		            ]
+		        );
+		        if(!$validator->fails())
+		        {
+		        	unset($data['_token']);
+	        			$user->password = $data['new_password'];
+	        			if($user->save())
+	        			{
+							return Response()->json([
+								'status' => true,
+								'message' => 'Password updated successfully. Login with new credentials to proceed.'
+							], Response::HTTP_OK);
+	        			}
+	        			else
+	        			{
+							return Response()->json([
+								'status' => false,
+								'message' => 'New password could be updated.'
+							], Response::HTTP_OK);			
+	        			}
+			    }
+			    else
+			    {
+					return Response()->json([
+						'status' => false,
+						'message' => current(current($validator->errors()->getMessages()))
+					], Response::HTTP_OK);
+			    }
+			}
+			return view("frontend.auth.verifyOtp");
+		}
+		else
+		{
+			abort(404);
+		}
+    }
+
+		
     function recoverPassword(Request $request, $hash)
     {
     	$user = Users::getRow([

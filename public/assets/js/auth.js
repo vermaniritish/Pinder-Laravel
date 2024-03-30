@@ -133,8 +133,8 @@ let auth = new Vue({
     },
 });
 
-let recoverPassword = new Vue({
-    el: '#recoverPassword',
+let verifyOtp = new Vue({
+    el: '#verifyOtp',
     data: {
     mounting: true,
     loading: false,
@@ -149,7 +149,8 @@ let recoverPassword = new Vue({
                 this.loading = true;
                 let formData = new FormData(document.getElementById('otp-form'));
                 formData.append('_token', csrf_token()); 
-                let response = await fetch(site_url+'/auth/recover-password', {
+                let hash = window.location.pathname.split('/').pop();
+                let response = await fetch(site_url+'/auth/recover-password/'+hash, {
                     method: 'POST',
                     body: formData,
                 });
