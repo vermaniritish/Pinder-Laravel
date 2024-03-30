@@ -181,8 +181,8 @@ let verifyOtp = new Vue({
     },
 });
 
-let recovePassword = new Vue({
-    el: '#recovePassword',
+let recoverPassword = new Vue({
+    el: '#recoverPassword',
     data: {
     mounting: true,
     loading: false,
