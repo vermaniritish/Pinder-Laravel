@@ -206,7 +206,7 @@ let recoverPassword = new Vue({
                 response = await response.json();
                 if(response && response.status)
                 { 
-                    document.getElementById('otp-form').reset();
+                    document.getElementById('recover-password-form').reset();
                     this.loading = false;
                     set_notification('success', response.message);
                 }else{
