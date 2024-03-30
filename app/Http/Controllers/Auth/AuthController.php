@@ -259,7 +259,7 @@ class AuthController extends Controller {
 		        {
 		        	unset($data['_token']);
 					if ($user->otp == $data['otp']) {
-						return redirect()->route('password.recover', ['hash' => $hash]);
+						return redirect()->route('user.recoverPassword', ['hash' => $hash]);
 					} else {
 
 						$errors = ['otp' => ['Incorrect OTP. Please try again.']];
@@ -283,7 +283,6 @@ class AuthController extends Controller {
 		}
     }
 
-		
     function recoverPassword(Request $request, $hash)
     {
     	$user = Users::getRow([

@@ -150,7 +150,8 @@ let verifyOtp = new Vue({
                 let formData = new FormData(document.getElementById('otp-form'));
                 formData.append('_token', csrf_token()); 
                 let hash = window.location.pathname.split('/').pop();
-                let response = await fetch(site_url+'/auth/recover-password/'+hash, {
+                let url = `${site_url}/auth/otp-verify/${hash}`;
+                let response = await fetch(url, {
                     method: 'POST',
                     body: formData,
                 });

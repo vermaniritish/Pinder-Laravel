@@ -25,4 +25,8 @@ Route::prefix('auth')->group(function () {
     ->name('user.otpVerify');
 	Route::post('/otp-verify/{hash}', [AuthController::class, 'otpVerify'])
 		->name('user.otpVerify');
+	Route::get('/recover-password/{hash}', [AuthController::class, 'recoverPassword'])
+    ->name('user.recoverPassword');
+	Route::post('/recover-password/{hash}', [AuthController::class, 'recoverPassword'])
+		->name('user.recoverPassword');
 });
