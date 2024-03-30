@@ -7,7 +7,9 @@ let auth = new Vue({
     forgotLoading: false,
     showLoginForm: true,
     showRegisterForm: true,
-    showForgotPasswordForm: false
+    showForgotPasswordForm: false,
+    loginErrorMessages: {} ,
+    registerErrorMessages: {}
     },
     mounted: function() {
         this.mounting = false;
@@ -18,11 +20,6 @@ let auth = new Vue({
                 this.loading = true;
                 const password = document.getElementById('password').value;
                 const confirmPassword = document.getElementById('confirmPassword').value;
-                if (password !== confirmPassword) {
-                    set_notification('error','Passwords do not match');
-                    this.loading = false;
-                    return false;
-                }
                 const termsConditionsChecked = document.getElementById('check2').checked;
                 if (!termsConditionsChecked) {
                     set_notification('error','Please agree to the terms & conditions');
@@ -44,7 +41,14 @@ let auth = new Vue({
 
                 }else{
                     this.loading = false;
-                    set_notification('error', response.message);
+                    this.registerErrorMessages = {};
+                    for (let field in response.message) {
+                        if (Array.isArray(response.message[field])) {
+                            this.$set(this.registerErrorMessages, field, response.message[field].join(', '));
+                        } else {
+                            this.$set(this.registerErrorMessages, field, response.message[field]);
+                        }
+                    }
                 }
             }
             else{
@@ -68,7 +72,7 @@ let auth = new Vue({
 
                 }else{
                     this.loginloading = false;
-                    set_notification('error', response.message);
+                    this.loginErrorMessages = response.message;
                 }
             }
             else{
