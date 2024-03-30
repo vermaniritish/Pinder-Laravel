@@ -15,7 +15,7 @@
 								</div>
 								<div class="account__login--inner">
 									<form id="recover-password-form">
-						                <input required class="account__login--input" name="password" placeholder="New Password" id="new_password" type="new_password">
+						                <input required class="account__login--input" name="new_password" placeholder="New Password" id="new_password" type="new_password">
 										<div v-if="errorMessages.password" class="text-danger text-center">@{{ errorMessages.password }}</div>
 										<input required class="account__login--input" name="confirm_password" placeholder="Confirm Password" type="password">
 										<div v-if="errorMessages.confirm_password" class="text-danger text-center">@{{ errorMessages.confirm_password }}</div>

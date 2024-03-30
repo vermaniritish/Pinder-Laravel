@@ -333,7 +333,7 @@ class AuthController extends Controller {
 			    {
 					return Response()->json([
 						'status' => false,
-						'message' => current(current($validator->errors()->getMessages()))
+						'message' => $validator->errors()->toArray()
 					], Response::HTTP_OK);
 			    }
 			}
