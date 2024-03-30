@@ -207,15 +207,6 @@
 								<div class="row">
 									<div class="col-lg-6">
 										<div class="form-group">
-											<label class="form-control-label" for="input-email">Duration Of Service</label>
-											<input type="time" id="input-email" class="form-control" v-model="durationOfService" name="duration_of_service"  value="{{ old('duration_of_service') }}">
-											@error('duration_of_service')
-												<small class="text-danger">{{ $message }}</small>
-											@enderror
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-group">
 											<label class="form-control-label" for="input-tags">Tag</label>
 											<input type="text" class="form-control tag" name="tags" v-model="tags" placeholder="Enter tags here." value="{{ old('tags') }}">
 											@error('tags.*')
