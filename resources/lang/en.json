@@ -25,5 +25,6 @@
     "REGISTER_SUCCESSFULL": "Registration successful.",
     "LOGIN_SUCCESSFUL": "Logged in Successfully.",
     "LOGOUT_SUCCESSFUL": "Logged out successfully.",
-    "INVALID_CREDENTIALS": "The login credentials are invalid."
+    "INVALID_CREDENTIALS": "The login credentials are invalid.",
+    "EMAIL_IS_NOT_VERIFIED" : "Please verify your email first. Verification code sent."
 }

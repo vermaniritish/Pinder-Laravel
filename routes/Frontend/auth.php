@@ -20,10 +20,10 @@ Route::prefix('auth')->group(function () {
 	Route::post('register', [AuthController::class, 'register']);
 	Route::get('register', [AuthController::class, 'register']);
 	Route::post('login', [AuthController::class, 'login'])->name('login');
-	Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
-		->middleware(['guest:' . config('fortify.guard')])
-		->name('password.email');
-	Route::post('reset-password', [NewPasswordController::class, 'store'])
-		->middleware(['guest:' . config('fortify.guard')])
-		->name('password.reset');
+	Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
+	Route::get('forgot-password', [AuthController::class, 'forgotPassword']);
+	Route::get('/recover-password/{hash}', [AuthController::class, 'recoverPassword'])
+    ->name('admin.recoverPassword');
+	Route::post('/recover-password/{hash}', [AuthController::class, 'recoverPassword'])
+		->name('admin.recoverPassword');
 });

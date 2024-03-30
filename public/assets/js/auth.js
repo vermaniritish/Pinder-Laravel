@@ -3,7 +3,8 @@ let auth = new Vue({
     data: {
     mounting: true,
     loading: false,
-    loginloading: false
+    loginloading: false,
+    forgotLoading: false
     },
     mounted: function() {
         this.mounting = false;
@@ -71,5 +72,32 @@ let auth = new Vue({
                 return false;
             }
         },  
+        forgotPassword: function(){
+            window.location.href =  site_url+'/auth/forgot-password';
+        },
+        postForgotPassword: async function(){
+            if ($('#forgot-form').valid()) {
+                this.forgotLoading = true;
+                let formData = new FormData(document.getElementById('forgot-form'));
+                formData.append('_token', csrf_token()); 
+                let response = await fetch(site_url+'/auth/forgot-password', {
+                    method: 'POST',
+                    body: formData,
+                });
+                response = await response.json();
+                if(response && response.status)
+                {
+                    this.forgotLoading = false;
+                    set_notification('success', response.message);
+
+                }else{
+                    this.forgotLoading = false;
+                    set_notification('error', response.message);
+                }
+            }
+            else{
+                return false;
+            }
+        }
     },
 });

@@ -127,6 +127,61 @@ class AuthController extends Controller {
 
 	}
 
+	function forgotPassword(Request $request)
+    {
+    	if($request->isMethod('post'))
+    	{
+			$data = $request->toArray();
+			$validator = Validator::make(
+				$data,
+				[
+					'email' => [
+						'required', 'bail', 'string', 'max:255', 'email',
+						Rule::exists(Users::class, 'email')
+					]
+				]
+			);
+			if(!$validator->fails())
+			{
+				$user = Users::where('email', $data['email'])->get();
+				$user->token = General::hash();
+				if($user->save()){
+					$codes = [
+						'{first_name}' => $user->first_name,
+						'{last_name}' => $user->last_name,
+						'{email}' => $user->email,
+						'{recovery_link}' => url()->route('user.recoverPassword', ['hash' => $user->token])
+					];
+
+					General::sendTemplateEmail(
+						$user->email, 
+						'user-forgot-password',
+						$codes
+					);
+
+					return Response()->json([
+						'status' => true,
+						'message' => 'We have sent you a recovery link on your email. Please follow the email.'
+					], Response::HTTP_OK);	
+				}	
+				else
+				{
+					return Response()->json([
+						'status' => false,
+						'message' => 'Something went wrong. Please try again.'
+					], Response::HTTP_OK);
+				}
+			}
+			else {
+				return Response()->json([
+					'status' => false,
+					'message' => current(current($validator->errors()->getMessages()))
+				], Response::HTTP_OK);
+			}
+	    }
+		return view('frontend.auth.forgotPassword');
+    }
+	
 	/**
 	 * Remove the specified resource
 	 *
@@ -176,79 +231,63 @@ class AuthController extends Controller {
 		], Response::HTTP_OK);
 	}
 
-	/**
-	 * Verify email verification otp.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function verifyVerificationOtp(Request $request) {
-		$input = $request->validate([
-			'email' => [
-				'bail', 'required', 'email', Rule::exists(User::class, 'email')
-			],
-			'phone_otp' => ['required', 'string'],
-			'email_otp' => ['required', 'string'],
-			'key' => ['required', 'string'],
-		]);
-
-		$phone_otp = $input['phone_otp'];
-		$email_otp = $input['email_otp'];
-		$key = $input['key'];
-		$email = $input['email'];
-
-		$user = User::whereEmail($email)->first();
-		if ($user->hasVerifiedEmail() && $user->phone_number_verified_at) {
-			return $this->error(trans('USER_ALREADY_VERIFIED'), Response::HTTP_UNPROCESSABLE_ENTITY);
+	
+    function recoverPassword(Request $request, $hash)
+    {
+    	$user = Users::getRow([
+    			'token like ?' => [$hash]
+    		]);
+    	if($user)
+    	{
+	    	if($request->isMethod('post'))
+	    	{
+	    		$data = $request->toArray();
+	            $validator = Validator::make(
+		            $request->toArray(),
+		            [
+		                'new_password' => [
+		                	'required',
+						    'string',
+							Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised(), 'max:36'
+		                ],
+		                'confirm_password' => [
+		                	'required',
+						    'same:new_password'
+		                ]
+		            ]
+		        );
+		        if(!$validator->fails())
+		        {
+		        	unset($data['_token']);
+	        			$user->password = $data['new_password'];
+	        			if($user->save())
+	        			{
+							return Response()->json([
+								'status' => true,
+								'message' => 'Password updated successfully. Login with new credentials to proceed.'
+							], Response::HTTP_OK);
+	        			}
+	        			else
+	        			{
+							return Response()->json([
+								'status' => false,
+								'message' => 'New password could be updated.'
+							], Response::HTTP_OK);			
+	        			}
+			    }
+			    else
+			    {
+					return Response()->json([
+						'status' => false,
+						'message' => current(current($validator->errors()->getMessages()))
+					], Response::HTTP_OK);
+			    }
+			}
+			return view("user/auth/recoverPassword");
 		}
-
-		if (!$user->checkEmailVerificationOtp($email_otp, $key)) {
-			return $this->error(trans('INVALID_EMAIL_OTP'), Response::HTTP_UNPROCESSABLE_ENTITY);
+		else
+		{
+			abort(404);
 		}
-		if (!$user->checkPhoneVerificationOtp($phone_otp, $key)) {
-			return $this->error(trans('INVALID_PHONE_NUMBER_OTP'), Response::HTTP_UNPROCESSABLE_ENTITY);
-		}
-
-		$user->email_verified_at = Carbon::now()->toDateTimeString();
-		$user->phone_number_verified_at = Carbon::now()->toDateTimeString();
-		$user->save();
-		$token = $user->createToken($email)->plainTextToken;
-
-		return $this->success(['token' => $token, 'email' => $email], Response::HTTP_OK, trans('USER_VERIFIED_SUCCESSFULLY'));
-	}
-
-	/**
-	 * Verify phone number verification otp.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function verifyPhoneVerificationOtp(Request $request) {
-		$input = $request->validate([
-			'email' => [
-				'bail', 'required', 'email', Rule::exists(User::class, 'email')
-			],
-			'otp' => ['required', 'string'],
-			'key' => ['required', 'string'],
-		]);
-
-		$otp = $input['otp'];
-		$key = $input['key'];
-		$email = $input['email'];
-
-		$user = User::whereEmail($email)->first();
-
-		if ($user->phone_number_verified_at) {
-			return $this->error(trans('PHONE_NUMBER_ALREADY_VERIFIED'), Response::HTTP_UNPROCESSABLE_ENTITY);
-		}
-
-		if (!$user->checkPhoneVerificationOtp($otp, $key)) {
-			return $this->error(trans('INVALID_PHONE_NUMBER_OTP'), Response::HTTP_UNPROCESSABLE_ENTITY);
-		}
-
-		$user->phone_number_verified_at = Carbon::now()->toDateTimeString();
-		$user->save();
-
-		return $this->success(['email' => $email], Response::HTTP_OK, trans('USER_VERIFIED_SUCCESSFULLY'));
-	}
+    }
 }
