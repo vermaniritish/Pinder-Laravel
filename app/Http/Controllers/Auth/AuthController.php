@@ -60,6 +60,7 @@ class AuthController extends Controller {
 				];
 				General::sendTemplateEmail($emails, 'registration', $codes);
 				return response()->json([
+					'status' => true,
 					'message' => trans('REGISTER_SUCCESSFULL'),
 					'email' => $user->email,
 					'user_id' => $user->id
@@ -110,6 +111,7 @@ class AuthController extends Controller {
 				'last_login_ip' => $request->getClientIp(),
 			]);
 			return response()->json([
+				'status' => true,
 				'message' => trans('LOGIN_SUCCESSFUL'),
 				'email' => $user->email,
 				'user_id' => $user->id,
