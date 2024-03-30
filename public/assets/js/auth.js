@@ -180,3 +180,51 @@ let verifyOtp = new Vue({
         },    
     },
 });
+
+let recovePassword = new Vue({
+    el: '#recovePassword',
+    data: {
+    mounting: true,
+    loading: false,
+    errorMessages: {} ,
+    },
+    mounted: function() {
+        this.mounting = false;
+    },
+    methods: {
+        recovePassword: async function() {
+            if ($('#recover-password-form').valid()) {
+                this.loading = true;
+                let formData = new FormData(document.getElementById('recover-password-form'));
+                formData.append('_token', csrf_token()); 
+                let hash = window.location.pathname.split('/').pop();
+                let url = `${site_url}/auth/recover-password/${hash}`;
+                let response = await fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                });
+                response = await response.json();
+                if(response && response.status)
+                { 
+                    document.getElementById('otp-form').reset();
+                    this.loading = false;
+                    set_notification('success', response.message);
+                    window.location.href = `${site_url}/auth/recover-password/${hash}`;
+                }else{
+                    this.loading = false;
+                    this.errorMessages = {};
+                    for (let field in response.message) {
+                        if (Array.isArray(response.message[field])) {
+                            this.$set(this.errorMessages, field, response.message[field].join(', '));
+                        } else {
+                            this.$set(this.errorMessages, field, response.message[field]);
+                        }
+                    }
+                }
+            }
+            else{
+                return false;
+            }
+        },    
+    },
+});

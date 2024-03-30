@@ -6,7 +6,7 @@
         <div class="login__section section--padding">
             <div class="container">
                 <div class="login__section--inner">
-                    <div id="verifyOtp" class="row row-cols-md-2 row-cols-1">
+                    <div id="recoverPassword" class="row row-cols-md-2 row-cols-1">
 						<div class="col">
 							<div class="account__login">
 								<div class="account__login--header mb-25">
@@ -16,10 +16,10 @@
 								<div class="account__login--inner">
 									<form id="recover-password-form">
 						                <input required class="account__login--input" name="password" placeholder="New Password" id="new_password" type="new_password">
-										<div v-if="registerErrorMessages.password" class="text-danger text-center">@{{ errorMessages.password }}</div>
+										<div v-if="errorMessages.password" class="text-danger text-center">@{{ errorMessages.password }}</div>
 										<input required class="account__login--input" name="confirm_password" placeholder="Confirm Password" type="password">
-										<div v-if="registerErrorMessages.confirm_password" class="text-danger text-center">@{{ errorMessages.confirm_password }}</div>
-										<button class="account__login--btn primary__btn" v-on:click="verifyOtp()" type="button"><i class="fa fa-spin fa-spinner" v-if="loading"></i>Verify</button>
+										<div v-if="errorMessages.confirm_password" class="text-danger text-center">@{{ errorMessages.confirm_password }}</div>
+										<button class="account__login--btn primary__btn" v-on:click="recovePassword()" type="button"><i class="fa fa-spin fa-spinner" v-if="loading"></i>Verify</button>
 									</form>
 								</div>
 							</div>
