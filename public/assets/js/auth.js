@@ -209,7 +209,6 @@ let recoverPassword = new Vue({
                     document.getElementById('otp-form').reset();
                     this.loading = false;
                     set_notification('success', response.message);
-                    window.location.href = `${site_url}/auth/recover-password/${hash}`;
                 }else{
                     this.loading = false;
                     this.errorMessages = {};
