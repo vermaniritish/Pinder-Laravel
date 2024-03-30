@@ -39,8 +39,7 @@ class Products extends AppModel
     */
     public function colors()
     {
-        return $this->belongsToMany(Colours::class, 'product_colors', 'product_id', 'color_id')
-            ->withPivot(['color_code', 'color_title']);
+        return $this->belongsToMany(Colours::class, 'product_colors', 'product_id', 'color_id');
     }    
 
     /**

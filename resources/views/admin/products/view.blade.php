@@ -76,7 +76,7 @@ use App\Models\Admin\Settings;
 										<?php 
 											if(isset($product->colors) && $product->colors ): 
 												foreach ($product->colors as $color):
-												echo '<span class="badge badge-warning">'.$color->title .'</span> ';
+												echo '<span class="badge badge-warning">'.$color->title . ' (' . $color->color_code . ')'.'</span> ';
 												endforeach;
 											endif; 
 										?>
