@@ -190,7 +190,7 @@ class Brands extends AppModel
 	    {
             if(isset($data['title']) && $data['title'])
             {
-                $product->slug = Str::slug($product->title) . '-' . General::encode($product->id);
+                $product->slug = Str::slug($product->title);
                 $product->save();
             }
 
@@ -221,7 +221,7 @@ class Brands extends AppModel
 	    {
             if(isset($data['title']) && $data['title'])
             {
-                $product->slug = Str::slug($product->title) . '-' . General::encode($product->id);
+                $product->slug = Str::slug($product->title);
                 $product->save();
             }
 

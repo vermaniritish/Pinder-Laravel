@@ -9,6 +9,7 @@ use App\Models\Admin\Sliders;
 use App\Models\Admin\ProductCategories;
 use App\Models\Admin\ProductSubCategories;
 use App\Models\Admin\Users;
+use App\Models\Admin\Brands;
 
 class HomeController extends BaseController
 {
@@ -29,12 +30,17 @@ class HomeController extends BaseController
 
     public function listing(Request $request, $category, $subCategory = null)
     {
-        $category = ProductCategories::select(['title', 'slug', 'description', 'image'])->where('slug', 'LIKE', $category)->limit(1)->first();
+        $category = ProductCategories::select(['id','title', 'slug', 'description', 'image'])->where('slug', 'LIKE', $category)->limit(1)->first();
         if($subCategory)
             $subCategory = ProductSubCategories::select(['title', 'slug', 'description', 'image'])->where('category_id', $category->id)->where('slug', 'LIKE', $subCategory)->limit(1)->first();
+        
+        $categories = ProductSubCategories::select(['title', 'slug', 'description', 'image'])->where('category_id', $category->id)->get();
+        $brands = Brands::select(['id', 'title', 'slug'])->where('status', 1)->orderBy('title', 'asc')->get();
         return view('frontend.products.index', [
             'category' => $category,
-            'subCategory' => $subCategory
+            'subCategory' => $subCategory,
+            'brands' => $brands,
+            'categories' => $categories
         ]);
     }
 }

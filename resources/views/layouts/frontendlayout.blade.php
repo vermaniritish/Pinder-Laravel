@@ -31,7 +31,6 @@ $version = 1.0;
     <link rel="stylesheet" href="{{ url('frontend/assets/css/style.css') }}">
 
     <!-- Vue js -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <style>
         ul#brands-block {
             display: flex;
@@ -75,6 +74,7 @@ $version = 1.0;
 	<link rel="stylesheet" href="<?php echo url('assets/vendor/nucleo/css/nucleo.css') ?>" type="text/css">
 	<link rel="stylesheet" href="<?php echo url('assets/vendor/@fortawesome/fontawesome-free/css/all.min.css') ?>" type="text/css">
 
+
 </head>
 
 
@@ -115,7 +115,7 @@ $version = 1.0;
     <script src="{{ url('frontend/assets/js/plugins/jquery-3.6.0.min.js') }}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
     <script src="<?php echo url('assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js') ?>"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="{{ url('frontend/assets/js/vendor/bootstrap.min.js" defer="defer') }}"></script>
     <script src="{{ url('frontend/assets/js/plugins/swiper-bundle.min.js') }}"></script>
     <script src="{{ url('frontend/assets/js/plugins/glightbox.min.js') }}"></script>
@@ -123,100 +123,7 @@ $version = 1.0;
 	<script src="<?php echo url('assets/js/bootstrap-notify.js') ?>"></script>
     <!-- Customscript js -->
     <script src="{{ url('frontend/assets/js/script.js') }}"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $(".fancybox").fancybox();
-
-            //        prodcolour
-            $("select[name=prodcolour]").change(function() {
-                var valThis = $(this).val();
-                //            alert(valThis);
-                //            alert($("input[name=hfbaseprice]").val());
-                var base_price = parseFloat($("input[name=hfbaseprice]").val());
-                $("input[name=prodprice]").val(base_price.toFixed(2));
-                $("#spnprice").html(' &pound;' + base_price.toFixed(2) + '');
-
-                if ($("select[name=prodsize]").length) {
-                    $("input[name=hfprodsize]").val('0');
-                    $("select[name=prodsize]").val('');
-                }
-                if ($("select[name=prodlength]").length) {
-                    $("select[name=prodlength]").val('');
-                }
-
-                if (valThis.length > 0) {
-                    var img_url = $("input[name=base_extra_img_url]").val() + valThis + ".jpg";
-                    //            alert(img_url);
-                    //            document.location.href = valThis;
-                    $("img[name=prodlargeimg]").attr("src", img_url);
-                    //$(this).addClass('selected');
-                    //$( "ul.pro-thumb-img" ).find( "li:eq(2)" ).focus();
-                    //        .css( "fontStyle", "italic" );
-                }
-            });
-
-            $("select[name=prodcolour]").on("change touchend", function() {
-                $('select[name=prodsize] option').each(function() {
-                    //      myOptions.push( this.value );
-                    $(this).removeAttr('disabled').removeClass("disabledoption").show();
-                });
-
-
-                var t_excludesizes = $("select[name=prodcolour] option:checked").attr('excludesizes');
-
-                if (t_excludesizes.indexOf('_') >= 0) {
-                    var t_arrSizes = t_excludesizes.split('_');
-                    t_arrSizes.forEach(arrSizesIterator);
-
-                    function arrSizesIterator(value, index, array) {
-                        //                    txt = txt + value + "<br>";
-                        $("select[name=prodsize] option[value='" + value + "']").attr('disabled',
-                            'disabled').addClass("disabledoption").hide();
-                    }
-                } else {
-                    $("select[name=prodsize] option[value='" + t_excludesizes + "']").attr('disabled',
-                        'disabled').addClass("disabledoption").hide();
-                }
-
-            });
-
-            $("select[name=prodsize]").on("change touchend", function() {
-                if ($("select[name=prodlength]").length) {
-                    $("select[name=prodlength]").val('');
-
-
-                    //        $("select[name=prodsize]").change(function () {
-                    $("select[name=prodlength] option").removeAttr('disabled').removeClass("disabledoption")
-                        .show();
-                    //            var t_cur_size_id = $(this).val();
-
-                    var t_excludelengths = $("select[name=prodsize] option:checked").attr('excludelengths');
-                    //            var t_excludelengths = $("input[name=hfsize" + t_cur_size_id + "excludelengths").val();
-
-                    if (t_excludelengths.indexOf('_') >= 0) {
-                        var t_arrLengths = t_excludelengths.split('_');
-                        t_arrLengths.forEach(arrLengthsIterator);
-
-                        function arrLengthsIterator(value, index, array) {
-                            //                    txt = txt + value + "<br>";
-                            $("select[name=prodlength] option[value='" + value + "']").attr('disabled',
-                                'disabled').addClass("disabledoption").hide();
-                        }
-                    } else {
-                        $("select[name=prodlength] option[value='" + t_excludelengths + "']").attr(
-                            'disabled', 'disabled').addClass("disabledoption").hide();
-                    }
-                    //            alert(t_cur_size_id + ' : ' + t_excludelengths);
-                    //            if (t_cur_size_id == 1) {
-                    //                $("select[name=prodlength] option[value='29']").hide();
-                    //            } else {
-                    //                $("select[name=prodlength] option").show();
-                    //            }
-                }
-            });
-        });
-    </script>
+    <script src="{{ url('frontend/assets/js/product-listing.js') }}"></script>
 
 </body>
 

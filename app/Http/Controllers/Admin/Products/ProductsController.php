@@ -89,7 +89,7 @@ class ProductsController extends AppController
 
 		if($request->get('brands'))
     	{
-    		$ids = BrandProducts::distinct()->whereIn('brand_id', $request->get('brand'))->pluck('product_id')->toArray();
+    		$ids = BrandProducts::distinct()->whereIn('brand_id', $request->get('brands'))->pluck('product_id')->toArray();
     		$ids = !empty($ids) ? implode(',', $ids) : '0';
     		$where[] = 'products.id IN ('.$ids.')';
     	}

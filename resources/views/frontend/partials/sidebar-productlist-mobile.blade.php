@@ -1,6 +1,6 @@
 
                             <div class="single__widget widget__bg">
-                                <h4 class="widget__title h4">Categories In T-Shirts</h4>
+                                <h4 class="widget__title h4">Categories In {{ $category && $category->title ? $category->title : '' }}</h4>
                                 <ul class="widget__tagcloud">
                                     <li class="widget--list"><a class="sideitemspace" href="product-list.php">
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
@@ -28,22 +28,22 @@
                                 <h4 class="widget__title h4">Gender</h4>
                                 <ul class="widget__form--check">
                                     <li class="widget__form--check__list">
-                                        <label class="widget__form--check__label" for="check1">Men (20)</label>
+                                        <label class="widget__form--check__label" for="check1">Men</label>
                                         <input class="widget__form--check__input" id="check1" type="checkbox">
                                         <span class="widget__form--checkmark"></span>
                                     </li>
                                     <li class="widget__form--check__list">
-                                        <label class="widget__form--check__label" for="check2">Women (15)</label>
+                                        <label class="widget__form--check__label" for="check2">Women</label>
                                         <input class="widget__form--check__input" id="check2" type="checkbox">
                                         <span class="widget__form--checkmark"></span>
                                     </li>
                                     <li class="widget__form--check__list">
-                                        <label class="widget__form--check__label" for="check3">Kids (10)</label>
+                                        <label class="widget__form--check__label" for="check3">Kids</label>
                                         <input class="widget__form--check__input" id="check3" type="checkbox">
                                         <span class="widget__form--checkmark"></span>
                                     </li>
                                     <li class="widget__form--check__list">
-                                        <label class="widget__form--check__label" for="check4">Unisex (25)</label>
+                                        <label class="widget__form--check__label" for="check4">Unisex</label>
                                         <input class="widget__form--check__input" id="check4" type="checkbox">
                                         <span class="widget__form--checkmark"></span>
                                     </li>
@@ -83,10 +83,9 @@
 							<div class="single__widget widget__bg">
                                 <h4 class="widget__title h4">Available Brands</h4>
                                 <ul class="widget__tagcloud">
+                                    <?php foreach($brands as $b): ?>
                                     <li class="widget__tagcloud--list"><a class="widget__tagcloud--link" href="shop.html">Protex</a></li>
-                                    <li class="widget__tagcloud--list"><a class="widget__tagcloud--link" href="shop.html">Uneek</a></li>
-                                    <li class="widget__tagcloud--list"><a class="widget__tagcloud--link" href="shop.html">Mascot</a></li>
-                                    
+                                    <?php endforeach; ?>
                                 </ul>
                             </div>
 							

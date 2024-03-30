@@ -120,6 +120,8 @@
 													value="Male"> Male</option>
 												<option {{ old('gender') == 'Female' ? 'selected' : '' }}
 													value="Female"> Female</option>
+												<option {{ old('gender') == 'Kids' ? 'selected' : '' }}
+													value="Kids"> Kids</option>
 												<option {{ old('gender') == 'Unisex' ? 'selected' : '' }}
 													value="Unisex"> Unisex</option>
 											</select>
@@ -239,7 +241,7 @@
 												data-multiple="true"
 												data-path="products"
 												data-resize-large="580*630"
-												data-resize-small="200*200"
+												data-resize-small="282*310"
 
 											>
 												<div class="upload-section">
@@ -248,6 +250,7 @@
 															<span class="btn-inner--icon"><i class="fas fa-upload"></i></span>
 															<span class="btn-inner--text">Upload Image</span>
 															</button>
+														<p><small>Recommend Size: 580*630</small></p>
 													</div>
 													<!-- PROGRESS BAR -->
 													<div class="progress d-none">

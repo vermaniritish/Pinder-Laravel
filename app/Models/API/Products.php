@@ -4,7 +4,8 @@ namespace App\Models\API;
 
 use App\Models\Admin\Products as AdminProducts;
 use App\Models\Admin\Settings;
-use App\Models\Admin\SearchSugessions;
+use App\Models\Admin\ProductSubCategoryRelation;
+use App\Models\Admin\BrandProducts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -18,14 +19,6 @@ class Products extends AdminProducts
     protected $primaryKey = 'id';
     public $timestamps = false;
     
-    /**
-	 * The "booted" method of the model.
-	 *
-	 * @return void
-	 */
-	protected static function booted() {
-		static::addGlobalScope(new Active);
-	}
 
     /**
      * Define a one-to-one relationship.
@@ -88,10 +81,10 @@ class Products extends AdminProducts
     public static function getListing(Request $request, $where = [])
     {
         $userId = ApiAuth::getLoginId();
-    	$orderBy = $request->get('sort') ? $request->get('sort') : 'products.id';
-    	$direction = $request->get('direction') ? $request->get('direction') : 'desc';
+    	$orderBy = 'products.id';
+    	$direction = 'desc';
     	$page = $request->get('page') ? $request->get('page') : 1;
-    	$limit = 20;
+    	$limit = 21;
     	$offset = ($page - 1) * $limit;
     	   
         $select = [
@@ -101,13 +94,10 @@ class Products extends AdminProducts
             'products.price',
             'products.phonenumber',
             'products.image',
-            'products.sale_price',
-            'users.first_name',
-            'users.last_name',
-            'users.image as user_image',
-            DB::raw('(CASE WHEN products.sale_price is null or products.sale_price = 0 THEN products.price ELSE products.sale_price END) as price_order'),
-            DB::raw('(SELECT AVG(TIMESTAMPDIFF(MINUTE, created, read_at)) as response_seconds from messages where to_id = products.user_id and read_at is not null) as respond'),
-            'products.modified',
+            'products.max_price',
+            'products.price',
+            'products.gender',
+            'product_categories.title as category'
         ];
 
 
@@ -116,26 +106,74 @@ class Products extends AdminProducts
             $select[] = DB::raw("ROUND( SQRT( POW((69.1 * ((products.lat) - '".$request->get('latitude')."')), 2) + POW((53 * ((products.lng) - '".$request->get('longitude')."')), 2)), 1) AS distance");
         }
 
-        if($userId)
-        {
-            $select[] = 'users_wishlist.id as wishlist_id';
-        }   
-
     	$listing = Products::select($select)
-            ->leftJoin('users', 'users.id', '=', 'products.user_id')
-            ->join('product_category_relation', 'product_category_relation.product_id', '=', 'products.id')
-            ->join('product_categories', 'product_categories.id', '=', 'product_category_relation.category_id')
-            ->where('users.status', 1);
+            ->leftJoin('product_categories', 'product_categories.id', '=', 'products.category_id');
         
-        if($userId)
+	    
+
+        $pIds = [];
+        if($request->get('categories'))
         {
-            $listing->leftJoin('users_wishlist', function($join) use ($userId) {
-                $join->on('users_wishlist.product_id', '=', 'products.id');
-                $join->where('users_wishlist.user_id', '=', $userId);
+            $cats = $request->get('categories');
+            $cats = $cats ? explode(',', $cats) : [0];
+            $ids = ProductSubCategoryRelation::select(['product_id'])->leftJoin('sub_categories', 'sub_categories.id', '=', 'product_sub_category_relation.sub_category_id')
+                ->where(function($query) use ($cats) {
+                    foreach($cats as $c){
+                        $query->orWhere('sub_categories.slug', 'LIKE', $c);
+                    }
+
+                    return $query;
+                })
+                ->pluck('product_id')
+                ->toArray();
+            $ids = !empty($ids) ? $ids : ['0'];
+            $pIds = array_merge($pIds, $ids);
+        }
+
+        if($request->get('price_from') && $request->get('price_to'))
+        {
+            $listing->where('products.price', '>=', $request->get('price_from'));
+            $listing->where('products.max_price', '<=', $request->get('price_to'));
+            // $prices = [$request->get('price_from'), $request->get('price_to')];
+            // $listing->where(function($query) use($prices)  {
+            //     $query->orWhere('products.price', '>=', $prices[0]);
+            //     $query->orWhere('products.max_price', '<=', $prices[1]);
+            // });
+        }
+
+        if($request->get('gender'))
+        {
+            $genders = explode(',', $request->get('gender'));
+            $listing->where(function($query) use($genders)  {
+                foreach($genders as $g) {
+                    $query->orWhere('gender', 'LIKE', $g);
+                }
+                return $query; 
             });
         }
 
-	    if(!empty($where))
+        if($request->get('brands'))
+        {
+            $cats = $request->get('brands');
+            $cats = $cats ? explode(',', $cats) : [0];
+            $ids = BrandProducts::select(['product_id'])->leftJoin('brands', 'brands.id', '=', 'brand_product.brand_id')
+                ->where(function($query) use ($cats) {
+                    foreach($cats as $c){
+                        $query->orWhere('brands.slug', 'LIKE', $c);
+                    }
+                    return $query;
+                })
+                ->pluck('product_id')
+                ->toArray();
+            $ids = !empty($ids) ? $ids : ['0'];
+            $pIds = array_merge($pIds, $ids);
+        }
+
+        if($pIds) {
+            $where[] = 'products.id IN ('.implode(',', $pIds).')';
+        }
+
+        if(!empty($where))
 	    {
 	    	foreach($where as $query => $values)
 	    	{
@@ -148,70 +186,17 @@ class Products extends AdminProducts
 	    	}
 	    }
 
-        if($request->get('categories'))
-        {
-            $cats = $request->get('categories') ? $request->get('categories') : [0];
-            $listing->whereIn('product_category_relation.category_id', $cats);
-        }
-
-        if($request->get('free_item'))
-        {
-            $listing->where('products.price', '<', 1);   
-        }
-
-        if($request->get('title') && strtolower($request->get('title')) != "all products")
-        {
-            $ignore = SearchSugessions::where('slug', "all-products")->pluck('title')->first();
-            if( !$ignore || strtolower(trim($request->get('title'))) != strtolower(trim($ignore)) )
-            {
-                $title = explode(' ', $request->get('title'));
-                $title = array_filter($title);
-                $oR = [];
-
-                 $ignore = Settings::get('ignore_keywords');
-                $ignore = ($ignore ? explode(',', $ignore) : []);
-                $ignore = array_filter($ignore);
-                foreach ($title as $key => $value) {
-
-                   if($value && preg_match("/^[a-zA-Z0-9]+$/", trim($value)) && !in_array(ucfirst(trim($value)), $ignore))
-                        $oR[] =  'products.title LIKE "%'.$value.'%"';
-                }
-                $oR[] = 'products.title LIKE "%' . trim($request->get('title')) . '%"';
-                $oR[] = 'product_categories.title LIKE "%' . trim($request->get('title')) . '%"';
-                
-                $listing->whereRaw('(' . implode(' or ', $oR) . ')');
-            }
-        }
-
-        // if($request->get('address'))
-        // {
-        //     $listing->whereRaw('(products.address LIKE ? or products.postcode LIKE ?)', [$request->get('address'), $request->get('address')]);
-        // }
-
-        if($request->get('latitude') && $request->get('longitude') && $request->get('radius') !== '' && $request->get('radius') !== null)
-        {
-            $listing->having('distance', '<=', $request->get('radius'));
-        }
-
-        switch ($orderBy) {
-            case 'nearest':
-                if($request->get('latitude') && $request->get('longitude') && $request->get('radius') > 0)
-                {
-                    $listing->having('distance', '<=', $request->get('radius'));
-                    $listing->orderBy('distance', 'asc');
-                }
+        switch ($request->get('sort')) {
+            case 'price_asc':
+                $listing->orderByRaw('products.price asc');
             break;
 
-            case 'higest_price':
-                $listing->orderByRaw('(price_order) desc');
+            case 'price_desc':
+                $listing->orderByRaw('products.price desc');
             break;
 
-            case 'lowest_price':
-                $listing->orderByRaw('(price_order) asc');
-            break;
-
-            case 'recent':
-                $listing->orderByRaw('products.id desc');
+            case 'a_z':
+                $listing->orderByRaw('products.title asc');
             break;
             
             default:
@@ -227,8 +212,7 @@ class Products extends AdminProducts
 	    	$listing->limit($limit);
 	    }
 
-        $listing->groupBy('products.id');
-	    $listing = $listing->paginate($limit);
+        $listing = $listing->paginate($limit);
 
 	    return $listing;
     }
@@ -274,6 +258,7 @@ class Products extends AdminProducts
         {
             $select[] = 'users_wishlist.id as wishlist_id';
         }   
+        
 
         $listing = Products::select($select)
             ->leftJoin('users', 'users.id', '=', 'products.user_id')
@@ -329,7 +314,7 @@ class Products extends AdminProducts
             $listing->offset($offset);
             $listing->limit($limit);
         }
-
+        
         $listing->groupBy('products.id');
         $listing = $listing->paginate($limit);
 
