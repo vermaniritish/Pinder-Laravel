@@ -249,6 +249,8 @@ class ProductsController extends AppController
     		unset($data['_token']);
 			$sizeData = [];
 			$colors = [];
+			$subCategory = [];
+			$brands = [];
 			if(isset($data['sizeData']) && $data['sizeData']) {
 				$data['sizeData'] = json_decode($data['sizeData'], true);
 				$sizeData = $data['sizeData'];
@@ -257,8 +259,13 @@ class ProductsController extends AppController
 				$data['tags'] = explode(',', $data['tags']);
 			}
 			if (isset($data['color_id']) && $data['color_id']) {
-				$data['color_id'] = json_decode($data['color_id'], true);
 				$colors = $data['color_id'];
+			}
+			if(isset($data['sub_category']) && $data['sub_category']) {
+				$subCategory = $data['sub_category'];
+			}
+			if(isset($data['brand']) && $data['brand']) {
+				$brands = $data['brand'];
 			}
     		$validator = Validator::make(
 	            $data,
@@ -285,20 +292,12 @@ class ProductsController extends AppController
 
 	        if(!$validator->fails())
 	        {
-				$brands = [];
-				$subCategory = [];
-				$colors = [];
 				unset($data['size']);
 				unset($data['sizeData']);
 				unset($data['color_id']);
 	        	unset($data['brand']);
 	        	unset($data['sub_category']);
-				if(isset($data['sub_category']) && $data['sub_category']) {
-	        		$subCategory = $data['sub_category'];
-	        	}
-				if(isset($data['brand']) && $data['brand']) {
-	        		$brands = $data['brand'];
-	        	}
+		
 				$data['category_id'] = $data['category'];
 				unset($data['category']);
 	        	$product = Products::create($data);
