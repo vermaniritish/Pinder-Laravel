@@ -249,41 +249,29 @@ class AuthController extends Controller {
 	            $validator = Validator::make(
 		            $request->toArray(),
 		            [
-		                'new_password' => [
+		                'otp' => [
 		                	'required',
-						    'string',
-							Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised(), 'max:36'
+						    'numeric'
 		                ],
-		                'confirm_password' => [
-		                	'required',
-						    'same:new_password'
-		                ]
 		            ]
 		        );
 		        if(!$validator->fails())
 		        {
 		        	unset($data['_token']);
-	        			$user->password = $data['new_password'];
-	        			if($user->save())
-	        			{
-							return Response()->json([
-								'status' => true,
-								'message' => 'Password updated successfully. Login with new credentials to proceed.'
-							], Response::HTTP_OK);
-	        			}
-	        			else
-	        			{
-							return Response()->json([
-								'status' => false,
-								'message' => 'New password could be updated.'
-							], Response::HTTP_OK);			
-	        			}
+					if ($user->otp == $data['otp']) {
+						return redirect()->route('password.recover', ['hash' => $hash]);
+					} else {
+
+						$errors = ['otp' => ['Incorrect OTP. Please try again.']];
+						return response()->json(['status' => false, 'message' => $errors], Response::HTTP_UNAUTHORIZED);
+					}
 			    }
 			    else
 			    {
+					$errors = $validator->errors()->toArray();
 					return Response()->json([
 						'status' => false,
-						'message' => current(current($validator->errors()->getMessages()))
+						'message' => $errors
 					], Response::HTTP_OK);
 			    }
 			}
