@@ -36,7 +36,8 @@ let auth = new Vue({
                 });
                 response = await response.json();
                 if(response && response.status)
-                {
+                { 
+                    document.getElementById('register-form').reset();
                     this.loading = false;
                     set_notification('success', response.message);
 
