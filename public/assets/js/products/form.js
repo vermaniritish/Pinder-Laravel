@@ -52,7 +52,7 @@ let order = new Vue({
                 this.selectedBrand = data && data.brands && data.brands.length > 0 ? data.brands.map(brand => brand.id) : [];
                 this.selectedSizeIds = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(size => size.id) : [];
                 this.durationOfService = data.duration_of_service;
-                this.description = data.description;
+                this.description = data.description;//put editor work, here
                 this.selectedSize = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(sizes => ({
                     id: sizes.id,
                     size_title: sizes.size_title,

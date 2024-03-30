@@ -100,12 +100,6 @@ class AuthController extends Controller {
 			if (!$user || $data['password'] != Hash::check($password, $user->password)) {
 				return response()->json(['message' => trans('INVALID_CREDENTIALS')], Response::HTTP_UNAUTHORIZED);
 			}
-			if (!$user->hasVerifiedEmail()) {
-				return Response()->json([
-					'status' => false,
-					'message' => trans('EMAIL_IS_NOT_VERIFIED')
-				], Response::HTTP_OK);
-			}
 			$token = $user->createToken($request->email)->plainTextToken;
 			Users::whereEmail($data['email'])->update([
 				'token' => $token,
