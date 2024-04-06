@@ -310,10 +310,10 @@ class ProductsController extends AppController
 	        	{
 					if(!empty($colors))
 	        		{
-						$colorIds = Products::handleColors($product->id, $colors);
+						Products::handleColors($product->id, $colors);
 	        		}
 					if (!empty($sizeData)) {
-						Products::handleSizes($product->id, $sizeData, $colorIds);
+						Products::handleSizes($product->id, $sizeData);
 					}
 					if(!empty($brands))
 	        		{

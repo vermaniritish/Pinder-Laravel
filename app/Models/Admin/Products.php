@@ -79,8 +79,7 @@ class Products extends AppModel
     */
     public function sizes()
     {
-        return $this->belongsToMany(Sizes::class, 'product_sizes', 'product_id', 'size_id')
-        ->withPivot('price');
+        return $this->belongsToMany(Sizes::class, 'product_sizes', 'product_id', 'size_id');
     }
 
     /**
@@ -235,7 +234,7 @@ class Products extends AppModel
                     $query->select(['id', 'first_name', 'last_name', 'status']);
                 },
                 'sizes' => function($query) {
-                    $query->select(['sizes.id', 'sizes.size_title', 'sizes.from_cm',  'sizes.to_cm', 'price']);
+                    $query->select(['sizes.id', 'sizes.size_title', 'sizes.from_cm',  'sizes.to_cm', 'price','color_id']);
                 },
                 'colors' => function($query) {
                     $query->select(['colours.id', 'colours.title', 'colours.color_code']);
@@ -439,10 +438,7 @@ class Products extends AppModel
     	    $relation->modified = date('Y-m-d H:i:s');
             $relation->created_by = AdminAuth::getLoginId();
             $relation->save();
-            $colorIds[$c] = $relation->id;
         }
-        return $colorIds;
-
     }
 
 
@@ -462,7 +458,7 @@ class Products extends AppModel
         }
         $product = Products::find($id);
     }
-    public static function handleSizes($id, $sizesData, $colorIds)
+    public static function handleSizes($id, $sizesData)
     {
         ProductSizeRelation::where('product_id', $id)->delete();
         foreach ($sizesData as $colorId => $sizes) {
@@ -480,7 +476,7 @@ class Products extends AppModel
                     $relation->hip = $size->hip;
                     $relation->length = $size->length;
                     $relation->price = isset($sizeData['price']) ? $sizeData['price'] : null;
-                    $relation->product_color_id = $colorIds[$colorId]; 
+                    $relation->color_id = $colorId; 
                     $relation->save();
                 }
             }

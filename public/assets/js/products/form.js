@@ -56,18 +56,34 @@ let order = new Vue({
                 this.price = data.price;
                 this.maxPrice = data.max_price;
                 this.selectedBrand = data && data.brands && data.brands.length > 0 ? data.brands.map(brand => brand.id) : [];
-                this.selectedSizeIds = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(size => size.id) : [];
+                if (data && data.sizes && data.sizes.length > 0) {
+                    data.sizes.forEach(size => {
+                        if (!this.selectedSizeIds[size.color_id]) {
+                            this.selectedSizeIds[size.color_id] = [];
+                        }
+                        this.selectedSizeIds[size.color_id].push(size.id);
+                    });
+                }
+                console.log(this.selectedSizeIds);
                 this.description = data.description;
                 if (this.description !== null) {
                     put_editor_html('product-editor', this.description.trim());
                 }
-                this.selectedSize = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(sizes => ({
-                    id: sizes.id,
-                    size_title: sizes.size_title,
-                    price: parseFloat(sizes.price),
-                    from_cm: parseFloat(sizes.from_cm),
-                    to_cm: parseFloat(sizes.to_cm),
-                })) : [];
+                if (data && data.sizes && data.sizes.length > 0) {
+                    data.sizes.forEach(size => {
+                        if (!this.selectedSize[size.color_id]) {
+                            this.selectedSize[size.color_id] = [];
+                        }
+                        this.selectedSize[size.color_id].push({
+                            id: size.id,
+                            size_title: size.size_title,
+                            from_cm: size.from_cm,
+                            to_cm: size.to_cm,
+                            price: parseFloat(size.price)
+                        });
+                    });
+                }
+                
             }
             else {
                 this.url = admin_url + '/products/add';
