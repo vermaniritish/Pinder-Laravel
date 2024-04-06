@@ -200,18 +200,18 @@
 												</tr>
 											</thead>
 											<tbody>
-												<tr v-for="(size, sizeIndex) in selectedSizeIds[colorSelectedId]" :key="sizeIndex">
+												<tr v-for="(size, sizeIndex) in selectedSize[colorSelectedId]" :key="sizeIndex">
 													<td>@{{ sizeIndex + 1 }}</td>
 													<td>@{{ size.size_title }}</td>
 													<td>@{{ size.from_cm }} - @{{ size.to_cm }} cm</td>
-													<td><input type="number"  min="0"></td>
-													<td><i class="fa fa-times" @click="removeSize(colorSelectedId, sizeIndex)"></i></td>
+													<td><input type="number" v-model="size.price" min="0"></td>
+													<td><i class="fa fa-times" v-on:click="removeSize(colorSelectedId, sizeIndex)"></i></td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
+									<hr> 
 								</div>
-								<hr class="my-4" />
 								<div class="row">
 									<div class="col-lg-6">
 										<div class="form-group">

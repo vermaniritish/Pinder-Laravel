@@ -79,19 +79,20 @@ let order = new Vue({
                 for (let sizeId of this.selectedSizeIds[colorSelectedId]) {
                     let size = this.sizes.find(size => size.id === sizeId);
                     if (size) {
+                        if (!size.price) {
+                            size.price = 0;
+                        }
                         selectedSizes.push(size);
                     }
                 }
-                this.$set(this.selectedSizeIds, colorSelectedId, selectedSizes);
+                this.$set(this.selectedSize, colorSelectedId, selectedSizes);
             }
-        },        
-        removeSize(index, sizeId) {
-            this.selectedSizeIds.splice(index, 1);
-            const sizeIndex = this.selectedSize.findIndex(size => size.id === sizeId);
-            if (sizeIndex !== -1) {
-                this.selectedSize.splice(sizeIndex, 1);
-            }
-        },        
+        },    
+        removeSize(colorSelectedId, sizeIndex) {
+            let selectedSizes = this.selectedSize[colorSelectedId];
+            selectedSizes.splice(sizeIndex, 1);
+            this.$set(this.selectedSize, colorSelectedId, selectedSizes);
+        },       
         updateSizes: async function() {
             let response = await fetch(admin_url + "/products/getSize/" + this.selectedGender);
             response = await response.json();
@@ -121,8 +122,7 @@ let order = new Vue({
         submitForm: async function() {
             if ($('#product-form').valid()) {
                 let formData = new FormData(document.getElementById('product-form'));
-                let sizeIdAndPrice = this.selectedSize.map(size => ({ id: size.id, price: size.price }));
-                formData.append('sizeData', JSON.stringify(sizeIdAndPrice));
+                formData.append('sizeData', JSON.stringify(this.selectedSize));
                 formData.append('description', get_editor_html('product-editor'));
                 let response = await fetch(this.url, {
                     method: 'POST',

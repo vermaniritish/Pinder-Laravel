@@ -280,13 +280,18 @@ class ProductsController extends AppController
 					'tags' => ['nullable', 'array'],
 					'tags.*' => ['string','max:20',],
 					'color_id' => ['nullable', 'array'],
-					'color_id.*' => ['required', Rule::exists(Colours::class,'id')],
+					'color_id.*' => ['distinct','required', Rule::exists(Colours::class,'id')],
 					'gender' => ['required', Rule::in(['Male','Female','Unisex'])],
+
 					'sizeData' => ['required', 'array'],
-					'sizeData.*.id' => ['distinct','required', Rule::exists(Sizes::class, 'id')->where(function ($query) {
-						$query->whereNull('deleted_at');
-					})],
-					'sizeData.*.price' => ['required', 'integer', 'min:0'],
+					'sizeData.*' => ['required', 'array', 'distinct'],
+					'sizeData.*.*.id' => [
+						'required', 
+						Rule::exists(Sizes::class, 'id')->where(function ($query) {
+							$query->whereNull('deleted_at');
+						})
+					],
+					'sizeData.*.*.price' => ['required', 'numeric', 'min:0'],
 	            ]
 	        );
 
@@ -303,16 +308,16 @@ class ProductsController extends AppController
 	        	$product = Products::create($data);
 	        	if($product)
 	        	{
+					if(!empty($colors))
+	        		{
+						$colorIds = Products::handleColors($product->id, $colors);
+	        		}
 					if (!empty($sizeData)) {
-						Products::handleSizes($product->id, $sizeData);
+						Products::handleSizes($product->id, $sizeData, $colorIds);
 					}
 					if(!empty($brands))
 	        		{
 	        			Products::handleBrands($product->id, $brands);
-	        		}
-					if(!empty($colors))
-	        		{
-	        			Products::handleColors($product->id, $colors);
 	        		}
 					if(!empty($subCategory))
 	        		{
