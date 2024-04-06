@@ -39,9 +39,10 @@ let order = new Vue({
             }, 50);
         },
         updateSelectedColor: function() {
-            this.selectedSizeIds = {};
             for (let colorId of this.selectedColor) {
-                this.$set(this.selectedSizeIds, colorId, []);
+                if (!this.selectedSizeIds.hasOwnProperty(colorId)) {
+                    this.$set(this.selectedSizeIds, colorId, []);
+                }
             }
         },
         initEditValues: function () {
