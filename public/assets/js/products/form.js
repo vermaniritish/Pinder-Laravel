@@ -74,23 +74,17 @@ let order = new Vue({
             };
         },
         updateSelectedSize: function() {
-            // this.selectedSize = {}; // Initialize selectedSize as an empty object
-            // console.log(this.selectedSizeIds);
-            // for (let colorIndex in this.selectedSizeIds) {
-            //     let sizesForColor = []; // Array to store sizes for current color
-            //     for (let sizeId of this.selectedSizeIds[colorIndex]) {
-            //         let size = this.sizes.find(s => s.id === sizeId);
-            //         if (size) {
-            //             size.price = 0;
-            //             sizesForColor.push(size); // Add size to sizesForColor array
-            //         }
-            //     }
-            //     this.selectedSize[colorIndex] = sizesForColor; // Assign sizesForColor array to selectedSize at the current color index
-            // }
-        },
-        debug: function(){
-            console.log(this.selectedSizeIds);
-        },
+            for (let colorSelectedId in this.selectedSizeIds) {
+                let selectedSizes = [];
+                for (let sizeId of this.selectedSizeIds[colorSelectedId]) {
+                    let size = this.sizes.find(size => size.id === sizeId);
+                    if (size) {
+                        selectedSizes.push(size);
+                    }
+                }
+                this.$set(this.selectedSizeIds, colorSelectedId, selectedSizes);
+            }
+        },        
         removeSize(index, sizeId) {
             this.selectedSizeIds.splice(index, 1);
             const sizeIndex = this.selectedSize.findIndex(size => size.id === sizeId);

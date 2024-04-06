@@ -178,7 +178,7 @@
 														:style="{ backgroundColor: color.color_code }" class="badge badge-secondary">@{{ color.title }}
 													</span>
 												</label>
-												<select class="form-control size-select no-selectpicker" v-model="selectedSizeIds[colorSelectedId]" multiple required>
+												<select class="form-control size-select no-selectpicker" v-on:change="updateSelectedSize" v-model="selectedSizeIds[colorSelectedId]" multiple required>
 													<option value="">Select</option>
 													<option v-for="size in sizes" :value="size.id">
 														@{{ size.size_title }} (@{{ size.from_cm }} - @{{ size.to_cm }} cm)
@@ -211,8 +211,6 @@
 										</table>
 									</div>
 								</div>
-
-
 {{-- 								
 								<div class="table-responsive" v-if="selectedSize.length > 0">
 									<hr class="my-4" />
