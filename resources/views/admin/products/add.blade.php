@@ -35,6 +35,7 @@
 							@if (isset($product) && $product->id)
 								<pre id="edit-form" class="d-none">{{ $product }}</pre>
 							@endif
+							<pre id="availableColor" class="d-none">{{ $colors }}</pre>
 							<!--!! CSRF FIELD !!-->
 							{{ @csrf_field() }}
 							<h6 class="heading-small text-muted mb-4">Product information</h6>
@@ -92,7 +93,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label">Color</label>
-											<select class="form-control no-selectpicker" v-model="selectedColor" name="color_id[]" multiple required>
+											<select class="form-control no-selectpicker" v-on:change="updateSelectedColor" v-model="selectedColor" name="color_id[]" multiple required>
 												<option value="">Select</option>
 												<?php 
 													foreach($colors as $s): 
@@ -154,19 +155,6 @@
 								<div id="size-form" class="row">
 									<div class="col-lg-6">
 										<div class="form-group">
-											<label class="form-control-label" for="input-username">Size</label>
-											<select class="form-control no-selectpicker" v-on:change="updateSelectedSize" v-model ="selectedSizeIds" name="size[]" required multiple>
-												<option v-for="size in sizes" :key="size.id" :value="size.id">
-													@{{ size.size_title }} - (@{{ size.from_cm }} - @{{ size.to_cm }})
-												</option>
-											</select>
-											@error('size')
-												<small class="text-danger">{{ $message }}</small>
-											@enderror
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-group">
 											<label class="form-control-label" for="input-username">Brand</label>
 											<select v-model="selectedBrand" class="form-control no-selectpicker" name="brand[]" required multiple>
 												@foreach ($brands as $key => $value)
@@ -180,6 +168,52 @@
 										</div>
 									</div>
 								</div>
+								<div v-for="(colorSelectedId, colorIndex) in selectedColor" :key="colorIndex">
+									<div class="row">		
+										<div class="col-md-4">
+											<div class="form-group">
+												<label>Select Size For 
+													<span v-for="color in availableColors" 
+														v-if="Number(color.id) === Number(colorSelectedId)" 
+														:style="{ backgroundColor: color.color_code }" class="badge badge-secondary">@{{ color.title }}
+													</span>
+												</label>
+												<select class="form-control size-select no-selectpicker" v-model="selectedSizeIds[colorSelectedId]" multiple required>
+													<option value="">Select</option>
+													<option v-for="size in sizes" :value="size.id">
+														@{{ size.size_title }} (@{{ size.from_cm }} - @{{ size.to_cm }} cm)
+													</option>
+												</select>
+												<small class="text-danger"></small>
+											</div>
+										</div>
+									</div>
+									<div class="table-responsive">
+										<table class="table align-items-center table-flush view-table">
+											<thead>
+												<tr>
+													<th>#</th>
+													<th>Size Title</th>
+													<th>Size (From - To)</th>
+													<th>Price</th>
+													<th>Remove Item</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr v-for="(size, sizeIndex) in selectedSizeIds[colorSelectedId]" :key="sizeIndex">
+													<td>@{{ sizeIndex + 1 }}</td>
+													<td>@{{ size.size_title }}</td>
+													<td>@{{ size.from_cm }} - @{{ size.to_cm }} cm</td>
+													<td><input type="number"  min="0"></td>
+													<td><i class="fa fa-times" @click="removeSize(colorSelectedId, sizeIndex)"></i></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+
+
+{{-- 								
 								<div class="table-responsive" v-if="selectedSize.length > 0">
 									<hr class="my-4" />
 									<table class="table align-items-center table-flush view-table">
@@ -204,7 +238,23 @@
 											</tr>
 										</tbody>
 									</table>
-								</div>
+								</div> --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 								<hr class="my-4" />
 								<div class="row">
 									<div class="col-lg-6">

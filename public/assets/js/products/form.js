@@ -3,8 +3,8 @@ let order = new Vue({
     data: {
         mounting: true,
         sizes: [],
-        selectedSize: [],
-        selectedSizeIds: [],
+        selectedSize: {},
+        selectedSizeIds: {},
         selectedCategory: null,
         subCategories: [],
         selectedGender: '',
@@ -17,7 +17,8 @@ let order = new Vue({
         url: '',
         selectedSubCategory: [],
         description: null,
-        tags: null
+        tags: null,
+        availableColors: JSON.parse($('#availableColor').text())
     },
     mounted: function() {
         this.initBasics();
@@ -37,6 +38,12 @@ let order = new Vue({
                 initSelectpicker('select');
             }, 50);
         },
+        updateSelectedColor: function() {
+            this.selectedSizeIds = {};
+            for (let colorId of this.selectedColor) {
+                this.$set(this.selectedSizeIds, colorId, []);
+            }
+        },
         initEditValues: function () {
             if ($('#edit-form').length > 0) {
                 let data = JSON.parse($('#edit-form').text());
@@ -45,7 +52,6 @@ let order = new Vue({
                 this.selectedCategory = data.category_id;
                 this.title = data.title;
                 this.selectedColor = data && data.colors && data.colors.length > 0 ? data.colors.map(colors => colors.id) : [];
-                console.log(this.selectedColor);
                 this.selectedGender = data.gender;
                 this.price = data.price;
                 this.maxPrice = data.max_price;
@@ -67,15 +73,23 @@ let order = new Vue({
                 this.url = admin_url + '/products/add';
             };
         },
-        updateSelectedSize: function(){
-            this.selectedSize = [];
-            for (let sizeId of this.selectedSizeIds) {
-                let size = this.sizes.find(s => s.id === sizeId);
-                if (size) {
-                    size.price = 0; 
-                    this.selectedSize.push(size);
-                }
-            }
+        updateSelectedSize: function() {
+            // this.selectedSize = {}; // Initialize selectedSize as an empty object
+            // console.log(this.selectedSizeIds);
+            // for (let colorIndex in this.selectedSizeIds) {
+            //     let sizesForColor = []; // Array to store sizes for current color
+            //     for (let sizeId of this.selectedSizeIds[colorIndex]) {
+            //         let size = this.sizes.find(s => s.id === sizeId);
+            //         if (size) {
+            //             size.price = 0;
+            //             sizesForColor.push(size); // Add size to sizesForColor array
+            //         }
+            //     }
+            //     this.selectedSize[colorIndex] = sizesForColor; // Assign sizesForColor array to selectedSize at the current color index
+            // }
+        },
+        debug: function(){
+            console.log(this.selectedSizeIds);
         },
         removeSize(index, sizeId) {
             this.selectedSizeIds.splice(index, 1);
@@ -91,7 +105,7 @@ let order = new Vue({
             {
                 this.sizes = response.sizes;
                 setTimeout(function () {
-                    $("#size-form select").selectpicker("refresh");
+                    $(".size-select").selectpicker('refresh');
                 }, 50);
             } else{
                 set_notification('error', response.message);
@@ -137,6 +151,11 @@ let order = new Vue({
     watch: {
         selectedGender: function () {
             this.updateSizes();
+        },
+        selectedColor: function () {
+            setTimeout(function () {
+                $(".size-select").selectpicker('refresh');
+            }, 50);
         },
         selectedCategory: function () {
             this.updateSubCategory();
