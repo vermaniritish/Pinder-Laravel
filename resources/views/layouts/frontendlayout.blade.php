@@ -126,6 +126,14 @@ $version = 1.0;
     <script src="{{ url('frontend/assets/js/script.js') }}"></script>
     <script src="<?php echo url('assets/js/auth.js') ?>"></script>
     <script src="{{ url('frontend/assets/js/product-listing.js') }}"></script>
+    <?php 
+    $action = get_controller_action(request()->route()->getAction()['controller']);
+    echo $action;
+    if($action == 'home/index') {
+        echo '<script>newsletterPopup();</script>';
+    }
+     ?>
+    
 
 </body>
 
