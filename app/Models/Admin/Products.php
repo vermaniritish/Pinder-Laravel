@@ -79,8 +79,7 @@ class Products extends AppModel
     */
     public function sizes()
     {
-        return $this->belongsToMany(Sizes::class, 'product_sizes', 'product_id', 'size_id')
-        ->withPivot('price');
+        return $this->belongsToMany(Sizes::class, 'product_sizes', 'product_id', 'size_id');
     }
 
     /**
@@ -235,7 +234,7 @@ class Products extends AppModel
                     $query->select(['id', 'first_name', 'last_name', 'status']);
                 },
                 'sizes' => function($query) {
-                    $query->select(['sizes.id', 'sizes.size_title', 'sizes.from_cm',  'sizes.to_cm', 'price']);
+                    $query->select(['sizes.id', 'sizes.size_title', 'sizes.from_cm',  'sizes.to_cm', 'price','color_id']);
                 },
                 'colors' => function($query) {
                     $query->select(['colours.id', 'colours.title', 'colours.color_code']);
@@ -457,31 +456,31 @@ class Products extends AppModel
             $relation->sub_category_title = $subCategory->title;
             $relation->save();
         }
-
         $product = Products::find($id);
     }
-
     public static function handleSizes($id, $sizesData)
     {
         ProductSizeRelation::where('product_id', $id)->delete();
-        foreach ($sizesData as $sizeData) {
-            $relation = new ProductSizeRelation();
-            $size = Sizes::find($sizeData['id']);
-            if ($size) {
-                $relation->size_title = $size->size_title;
-                $relation->from_cm = $size->from_cm;
-                $relation->to_cm = $size->to_cm;
-                $relation->chest = $size->chest;
-                $relation->waist = $size->waist;
-                $relation->hip = $size->hip;
-                $relation->length = $size->length;
-                $relation->product_id = $id;
-                $relation->size_id = $size->id;
-                $relation->price = $sizeData['price'];
-                $relation->created_at = now();
-                $relation->updated_at = now();
-                $relation->save();
+        foreach ($sizesData as $colorId => $sizes) {
+            foreach ($sizes as $sizeData) {
+                $size = Sizes::find($sizeData['id']);
+                if ($size) {
+                    $relation = new ProductSizeRelation();
+                    $relation->product_id = $id;
+                    $relation->size_id = $size->id;
+                    $relation->size_title = $size->size_title;
+                    $relation->from_cm = $size->from_cm;
+                    $relation->to_cm = $size->to_cm;
+                    $relation->chest = $size->chest;
+                    $relation->waist = $size->waist;
+                    $relation->hip = $size->hip;
+                    $relation->length = $size->length;
+                    $relation->price = isset($sizeData['price']) ? $sizeData['price'] : null;
+                    $relation->color_id = $colorId; 
+                    $relation->save();
+                }
             }
         }
     }
+    
 }
