@@ -34,9 +34,9 @@ class Products extends AdminProducts
     *
     * @return array
     */
-    public function getImageAttribute($value)
+    public function getImageAttribute($value = null)
     {
-        $value = $value ? FileSystem::getAllSizeImages($value) : null;
+        $value = FileSystem::getAllSizeImages($value ? $value : $this->image);
         if($value)
         {
             foreach($value as $k => $v)
@@ -78,13 +78,13 @@ class Products extends AdminProducts
     * @param $limit
     */
 
-    public static function getListing(Request $request, $where = [])
+    public static function getListing(Request $request, $where = [], $limit = 21)
     {
         $userId = ApiAuth::getLoginId();
     	$orderBy = 'products.id';
     	$direction = 'desc';
     	$page = $request->get('page') ? $request->get('page') : 1;
-    	$limit = 21;
+    	$limit = $limit;
     	$offset = ($page - 1) * $limit;
     	   
         $select = [
@@ -167,6 +167,20 @@ class Products extends AdminProducts
                 ->toArray();
             $ids = !empty($ids) ? $ids : ['0'];
             $pIds = array_merge($pIds, $ids);
+        }
+
+        if($request->get('search')) {
+            $search = $request->get('search');
+            $search = explode(' ', $search);
+            $search = $search ? array_filter($search) : [];
+            if($search) {
+                $listing->where(function($query) use ($search) {
+                    foreach($search as $s)
+                    {
+                        $query->orWhereRaw('(products.title LIKE ? or products.short_description LIKE ? or product_categories.title LIKE ?)', ["%{$s}%","%{$s}%","%{$s}%"]);
+                    }
+                });
+            }
         }
 
         if($pIds) {

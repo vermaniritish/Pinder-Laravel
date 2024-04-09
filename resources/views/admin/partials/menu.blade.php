@@ -8,7 +8,7 @@
             </a>
         </li>
         <?php 
-        /*
+        
         if(Permissions::hasPermission('pages', 'listing')): ?>
             <?php $active = strpos(request()->route()->getAction()['as'], 'admin.pages') > -1; ?>
             <li class="nav-item">
@@ -17,8 +17,16 @@
                     <span class="nav-link-text">Pages</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <?php $active = strpos(request()->route()->getAction()['as'], 'admin.pages.home') > -1; ?>
+                <a class="nav-link<?php echo $active ? ' active' : '' ?>" href="<?php echo route('admin.pages.home') ?>">
+                    <i class="ni ni-tv-2 text-primary"></i>
+                    <span class="nav-link-text">Home Page</span>
+                </a>
+            </li>
         <?php endif;
-        */ ?>
+        ?>
+        
 
         <?php /*if(Permissions::hasPermission('blogs', 'listing') || Permissions::hasPermission('blog_categories', 'listing')): ?>
         <?php $active = strpos(request()->route()->getAction()['as'], 'admin.blog') > -1; ?>

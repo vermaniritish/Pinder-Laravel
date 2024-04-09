@@ -10,6 +10,7 @@ var productListing = new Vue({
         fetching: false,
         priceError: false,
         paginationMessage: ``,
+        search: ``,
         filters: {
             gender: [],
             categories: [],
@@ -30,7 +31,7 @@ var productListing = new Vue({
             if(this.fetching) return false;
             
             this.fetching = true;
-            let response = await fetch(site_url + `/api/products/listing?page=${this.page}&sort=${this.sort_by ? this.sort_by : ``}&gender=${this.filters.gender ? this.filters.gender.join(',') : ``}&price_from=${this.filters.fromPrice ? this.filters.fromPrice : ``}&price_to=${this.filters.toPrice ? this.filters.toPrice : ``}&brands=${this.filters.brands ? this.filters.brands.join(',') : ``}&categories=${this.filters.categories ? this.filters.categories.join(',') : ``}`);
+            let response = await fetch(site_url + `/api/products/listing?${this.search ? `search=${this.search}&` : '&'}brands=${this.filters.brands ? this.filters.brands.join(',') : ``}&categories=${this.filters.categories ? this.filters.categories.join(',') : ``}&gender=${this.filters.gender ? this.filters.gender.join(',') : ``}&price_from=${this.filters.fromPrice ? this.filters.fromPrice : ``}&price_to=${this.filters.toPrice ? this.filters.toPrice : ``}&page=${this.page}&sort=${this.sort_by ? this.sort_by : ``}`);
             response = await response.json();
             if(response && response.status)
             {
@@ -40,6 +41,11 @@ var productListing = new Vue({
                 this.paginationMessage = response.paginationMessage;
             }
             this.fetching = false;
+        },
+        clearSearch: async function(e) {
+            this.search = ``;
+            this.page = 1;
+            await this.fetchListing();
         },
         sortIt: async function(e) {
             this.sort_by = e.target.value;
@@ -119,6 +125,7 @@ var productListing = new Vue({
     mounted: function() {
         console.log(window.location.pathname);
         let pathname = window.location.pathname.split('/');
+        this.search = window.location.search.replace('?search=', '').trim();
         if(pathname.length > 2) {
             this.filters.categories.push(pathname[2]);
         }

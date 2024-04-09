@@ -152,10 +152,11 @@
                         <div class="newsletter__subscribe">
                             <form class="newsletter__subscribe--form" action="#">
                                 <label>
-                                    <input class="newsletter__subscribe--input" placeholder="Email Address"
+                                    <input class="newsletter__subscribe--input  mb-3" placeholder="Email Address"
                                         type="email">
                                 </label>
-                                <button class="newsletter__subscribe--button" type="submit">Subscribe</button>
+                                <p class="d-none newsletter-error text-danger m-0 p-0"></p>
+                                <button type="submit" class="newsletter__subscribe--button mt-0" type="submit">Subscribe</button>
                             </form>
                         </div>
                     </div>

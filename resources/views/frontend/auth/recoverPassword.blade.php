@@ -29,5 +29,5 @@
             </div>     
         </div>
     <!-- End login section  -->
-	<script src="<?php echo url('assets/js/auth.js') ?>"></script>
+	
 @endsection

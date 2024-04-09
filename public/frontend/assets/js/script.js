@@ -367,13 +367,13 @@ var swiper = new Swiper(".product__media--nav", {
     prevEl: ".swiper-button-prev",
   },
 });
-var swiper2 = new Swiper(".product__media--preview", {
-  loop: true,
-  spaceBetween: 10,
-  thumbs: {
-    swiper: swiper,
-  },
-});
+// var swiper2 = new Swiper(".product__media--preview", {
+//   loop: true,
+//   spaceBetween: 10,
+//   thumbs: {
+//     swiper: swiper,
+//   },
+// });
 
 // tab activation
 const tab = function (wrapper) {
@@ -663,36 +663,6 @@ const offcanvasHeader = function () {
 /* Mobile Menu Active */
 offcanvasHeader();
 
-// Increment & Decrement Qunatity Button
-const quantityWrapper = document.querySelectorAll(".quantity__box");
-if (quantityWrapper) {
-  quantityWrapper.forEach(function (singleItem) {
-    let increaseButton = singleItem.querySelector(".increase");
-    let decreaseButton = singleItem.querySelector(".decrease");
-
-    increaseButton.addEventListener("click", function (e) {
-      let input = e.target.previousElementSibling.children[0];
-      if (input.dataset.counter != undefined) {
-        let value = parseInt(input.value, 10);
-        value = isNaN(value) ? 0 : value;
-        value++;
-        input.value = value;
-      }
-    });
-
-    decreaseButton.addEventListener("click", function (e) {
-      let input = e.target.nextElementSibling.children[0];
-      if (input.dataset.counter != undefined) {
-        let value = parseInt(input.value, 10);
-        value = isNaN(value) ? 0 : value;
-        value < 1 ? (value = 1) : "";
-        value--;
-        input.value = value;
-      }
-    });
-  });
-}
-
 // Modal JS
 const openEls = document.querySelectorAll("[data-open]");
 const closeEls = document.querySelectorAll("[data-close]");
@@ -892,7 +862,75 @@ const newsletterPopup = function () {
     });
   }
 };
-newsletterPopup();
+
+let isClosed = localStorage.getItem('newletter_close');
+if(isClosed == null || isClosed == ''){
+  newsletterPopup();
+}
+
+
+/** Product Detail Page */
+$(".fancybox").fancybox();
+$("select[name=prodcolour]").change(function () {
+    var valThis = $(this).val();
+    var base_price = parseFloat($("input[name=hfbaseprice]").val());
+    $("input[name=prodprice]").val(base_price.toFixed(2));
+    $("#spnprice").html(' &pound;' + base_price.toFixed(2) + '');
+
+    if ($("select[name=prodsize]").length) {
+        $("input[name=hfprodsize]").val('0');
+        $("select[name=prodsize]").val('');
+    }
+    if ($("select[name=prodlength]").length) {
+        $("select[name=prodlength]").val('');
+    }
+
+    if (valThis.length > 0) {
+        var img_url = $("input[name=base_extra_img_url]").val() + valThis + ".jpg";
+        $("img[name=prodlargeimg]").attr("src", img_url);
+    }
+});
+
+$("select[name=prodcolour]").on("change touchend", function () {
+    $('select[name=prodsize] option').each(function () {
+        $(this).removeAttr('disabled').removeClass("disabledoption").show();
+    });
+
+
+    var t_excludesizes = $("select[name=prodcolour] option:checked").attr('excludesizes');
+
+    if (t_excludesizes.indexOf('_') >= 0) {
+        var t_arrSizes = t_excludesizes.split('_');
+        t_arrSizes.forEach(arrSizesIterator);
+
+        function arrSizesIterator(value, index, array) {
+            $("select[name=prodsize] option[value='" + value + "']").attr('disabled', 'disabled').addClass("disabledoption").hide();
+        }
+    } else {
+        $("select[name=prodsize] option[value='" + t_excludesizes + "']").attr('disabled', 'disabled').addClass("disabledoption").hide();
+    }
+
+});
+
+$("select[name=prodsize]").on("change touchend", function () {
+    if ($("select[name=prodlength]").length) {
+        $("select[name=prodlength]").val('');
+
+        $("select[name=prodlength] option").removeAttr('disabled').removeClass("disabledoption").show();
+        var t_excludelengths = $("select[name=prodsize] option:checked").attr('excludelengths');
+        if (t_excludelengths.indexOf('_') >= 0) {
+            var t_arrLengths = t_excludelengths.split('_');
+            t_arrLengths.forEach(arrLengthsIterator);
+
+            function arrLengthsIterator(value, index, array) {
+                $("select[name=prodlength] option[value='" + value + "']").attr('disabled', 'disabled').addClass("disabledoption").hide();
+            }
+        } else {
+            $("select[name=prodlength] option[value='" + t_excludelengths + "']").attr('disabled', 'disabled').addClass("disabledoption").hide();
+        }
+    }
+});
+/** Product Detail Page */
 
 function set_notification(type, text, placementFrom, placementAlign, animateEnter, animateExit)
 {
@@ -953,4 +991,51 @@ if($('#error_alert').length)
     msg = $('#error_alert').html().trim();
     set_notification('error', msg);
 }
+
+
+
+$('#newsletter__dont--show').on('change', function() {
+    if($(this).is(':checked'))
+    {
+      localStorage.setItem('newletter_close', true);
+      $('.newsletter__popup--close__btn').click();
+    }
+});
+
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
+$('.newsletter__popup--subscribe__form, .newsletter__subscribe--form').on('submit', async function(e) {
+  e.preventDefault();
+  let input = $(this).find('input').val();
+  $('.newsletter-error').addClass('d-none').removeClass('text-success').addClass('text-danger').empty();
+  if(input && validateEmail(input))
+  {
+    let formData = new FormData();
+    formData.append('email', input);
+    formData.append('_token', csrf_token());
+    let response = await fetch(site_url + '/newsletter-subscribe', {
+        method: 'POST',
+        body: formData,
+    });
+    response = await response.json();
+    if(response && response.status)
+    {
+      $('.newsletter-error').removeClass('d-none').removeClass('text-danger').addClass('text-success').html(response.message);
+    }
+    else
+    {
+      $('.newsletter-error').removeClass('d-none').html(response.message);
+    }
+  }
+  else
+  {
+    $('.newsletter-error').removeClass('d-none').html('Please enter a valid email address.');
+  }
+});
 

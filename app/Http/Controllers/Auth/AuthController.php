@@ -31,7 +31,7 @@ class AuthController extends Controller {
 					'email' => ['required', 'email', Rule::unique(Users::class, 'email')],
 					'password' => [
 						'required', 'string',
-						Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised(), 'max:36'
+						Password::min(8)->mixedCase()->numbers()->symbols(), 'max:36'
 					],
 					'password_confirmation' => ['required', 'same:password'],
 					'first_name' => ['required', 'string', 'max:30'],
@@ -49,24 +49,34 @@ class AuthController extends Controller {
 				$data['last_name'] = ucfirst(strtolower($lastName));
 				$data['token'] = General::hash();
 				$user = Users::create($data);
-				$verificationUrl = route('home', ['token' => $data['token']]);
-				$codes = [
-					'{name}' => $user->first_name . ' ' . $user->last_name,
-					'{email}' => $user->email,
-					'{url}' => General::urlToAnchor($verificationUrl)
-				];
-				$emails = [
-					$data['email']
-				];
-				General::sendTemplateEmail($emails, 'registration', $codes);
-				return response()->json([
-					'status' => true,
-					'message' => trans('REGISTER_SUCCESSFULL'),
-					'email' => $user->email,
-					'user_id' => $user->id
-				], Response::HTTP_OK);
+				if($user)
+				{
+					$verificationUrl = route('home', ['token' => $data['token']]);
+					$codes = [
+						'{name}' => $user->first_name . ' ' . $user->last_name,
+						'{email}' => $user->email,
+						'{url}' => General::urlToAnchor($verificationUrl)
+					];
+					$emails = [
+						$data['email']
+					];
+					General::sendTemplateEmail($emails, 'registration', $codes);
+					return response()->json([
+						'status' => true,
+						'message' => trans('REGISTER_SUCCESSFULL'),
+						'email' => $user->email,
+						'user_id' => $user->id
+					], Response::HTTP_OK);
+				}
+				else
+				{
+					return Response()->json([
+						'status' => false,
+						'message' => "User could not be registered."
+					], Response::HTTP_OK);
+				}
 			} else {
-				$errors = $validator->errors()->toArray();
+				$errors = current(current($validator->errors()->toArray()));
 				return Response()->json([
 					'status' => false,
 					'message' => $errors
@@ -93,14 +103,17 @@ class AuthController extends Controller {
 					Rule::exists(Users::class, 'email')
 				],
 				'password' => ['required', 'string', 'max:36']
+			],
+			[
+				'email.exists' => 'This email is not registered with us.',
 			]
 		);
 		if(!$validator->fails())
 		{
-			$user = Users::whereEmail($data['email'])->first();
+			$user = Users::whereEmail($data['email'])->where('status', 1)->first();
 			$password = $data['password'];
-			if (!$user || $data['password'] != Hash::check($password, $user->password)) {
-				$errors = ['password' => [trans('INVALID_CREDENTIALS')]];
+			if (!$user || !Hash::check($password, $user->password)) {
+				$errors = trans('INVALID_CREDENTIALS');
 				return response()->json(['status' => false, 'message' => $errors], Response::HTTP_UNAUTHORIZED);
 			}
 			
@@ -119,7 +132,7 @@ class AuthController extends Controller {
 			], Response::HTTP_OK);
 		}
 		else {
-			$errors = $validator->errors()->toArray();
+			$errors = current(current($validator->errors()->toArray()));
 			return Response()->json([
 				'status' => false,
 				'message' => $errors
@@ -157,11 +170,18 @@ class AuthController extends Controller {
 						'{recovery_link}' => General::urlToAnchor(route('user.otpVerify', ['hash' => $user->token]))
 					];
 
-					General::sendTemplateEmail(
-						$user->email, 
-						'user-forgot-password',
-						$codes
-					);
+					try
+					{
+						General::sendTemplateEmail(
+							$user->email, 
+							'user-forgot-password',
+							$codes
+						);
+					}
+					catch(\Exception $e)
+					{
+						
+					}
 
 					return Response()->json([
 						'status' => true,

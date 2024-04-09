@@ -26,7 +26,7 @@
     @include('frontend.home.partials.banner2')
     @include('frontend.home.partials.testimonial')
     @include('frontend.home.partials.banner3')
-    @include('frontend.home.partials.newsLetter')
+    
 @endsection
 
 

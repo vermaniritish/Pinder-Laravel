@@ -92,9 +92,8 @@
 											data-type="image"
 											data-multiple="false"
 											data-path="pages"
-											data-resize-large="920*640"
-											data-resize-medium="400*250"
-											data-resize-small="100*70"
+											data-resize-large="800*915"
+											data-resize-medium="350*400"
 										>
 											<div class="upload-section">
 												<div class="button-ref mb-3">

@@ -28,3 +28,15 @@ Route::post('/pages/bulkActions/{action}', '\App\Http\Controllers\Admin\PagesCon
 
 Route::get('/pages/{id}/delete', '\App\Http\Controllers\Admin\PagesController@delete')
     ->name('admin.pages.delete');
+
+Route::get('/newsletter', '\App\Http\Controllers\Admin\NewsletterController@index')
+    ->name('admin.newsletter');
+
+Route::get('/newsletter/export', '\App\Http\Controllers\Admin\NewsletterController@export')
+    ->name('admin.newsletter.export');
+
+Route::post('/newsletter/bulkActions/{action}', '\App\Http\Controllers\Admin\NewsletterController@bulkActions')
+    ->name('admin.newsletter.bulkActions');
+
+Route::get('/newsletter/{id}/delete', '\App\Http\Controllers\Admin\PagesController@delete')
+    ->name('admin.newsletter.delete');

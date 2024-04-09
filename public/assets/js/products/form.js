@@ -45,12 +45,12 @@ let order = new Vue({
                 this.selectedCategory = data.category_id;
                 this.title = data.title;
                 this.selectedColor = data && data.colors && data.colors.length > 0 ? data.colors.map(colors => colors.id) : [];
-                console.log(this.selectedColor);
                 this.selectedGender = data.gender;
                 this.price = data.price;
                 this.maxPrice = data.max_price;
                 this.selectedBrand = data && data.brands && data.brands.length > 0 ? data.brands.map(brand => brand.id) : [];
                 this.selectedSizeIds = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(size => size.id) : [];
+                this.short_description = data.short_description;
                 this.description = data.description;
                 if (this.description !== null) {
                     put_editor_html('product-editor', this.description.trim());

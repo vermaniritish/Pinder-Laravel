@@ -3,27 +3,36 @@ let auth = new Vue({
     data: {
     mounting: true,
     loading: false,
+    remember: false,
     loginloading: false,
     forgotLoading: false,
     showLoginForm: true,
     showRegisterForm: true,
     showForgotPasswordForm: false,
-    loginErrorMessages: {} ,
-    registerErrorMessages: {},
-    forgotErrorMessages: {}
+    loginErrorMessages: null,
+    registerErrorMessages: null,
+    forgotErrorMessages: {},
+    forgotSuccessMessages: null
     },
     mounted: function() {
         this.mounting = false;
+        let remember = localStorage.getItem('remember');
+        remember = remember ? JSON.parse(remember) : null;
+        if(remember) {
+            this.email = remember.email;
+            this.password = remember.password;
+            this.remember = true;
+        }
     },
     methods: {
         register: async function() {
-            if ($('#register-form').valid()) {
+            if ($('#register-form').valid() && !this.loading) {
                 this.loading = true;
                 const password = document.getElementById('password').value;
                 const confirmPassword = document.getElementById('confirmPassword').value;
                 const termsConditionsChecked = document.getElementById('check2').checked;
                 if (!termsConditionsChecked) {
-                    set_notification('error','Please agree to the terms & conditions');
+                    this.registerErrorMessages = 'Please agree to the terms & conditions.';
                     this.loading = false;
                     return false;
                 }
@@ -43,14 +52,7 @@ let auth = new Vue({
 
                 }else{
                     this.loading = false;
-                    this.registerErrorMessages = {};
-                    for (let field in response.message) {
-                        if (Array.isArray(response.message[field])) {
-                            this.$set(this.registerErrorMessages, field, response.message[field].join(', '));
-                        } else {
-                            this.$set(this.registerErrorMessages, field, response.message[field]);
-                        }
-                    }
+                    this.registerErrorMessages = response.message;
                 }
             }
             else{
@@ -58,7 +60,7 @@ let auth = new Vue({
             }
         },    
         login: async function() {
-            if ($('#login-form').valid()) {
+            if ($('#login-form').valid() && !this.loginloading) {
                 this.loginloading = true;
                 let formData = new FormData(document.getElementById('login-form'));
                 formData.append('_token', csrf_token()); 
@@ -69,19 +71,18 @@ let auth = new Vue({
                 response = await response.json();
                 if(response && response.status)
                 {
+                    if(this.remember) {
+                        localStorage.setItem('remember', JSON.stringify({email: formData.get('email'), password: formData.get('password')}));
+                    }
+                    else {
+                        localStorage.removeItem('remember');
+                    }
                     this.loginloading = false;
                     set_notification('success', response.message);
 
                 }else{
                     this.loginloading = false;
-                    this.loginErrorMessages = {};
-                    for (let field in response.message) {
-                        if (Array.isArray(response.message[field])) {
-                            this.$set(this.loginErrorMessages, field, response.message[field].join(', '));
-                        } else {
-                            this.$set(this.loginErrorMessages, field, response.message[field]);
-                        }
-                    }
+                    this.loginErrorMessages = response.message;
                 }
             }
             else{
@@ -99,7 +100,7 @@ let auth = new Vue({
             this.showForgotPasswordForm = false;
         },
         postForgotPassword: async function(){
-            if ($('#forgot-form').valid()) {
+            if ($('#forgot-form').valid() && !this.forgotLoading) {
                 this.forgotLoading = true;
                 let formData = new FormData(document.getElementById('forgot-form'));
                 formData.append('_token', csrf_token()); 
@@ -112,18 +113,11 @@ let auth = new Vue({
                 {
                     this.forgotLoading = false;
                     document.getElementById('forgot-form').reset();
-                    set_notification('success', response.message);
+                    this.forgotSuccessMessages = response.message;
 
                 }else{
                     this.forgotLoading = false;
-                    this.forgotErrorMessages = {};
-                    for (let field in response.message) {
-                        if (Array.isArray(response.message[field])) {
-                            this.$set(this.forgotErrorMessages, field, response.message[field].join(', '));
-                        } else {
-                            this.$set(this.forgotErrorMessages, field, response.message[field]);
-                        }
-                    }
+                    this.forgotErrorMessages = response.message;
                 }
             }
             else{

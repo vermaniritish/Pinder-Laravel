@@ -84,6 +84,7 @@ $version = 1.0;
     @include('layouts.partials.header')
     <main class="main__content_wrapper">
         @yield('content')
+        @include('frontend.home.partials.newsLetter')
     </main>
     @include('layouts.partials.shipping')
     @include('layouts.partials.footer')
@@ -123,6 +124,7 @@ $version = 1.0;
 	<script src="<?php echo url('assets/js/bootstrap-notify.js') ?>"></script>
     <!-- Customscript js -->
     <script src="{{ url('frontend/assets/js/script.js') }}"></script>
+    <script src="<?php echo url('assets/js/auth.js') ?>"></script>
     <script src="{{ url('frontend/assets/js/product-listing.js') }}"></script>
 
 </body>

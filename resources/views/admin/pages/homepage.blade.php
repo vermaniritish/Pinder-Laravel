@@ -69,9 +69,81 @@
                             </div>
 						</div>
                         <hr class="my-4" />
+						<h6 class="heading-small text-muted mb-4">Our Products</h6>
+                        <div class="pl-lg-4">
+							<div class="row">
+								<div class="col-sm-4">
+									@php
+									$selected  = HomePage::get('featured_products');
+									$selected = $selected ? json_decode($selected, true) : [];
+									@endphp
+									<div class="form-group">
+										<label class="form-control-label" for="input-first-name">Featured</label>
+										<select name="featured_products[]" class="form-control" multiple>
+											<option value=""></option>
+											<?php foreach($products as $p): ?>
+											<option value="{{ $p->id }}" {{ in_array($p->id, $selected) ? 'selected' : ''}}>{{ $p->title }}</option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									@php
+									$selected  = HomePage::get('trending_products');
+									$selected = $selected ? json_decode($selected, true) : [];
+									@endphp
+									<div class="form-group">
+										<label class="form-control-label" for="input-first-name">Trending</label>
+										<select name="trending_products[]" class="form-control" multiple>
+											<option value=""></option>
+											<?php foreach($products as $p): ?>
+											<option value="{{ $p->id }}" {{ in_array($p->id, $selected) ? 'selected' : ''}}>{{ $p->title }}</option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									@php
+									$selected  = HomePage::get('new_arrivals');
+									$selected = $selected ? json_decode($selected, true) : [];
+									@endphp
+									<div class="form-group">
+										<label class="form-control-label" for="input-first-name">New Arrival</label>
+										<select name="new_arrivals[]" class="form-control" multiple>
+											<option value=""></option>
+											<?php foreach($products as $p): ?>
+											<option value="{{ $p->id }}" {{ in_array($p->id, $selected) ? 'selected' : ''}}>{{ $p->title }}</option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr class="my-4" />
 						<h6 class="heading-small text-muted mb-4">Deals of the day information</h6>
                         <div class="pl-lg-4">
 							@include('admin.pages.bannerarea', ['key' => 'deal_day', 'imagesize' => '1531*500', 'subheading' => true])
+						</div>
+						<hr class="my-4" />
+						<h6 class="heading-small text-muted mb-4">Our Best Seller</h6>
+                        <div class="pl-lg-4">
+							<div class="row">
+								<div class="col-sm-8">
+									@php
+									$selected  = HomePage::get('best_products');
+									$selected = $selected ? json_decode($selected, true) : [];
+									@endphp
+									<div class="form-group">
+										<label class="form-control-label" for="input-first-name">Select Products</label>
+										<select name="best_products[]" class="form-control" multiple>
+											<option value=""></option>
+											<?php foreach($products as $p): ?>
+											<option value="{{ $p->id }}" {{ in_array($p->id, $selected) ? 'selected' : ''}}>{{ $p->title }}</option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
+							</div>
 						</div>
 						<hr class="my-4" />
 						<h6 class="heading-small text-muted mb-4">50*50 Blocks information</h6>

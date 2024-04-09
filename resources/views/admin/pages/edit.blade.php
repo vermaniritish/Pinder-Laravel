@@ -52,38 +52,12 @@
 								<div class="col-lg-12">
 									<div class="form-group">
 										<label class="form-control-label">Description</label>
-										<textarea rows="2" class="form-control" required placeholder="Description" name="description"><?php echo $page->description ?></textarea>
+										<textarea rows="2" class="form-control"  id="editor1" required placeholder="Description" name="description"><?php echo $page->description ?></textarea>
 										@error('description')
 										    <small class="text-danger">{{ $message }}</small>
 										@enderror
 									</div>
 								</div>
-							</div>
-						</div>
-						<hr class="my-4" />
-						<!-- Address -->
-						<h6 class="heading-small text-muted mb-4">SEO Meta Information</h6>
-						<div class="pl-lg-4">
-							<div class="form-group">
-								<label class="form-control-label" for="input-first-name">Meta Title</label>
-								<input type="text" class="form-control" name="meta_title" placeholder="Meta Title" value="<?php echo $page->meta_title ?>">
-								@error('meta_title')
-								    <small class="text-danger">{{ $message }}</small>
-								@enderror
-							</div>
-							<div class="form-group">
-								<label class="form-control-label">Meta Description</label>
-								<textarea rows="2" class="form-control" id="editor1" placeholder="Your description" name="meta_description"><?php echo $page->meta_description ?></textarea>
-								@error('meta_description')
-								    <small class="text-danger">{{ $message }}</small>
-								@enderror
-							</div>
-							<div class="form-group">
-								<label class="form-control-label" for="input-first-name">Meta Keywords</label>
-								<input type="text" class="form-control" name="meta_keywords" placeholder="Meta Keywords" value="<?php echo $page->meta_keywords ?>">
-								@error('meta_keywords')
-								    <small class="text-danger">{{ $message }}</small>
-								@enderror
 							</div>
 						</div>
 						<hr class="my-4" />
@@ -99,9 +73,8 @@
 											data-type="image"
 											data-multiple="false"
 											data-path="pages"
-											data-resize-large="920*640"
-											data-resize-medium="400*250"
-											data-resize-small="100*70"
+											data-resize-large="800*915"
+											data-resize-medium="350*400"
 										>
 											<div class="upload-section">
 												<div class="button-ref mb-3">
@@ -109,6 +82,7 @@
 										                <span class="btn-inner--icon"><i class="fas fa-upload"></i></span>
 										                <span class="btn-inner--text">Upload Image</span>
 									              	</button>
+													<small>Recommeded Size: 800*915</small>
 									            </div>
 									            <!-- PROGRESS BAR -->
 												<div class="progress d-none">
@@ -140,6 +114,34 @@
 								</div>
 							</div>
 						</div>
+						<!-- Address -->
+						@if(!in_array($page->slug, ['newsletter']))
+						<hr class="my-4" />
+						<h6 class="heading-small text-muted mb-4">SEO Meta Information</h6>
+						<div class="pl-lg-4">
+							<div class="form-group">
+								<label class="form-control-label" for="input-first-name">Meta Title</label>
+								<input type="text" class="form-control" name="meta_title" placeholder="Meta Title" value="<?php echo $page->meta_title ?>">
+								@error('meta_title')
+								    <small class="text-danger">{{ $message }}</small>
+								@enderror
+							</div>
+							<div class="form-group">
+								<label class="form-control-label">Meta Description</label>
+								<textarea rows="2" class="form-control" placeholder="Your description" name="meta_description"><?php echo $page->meta_description ?></textarea>
+								@error('meta_description')
+								    <small class="text-danger">{{ $message }}</small>
+								@enderror
+							</div>
+							<div class="form-group">
+								<label class="form-control-label" for="input-first-name">Meta Keywords</label>
+								<input type="text" class="form-control" name="meta_keywords" placeholder="Meta Keywords" value="<?php echo $page->meta_keywords ?>">
+								@error('meta_keywords')
+								    <small class="text-danger">{{ $message }}</small>
+								@enderror
+							</div>
+						</div>
+						@endif
 						<hr class="my-4" />
 						<button href="#" class="btn btn-sm py-2 px-3 btn-primary float-right">
 							<i class="fa fa-save"></i> Submit

@@ -1,8 +1,6 @@
 <?php
-
 namespace App\Models\Admin;
 
-use App\Libraries\FileSystem;
 use App\Models\AppModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,17 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use App\Libraries\General;
 
-class Pages extends AppModel
+class Newsletter extends AppModel
 {
-    protected $table = 'pages';
+    protected $table = 'newsletter';
     protected $primaryKey = 'id';
     public $timestamps = false;
-
-    /**** ONLY USE FOR MAIN TALBLES NO NEED TO USE FOR RELATION TABLES OR DROPDOWNS OR SMALL SECTIONS ***/
-    use SoftDeletes;
     
     /**
-    * Pages -> Admins belongsTO relation
+    * Newsletter -> Admins belongsTO relation
     * 
     * @return Admins
     */
@@ -29,17 +24,7 @@ class Pages extends AppModel
     {
         return $this->belongsTo(Admins::class, 'created_by', 'id');
     }
-
-    /**
-    * Get resize images
-    *
-    * @return array
-    */
-    public function getResizeImagesAttribute()
-    {
-        return $this->image ? FileSystem::getAllSizeImages($this->image) : null;
-    }
-
+    
     /**
     * To search and get pagination listing
     * @param Request $request
@@ -48,18 +33,17 @@ class Pages extends AppModel
 
     public static function getListing(Request $request, $where = [])
     {
-        $orderBy = $request->get('sort') ? $request->get('sort') : 'pages.id';
+        $orderBy = $request->get('sort') ? $request->get('sort') : 'newsletter.id';
         $direction = $request->get('direction') ? $request->get('direction') : 'desc';
         $page = $request->get('page') ? $request->get('page') : 1;
         $limit = self::$paginationLimit;
         $offset = ($page - 1) * $limit;
         
-        $listing = Pages::select([
-                'pages.*',
-                'owner.first_name as owner_first_name',
-                'owner.last_name as owner_last_name'
+        $listing = NewsLetter::select([
+                'newsletter.*',
+                'owner.email as owner_email'
             ])
-            ->leftJoin('admins as owner', 'owner.id', '=', 'pages.created_by')
+            ->leftJoin('admins as owner', 'owner.id', '=', 'newsletter.created_by')
             ->orderBy($orderBy, $direction);
 
         if(!empty($where))
@@ -93,9 +77,9 @@ class Pages extends AppModel
     * @param $orderBy
     * @param $limit
     */
-    public static function getAll($select = [], $where = [], $orderBy = 'pages.id desc', $limit = null)
+    public static function getAll($select = [], $where = [], $orderBy = 'newsletter.id desc', $limit = null)
     {
-        $listing = Pages::orderByRaw($orderBy);
+        $listing = NewsLetter::orderByRaw($orderBy);
 
         if(!empty($select))
         {
@@ -104,7 +88,7 @@ class Pages extends AppModel
         else
         {
             $listing->select([
-                'pages.*'
+                'newsletter.*'
             ]); 
         }
 
@@ -137,13 +121,13 @@ class Pages extends AppModel
     */
     public static function get($id)
     {
-        $record = Pages::where('id', $id)
+        $record = NewsLetter::where('id', $id)
             ->with([
                 'owner' => function($query) {
                     $query->select([
                             'id',
-                            'first_name',
-                            'last_name'
+                            'email'
+                            
                         ]);
                 }
             ])
@@ -157,9 +141,9 @@ class Pages extends AppModel
     * @param $where
     * @param $orderBy
     */
-    public static function getRow($where = [], $orderBy = 'pages.id desc')
+    public static function getRow($where = [], $orderBy = 'newsletter.id desc')
     {
-        $record = Pages::orderByRaw($orderBy);
+        $record = NewsLetter::orderByRaw($orderBy);
 
         foreach($where as $query => $values)
         {
@@ -183,25 +167,25 @@ class Pages extends AppModel
     */
     public static function create($data)
     {
-        $page = new Pages();
+        $newsletter = new NewsLetter();
 
         foreach($data as $k => $v)
         {
-            $page->{$k} = $v;
+            $newsletter->{$k} = $v;
         }
 
-        $page->created_by = AdminAuth::getLoginId();
-        $page->created = date('Y-m-d H:i:s');
-        $page->modified = date('Y-m-d H:i:s');
-        if($page->save())
+        $newsletter->created_by = AdminAuth::getLoginId();
+        $newsletter->created = date('Y-m-d H:i:s');
+        $newsletter->modified = date('Y-m-d H:i:s');
+        if($newsletter->save())
         {
-            if(isset($data['title']) && $data['title'])
+            if(isset($data['email']) && $data['email'])
             {
-                // $page->slug = Str::slug($page->title) . '-' . General::encode($page->id);
-                $page->save();
+                //$newsletter->slug = Str::slug($newsletter->email) . '-' . General::encode($newsletter->id);
+                $newsletter->save();
             }
 
-            return $page;
+            return $newsletter;
         }
         else
         {
@@ -216,22 +200,22 @@ class Pages extends AppModel
     */
     public static function modify($id, $data)
     {
-        $page = Pages::find($id);
+        $newsletter = NewsLetter::find($id);
         foreach($data as $k => $v)
         {
-            $page->{$k} = $v;
+            $newsletter->{$k} = $v;
         }
 
-        $page->modified = date('Y-m-d H:i:s');
-        if($page->save())
+        $newsletter->modified = date('Y-m-d H:i:s');
+        if($newsletter->save())
         {
-            if(isset($data['title']) && $data['title'])
+            if(isset($data['email']) && $data['email'])
             {
-                // $page->slug = Str::slug($page->title) . '-' . General::encode($page->id);
-                $page->save();
+               // $newsletter->slug = Str::slug($newsletter->email) . '-' . General::encode($newsletter->id);
+                $newsletter->save();
             }
 
-            return $page;
+            return $newsletter;
         }
         else
         {
@@ -249,14 +233,13 @@ class Pages extends AppModel
     {
         if(!empty($ids))
         {
-            return Pages::whereIn('pages.id', $ids)
+            return NewsLetter::whereIn('newsletter.id', $ids)
                     ->update($data);
         }
         else
         {
             return null;
         }
-
     }
 
     /**
@@ -265,8 +248,8 @@ class Pages extends AppModel
     */
     public static function remove($id)
     {
-        $page = Pages::find($id);
-        return $page->delete();
+        $newsletter = NewsLetter::find($id);
+        return $newsletter->delete();
     }
 
     /**
@@ -278,27 +261,12 @@ class Pages extends AppModel
     {
         if(!empty($ids))
         {
-            return Pages::whereIn('pages.id', $ids)
+            return NewsLetter::whereIn('newsletter.id', $ids)
                     ->delete();
         }
         else
         {
             return null;
-        }
-
-    }
-
-    public static function handleCategories($id, $categories)
-    {
-        //Delete all first
-        BlogCategoryRelation::where('blog_id', $id)->delete();
-        // Then Save
-        foreach($categories as $c)
-        {
-            $relation = new BlogCategoryRelation();
-            $relation->blog_id = $id;
-            $relation->category_id = $c;
-            $relation->save();
         }
     }
 }

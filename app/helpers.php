@@ -39,3 +39,8 @@ function get_controller_action()
 	$action = $action[1];
 	return $controller . '/' . $action;
 }
+
+function _currency($amount)
+{
+	return "£" . round($amount, 2);
+}

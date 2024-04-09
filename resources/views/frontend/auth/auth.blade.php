@@ -8,12 +8,11 @@
                 <div class="login__section--inner">
                     <div id="auth" class="row row-cols-md-2 row-cols-1">
                         @include('frontend.auth.login')		
-                        @include('frontend.auth.register')		
                         @include('frontend.auth.forgotPassword')		
+                        @include('frontend.auth.register')		
                     </div>
                 </div>
             </div>     
         </div>
     <!-- End login section  -->
-	<script src="<?php echo url('assets/js/auth.js') ?>"></script>
 @endsection

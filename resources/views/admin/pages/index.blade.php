@@ -8,7 +8,6 @@
 						<h6 class="h2 text-white d-inline-block mb-0">Manage Pages</h6>
 					</div>
 					<div class="col-lg-6 col-5 text-right">
-						<a href="<?php echo route('admin.pages.add') ?>" class="btn btn-neutral">New</a>
 						@include('admin.pages.filters')
 					</div>
 				</div>
@@ -60,14 +59,6 @@
 											<span class="status">Unpublish</span>
 										</span>
 									</a>
-									<div class="dropdown-divider"></div>
-		                            <a 
-		                            	href="javascript:void(0);" 
-		                            	class="waves-effect waves-block dropdown-item text-danger" 
-		                            	onclick="bulk_actions('<?php echo route('admin.pages.bulkActions', ['action' => 'delete']) ?>', 'delete');">
-											<i class="fas fa-times text-danger"></i>
-											<span class="status text-danger">Delete</span>
-		                            </a>
 								</div>
 							</div>
 						</div>

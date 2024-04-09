@@ -80,6 +80,17 @@
 								<div class="row">
 									<div class="col-lg-12">
 										<div class="form-group">
+											<label class="form-control-label">Short Description</label>
+											<textarea v-model="short_description" rows="2" class="form-control" placeholder="Short Description" name="short_description">{{ old('short_description') }}</textarea>
+											@error('short_description')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="form-group">
 											<label class="form-control-label">Description</label>
 											<textarea v-model="description" rows="2" id="product-editor" class="form-control" placeholder="Description" name="description">{{ old('description') }}</textarea>
 											@error('description')
@@ -253,6 +264,11 @@
 												<div class="show-section <?php echo !old('image') ? 'd-none' : "" ?>">
 													@include('admin.partials.previewFileRender', ['file' => old('image') ])
 												</div>
+												<?php if(isset($product) && $product): ?>
+												<div class="fixed-edit-section">
+													@include('admin.partials.previewFileRender', ['file' => $product->image, 'relationType' => 'products.image', 'relationId' => $product->id ])
+												</div>
+												<?php endif; ?>
 											</div>
 											@error('image')
 												<small class="text-danger">{{ $message }}</small>

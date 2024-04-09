@@ -57,6 +57,11 @@
                     </div>
                     <p class="product__showing--count">@{{paginationMessage}}</p>
                 </div>
+                <div class="row" v-if="search">
+                    <div class="col-xs-12">
+                        <h3 class="text-xl">Search results for <strong style="color: #ee2761">"@{{search}}"</strong> <a href="javascript:;" v-on:click="clearSearch" style="margin-left: 5px;font-size: 12px;" class="small"><i class="fa fa-times"></i> Clear</a></h3>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-xl-9 col-lg-8">
                         <div class="shop__product--wrapper">
@@ -68,7 +73,7 @@
                                             <div v-if="listing && listing.length > 0" v-for="product in listing" class="col mb-30">
                                                 <div class="product__items ">
                                                     <div class="product__items--thumbnail">
-                                                        <a class="product__items--link" href="product-details.php">
+                                                        <a class="product__items--link" :href="'/'+product.slug">
                                                             <img v-for="(image, k) in product.image" :class="`product__items--img`+ (k > 0 ? ` product__secondary--img` : ` product__primary--img` )" :src="image && image.small ? image.small : (site_url + '/assets/img/product/product8.png')" alt="product-img">
                                                         </a>
                                                         <div class="product__badge">
@@ -77,7 +82,7 @@
                                                     </div>
                                                     <div class="product__items--content">
                                                         <span class="product__items--content__subtitle">@{{product.category}}, @{{product.gender}}</span>
-                                                        <h3 class="product__items--content__title h4"><a href="product-details.php">@{{product.title}}</a></h3>
+                                                        <h3 class="product__items--content__title h4"><a :href="'/'+product.slug">@{{product.title}}</a></h3>
                                                         <div class="product__items--price">
                                                             <span class="current__price">@{{currency(product.price)}} - @{{currency(product.max_price)}}</span>
                                                         </div>

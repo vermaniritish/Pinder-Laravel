@@ -14,19 +14,7 @@
 		</span>
 	</td>
 	<td>
-		<?php echo $row->title ?>
-	</td>
-	<td>
-		<?php echo $row->owner_first_name . ' ' . $row->owner_last_name ?>
-	</td>
-	<td>
-		<div class="custom-control">
-			<label class="custom-toggle">
-				<?php $switchUrl =  route('admin.actions.switchUpdate', ['relation' => 'pages', 'field' => 'status', 'id' => $row->id]); ?>
-				<input type="checkbox" name="status" onchange="switch_action('<?php echo $switchUrl ?>', this)" value="1" <?php echo ($row->status ? 'checked' : '') ?>>
-				<span class="custom-toggle-slider rounded-circle" data-label-off="OFF" data-label-on="ON"></span>
-			</label>
-		</div>
+		<a href="mailto:<?php echo $row->email; ?>"><?php echo $row->email; ?></a>
 	</td>
 	<td>
 		<?php echo _dt($row->created) ?>
@@ -37,15 +25,16 @@
 				<i class="fas fa-ellipsis-v"></i>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-				<a class="dropdown-item" href="<?php echo route('admin.pages.view', ['id' => $row->id]) ?>">
-					<i class="fas fa-eye text-yellow"></i>
-					<span class="status">View</span>
-				</a>
-				<div class="dropdown-divider"></div>
-				<a class="dropdown-item" href="<?php echo route('admin.pages.edit', ['id' => $row->id]) ?>">
-					<i class="fas fa-pencil-alt text-info"></i>
-					<span class="status">Edit</span>
-				</a>
+				<?php if(Permissions::hasPermission('newsletter', 'delete')): ?>
+					<a 
+						class="dropdown-item _delete" 
+						href="javascript:;"
+						data-link="<?php echo route('admin.newsletter.delete', ['id' => $row->id]) ?>"
+					>
+						<i class="fas fa-times text-danger"></i>
+						<span class="status text-danger">Delete</span>
+					</a>
+				<?php endif; ?>
 			</div>
 		</div>
 	</td>

@@ -18,7 +18,6 @@ Route::prefix('auth')->group(function () {
 		Route::post('phone-otp', [AuthController::class, 'verifyPhoneVerificationOtp']);
 	});
 	Route::post('register', [AuthController::class, 'register']);
-	Route::get('register', [AuthController::class, 'register']);
 	Route::post('login', [AuthController::class, 'login'])->name('login');
 	Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
 	Route::get('/otp-verify/{hash}', [AuthController::class, 'otpVerify'])
