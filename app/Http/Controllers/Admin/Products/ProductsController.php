@@ -245,7 +245,7 @@ class ProductsController extends AppController
 
     	if($request->isMethod('post'))
     	{
-    		$data = $request->toArray();
+			$data = $request->toArray();
     		unset($data['_token']);
 			$sizeData = [];
 			$colors = [];

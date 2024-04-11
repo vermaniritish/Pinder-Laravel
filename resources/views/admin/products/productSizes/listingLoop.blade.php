@@ -6,6 +6,9 @@ use App\Models\Admin\Settings;
 <?php foreach($listing->items() as $k => $row): ?>
 <tr>
 	<td>
+		<span style="background-color: {{ $row->colors->color_code }}" class="badge badge-secondary">{{ $row->colors->title }}</span>
+	</td>
+	<td>
 		<?php echo $row->size_title ?>
 	</td>
 	<td>

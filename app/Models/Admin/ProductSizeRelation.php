@@ -10,6 +10,15 @@ class ProductSizeRelation extends AppModel
     protected $primaryKey = 'id';
     public $timestamps = true;
 
+    /**
+    * Product -> Colours belongsToMany relation
+    *
+    * @return Colours
+    */
+    public function colors()
+    {
+        return $this->belongsTo(Colours::class, 'color_id', 'id');
+    }    
 
     /**
     * To search and get pagination listing
@@ -28,6 +37,7 @@ class ProductSizeRelation extends AppModel
         $listing = ProductSizeRelation::select([
                 'product_sizes.*',
             ])
+            ->leftJoin('colours', 'product_sizes.color_id', '=', 'colours.id')
             ->orderBy($orderBy, $direction);
 
         if(!empty($where))

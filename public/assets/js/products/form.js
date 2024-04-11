@@ -67,7 +67,6 @@ let order = new Vue({
                         this.selectedSizeIds[size.color_id].push(size.id);
                     });
                 }
-                console.log(this.selectedSizeIds);
                 this.description = data.description;
                 if (this.description !== null) {
                     put_editor_html('product-editor', this.description.trim());
@@ -92,17 +91,28 @@ let order = new Vue({
                 this.url = admin_url + '/products/add';
             };
         },
-        updateSelectedSize: function() {
+        updateSelectedSize() {
             for (let colorSelectedId in this.selectedSizeIds) {
+                if (!this.selectedSize.hasOwnProperty(colorSelectedId)) {
+                    this.$set(this.selectedSize, colorSelectedId, []);
+                }
                 let selectedSizes = [];
                 for (let sizeId of this.selectedSizeIds[colorSelectedId]) {
                     let size = this.sizes.find(size => size.id === sizeId);
                     if (size) {
-                        if (!size.price) {
-                            size.price = 0;
+                        let existingSize = this.selectedSize[colorSelectedId].find(selected => selected.id === size.id);
+                        if (existingSize) {
+                            selectedSizes.push(existingSize);
+                        } else {
+                            selectedSizes.push({
+                                id: size.id,
+                                size_title: size.size_title,
+                                from_cm: size.from_cm,
+                                to_cm: size.to_cm,
+                                price: size.price
+                            });
                         }
-                        selectedSizes.push(size);
-                    }
+                    } 
                 }
                 this.$set(this.selectedSize, colorSelectedId, selectedSizes);
             }
