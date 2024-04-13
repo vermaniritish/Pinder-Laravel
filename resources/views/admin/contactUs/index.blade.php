@@ -100,7 +100,7 @@
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="26.6%">
-										Title
+										Name
 										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'brands.title' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
 										<i class="fas fa-sort-down active" data-field="brands.title" data-sort="asc"></i>
 										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'brands.title' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
@@ -110,7 +110,7 @@
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="26.6%">
-										Status
+										Phone Number
 										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'brands.status' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
 										<i class="fas fa-sort-down active" data-field="brands.status" data-sort="asc"></i>
 										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'brands.status' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
