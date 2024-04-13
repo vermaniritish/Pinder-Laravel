@@ -239,11 +239,11 @@ use App\Models\Admin\Settings;
 								</tr>
 								<tr>
 									<th>Tax & Charges</th>
-									<td><?php echo $currency . ' ' . $page->tax ?></td>
+									<td><?php echo $page->tax ? _currency($page->tax) : _currency(0) ?></td>
 								</tr>
 								<tr>
 									<th>Total Amount</th>
-									<td><?php echo $currency.' '.$page->total_amount ?></td>
+									<td><?php echo $page->total_amount ? _currency($page->total_amount) : _currency(0) ?></td>
 								</tr>
 								<tr>
 									<th>Applied Coupon</th>

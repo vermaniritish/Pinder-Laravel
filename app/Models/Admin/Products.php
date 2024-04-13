@@ -476,6 +476,7 @@ class Products extends AppModel
                     $relation->hip = $size->hip;
                     $relation->length = $size->length;
                     $relation->price = isset($sizeData['price']) ? $sizeData['price'] : null;
+                    $relation->sale_price = isset($sizeData['sale_price']) ? $sizeData['sale_price'] : null;
                     $relation->color_id = $colorId; 
                     $relation->save();
                 }

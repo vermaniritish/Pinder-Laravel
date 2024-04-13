@@ -28,7 +28,7 @@
 		<?php echo $row->address ?>
 	</td>
 	<td>
-		<?php echo $currency . ' ' .$row->total_amount ?>
+		<?php echo $row->total_amount ? _currency($row->total_amount) : _currency(0) ?>
 	</td>
 	<td>
 	<div class="dropdown">

@@ -81,7 +81,8 @@ let order = new Vue({
                             size_title: size.size_title,
                             from_cm: size.from_cm,
                             to_cm: size.to_cm,
-                            price: parseFloat(size.price)
+                            price: parseFloat(size.price),
+                            sale_price: parseFloat(size.sale_price),
                         });
                     });
                 }
@@ -109,7 +110,8 @@ let order = new Vue({
                                 size_title: size.size_title,
                                 from_cm: size.from_cm,
                                 to_cm: size.to_cm,
-                                price: size.price
+                                price: size.price,
+                                sale_price: size.sale_price,
                             });
                         }
                     } 

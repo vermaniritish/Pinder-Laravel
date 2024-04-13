@@ -196,6 +196,15 @@
                 </a>
             </li>
         <?php endif; ?>
+        <?php if(Permissions::hasPermission('contact_us', 'view')): ?>
+            <?php $active = strpos(request()->route()->getAction()['as'], 'admin.contactUs') > -1; ?>
+            <li class="nav-item">
+                <a class="nav-link<?php echo ($active ? ' active' : '') ?>" href="<?php echo route('admin.contactUs') ?>">
+                    <i class="fas fa-envelope text-purple"></i>
+                    <span class="nav-link-text">Contact Us</span>
+                </a>
+            </li>
+        <?php endif; ?>
     </ul>
     <!-- Divider -->
     <hr class="my-3">

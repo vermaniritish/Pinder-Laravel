@@ -35,6 +35,7 @@ Route::prefix('admin')->middleware(['adminAuth'])->group(function () {
 	include "Admin/size.php";
 	include "Admin/ratings.php";
 	include "Admin/sliders.php";
+	include "Admin/contactUs.php";
 });
 
 Route::middleware(['guest'])->group(function () {

@@ -1,7 +1,3 @@
-<?php
-	use App\Models\Admin\Settings;
-	$currency = Settings::get('currency_symbol'); 
-?>
 <?php foreach($listing->items() as $k => $row): ?>
 <tr>
 	<td>
@@ -21,17 +17,9 @@
 		<?php echo $row->title ?>
 	</td>
 	<td>
-    	<?php 
-        	echo $row->categories ? $row->categories->title : null;
-    	?>
-	</td>
-	<td>
-	<?php echo $row->price ? _currency($row->price) : _currency(0) ?>
-	</td>
-	<td>
 		<div class="custom-control">
 			<label class="custom-toggle">
-				<?php $switchUrl =  route('admin.actions.switchUpdate', ['relation' => 'products', 'field' => 'status', 'id' => $row->id]); ?>
+				<?php $switchUrl =  route('admin.actions.switchUpdate', ['relation' => 'brands', 'field' => 'status', 'id' => $row->id]); ?>
 				<input type="checkbox" name="status" onchange="switch_action('<?php echo $switchUrl ?>', this)" value="1" <?php echo ($row->status ? 'checked' : '') ?>>
 				<span class="custom-toggle-slider rounded-circle" data-label-off="OFF" data-label-on="ON"></span>
 			</label>
@@ -40,30 +28,23 @@
 	<td>
 		<?php echo _dt($row->created) ?>
 	</td>
-	<td class="text-left">
+	<td class="text-right">
+	<?php if(Permissions::hasPermission('contact_us', 'update') || Permissions::hasPermission('contact_us', 'delete')): ?>
 		<div class="dropdown">
 			<a class="btn btn-sm btn-icon-only text-warning" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<i class="fas fa-ellipsis-v"></i>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-
-				<a class="dropdown-item" href="<?php echo route('admin.products.view', ['id' => $row->id]) ?>">
+				<a class="dropdown-item" href="<?php echo route('admin.brands.view', ['id' => $row->id]) ?>">
 					<i class="fas fa-eye text-yellow"></i>
 					<span class="status">View</span>
 				</a>
-				<?php if(Permissions::hasPermission('products', 'update')): ?>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="<?php echo route('admin.products.edit', ['id' => $row->id]) ?>">
-						<i class="fas fa-pencil-alt text-info"></i>
-						<span class="status">Edit</span>
-					</a>
-				<?php endif; ?>
-				<?php if(Permissions::hasPermission('products', 'delete')): ?>
+				<?php if(Permissions::hasPermission('contact_us', 'delete')): ?>
 					<div class="dropdown-divider"></div>
 					<a 
 						class="dropdown-item _delete" 
 						href="javascript:;"
-						data-link="<?php echo route('admin.products.delete', ['id' => $row->id]) ?>"
+						data-link="<?php echo route('admin.brands.delete', ['id' => $row->id]) ?>"
 					>
 						<i class="fas fa-times text-danger"></i>
 						<span class="status text-danger">Delete</span>
@@ -71,6 +52,7 @@
 				<?php endif; ?>
 			</div>
 		</div>
+	<?php endif; ?>
 	</td>
 </tr>
 <?php endforeach; ?>
