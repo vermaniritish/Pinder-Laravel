@@ -1,4 +1,4 @@
-<section class="hero__slider--section">
+<section class="hero__slider--section" id="home-page">
     <div class="hero__slider--inner hero__slider--activation swiper">
         <div class="hero__slider--wrapper swiper-wrapper">
             <?php foreach($sliders as $s): ?>

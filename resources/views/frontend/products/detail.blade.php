@@ -1,6 +1,6 @@
 @extends('layouts.frontendlayout')
 @section('content')
-<section class="product__details--section section--padding">
+<section class="product__details--section section--padding" id="product-page">
     <div class="container">
         <div class="row row-cols-lg-2 row-cols-md-2">
             <div class="col">
@@ -38,7 +38,7 @@
             </div>   
             <div class="col">
                 <div class="product__details--info">
-                    <form action="#">
+                    
                         <h2 class="product__details--info__title mb-15">{{$product->title}}</h2>
                         <div class="product__details--info__price mb-10">
                             <span class="current__price">from {{_currency($product->price) }}</span>
@@ -51,167 +51,10 @@
                         
                         <p class="product__details--info__desc mb-15">{{ $product->short_description }}</p>
                         <div class="product__variant">
-                            <div class="product__variant--list mb-10">
-                                <fieldset class="variant__input--fieldset">
-                                    <legend class="product__variant--title mb-8">Color :</legend>
-                                    <?php 
-                                    foreach($product->colors as $c): ?>
-                                    <input id="color-red1" name="color" type="radio" checked>
-                                    <label class="variant__color--value red" for="color-red1" title="{{ $c->title }}" style="background-color: {{$c->color_code ? $c->color_code : '#FFF'}}">
-                                        @if($c->image)
-                                        <img class="variant__color--value__img" src="{{url($c->image)}}" alt="variant-color-img">
-                                        @else
-                                        <span style="background-color: {{$c->color_code}}"></span>
-                                        @endif
-                                    </label>
-                                    <?php endforeach; ?>
-                                </fieldset>
-                            </div>
-                            <br/>
+                            @include('frontend.products.sizes')
+                            @include('frontend.products.logo_option')
                             <div class="product__variant--list mb-15">
-                                <fieldset class="variant__input--fieldset weight">
-                                    <legend class="product__variant--title mb-8">Size & Quantity : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small><a class='fancybox fancybox.iframe' rel='group' target='_blank' href='{{ url('/frontend/assets/size-guides/jc001-cool-t-shirtcompressed.pdf')}}'><img src="{{ url('/frontend/assets/img/other/measure.png')}}" style="vertical-align: bottom;" /> Size Guide</a></small></legend>
-                                </fieldset>
-                            </div>
-                            <div class="product__variant--list quantity d-flex align-items-center mb-20">
-                                <div class="productsizesbox">
-                                    <div class="productsizesboxContainer">
-                                        <ul class="productsizesboxUL" data-loading="false" data-test-id="SizeList">
-                                            <li data-active="false" class="ProductSizes-newProductSizesItem-xII" data-test-id="ProductSize">
-                                                <div class="productsizes" data-stock-status="InStock">3-4</div>
-                                                <div class="productsizes-stockinfo1">
-                                                    <small class="productsizes-stockinfo2">£3.5</small>
-                                                </div>
-                                                <div class="quantity__box">
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Decrease Value">-</button>
-                                                    <label>
-                                                        <input type="number" class="quantity__number quickview__value--number" value="1" />
-                                                    </label>
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Increase Value">+</button>
-                                                </div>
-                                            </li>
-                                            <li data-active="false" class="ProductSizes-newProductSizesItem-xII" data-test-id="ProductSize">
-                                                <div class="productsizes" data-stock-status="InStock">5-6</div>
-                                                <div class="productsizes-stockinfo1">
-                                                    <small class="productsizes-stockinfo2">£3.5</small>
-                                                </div>
-                                                <div class="quantity__box">
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Decrease Value">-</button>
-                                                    <label>
-                                                        <input type="number" class="quantity__number quickview__value--number" value="1" />
-                                                    </label>
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Increase Value">+</button>
-                                                </div>
-                                            </li>	
-                                            <li data-active="false" class="ProductSizes-newProductSizesItem-xII" data-test-id="ProductSize">
-                                                <div class="productsizes" data-stock-status="InStock">7-8</div>
-                                                <div class="productsizes-stockinfo1">
-                                                    <small class="productsizes-stockinfo2">£3.5</small>
-                                                </div>
-                                                <div class="quantity__box">
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Decrease Value">-</button>
-                                                    <label>
-                                                        <input type="number" class="quantity__number quickview__value--number" value="1" />
-                                                    </label>
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Increase Value">+</button>
-                                                </div>
-                                            </li>	
-                                            <li data-active="false" class="ProductSizes-newProductSizesItem-xII" data-test-id="ProductSize">
-                                                <div class="productsizes" data-stock-status="InStock">9-11</div>
-                                                <div class="productsizes-stockinfo1">
-                                                    <small class="productsizes-stockinfo2">£3.5</small>
-                                                </div>
-                                                <div class="quantity__box">
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Decrease Value">-</button>
-                                                    <label>
-                                                        <input type="number" class="quantity__number quickview__value--number" value="1" />
-                                                    </label>
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Increase Value">+</button>
-                                                </div>
-                                            </li>
-                                            <li data-active="false" class="ProductSizes-newProductSizesItem-xII" data-test-id="ProductSize">
-                                                <div class="productsizes" data-stock-status="InStock">12-13</div>
-                                                <div class="productsizes-stockinfo1">
-                                                    <small class="productsizes-stockinfo2">£3.5</small>
-                                                </div>
-                                                <div class="quantity__box">
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Decrease Value">-</button>
-                                                    <label>
-                                                        <input type="number" class="quantity__number quickview__value--number" value="1" />
-                                                    </label>
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Increase Value">+</button>
-                                                </div>
-                                            </li>	
-                                            <li data-active="false" class="ProductSizes-newProductSizesItem-xII" data-test-id="ProductSize">
-                                                <div class="productsizes" data-stock-status="InStock">S</div>
-                                                <div class="productsizes-stockinfo1">
-                                                    <small class="productsizes-stockinfo2">£6.5</small>
-                                                </div>
-                                                <div class="quantity__box">
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Decrease Value">-</button>
-                                                    <label>
-                                                        <input type="number" class="quantity__number quickview__value--number" value="1" />
-                                                    </label>
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Increase Value">+</button>
-                                                </div>
-                                            </li>
-                                            <li data-active="false" class="ProductSizes-newProductSizesItem-xII" data-test-id="ProductSize">
-                                                <div class="productsizes" data-stock-status="InStock">L</div>
-                                                <div class="productsizes-stockinfo1">
-                                                    <small class="productsizes-stockinfo2">£10</small>
-                                                </div>
-                                                <div class="quantity__box">
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Decrease Value">-</button>
-                                                    <label>
-                                                        <input type="number" class="quantity__number quickview__value--number" value="1" />
-                                                    </label>
-                                                    <button type="button" class="quantity__value" aria-label="quantity value" value="Increase Value">+</button>
-                                                </div>
-                                            </li>													
-                                        </ul>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div class="product__variant--list mb-20">
-                                <fieldset class="variant__input--fieldset weight">
-                                    <a href="#hide" id="hide"><legend class="product__variant--title mb-8"><img src="{{ url('/frontend/assets/img/other/open.png')}}" /> Add Personalised Logo :</legend></a>
-                                    <a href="#/" id="show"><legend class="product__variant--title mb-8"><img src="{{ url('/frontend/assets/img/other/close.png')}}" /> Close :</legend></a>
-                                    <div id="answer">
-                                        <p>We offer embroidered AND/OR printed logos.</p>
-                                        <input type="radio" id="logooption1" name="logooption" type="radio" checked>
-                                        <label class="variant__color--value2 red" for="logooption1" title="Printed Logo">Printed Logo</label>
-                                        <input type="radio" id="logooption2" name="logooption" type="radio">
-                                        <label class="variant__color--value2 red" for="logooption2" title="Embroidered Logo">Embroidered Logo</label>
-                                        <br/><br/>
-                                        <div><a class='fancybox fancybox.iframe' rel='group' target='_blank' href='{{ url('/frontend/assets/size-guides/logo-positions.jpg')}}'> Click here to check Logo & Text/Initial Positions in pictures</a></div><br/>
-                                        <div class="checkout__input--list checkout__input--select select">
-                                            <label class="checkout__select--label" for="country">Logo Position</label>
-                                            <select class="checkout__input--select__field border-radius-5" id="country">
-                                                <option value="0">Select</option>
-                                                <option value="1"> Chest Left</option>
-                                                <option value="2"> Chest Middle</option>
-                                                <option value="3"> Chest Right</option>
-                                                <option value="4"> Arm Right</option>
-                                                <option value="5"> Arm Left</option>
-                                                <option value="6"> Back</option>
-                                                <option value="7"> Text/Initial on Front</option>
-                                                <option value="8"> Text/Initial at Back</option>
-
-                                            </select>
-                                        </div>
-                                        <br/>
-                                        <label for="uploadlogo" style="display:inline-block;">Upload your Logo: </label>&nbsp;&nbsp;<input style="display:inline-block;" type="file" id="uploadlogo" name="uploadlogo"><br/>
-                                        <small style="color:#ee2761;">Note: Image should not exceed 2MB size</small><br/>
-                                        <h4>OR</h4>
-                                        <label for="logotext" style="display:inline-block;">Write your Logo Text: </label>&nbsp;&nbsp;<input style="display:inline-block;width: 65%;" type="text" id="logotext" name="logotext"><br/>
-                                    </div>
-                                    
-                                </fieldset>
-                            </div>
-                            <div class="product__variant--list mb-15">
-                                
-                                <button class="variant__buy--now__btn primary__btn" type="submit">Add To Cart</button>
+                                <button class="variant__buy--now__btn primary__btn" v-on:click="addToCart">Add To Cart</button>
                             </div>
                             <div class="product__details--info__meta">
                                 <p class="product__details--info__meta--list"><strong>Brand:</strong>  <span>
@@ -258,7 +101,6 @@
                             <h5 class="guarantee__safe--checkout__title">Guaranteed Safe Checkout</h5>
                             <img class="guarantee__safe--checkout__img" src="{{ url('/frontend/assets/img/other/safe-checkout.png')}}" alt="Payment Image">
                         </div>
-                    </form>
                 </div>
             </div>
         </div>

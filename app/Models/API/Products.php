@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Libraries\FileSystem;
+use App\Models\Admin\ProductSizeRelation;
 use App\Models\Scopes\Active;
 
 class Products extends AdminProducts
@@ -29,6 +30,17 @@ class Products extends AdminProducts
     {
         return $this->belongsToMany(Brands::class, 'brand_product', 'product_id', 'brand_id');
     }
+    
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function sizes()
+    {
+        return $this->hasMany(ProductSizeRelation::class, 'product_id', 'id')->orderBy('id', 'asc');
+    }
+
     /**
     * Get resize images
     *

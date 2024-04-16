@@ -11,11 +11,19 @@
             </div>
         </div>     
         <!-- Start breadcrumb section -->
-        <section class="breadcrumb__section" style=" background: url(assets/img/other/bg-shape1.png);background-size: cover;border-bottom: 1px solid #e7e7e7;">
+        <section class="breadcrumb__section" style=" background: url({{ url('assets/img/other/bg-shape1.png')}});background-size: cover;border-bottom: 1px solid #e7e7e7;">
             <div class="container">
                 <div class="row row-cols-1">
                     <div class="col">
-                        <div class="breadcrumb__content text-center">
+                        <div class="breadcrumb__content text-center" v-if="search">
+                            <br />
+                            <h2 class="breadcrumb__content--title mb-15"><span style="font-weight: 400;">
+                                Search Results for:</span> @{{search}}
+                                {{-- <a href="javascript:;" v-on:click="clearSearch" style="margin-left: 5px;font-size: 12px;" class="small"><i class="fa fa-times"></i> Clear</a> --}}
+                            </h2>
+                            
+                        </div>
+                        <div class="breadcrumb__content text-center" v-else>
                             <ul class="breadcrumb__content--menu d-flex justify-content-center">
                                 <li class="breadcrumb__content--menu__items mb-25 mt-15"><a href="{{url('/')}}">Home</a></li>
 								<li class="breadcrumb__content--menu__items mb-25 mt-15"><a href="{{url('/' . ($category && $category->slug ? $category->slug : ''))}}">{{ $category && $category->title ? $category->title : '' }}</a></li>
@@ -57,13 +65,8 @@
                     </div>
                     <p class="product__showing--count">@{{paginationMessage}}</p>
                 </div>
-                <div class="row" v-if="search">
-                    <div class="col-xs-12">
-                        <h3 class="text-xl">Search results for <strong style="color: #ee2761">"@{{search}}"</strong> <a href="javascript:;" v-on:click="clearSearch" style="margin-left: 5px;font-size: 12px;" class="small"><i class="fa fa-times"></i> Clear</a></h3>
-                    </div>
-                </div>
                 <div class="row">
-                    <div class="col-xl-9 col-lg-8">
+                    <div :class="(search ? `col-xl-12 col-lg-12` : `col-xl-9 col-lg-8 `)">
                         <div class="shop__product--wrapper">
                             <div class="tab_content">
                                 <div id="product_grid" class="tab_pane active show">
@@ -137,7 +140,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-lg-4">
+                    <div class="col-xl-3 col-lg-4" v-if="!search">
 							@include('frontend.partials.sidebar-productlist')
                     </div>
                 </div>

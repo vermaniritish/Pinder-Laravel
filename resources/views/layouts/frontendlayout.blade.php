@@ -97,8 +97,6 @@ $version = 1.0;
             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                 stroke-width="48" d="M112 244l144-144 144 144M256 120v292" />
         </svg></button>
-
-
     <!-- Core -->
     <script>
         var site_url = "<?php echo url('/'); ?>";
@@ -123,6 +121,7 @@ $version = 1.0;
     <script src="{{ url('frontend/assets/js/plugins/jquery.fancybox.min.js') }}"></script>
 	<script src="<?php echo url('assets/js/bootstrap-notify.js') ?>"></script>
     <!-- Customscript js -->
+    <script src="<?php echo url('assets/js/jquery.form.min.js') ?>"></script>
     <script src="{{ url('frontend/assets/js/script.js') }}"></script>
     <script src="<?php echo url('assets/js/auth.js') ?>"></script>
     <script src="{{ url('frontend/assets/js/product-listing.js') }}"></script>
@@ -132,9 +131,10 @@ $version = 1.0;
     if($action == 'home/index') {
         echo '<script>newsletterPopup();</script>';
     }
-     ?>
-    
+    ?>
 
+    
+    
 </body>
 
 </html>

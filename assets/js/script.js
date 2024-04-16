@@ -892,4 +892,5 @@ const newsletterPopup = function () {
     });
   }
 };
+if($('#home-page').length)
 newsletterPopup();

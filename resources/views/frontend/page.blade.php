@@ -1,6 +1,6 @@
 @extends('layouts.frontendlayout')
 @section('content')
-<section class="breadcrumb__section" style=" background: url(assets/img/other/bg-shape1.png);background-size: cover;border-bottom: 1px solid #e7e7e7;">
+<section class="breadcrumb__section" style=" background: url({{ url('assets/img/other/bg-shape1.png')}});background-size: cover;border-bottom: 1px solid #e7e7e7;">
             <div class="container">
                 <div class="row row-cols-1">
                     <div class="col">

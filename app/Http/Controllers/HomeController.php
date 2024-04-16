@@ -12,6 +12,7 @@ use App\Models\API\Products;
 use App\Models\Admin\Users;
 use App\Models\Admin\Brands;
 use App\Models\Admin\Newsletter;
+use App\Models\Admin\Settings;
 
 class HomeController extends BaseController
 {
@@ -35,11 +36,15 @@ class HomeController extends BaseController
         $product = Products::select(['id'])->where('slug', 'LIKE', $category)->where('status', 1)->limit(1)->first();
         if($product)
         {
-            $product = Products::where('slug', 'LIKE', $category)->where('status', 1)->limit(1)->first();
+            $product = Products::with(['sizes'])->where('slug', 'LIKE', $category)->where('status', 1)->limit(1)->first();
             $similarProducts = Products::where('id', '!=', $product->id)->where('category_id', $product->category_id)->where('status', 1)->orderByRaw('rand()')->limit(4)->get();
             return view('frontend.products.detail', [
                 'product' => $product,
-                'similarProducts' => $similarProducts
+                'similarProducts' => $similarProducts,
+                'logoOptions' => [
+                    'category' => json_decode(Settings::get('logo_options')),
+                    'positions' => json_decode(Settings::get('logo_positions')),
+                ]
             ]);
         }
         else

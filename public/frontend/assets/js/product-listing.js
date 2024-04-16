@@ -1,3 +1,130 @@
+var productDetail = new Vue({
+    el: '#product-page',
+    data: {
+        id: null,
+        sizes: [],
+        color: null,
+        selectedSizes: {},
+        logo: {
+            category: null,
+            postion: null,
+            text: ``,
+            image: null
+        },
+        logoOptions: {
+            category: null,
+            postions: null
+        },
+        fileSizeError: null,
+        
+    },
+    methods: {
+        selectColor(id) {
+            this.color = id;
+        },
+        renderSizes() {
+            if(this.color) {
+                return this.sizes.filter((i) => i.color_id == this.color );
+            }
+            else {
+                return this.sizes;
+            }
+        },
+        increment(id) {
+            let index = this.sizes.findIndex((v) => v.id == id);
+            let s = [...this.sizes];
+
+            if(s[index].quantity && (s[index].quantity * 1) > 0){
+                s[index].quantity = (s[index].quantity*1) + 1;
+            }
+            else {
+                s[index].quantity = 1;
+            }
+            this.sizes = s;
+        },
+        decrement(id) {
+            let index = this.sizes.findIndex((v) => v.id == id);
+            let s = [...this.sizes];
+
+            if(s[index].quantity && (s[index].quantity * 1) > 0){
+                s[index].quantity = (s[index].quantity*1) - 1;
+            }
+            else {
+                s[index].quantity = 0;
+            }
+            this.sizes = s;
+        },
+        handleFileUpload(event) {
+            $('#fileUploadForm input[type=file]').click();
+        },
+        uploadFile() {
+            $('#fileUploadForm').ajaxSubmit({
+                beforeSend: function() {
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                },
+                success: function(response) {
+                    if(response.status == 'success')
+                    {
+                        productDetail.logo.image = response.path;
+                    }
+                    else
+                    {
+                        set_notification('error', response.message);
+                    }
+                },
+                complete: function() {
+                }
+            });
+        },
+        addToCart() {
+            this.cart = this.sizes.filter((item) => {
+                return (item.quantity && (item.quantity*1) > 0)
+            });
+            let cart = localStorage.getItem('cart');
+            cart = cart ? JSON.parse(cart) : [];
+            if(cart && cart.length > 0) {
+                cart = cart.filter((item) => {
+                    return item.product_id != this.id;
+                })
+                cart = [...cart, ...this.cart];
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
+            else {
+                cart = this.cart;
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
+        }
+    },
+    mounted: function() {
+        this.id  = $('#productId').text().trim();
+        let cart = localStorage.getItem('cart');
+        cart = cart ? JSON.parse(cart) : [];
+        this.cart = cart.filter((item) => {
+            return item.product_id == this.id;
+        });
+        let sizes = $('#product-sizes').text().trim();
+        sizes = sizes ? JSON.parse(sizes) : [];
+        if(cart && cart.length > 0)
+        {
+            for(let i in sizes)
+            {
+                let exist = this.cart.filter((item) => {
+                    return item.id == sizes[i].id
+                });
+                sizes[i].quantity = exist && exist.length > 0 && exist[0].quantity ? exist[0].quantity : 0;
+                console.log(sizes[i].quantity)
+            }
+        }
+
+        this.sizes = sizes;
+        this.logoOptions = JSON.parse($('#logo-options').text().trim());
+        if(!this.color && this.sizes.length > 0) {
+            this.color = this.sizes[0].color_id;
+        }
+    }
+});
+
 var productListing = new Vue({
     // Mount Vue instance to the div with id="app"
     el: '#product-listing-vue',
