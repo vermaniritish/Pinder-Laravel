@@ -136,7 +136,7 @@ use App\Models\Admin\Settings;
 								</tr>
 								<tr>
 									<th>Price</th>
-									<td><?php echo $currency . ' ' . $product->price ?></td>
+									<td><?php echo $product->price ? _currency($product->price) : currency() ?></td>
 								</tr>
 								<tr>
 									<td colspan="2">

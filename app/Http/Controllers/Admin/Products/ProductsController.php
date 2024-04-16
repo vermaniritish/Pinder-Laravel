@@ -245,7 +245,7 @@ class ProductsController extends AppController
 
     	if($request->isMethod('post'))
     	{
-    		$data = $request->toArray();
+			$data = $request->toArray();
     		unset($data['_token']);
 			$sizeData = [];
 			$colors = [];
@@ -292,6 +292,7 @@ class ProductsController extends AppController
 						})
 					],
 					'sizeData.*.*.price' => ['required', 'numeric', 'min:0'],
+					'sizeData.*.*.sale_price' => ['required', 'numeric', 'min:0'],
 	            ]
 	        );
 
@@ -466,6 +467,7 @@ class ProductsController extends AppController
 								$query->whereNull('deleted_at');
 							})],
 							'sizeData.*.price' => ['required', 'integer', 'min:0'],
+							'sizeData.*.*.sale_price' => ['required', 'numeric', 'min:0'],
 		            	]
 		        );
 		        if(!$validator->fails())

@@ -207,6 +207,7 @@
 													<th>Size Title</th>
 													<th>Size (From - To)</th>
 													<th>Price</th>
+													<th>Sale Price</th>
 													<th>Remove Item</th>
 												</tr>
 											</thead>
@@ -216,6 +217,7 @@
 													<td>@{{ size.size_title }}</td>
 													<td>@{{ size.from_cm }} - @{{ size.to_cm }} cm</td>
 													<td><input type="number" v-model="size.price" min="0"></td>
+													<td><input type="number" v-model="size.sale_price" min="0"></td>
 													<td><i class="fa fa-times" v-on:click="removeSize(colorSelectedId, sizeIndex)"></i></td>
 												</tr>
 											</tbody>
@@ -296,9 +298,12 @@
 								</div>
 							</div>
 							<hr class="my-4" />
-							<button type="button" class="btn btn-primary finish-steps float-right"
-									v-on:click="submitForm()"><i class="fa fa-spin fa-spinner" v-if="loading"></i><i v-else
-									class="fa fa-save"></i> Save 
+							<button 
+								:disabled="loading"
+								type="button" class="btn btn-primary finish-steps float-right"
+								v-on:click="submitForm()">
+								<i class="fa fa-spin fa-spinner" v-if="loading"></i>
+								<i v-else class="fa fa-save"></i> Save 
 							</button>
 						</form>
 					</div>

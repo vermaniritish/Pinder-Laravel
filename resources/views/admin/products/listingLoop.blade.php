@@ -26,7 +26,7 @@
     	?>
 	</td>
 	<td>
-	<?php echo $currency . ' ' .$row->price ?>
+	<?php echo $row->price ? _currency($row->price) : _currency(0) ?>
 	</td>
 	<td>
 		<div class="custom-control">
