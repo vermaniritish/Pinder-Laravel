@@ -113,4 +113,24 @@ class ContactUsController extends AppController
     	}
     }
 
+	function view(Request $request, $id)
+    {
+    	if(!Permissions::hasPermission('contact_us', 'listing'))
+    	{
+    		$request->session()->flash('error', 'Permission denied.');
+    		return redirect()->route('admin.dashboard');
+    	}
+
+    	$page = ContactUs::get($id);
+    	if($page)
+    	{
+	    	return view("admin/contactUs/view", [
+    			'page' => $page
+    		]);
+		}
+		else
+		{
+			abort(404);
+		}
+    }
 }

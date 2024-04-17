@@ -91,42 +91,42 @@
 									<th class="sort" width="10%">
 										<!--- MAKE SURE TO USE PROPOER FIELD IN data-field AND PROPOER DIRECTION IN data-sort -->
 										Id
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'brands.id' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="brands.id" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'brands.id' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="brands.id" data-sort="desc"></i>
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'contact_us.id' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="contact_us.id" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'contact_us.id' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="contact_us.id" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="brands.id" data-sort="asc"></i>
+										<i class="fas fa-sort" data-field="contact_us.id" data-sort="asc"></i>
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="26.6%">
 										Name
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'brands.title' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="brands.title" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'brands.title' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="brands.title" data-sort="desc"></i>
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'contact_us.first_name' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="contact_us.first_name" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'contact_us.first_name' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="contact_us.first_name" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="brands.title"></i>
+										<i class="fas fa-sort" data-field="contact_us.first_name"></i>
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="26.6%">
 										Phone Number
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'brands.status' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="brands.status" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'brands.status' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="brands.status" data-sort="desc"></i>
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'contact_us.phonenumber' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="contact_us.phonenumber" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'contact_us.phonenumber' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="contact_us.phonenumber" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="brands.status"></i>
+										<i class="fas fa-sort" data-field="contact_us.phonenumber"></i>
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="26.6%">
-										Created ON
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'brands.created' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="brands.created" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'brands.created' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="brands.created" data-sort="desc"></i>
+										Email
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'contact_us.email' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="contact_us.email" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'contact_us.email' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="contact_us.email" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="brands.created"></i>
+										<i class="fas fa-sort" data-field="contact_us.email"></i>
 										<?php endif; ?>
 									</th>
 									<th width="5%">

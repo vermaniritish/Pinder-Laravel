@@ -20,7 +20,7 @@
 		<?php echo $row->phonenumber ?>
 	</td>
 	<td>
-		<?php echo _dt($row->created) ?>
+		<?php echo $row->email ?>
 	</td>
 	<td class="text-right">
 	<?php if(Permissions::hasPermission('contact_us', 'update') || Permissions::hasPermission('contact_us', 'delete')): ?>
@@ -29,7 +29,7 @@
 				<i class="fas fa-ellipsis-v"></i>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-				<a class="dropdown-item" href="<?php echo route('admin.brands.view', ['id' => $row->id]) ?>">
+				<a class="dropdown-item" href="<?php echo route('admin.contactUs.view', ['id' => $row->id]) ?>">
 					<i class="fas fa-eye text-yellow"></i>
 					<span class="status">View</span>
 				</a>
@@ -38,7 +38,7 @@
 					<a 
 						class="dropdown-item _delete" 
 						href="javascript:;"
-						data-link="<?php echo route('admin.brands.delete', ['id' => $row->id]) ?>"
+						data-link="<?php echo route('admin.contactUs.delete', ['id' => $row->id]) ?>"
 					>
 						<i class="fas fa-times text-danger"></i>
 						<span class="status text-danger">Delete</span>
