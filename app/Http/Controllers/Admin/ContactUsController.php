@@ -27,7 +27,7 @@ class ContactUsController extends AppController
 
     function index(Request $request)
     {
-    	if(!Permissions::hasPermission('pages', 'listing'))
+    	if(!Permissions::hasPermission('contact_us', 'listing'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
@@ -38,32 +38,20 @@ class ContactUsController extends AppController
     	{
     		$search = $request->get('search');
     		$search = '%' . $search . '%';
-    		$where['(pages.title LIKE ? )'] = [$search];
+    		$where['(contact_us.title LIKE ? )'] = [$search];
     	}
 
     	if($request->get('created_on'))
     	{
     		$createdOn = $request->get('created_on');
     		if(isset($createdOn[0]) && !empty($createdOn[0]))
-    			$where['pages.created >= ?'] = [
+    			$where['contact_us.created >= ?'] = [
     				date('Y-m-d 00:00:00', strtotime($createdOn[0]))
     			];
     		if(isset($createdOn[1]) && !empty($createdOn[1]))
-    			$where['pages.created <= ?'] = [
+    			$where['contact_us.created <= ?'] = [
     				date('Y-m-d 23:59:59', strtotime($createdOn[1]))
     			];
-    	}
-
-    	if($request->get('admins'))
-    	{
-    		$admins = $request->get('admins');
-    		$admins = $admins ? implode(',', $admins) : 0;
-    		$where[] = 'pages.created_by IN ('.$admins.')';
-    	}
-
-    	if($request->get('status') !== "" && $request->get('status') !== null)
-    	{    		
-    		$where['pages.status'] = $request->get('status');
     	}
 
     	$listing = ContactUs::getListing($request, $where);

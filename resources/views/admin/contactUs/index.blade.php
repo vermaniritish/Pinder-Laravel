@@ -78,7 +78,7 @@
 						</div>
 					</div>
 					<div class="table-responsive">
-<!--!!!!! DO NOT REMOVE listing-table, mark_all  CLASSES. INCLUDE THIS IN ALL TABLES LISTING PAGES !!!!!-->
+						<!--!!!!! DO NOT REMOVE listing-table, mark_all  CLASSES. INCLUDE THIS IN ALL TABLES LISTING PAGES !!!!!-->
 						<table class="table align-items-center table-flush listing-table">
 							<thead class="thead-light">
 								<tr>
