@@ -463,10 +463,14 @@ class ProductsController extends AppController
 							'color_id.*' => ['required', Rule::exists(Colours::class,'id')],
 							'gender' => ['required', Rule::in(['Male','Female','Unisex'])],
 							'sizeData' => ['required', 'array'],
-							'sizeData.*.id' => ['distinct','required', Rule::exists(Sizes::class, 'id')->where(function ($query) {
-								$query->whereNull('deleted_at');
-							})],
-							'sizeData.*.price' => ['required', 'integer', 'min:0'],
+							'sizeData.*' => ['required', 'array', 'distinct'],
+							'sizeData.*.*.id' => [
+								'required', 
+								Rule::exists(Sizes::class, 'id')->where(function ($query) {
+									$query->whereNull('deleted_at');
+								})
+							],
+							'sizeData.*.*.price' => ['required', 'numeric', 'min:0'],
 							'sizeData.*.*.sale_price' => ['required', 'numeric', 'min:0'],
 		            	]
 		        );
@@ -497,6 +501,7 @@ class ProductsController extends AppController
 		        	if(Products::modify($id, $data))
 		        	{
 						if (!empty($sizeData)) {
+							dd($sizeData);
 							Products::handleSizes($product->id, $sizeData);
 						}
 						if(!empty($brands))
