@@ -4,6 +4,7 @@ $favicon = Settings::get('favicon');
 $logo = Settings::get('logo');
 $companyName = Settings::get('company_name');
 $googleKey = Settings::get('google_api_key');
+$gstTax = Settings::get('gst');
 $version = 1.0;
 ?>
 <!DOCTYPE html>
@@ -93,6 +94,7 @@ $version = 1.0;
 			var current_url = "<?php echo url()->current(); ?>";
 			var current_full_url = "<?php echo url()->full(); ?>";
 			var previous_url = "<?php echo url()->previous(); ?>";
+			
 			var csrf_token = function(){
 				return "<?php echo csrf_token() ?>";
 			}

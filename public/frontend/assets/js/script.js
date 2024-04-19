@@ -533,12 +533,6 @@ function offcanvsSidebar(openTrigger, closeTrigger, wrapper) {
   }
 }
 
-// Mini Cart
-offcanvsSidebar(
-  ".minicart__open--btn",
-  ".minicart__close--btn",
-  ".offCanvas__minicart"
-);
 
 // Search Bar
 offcanvsSidebar(
@@ -865,6 +859,7 @@ const newsletterPopup = function () {
 
 let isClosed = localStorage.getItem('newletter_close');
 if(isClosed == null || isClosed == ''){
+  if($('#home-page').length > 0)
   newsletterPopup();
 }
 

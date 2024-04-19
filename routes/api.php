@@ -20,6 +20,8 @@ use App\Http\Controllers\API\ProductsController;
 
 Route::middleware(['guest:api'])->group(function () {
     include "API/home.php";
+    Route::get('/coupons', [CouponsController::class,'index'])
+        ->name('api.coupons.index');
 });
 
 Route::middleware(['apiAuth'])->group(function () {

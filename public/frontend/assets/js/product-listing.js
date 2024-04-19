@@ -1,3 +1,4 @@
+if($('#product-page').length)
 var productDetail = new Vue({
     el: '#product-page',
     data: {
@@ -16,6 +17,7 @@ var productDetail = new Vue({
             postions: null
         },
         fileSizeError: null,
+        adding: null
         
     },
     methods: {
@@ -77,7 +79,8 @@ var productDetail = new Vue({
                 }
             });
         },
-        addToCart() {
+        async addToCart() {
+            this.adding = true;
             this.cart = this.sizes.filter((item) => {
                 return (item.quantity && (item.quantity*1) > 0)
             });
@@ -94,6 +97,9 @@ var productDetail = new Vue({
                 cart = this.cart;
                 localStorage.setItem('cart', JSON.stringify(cart));
             }
+            await sleep(350);
+            this.adding = false;
+            
         }
     },
     mounted: function() {
@@ -113,7 +119,6 @@ var productDetail = new Vue({
                     return item.id == sizes[i].id
                 });
                 sizes[i].quantity = exist && exist.length > 0 && exist[0].quantity ? exist[0].quantity : 0;
-                console.log(sizes[i].quantity)
             }
         }
 
@@ -125,6 +130,7 @@ var productDetail = new Vue({
     }
 });
 
+if($('#product-listing-vue').length)
 var productListing = new Vue({
     // Mount Vue instance to the div with id="app"
     el: '#product-listing-vue',
@@ -257,5 +263,423 @@ var productListing = new Vue({
             this.filters.categories.push(pathname[2]);
         }
         this.init()
+    }
+});
+
+if($('#header').length)
+var minicart = new Vue({
+    el: '#header',
+    data: {
+        open: false,
+        agree: false,
+        cart: [],
+        gstTax: ``
+    },
+    methods: {
+        cartcount(){
+            let cart = localStorage.getItem('cart');
+            cart = cart ? JSON.parse(cart) : [];
+            return cart.length;
+        },
+        initcart() {
+            this.open = !this.open;
+            if(this.open) {
+                let cart = localStorage.getItem('cart');
+                cart = cart ? JSON.parse(cart) : [];
+                this.cart = cart;
+                
+            }
+        },
+        increment(id) {
+            let index = this.cart.findIndex((v) => v.id == id);
+            let s = [...this.cart];
+
+            if(s[index].quantity && (s[index].quantity * 1) > 0){
+                s[index].quantity = (s[index].quantity*1) + 1;
+            }
+            else {
+                s[index].quantity = 1;
+            }
+            this.cart = s;
+            this.store();
+        },
+        decrement(id) {
+            let index = this.cart.findIndex((v) => v.id == id);
+            let s = [...this.cart];
+
+            if(s[index].quantity && (s[index].quantity * 1) > 0){
+                s[index].quantity = (s[index].quantity*1) - 1;
+            }
+            else {
+                s[index].quantity = 0;
+            }
+            this.cart = s;
+            this.store();
+        },
+        remove(id) {
+            let index = this.cart.findIndex((v) => v.id == id);
+            let s = [...this.cart];
+            s.splice(index, 1);
+            this.cart = s;
+            this.store();
+        },
+        store() {
+            localStorage.setItem('cart', JSON.parse(this.cart))
+        },
+        calculate: function(){
+            let t = {
+                subtotal: 0,
+                total: 0,
+                discount: 0
+            }
+
+            let subtotal = this.cart.map((item) => item.quantity*item.price);
+            let total = this.cart.map((item) => item.quantity*item.price);
+            t.total = total.reduce((partialSum, a) => partialSum + a, 0);
+            t.subtotal = subtotal.reduce((partialSum, a) => partialSum + a, 0);
+            
+            t.discount = 0;
+            t.tax = (t.subtotal - t.discount) * (this.gstTax > 0 ? this.gstTax : 0);
+            t.tax = (t.tax > 0 ? t.tax / 100 : 0);
+            t.total = t.total + t.tax;
+            return t;
+        },
+        getImagePath(image) {
+            if(image)
+            {
+                image = JSON.parse(image);
+                return image[0];
+            }
+            return null;
+        }
+    },
+    mounted: function() {
+        this.gstTax = gstTax();
+    }
+});
+
+if($('#cart-page').length)
+var minicart = new Vue({
+    el: '#cart-page',
+    data: {
+        agree: false,
+        cart: [],
+        note: ``,
+        coupon: ``,
+        appliedCoupon: null,
+        couponError: ``,
+        gstTax: ``
+    },
+    methods: {
+        cartcount(){
+            let cart = localStorage.getItem('cart');
+            cart = cart ? JSON.parse(cart) : [];
+            return cart.length;
+        },
+        initcart() {
+            let cart = localStorage.getItem('cart');
+            cart = cart ? JSON.parse(cart) : [];
+            this.cart = cart;
+
+            let coupon = localStorage.getItem('coupon');
+            coupon = coupon ? JSON.parse(coupon) : null;
+            if(coupon && cart.length > 0)
+            {
+                this.coupon = coupon.coupon_code;
+                this.appliedCoupon = coupon;
+            }
+        },
+        increment(id) {
+            let index = this.cart.findIndex((v) => v.id == id);
+            let s = [...this.cart];
+
+            if(s[index].quantity && (s[index].quantity * 1) > 0){
+                s[index].quantity = (s[index].quantity*1) + 1;
+            }
+            else {
+                s[index].quantity = 1;
+            }
+            this.cart = s;
+            this.store();
+        },
+        decrement(id) {
+            let index = this.cart.findIndex((v) => v.id == id);
+            let s = [...this.cart];
+
+            if(s[index].quantity && (s[index].quantity * 1) > 0){
+                s[index].quantity = (s[index].quantity*1) - 1;
+            }
+            else {
+                s[index].quantity = 0;
+            }
+            this.cart = s;
+            this.store();
+        },
+        remove(id) {
+            let index = this.cart.findIndex((v) => v.id == id);
+            let s = [...this.cart];
+            s.splice(index, 1);
+            this.cart = s;
+            this.store();
+        },
+        store() {
+            localStorage.setItem('cart', JSON.parse(this.cart))
+        },
+        calculate: function(){
+            let t = {
+                subtotal: 0,
+                total: 0,
+                discount: 0
+            }
+
+            let subtotal = this.cart.map((item) => item.quantity*item.price);
+            let total = this.cart.map((item) => item.quantity*item.price);
+            t.total = total.reduce((partialSum, a) => partialSum + a, 0);
+            t.subtotal = subtotal.reduce((partialSum, a) => partialSum + a, 0);
+            
+            t.discount = this.detectDiscount();
+            t.tax = (t.subtotal - t.discount) * (this.gstTax > 0 ? this.gstTax : 0);
+            t.tax = (t.tax > 0 ? t.tax / 100 : 0);
+            t.total = t.total + t.tax;
+            return t;
+        },
+        getImagePath(image) {
+            if(image)
+            {
+                image = JSON.parse(image);
+                return image[0];
+            }
+            return null;
+        },
+        clearCart() {
+            this.cart = [];
+            localStorage.removeItem('cart');
+        },
+        detectDiscount() {
+            let subtotal = this.cart.map((item) => item.quantity*item.price);
+            subtotal = subtotal.reduce((partialSum, a) => partialSum + a, 0);
+            if(this.appliedCoupon && this.appliedCoupon.is_percentage > 0 && this.appliedCoupon.amount > 0)
+            {
+                let disc = (subtotal * this.appliedCoupon.amount)/100;
+                return disc.toFixed(2);
+            }
+            else if(this.appliedCoupon && this.appliedCoupon.amount > 0) {
+                return this.appliedCoupon.amount.toFixed(2);
+            }
+            return 0;
+        },
+        async applyCoupon() {
+            if(!this.coupon.trim()) return false;
+            this.couponError = ``;
+            let response  = await fetch(site_url + `/api/coupons?code=` + this.coupon.trim());
+            response = await response.json();
+            if(response && response.data && response.data.data && response.data.data.length > 0) {
+                this.appliedCoupon = response.data.data[0];
+                localStorage.setItem('coupon', JSON.stringify(this.appliedCoupon));
+            }
+            else {
+                this.appliedCoupon = null;
+                this.couponError = `Entered coupon in invalid or expired.`
+            }
+        },
+        removeCoupon() {
+            this.appliedCoupon = null;
+            this.coupon = null;
+            localStorage.removeItem('coupon');
+        }
+    },
+    mounted: function() {
+        this.gstTax = gstTax();
+        this.initcart();
+    }
+});
+
+if($('#checkout-page').length)
+var minicart = new Vue({
+    el: '#checkout-page',
+    data: {
+        orderPlaced: null,
+        errors: {},
+        checkout:{
+            phone_email: ``,
+            first_name:``,
+            last_name:``,
+            last_name:``,
+            company:``,
+            address:``,
+            address2:``,
+            city:``,
+            postalcode:``,
+            saveInfo: false,
+            newsletterSubscribe: false,
+        },
+        cart: [],
+        note: ``,
+        coupon: ``,
+        appliedCoupon: null,
+        couponError: ``,
+        gstTax: ``
+    },
+    methods: {
+        cartcount(){
+            let cart = localStorage.getItem('cart');
+            cart = cart ? JSON.parse(cart) : [];
+            return cart.length;
+        },
+        initcart() {
+            let cart = localStorage.getItem('cart');
+            cart = cart ? JSON.parse(cart) : [];
+            this.cart = cart;
+
+            let coupon = localStorage.getItem('coupon');
+            coupon = coupon ? JSON.parse(coupon) : null;
+            if(coupon && cart.length > 0)
+            {
+                this.coupon = coupon.coupon_code;
+                this.appliedCoupon = coupon;
+            }
+        },
+        increment(id) {
+            let index = this.cart.findIndex((v) => v.id == id);
+            let s = [...this.cart];
+
+            if(s[index].quantity && (s[index].quantity * 1) > 0){
+                s[index].quantity = (s[index].quantity*1) + 1;
+            }
+            else {
+                s[index].quantity = 1;
+            }
+            this.cart = s;
+            this.store();
+        },
+        decrement(id) {
+            let index = this.cart.findIndex((v) => v.id == id);
+            let s = [...this.cart];
+
+            if(s[index].quantity && (s[index].quantity * 1) > 0){
+                s[index].quantity = (s[index].quantity*1) - 1;
+            }
+            else {
+                s[index].quantity = 0;
+            }
+            this.cart = s;
+            this.store();
+        },
+        remove(id) {
+            let index = this.cart.findIndex((v) => v.id == id);
+            let s = [...this.cart];
+            s.splice(index, 1);
+            this.cart = s;
+            this.store();
+        },
+        store() {
+            localStorage.setItem('cart', JSON.parse(this.cart))
+        },
+        calculate: function(){
+            let t = {
+                subtotal: 0,
+                total: 0,
+                discount: 0
+            }
+
+            let subtotal = this.cart.map((item) => item.quantity*item.price);
+            subtotal = subtotal.reduce((partialSum, a) => partialSum + a, 0);
+            t.discount = this.detectDiscount();
+            let tax = (subtotal - t.discount) * (this.gstTax > 0 ? this.gstTax : 0);
+            tax = (tax > 0 ? tax / 100 : 0);
+            t.total = ( ((subtotal - t.discount) *1) + tax);
+            t.subtotal = subtotal.toFixed(2);
+            t.tax = tax.toFixed(2);
+            t.total = t.total.toFixed(2);
+            return t;
+        },
+        getImagePath(image) {
+            if(image)
+            {
+                image = JSON.parse(image);
+                return image[0];
+            }
+            return null;
+        },
+        clearCart() {
+            this.cart = [];
+            localStorage.removeItem('cart');
+        },
+        detectDiscount() {
+            let subtotal = this.cart.map((item) => item.quantity*item.price);
+            subtotal = subtotal.reduce((partialSum, a) => partialSum + a, 0);
+            if(this.appliedCoupon && this.appliedCoupon.is_percentage > 0 && this.appliedCoupon.amount > 0)
+            {
+                let disc = (subtotal * this.appliedCoupon.amount)/100;
+                return disc;
+            }
+            else if(this.appliedCoupon && this.appliedCoupon.amount > 0) {
+                return this.appliedCoupon.amount > subtotal ? subtotal : this.appliedCoupon.amount;
+            }
+            return 0;
+        },
+        async applyCoupon() {
+            if(!this.coupon.trim()) return false;
+            this.couponError = ``;
+            let response  = await fetch(site_url + `/api/coupons?code=` + this.coupon.trim());
+            response = await response.json();
+            if(response && response.data && response.data.data && response.data.data.length > 0) {
+                this.appliedCoupon = response.data.data[0];
+                localStorage.setItem('coupon', JSON.stringify(this.appliedCoupon));
+            }
+            else {
+                this.appliedCoupon = null;
+                this.couponError = `Entered coupon in invalid or expired.`
+            }
+        },
+        removeCoupon() {
+            this.appliedCoupon = null;
+            this.coupon = null;
+            localStorage.removeItem('coupon');
+        },
+        async submit() {
+            let haveErrors = false;
+            let checkout = JSON.parse(JSON.stringify(this.checkout));
+            for(let e in checkout) {
+                if(checkout[e] == ``) {
+                    haveErrors = true;
+                    break;
+                }
+            }
+
+            if(!haveErrors)
+            {
+                this.errors = {};
+                let data = {...checkout, ...{coupon: this.appliedCoupon}, ...{cart: this.cart} };
+                console.log(data);
+                let response = await fetch(site_url + '/api/orders/booking', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(data),
+				});
+				response = await response.json();
+                if(response && response.status)
+                {
+                    window.scrollTo(0,0)
+                    this.orderPlaced = response.orderId;
+                    localStorage.removeItem('cart');
+                    localStorage.removeItem('coupon');
+                }
+                else
+                {
+                    set_notification('error', 'Something went wrong. Order could not be placed.')
+                }
+            }
+            else
+            {
+                this.errors = checkout;
+            }
+        }
+    },
+    mounted: function() {
+        this.gstTax = gstTax();
+        this.initcart();
     }
 });

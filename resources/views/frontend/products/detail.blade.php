@@ -54,7 +54,7 @@
                             @include('frontend.products.sizes')
                             @include('frontend.products.logo_option')
                             <div class="product__variant--list mb-15">
-                                <button class="variant__buy--now__btn primary__btn" v-on:click="addToCart">Add To Cart</button>
+                                <button class="variant__buy--now__btn primary__btn" v-on:click="addToCart"><i class="fa fa-spin fa-spinner" v-if="adding"></i><i class="fa fa-check text-success" v-else-if="adding === false"></i> Add To Cart</button>
                             </div>
                             <div class="product__details--info__meta">
                                 <p class="product__details--info__meta--list"><strong>Brand:</strong>  <span>

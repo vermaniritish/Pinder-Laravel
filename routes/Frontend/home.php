@@ -25,7 +25,11 @@ Route::get('/delivery-information', '\App\Http\Controllers\PagesController@deliv
 Route::get('/return-policy', '\App\Http\Controllers\PagesController@returnPolicy')
     ->name('returnPolicy');
 
+Route::get('/cart', '\App\Http\Controllers\PagesController@cart')
+    ->name('cart');
 
+Route::get('/checkout', '\App\Http\Controllers\PagesController@checkout')
+    ->name('checkout');
 
 Route::post('/newsletter-subscribe', '\App\Http\Controllers\HomeController@newsletter')
     ->name('home.newsletter');

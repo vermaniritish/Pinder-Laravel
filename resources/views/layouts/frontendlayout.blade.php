@@ -4,6 +4,7 @@ $favicon = Settings::get('favicon');
 $logo = Settings::get('logo');
 $companyName = Settings::get('company_name');
 $googleKey = Settings::get('google_api_key');
+$gstTax = Settings::get('gst');
 $version = 1.0;
 ?>
 <!doctype html>
@@ -107,14 +108,20 @@ $version = 1.0;
         var csrf_token = function() {
             return "<?php echo csrf_token(); ?>";
         }
+        var sleep = function (ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        var gstTax = function() {
+            return "<?php echo $gstTax ?>";
+        }
     </script>
     <!-- All Script JS Plugins here  -->
     <script src="{{ url('frontend/assets/js/vendor/popper.js') }}" defer="defer')}}"></script>
     <!-- jQuery -->
     <script src="{{ url('frontend/assets/js/plugins/jquery-3.6.0.min.js') }}"></script>
-	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+	<script src="{{ url('frontend/assets/js/vendor/jquery.validate.min.js') }}"></script>
+	<script src="{{ url('frontend/assets/js/vendor/vue.js') }}"></script>
     <script src="<?php echo url('assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js') ?>"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="{{ url('frontend/assets/js/vendor/bootstrap.min.js" defer="defer') }}"></script>
     <script src="{{ url('frontend/assets/js/plugins/swiper-bundle.min.js') }}"></script>
     <script src="{{ url('frontend/assets/js/plugins/glightbox.min.js') }}"></script>
@@ -127,7 +134,6 @@ $version = 1.0;
     <script src="{{ url('frontend/assets/js/product-listing.js') }}"></script>
     <?php 
     $action = get_controller_action(request()->route()->getAction()['controller']);
-    echo $action;
     if($action == 'home/index') {
         echo '<script>newsletterPopup();</script>';
     }

@@ -49,4 +49,16 @@ class PagesController extends BaseController
         $page = Pages::where('slug', 'LIKE', 'return-policy')->limit(1)->first();
         return view('frontend.page', ['page' => $page]);
     }
+
+    public function cart(Request $request) 
+    {
+        return view('frontend.cart', ['page' => null]);
+    }
+
+    public function checkout(Request $request) 
+    {
+        return view('frontend.checkout.index', [
+            'page' => null
+        ]);
+    }
 }

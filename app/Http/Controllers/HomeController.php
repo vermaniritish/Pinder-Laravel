@@ -12,6 +12,7 @@ use App\Models\API\Products;
 use App\Models\Admin\Users;
 use App\Models\Admin\Brands;
 use App\Models\Admin\Newsletter;
+use App\Models\Admin\ProductSizeRelation;
 use App\Models\Admin\Settings;
 
 class HomeController extends BaseController
@@ -36,7 +37,11 @@ class HomeController extends BaseController
         $product = Products::select(['id'])->where('slug', 'LIKE', $category)->where('status', 1)->limit(1)->first();
         if($product)
         {
-            $product = Products::with(['sizes'])->where('slug', 'LIKE', $category)->where('status', 1)->limit(1)->first();
+            $product = Products::where('slug', 'LIKE', $category)->where('status', 1)->limit(1)->first();
+            $product->sizes = ProductSizeRelation::select(['product_sizes.*', 'products.title as title', 'products.slug', 'products.image', 'colours.title as color'])
+            ->leftJoin('products', 'products.id', '=', 'product_sizes.product_id')
+            ->leftJoin('colours', 'colours.id', '=', 'product_sizes.color_id')
+            ->where('product_id', $product->id)->get();
             $similarProducts = Products::where('id', '!=', $product->id)->where('category_id', $product->category_id)->where('status', 1)->orderByRaw('rand()')->limit(4)->get();
             return view('frontend.products.detail', [
                 'product' => $product,
