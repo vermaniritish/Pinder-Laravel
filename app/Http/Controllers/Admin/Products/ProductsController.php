@@ -501,7 +501,6 @@ class ProductsController extends AppController
 		        	if(Products::modify($id, $data))
 		        	{
 						if (!empty($sizeData)) {
-							dd($sizeData);
 							Products::handleSizes($product->id, $sizeData);
 						}
 						if(!empty($brands))
