@@ -28,7 +28,7 @@
                 
                 <div class="contact__form">
                     <h3 class="contact__form--title mb-40">Contact Me</h3>
-                    <form class="contact__form--inner" action="#">
+                    <form class="contact__form--inner" action="<?php echo route('home.contactUs') ?>">
                         <div class="row">
                             <div class="col-lg-6 col-md-6">
                                 <div class="contact__form--list mb-20">

@@ -8,7 +8,7 @@
 						<h6 class="h2 text-white d-inline-block mb-0">Manage Contact Us</h6>
 					</div>
 					<div class="col-lg-6 col-5 text-right">
-						<a href="<?php echo route('admin.brands') ?>" class="btn btn-neutral"><i class="fa fa-arrow-left"></i> Back</a>
+						<a href="<?php echo route('admin.contactUs') ?>" class="btn btn-neutral"><i class="fa fa-arrow-left"></i> Back</a>
 						<a href="#" class="btn btn-neutral" target="_blank"><i class="fa fa-eye"></i> View Page</a>
 						<?php if(Permissions::hasPermission('contact_us', 'update') || Permissions::hasPermission('contact_us', 'delete')): ?>
 							<div class="dropdown" data-toggle="tooltip" data-title="More Actions">
@@ -16,18 +16,12 @@
 									<i class="fas fa-ellipsis-v"></i>
 								</a>
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-									<?php if(Permissions::hasPermission('contact_us', 'update')): ?>
-										<a class="dropdown-item" href="<?php echo route('admin.brands.edit', ['id' => $page->id]) ?>">
-											<i class="fas fa-pencil-alt text-info"></i>
-											<span class="status">Edit</span>
-										</a>
-										<?php endif; ?>
 									<?php if(Permissions::hasPermission('contact_us', 'delete')): ?>
 										<div class="dropdown-divider"></div>
 										<a 
 											class="dropdown-item _delete" 
 											href="javascript:;"
-											data-link="<?php echo route('admin.brands.delete', ['id' => $page->id]) ?>"
+											data-link="<?php echo route('admin.contactUs.delete', ['id' => $page->id]) ?>"
 										>
 											<i class="fas fa-times text-danger"></i>
 											<span class="status text-danger">Delete</span>
@@ -51,7 +45,7 @@
 					<div class="card-header">
 						<div class="row align-items-center">
 							<div class="col-8">
-								<h3 class="mb-0">Brand Information</h3>
+								<h3 class="mb-0">Contact Us Information</h3>
 							</div>
 						</div>
 					</div>
@@ -64,13 +58,21 @@
 									<td><?php echo $page->id ?></td>
 								</tr>
 								<tr>
-									<th>Title</th>
-									<td><?php echo $page->title ?></td>
+									<th>Name</th>
+									<td><?php echo $page->first_name . ' '. $page->last_name ?></td>
+								</tr>
+								<tr>
+									<th>Phone Number</th>
+									<td><?php echo $page->phonenumber ?></td>
+								</tr>
+								<tr>
+									<th>Email</th>
+									<td><?php echo $page->email ?></td>
 								</tr>
 								<tr>
 									<td colspan="2">
-										<h2>Description</h2>
-										<?php echo $page->description ?>
+										<h2>Message</h2>
+										<?php echo $page->message ?>
 									</td>
 								</tr>
 							</tbody>
@@ -99,14 +101,6 @@
 						<!-- Projects table -->
 						<table class="table align-items-center table-flush">
 							<tbody>
-								<tr>
-									<th scope="row">
-										Status
-									</th>
-									<td>
-										<?php echo $page->status ? '<span class="badge badge-success">Published</span>' : '<span class="badge badge-danger">Unpublished</span>' ?>
-									</td>
-								</tr>
 								<tr>
 									<th scope="row">
 										Created By

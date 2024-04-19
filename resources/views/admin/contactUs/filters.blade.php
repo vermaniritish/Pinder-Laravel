@@ -8,7 +8,6 @@
 	<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
 		<form action="<?php echo route('admin.brands') ?>" id="filters-form">
 			<a href="javascript:;" class="float-right px-2 closeit"><i class="fa fa-times-circle"></i></a>
-			<div class="dropdown-divider"></div>
 			<div class="dropdown-item">
 				<div class="row">
 					<div class="col-md-6">
@@ -18,21 +17,6 @@
 					<div class="col-md-6">
 						<label class="form-control-label">&nbsp;</label>
 						<input class="form-control" type="date" name="created_on[1]" value="<?php echo (isset($_GET['created_on'][1]) && !empty($_GET['created_on'][1]) ? $_GET['created_on'][1] : '' ) ?>" placeholder="DD-MM-YYYY">
-					</div>
-				</div>
-			</div>
-			<div class="dropdown-divider"></div>
-			<div class="dropdown-item">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="custom-control custom-radio custom-control-inline">
-							<input type="radio" id="active" name="status" value="1" <?php echo (!isset($_GET['status']) || $_GET['status'] === '' || $_GET['status'] === '0' ? 'checked' : '') ?> class="custom-control-input">
-							<label class="custom-control-label" for="active">Active</label>
-						</div>
-						<div class="custom-control custom-radio custom-control-inline">
-							<input type="radio" id="nonactive" name="status" value="0" <?php echo (isset($_GET['status']) && $_GET['status'] == '0' ? 'checked' : '') ?> class="custom-control-input">
-							<label class="custom-control-label" for="nonactive">Inactive</label>
-						</div>
 					</div>
 				</div>
 			</div>

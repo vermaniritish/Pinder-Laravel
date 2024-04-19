@@ -34,6 +34,9 @@ Route::get('/checkout', '\App\Http\Controllers\PagesController@checkout')
 Route::post('/newsletter-subscribe', '\App\Http\Controllers\HomeController@newsletter')
     ->name('home.newsletter');
 
+Route::post('/contact-us', '\App\Http\Controllers\HomeController@contactUs')
+    ->name('home.contactUs');
+
 Route::get('/search', '\App\Http\Controllers\HomeController@search')
     ->name('home.search');
 

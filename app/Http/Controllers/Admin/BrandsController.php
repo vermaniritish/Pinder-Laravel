@@ -203,8 +203,6 @@ class BrandsController extends AppController
 		}
     }
 
-    
-
     function edit(Request $request, $id)
     {
     	if(!Permissions::hasPermission('brands', 'update'))

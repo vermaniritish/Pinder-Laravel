@@ -18,7 +18,8 @@ let order = new Vue({
         selectedSubCategory: [],
         description: null,
         tags: null,
-        availableColors: JSON.parse($('#availableColor').text())
+        availableColors: JSON.parse($('#availableColor').text()),
+        short_description: ''
     },
     mounted: function() {
         this.initBasics();

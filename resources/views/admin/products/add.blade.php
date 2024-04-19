@@ -216,8 +216,8 @@
 													<td>@{{ sizeIndex + 1 }}</td>
 													<td>@{{ size.size_title }}</td>
 													<td>@{{ size.from_cm }} - @{{ size.to_cm }} cm</td>
-													<td><input type="number" v-model="size.price" min="0"></td>
-													<td><input type="number" v-model="size.sale_price" min="0"></td>
+													<td><input required type="number" v-model="size.price" min="0"></td>
+													<td><input required type="number" v-model="size.sale_price" min="0"></td>
 													<td><i class="fa fa-times" v-on:click="removeSize(colorSelectedId, sizeIndex)"></i></td>
 												</tr>
 											</tbody>

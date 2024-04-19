@@ -11,6 +11,7 @@ use App\Models\Admin\ProductSubCategories;
 use App\Models\API\Products;
 use App\Models\Admin\Users;
 use App\Models\Admin\Brands;
+use App\Models\Admin\ContactUs;
 use App\Models\Admin\Newsletter;
 use App\Models\Admin\ProductSizeRelation;
 use App\Models\Admin\Settings;
@@ -111,5 +112,46 @@ class HomeController extends BaseController
     function search(Request $request)
     {
         return redirect('/' . $request->get('category') . '?search=' . $request->get('search'));
+    }
+
+    function contactUs(Request $request)
+    {
+    	if($request->isMethod('post'))
+    	{
+    		$data = $request->toArray();
+    		unset($data['_token']);
+    		$validator = Validator::make(
+	            $request->toArray(),
+	            [
+	                'firstname' => ['required'],
+	                'lastname' => 'required',
+					'number' => ['required'],
+					'email' => ['required'],
+					'message' => ['required'],
+	            ]
+	        );
+	        if(!$validator->fails())
+	        {
+	        	$page = ContactUs::create($data);
+	        	if($page)
+	        	{
+	        		// $request->session()->flash('success', 'Brand created successfully.');
+	        		return redirect()->route('admin.brands');
+	        	}
+	        	else
+	        	{
+	        		// $request->session()->flash('error', 'Brand could not be save. Please try again.');
+		    		// return redirect()->back()->withErrors($validator)->withInput();
+	        	}
+		    }
+		    else
+		    {
+		    	$request->session()->flash('error', 'Please provide valid inputs.');
+		    	return redirect()->back()->withErrors($validator)->withInput();
+		    }
+		}
+
+	    return view("admin/brands/add", [
+	    		]);
     }
 }
