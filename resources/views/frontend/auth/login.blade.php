@@ -17,8 +17,8 @@
                     <button class="account__login--forgot" v-on:click="showForgotPassword()" type="button">Forgot Your Password?</button>
                 </div>
                 <div v-if="loginErrorMessages" class="text-danger text-center m-0 p-0 newsletter-error">@{{ loginErrorMessages }}</div>
-                <button class="account__login--btn primary__btn" v-on:click="login()" type="button"><i class="fa fa-spin fa-spinner" v-if="loginloading"></i>Login</button>
-                <p class="account__login--signup__text">Don,t Have an Account? <button v-on:click="forgotPassword()" type="button">Sign up now</button></p>
+                <button class="account__login--btn primary__btn" v-on:click="login()" type="button"><i class="fa fa-spin fa-spinner" v-if="loginloading"></i> Login</button>
+                {{-- <p class="account__login--signup__text">Don,t Have an Account? <button v-on:click="forgotPassword()" type="button">Sign up now</button></p> --}}
             </form>
         </div>
     </div>

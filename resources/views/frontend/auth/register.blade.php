@@ -22,7 +22,7 @@
                     <input class="checkout__checkbox--input" id="check2" type="checkbox">
                     <span class="checkout__checkbox--checkmark"></span>
                     <label class="checkout__checkbox--label login__remember--label" for="check2">
-                        I have read and agree to the terms & conditions</label>
+                        I have read and agree to the <a href="{{ url('/terms-conditions') }}">terms & conditions</a></label>
                 </div>
             </form>
         </div>

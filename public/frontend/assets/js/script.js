@@ -936,7 +936,7 @@ function set_notification(type, text, placementFrom, placementAlign, animateEnte
     else
         var colorName = 'bg-black';
 
-    if (!placementFrom) { placementFrom = 'bottom'; }
+    if (!placementFrom) { placementFrom = 'top'; }
     if (!placementAlign) { placementAlign = 'right'; }
     if (!animateEnter) { animateEnter = 'animated fadeInDown'; }
     if (!animateExit) { animateExit = 'animated fadeOutUp'; }
@@ -1034,3 +1034,7 @@ $('.newsletter__popup--subscribe__form, .newsletter__subscribe--form').on('submi
   }
 });
 
+
+
+$('#edit-account').validate();
+$('#change-password').validate();

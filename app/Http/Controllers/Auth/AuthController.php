@@ -29,9 +29,10 @@ class AuthController extends Controller {
 	            $request->toArray(),
 	            [
 					'email' => ['required', 'email', Rule::unique(Users::class, 'email')],
+					'phonenumber' => ['required', Rule::unique(Users::class, 'phonenumber')],
 					'password' => [
 						'required', 'string',
-						Password::min(8)->mixedCase()->numbers()->symbols(), 'max:36'
+						Password::min(8)->mixedCase()->numbers()->symbols(), 'max:36',
 					],
 					'password_confirmation' => ['required', 'same:password'],
 					'first_name' => ['required', 'string', 'max:30'],
@@ -39,7 +40,6 @@ class AuthController extends Controller {
 	        );
 			if(!$validator->fails())
 	        {
-				$data['password'] = Hash::make($data['password']);
 				unset($data['password_confirmation']);
 				unset($data['_token']);
 				$nameParts = explode(' ', $data['first_name']);
@@ -51,15 +51,13 @@ class AuthController extends Controller {
 				$user = Users::create($data);
 				if($user)
 				{
-					$verificationUrl = route('home', ['token' => $data['token']]);
+					// $verificationUrl = route('home', ['token' => $data['token']]);
 					$codes = [
 						'{name}' => $user->first_name . ' ' . $user->last_name,
 						'{email}' => $user->email,
-						'{url}' => General::urlToAnchor($verificationUrl)
+						// '{verification_link}' => General::urlToAnchor($verificationUrl)
 					];
-					$emails = [
-						$data['email']
-					];
+					$emails = [$data['email']];
 					General::sendTemplateEmail($emails, 'registration', $codes);
 					return response()->json([
 						'status' => true,
@@ -83,6 +81,13 @@ class AuthController extends Controller {
 				], Response::HTTP_OK);
 			}
 		}
+		else
+		{
+			$user = $request->session()->get('user');
+			if($user) {
+				return redirect('/my-account');
+			}
+		}
 		return view('frontend.auth.auth');
 	}
 
@@ -102,7 +107,7 @@ class AuthController extends Controller {
 					'required', 'bail', 'string', 'max:255', 'email',
 					Rule::exists(Users::class, 'email')
 				],
-				'password' => ['required', 'string', 'max:36']
+				'password' => ['required', 'string']
 			],
 			[
 				'email.exists' => 'This email is not registered with us.',
@@ -117,18 +122,17 @@ class AuthController extends Controller {
 				return response()->json(['status' => false, 'message' => $errors], Response::HTTP_UNAUTHORIZED);
 			}
 			
-			$token = $user->createToken($request->email)->plainTextToken;
 			Users::whereEmail($data['email'])->update([
-				'token' => $token,
-				'last_login_at' => Carbon::now()->timestamp,
-				'last_login_ip' => $request->getClientIp(),
+				'last_login' => date('Y-m-d H:i:s')
 			]);
+			$request->session()->put('user', $user);
+			
 			return response()->json([
 				'status' => true,
-				'message' => trans('LOGIN_SUCCESSFUL'),
+				'message' => 'Login successfully.',
 				'email' => $user->email,
-				'user_id' => $user->id,
-				'token' => $token,
+				'name' => $user->first_name . ' ' . $user->last_name,
+				'user_id' => $user->id
 			], Response::HTTP_OK);
 		}
 		else {
@@ -200,7 +204,7 @@ class AuthController extends Controller {
 				$errors = $validator->errors()->toArray();
 				return Response()->json([
 					'status' => false,
-					'message' => $errors
+					'message' => current(current($errors))
 				], Response::HTTP_OK);
 			}
 	    }
@@ -213,13 +217,9 @@ class AuthController extends Controller {
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function destroy(Request $request) {
-		$request->user()->currentAccessToken()->delete();
-
-		return response()->json([
-			'sucess' => true,
-			'message' => __('response.LOGOUT_SUCCESSFULL'),
-		], Response::HTTP_OK);
+	public function logout(Request $request) {
+		$request->session()->flush();
+		return redirect('/');
 	}
 
 	/**
@@ -229,31 +229,50 @@ class AuthController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function updatePassword(Request $request) {
-		$data = $request->validate([
-			'email' => ['required', 'string', 'min:6', 'email', Rule::exists(User::class, 'email')],
-			'current_password' => ['required', 'string', 'min:8', 'max:12'],
-			'new_password' => [
-				'required', 'string',
-				Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised(), 'max:12'
-			],
-			'confirmed_password' => ['required', 'same:new_password'],
-		]);
-		$user = User::whereEmail($credentials['email'])->first();
-		$password = $credentials['current_password'];
+		$user = $request->session()->get('user');
+		if($user && $user->id)
+		{
+			$data = $request->toArray();
+			$validator = Validator::make($data, [
+				'current_password' => ['required', 'string'],
+				'new_password' => [
+					'required', 'string',
+					Password::min(8)->mixedCase()->numbers()->symbols(), 'max:36'
+				],
+				'confirmed_password' => ['required', 'same:new_password'],
+			]);
+			if(!$validator->fails())
+			{
+				$user = Users::where('id', $user->id)->first();
+				$password = $data['current_password'];
 
-		if (!$user || $credentials['current_password'] != Hash::check($password, $user->password)) {
-			return response()->json(['message' => trans('INVALID_CREDENTIALS')], Response::HTTP_UNAUTHORIZED);
+				if (!$user || $data['current_password'] != Hash::check($password, $user->password)) {
+					$request->session()->flash( 'error', "Your current password does not match." );
+					return redirect()->back()->withErrors($validator)->withInput();
+				}
+
+				$user->password = $data['new_password'];
+				if($user->save())
+				{
+					$request->session()->flash('success', 'Password updated.');
+		    		return redirect()->back();	
+				}
+				else
+				{
+					$request->session()->flash('error', 'Password could not be change. Please try again.');
+		    		return redirect()->back()->withErrors($validator)->withInput();	
+				}
+			}
+			else
+			{
+				$request->session()->flash('error', 'Password could not be change. Please fix the errors below.');
+		    	return redirect()->back()->withErrors($validator)->withInput();
+			}
 		}
-
-		User::whereEmail($credentials['email'])->update([
-			'password' => Hash::make($credentials['new_password']),
-			'updated_at' => Carbon::now()->timestamp
-		]);
-
-		return response()->json([
-			'sucess' => true,
-			'message' => trans('PASSWORD_UPDATED_SUCCESSFULLY'),
-		], Response::HTTP_OK);
+		else
+		{
+			return redirect('/login');
+		}
 	}
 	
     function otpVerify(Request $request, $hash)
@@ -322,7 +341,7 @@ class AuthController extends Controller {
 		                'new_password' => [
 		                	'required',
 						    'string',
-							Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised(), 'max:36'
+							Password::min(8)->mixedCase()->numbers()->symbols(), 'max:36'
 		                ],
 		                'confirm_password' => [
 		                	'required',
@@ -334,6 +353,7 @@ class AuthController extends Controller {
 		        {
 		        	unset($data['_token']);
 	        			$user->password = $data['new_password'];
+	        			$user->token = null;
 	        			if($user->save())
 	        			{
 							return Response()->json([

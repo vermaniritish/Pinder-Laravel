@@ -28,6 +28,17 @@ Route::get('/return-policy', '\App\Http\Controllers\PagesController@returnPolicy
 Route::get('/cart', '\App\Http\Controllers\PagesController@cart')
     ->name('cart');
 
+Route::get('/my-account', '\App\Http\Controllers\PagesController@myAccount')
+    ->name('myAccount')->middleware('userAuth');
+
+Route::get('/edit-account', '\App\Http\Controllers\PagesController@editAccount')
+    ->name('editAccount')->middleware('userAuth');
+
+Route::post('/edit-account', '\App\Http\Controllers\PagesController@editAccount')
+    ->name('editAccount')->middleware('userAuth');
+
+Route::get('/my-orders', '\App\Http\Controllers\PagesController@myOrders')
+    ->name('myOrders')->middleware('userAuth');
 Route::get('/checkout', '\App\Http\Controllers\PagesController@checkout')
     ->name('checkout');
 

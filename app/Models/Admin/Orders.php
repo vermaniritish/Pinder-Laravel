@@ -109,18 +109,24 @@ class Orders extends AppModel
                 'UPI',
                 'Credit/Debit Cards'
             ],
-            'status' => [
-                'pending' => ['label' => 'Pending', 'styles' => 'background-color: #ffa07a; color: #cc0000;', 'message' => 'Your order is pending to accept.'],
-                'accepted' => ['label' => 'Accepted', 'styles' => 'background-color: #ccffcc; color: #006600;', 'message' => 'Your order is accepted.'],
-                'on_the_way' => ['label' => 'On The Way', 'styles' => 'background-color: #cce5ff; color: #004080;', 'message' => 'Professional is assigned for your order and on the way.'],
-                'reached_at_location' => ['label' => 'Reached at Location', 'styles' => 'background-color: #cce5ff; color: #004080;', 'message' => 'Professions is reached at location.'],
-                'in_progress' => ['label' => 'In Progress', 'styles' => 'background-color: #ffffcc; color: #996600;', 'message' => 'Your order is in progress.'],
-                'completed' => ['label' => 'Completed', 'styles' => 'background-color: #d9ead3; color: #006600;', 'message' => 'Your order is in completed.'],
-                'cancel' => ['label' => 'Cancel', 'styles' => 'background-color: #dc3545; color: #FFF;', 'message' => 'This order is cancelled.'],
-                'cancel_by_client' => ['label' => 'Cancel by client', 'styles' => 'background-color: #dc3545; color: #FFF;', 'message' => 'This order is cancelled.'],
-            ],
+            'status' => self::getStatuses(),
             
         ];
+    }
+
+    public static function getStatuses($status = null)
+    {
+        $statuses = [
+            'pending' => ['label' => 'Pending', 'styles' => 'background-color: #ffa07a; color: #cc0000;', 'message' => 'Your order is pending to accept.'],
+            'accepted' => ['label' => 'Accepted', 'styles' => 'background-color: #ccffcc; color: #006600;', 'message' => 'Your order is accepted.'],
+            'on_the_way' => ['label' => 'On The Way', 'styles' => 'background-color: #cce5ff; color: #004080;', 'message' => 'Professional is assigned for your order and on the way.'],
+            'reached_at_location' => ['label' => 'Reached at Location', 'styles' => 'background-color: #cce5ff; color: #004080;', 'message' => 'Professions is reached at location.'],
+            'in_progress' => ['label' => 'In Progress', 'styles' => 'background-color: #ffffcc; color: #996600;', 'message' => 'Your order is in progress.'],
+            'completed' => ['label' => 'Completed', 'styles' => 'background-color: #d9ead3; color: #006600;', 'message' => 'Your order is in completed.'],
+            'cancel' => ['label' => 'Cancel', 'styles' => 'background-color: #dc3545; color: #FFF;', 'message' => 'This order is cancelled.'],
+            'cancel_by_client' => ['label' => 'Cancel by client', 'styles' => 'background-color: #dc3545; color: #FFF;', 'message' => 'This order is cancelled.'],
+        ];
+        return $status && $statuses[$status] ? $statuses[$status] : $statuses;
     }
 
     public static function handleProducts($id, $productsData)

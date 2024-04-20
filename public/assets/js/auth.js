@@ -11,7 +11,7 @@ let auth = new Vue({
     showForgotPasswordForm: false,
     loginErrorMessages: null,
     registerErrorMessages: null,
-    forgotErrorMessages: {},
+    forgotErrorMessages: null,
     forgotSuccessMessages: null
     },
     mounted: function() {
@@ -49,11 +49,12 @@ let auth = new Vue({
                     document.getElementById('register-form').reset();
                     this.loading = false;
                     set_notification('success', response.message);
-
+                    window.location.href = site_url;
                 }else{
-                    this.loading = false;
                     this.registerErrorMessages = response.message;
                 }
+                this.loading = false;
+                
             }
             else{
                 return false;
@@ -79,11 +80,11 @@ let auth = new Vue({
                     }
                     this.loginloading = false;
                     set_notification('success', response.message);
-
+                    window.location.href = site_url;
                 }else{
-                    this.loginloading = false;
                     this.loginErrorMessages = response.message;
                 }
+                this.loginloading = false;
             }
             else{
                 return false;
@@ -201,10 +202,9 @@ let recoverPassword = new Vue({
                 if(response && response.status)
                 { 
                     document.getElementById('recover-password-form').reset();
-                    this.loading = false;
                     set_notification('success', response.message);
+                    window.location.href = '/login'
                 }else{
-                    this.loading = false;
                     this.errorMessages = {};
                     for (let field in response.message) {
                         if (Array.isArray(response.message[field])) {
@@ -214,6 +214,7 @@ let recoverPassword = new Vue({
                         }
                     }
                 }
+                this.loading = false;
             }
             else{
                 return false;

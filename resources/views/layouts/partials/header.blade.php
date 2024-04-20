@@ -3,7 +3,7 @@ use App\Models\Admin\HomePage;
 use App\Models\Admin\Settings;
 use App\Models\Admin\ProductSubCategories;
 use Illuminate\Support\Str;
-
+$user = request()->session()->get('user');
  ?>
     <!-- Start header area -->
     <header class="header__section" id="header">
@@ -58,7 +58,8 @@ use Illuminate\Support\Str;
                     <div class="header__account header__sticky--none">
                         <ul class="d-flex">
                             <li class="header__account--items">
-                                <a class="header__account--btn" href="my-account.php">
+                            
+                                <a class="header__account--btn" href="{{ $user && $user->id ? url('/my-account') : url('/login') }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="26.51" height="23.443"
                                         viewBox="0 0 512 512">
                                         <path

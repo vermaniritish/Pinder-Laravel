@@ -500,6 +500,7 @@ var minicart = new Vue({
     data: {
         orderPlaced: null,
         errors: {},
+        saving: false,
         checkout:{
             phone_email: ``,
             first_name:``,
@@ -638,20 +639,24 @@ var minicart = new Vue({
             localStorage.removeItem('coupon');
         },
         async submit() {
+            if(this.saving) return false;
             let haveErrors = false;
             let checkout = JSON.parse(JSON.stringify(this.checkout));
             for(let e in checkout) {
-                if(checkout[e] == ``) {
+                if($('#nologinsection').length < 1 && e === 'phone_email') {
+                    continue;
+                }
+                else if(checkout[e] === ``) {
                     haveErrors = true;
                     break;
                 }
             }
-
+            console.log(`haveErrors`, checkout);
             if(!haveErrors)
             {
                 this.errors = {};
-                let data = {...checkout, ...{coupon: this.appliedCoupon}, ...{cart: this.cart} };
-                console.log(data);
+                let data = {...checkout, ...{coupon: this.appliedCoupon, cart: this.cart, token: $('#checkout-page').attr('data-token')} };
+                this.saving = true;
                 let response = await fetch(site_url + '/api/orders/booking', {
 					method: 'POST',
 					headers: {
@@ -671,6 +676,7 @@ var minicart = new Vue({
                 {
                     set_notification('error', 'Something went wrong. Order could not be placed.')
                 }
+                this.saving = false;
             }
             else
             {

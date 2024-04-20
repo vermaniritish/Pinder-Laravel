@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as BaseController;
+use App\Models\Admin\Orders;
 use App\Models\Admin\Pages;
+use App\Models\Admin\Users;
+use Illuminate\Support\Facades\Validator;
 
 class PagesController extends BaseController
 {
@@ -57,8 +60,73 @@ class PagesController extends BaseController
 
     public function checkout(Request $request) 
     {
+        $user = $request->session()->get('user');
         return view('frontend.checkout.index', [
-            'page' => null
+            'page' => null,
+            'user' => $user
         ]);
     }
+
+    public function myAccount(Request $request) 
+    {
+        $user = Users::find($request->session()->get('user')->id);
+        return view('frontend.account.index', [
+            'user' => $user
+        ]);
+    }
+
+    public function myOrders(Request $request) 
+    {
+        $user = Users::find($request->session()->get('user')->id);
+        $orders = Orders::where('customer_id', $user->id)->select(['prefix_id', 'created', 'status', 'total_amount'])->orderBy('id', 'desc')->limit(500)->get();
+        return view('frontend.account.orders', [
+            'user' => $user,
+            'orders' => $orders
+        ]);
+    }
+
+    public function editAccount(Request $request) 
+    {
+        $user = Users::find($request->session()->get('user')->id);
+        
+        if($request->isMethod('post'))
+        {
+            $data = $request->toArray();
+            unset($data['_token']);
+            $validator = Validator::make(
+                $data,
+                    [
+                        'name' => 'required',
+                        'address' => 'required',
+                    ]
+            );
+            if(!$validator->fails())
+            {
+                $data['first_name'] = $data['name'];
+                unset($data['name']);
+                if(Users::modify($user->id, $data))
+                {
+                    $user = Users::find($user->id);
+                    $request->session()->put('user', $user);
+                    $request->session()->flash( 'success', "Profile saved." );
+    		        return redirect()->back();
+                }
+                else
+                {
+                    $request->session()->flash( 'error', "Profile could not be saved." );
+    		        return redirect()->back();
+                }
+            }
+            else
+            {
+                $request->session()->flash( 'error', current(current($validator->errors())) );
+    		    return redirect()->back();
+            }
+        }
+
+        return view('frontend.account.edit', [
+            'user' => $user
+        ]);
+    }
+    
 }

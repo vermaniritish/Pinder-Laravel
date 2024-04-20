@@ -1,6 +1,6 @@
 @extends('layouts.frontendlayout')
 @section('content')
-<div class="checkout__page--area" id="checkout-page">
+<div class="checkout__page--area" id="checkout-page" data-token="{{ $user ? General::encrypt($user->id) : '' }}">
         <div class="container">
         
             <div class="checkout__page--inner d-flex" v-if="orderPlaced">
@@ -29,7 +29,7 @@
                         <nav>
                             <ol class="breadcrumb checkout__breadcrumb d-flex">
                                 <li class="breadcrumb__item breadcrumb__item--completed d-flex align-items-center">
-                                    <a class="breadcrumb__link" href="cart.php">Cart</a>
+                                    <a class="breadcrumb__link" href="{{url('/cart')}}">Cart</a>
                                     <svg class="readcrumb__chevron-icon" xmlns="http://www.w3.org/2000/svg" width="17.007" height="16.831" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"></path></svg>
                                 </li>
                         
@@ -45,13 +45,16 @@
                     </header>
                     <main class="main__content_wrapper">
                         <form action="#">
-                            <div class="checkout__content--step section__contact--information">
+                            @if(!$user)
+                            <div class="checkout__content--step section__contact--information" id="nologinsection">
                                 <div class="section__header checkout__section--header d-flex align-items-center justify-content-between mb-25">
                                     <h2 class="section__header--title h3">Contact information</h2>
+                                    
                                     <p class="layout__flex--item">
                                         Already have an account?
                                         <a class="layout__flex--item__link" href="{{url('/login')}}">Log in</a>  
                                     </p>
+                                    
                                 </div>
                                 <div class="customer__information">
                                     <div class="checkout__email--phone mb-12">
@@ -68,7 +71,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="checkout__content--step section__shipping--address">
+                            @endif
+                            <div class="checkout__content--step section__shipping--address {{ $user ? 'pt-0' : '' }}"  >
                                 <div class="section__header mb-25">
                                     <h3 class="section__header--title">Shipping address</h3>
                                 </div>

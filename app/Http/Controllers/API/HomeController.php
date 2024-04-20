@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\DB;
 use App\Libraries\FileSystem;
 use App\Models\Admin\OrderProductRelation;
 use App\Models\Admin\Orders;
+use App\Models\Admin\Users;
 
 class HomeController extends AppController
 {
@@ -121,13 +122,27 @@ class HomeController extends AppController
 		);
 		if(!$validator->fails())
 		{
+			$user = null;
+			if($request->get('token')) {
+				$userId = General::decrypt($request->get('token'));
+				$user = Users::select(['id', 'email', 'phonenumber'])->where('id', $userId)->limit(1)->first();
+			}
 			$order = new Orders();
+			$order->customer_id = $user ? $user->id : null;
 			$order->first_name = $request->get('first_name');
 			$order->last_name = $request->get('last_name');
-			$order->customer_id = null;
 			$order->company = $request->get('company');
-			$order->customer_email = $request->get('phone_email') && filter_var($request->get('phone_email'), FILTER_VALIDATE_EMAIL) !== false ? $request->get('phone_email') : null;
-			$order->customer_phone = $request->get('phone_email') && filter_var($request->get('phone_email'), FILTER_VALIDATE_EMAIL) !== false ? null : $request->get('phone_email');
+			if($user)
+			{
+				$order->customer_email = $user->email;
+				$order->customer_phone = $user->phonenumber;
+			}
+			else
+			{
+
+				$order->customer_email = $request->get('phone_email') && filter_var($request->get('phone_email'), FILTER_VALIDATE_EMAIL) !== false ? $request->get('phone_email') : null;
+				$order->customer_phone = $request->get('phone_email') && filter_var($request->get('phone_email'), FILTER_VALIDATE_EMAIL) !== false ? null : $request->get('phone_email');
+			}
 			$order->manual_address = 1;
 			$order->address = $data['address'];
 			$order->area = ($data['address2'] ? $data['address2'] : null);

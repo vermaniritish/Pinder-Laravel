@@ -57,7 +57,7 @@
                         </table>
 						<br/>
 						<div class="checkout__content--step__footer d-flex align-items-center">
-							<a class="continue__shipping--btn primary__btn border-radius-5" href="javascript:;" v-on:click="submit">Pay Now</a>
+							<a class="continue__shipping--btn primary__btn border-radius-5" href="javascript:;" v-on:click="submit"><i class="fa fa-spin fa-spinner" v-if="saving"></i> Pay Now</a>
 							<a class="previous__link--content" href="{{url('/cart')}}">Return to cart</a>
 						</div>
                     </div>

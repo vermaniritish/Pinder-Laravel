@@ -13089,3 +13089,10 @@ button.bg-red:focus
 {
     background-color: #ec0c38 !important;
 }
+
+.bootstrap-notify-container button.close {
+  background: none;
+  border: none;
+  border-radius: 50%;
+  padding: 4px;
+}
