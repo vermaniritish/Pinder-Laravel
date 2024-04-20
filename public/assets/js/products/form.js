@@ -95,31 +95,34 @@ let order = new Vue({
         },
         updateSelectedSize() {
             for (let colorSelectedId in this.selectedSizeIds) {
-                if (!this.selectedSize.hasOwnProperty(colorSelectedId)) {
-                    this.$set(this.selectedSize, colorSelectedId, []);
+                if (Array.isArray(this.selectedSizeIds[colorSelectedId])) {
+                    if (!this.selectedSize.hasOwnProperty(colorSelectedId)) {
+                        this.$set(this.selectedSize, colorSelectedId, []);
+                    }
+                    let selectedSizes = [];
+                    for (let sizeId of this.selectedSizeIds[colorSelectedId]) {
+                        let size = this.sizes.find(size => size.id === sizeId);
+                        if (size) {
+                            let existingSize = this.selectedSize[colorSelectedId].find(selected => selected.id === size.id);
+                            if (existingSize) {
+                                selectedSizes.push(existingSize);
+                            } else {
+                                selectedSizes.push({
+                                    id: size.id,
+                                    size_title: size.size_title,
+                                    from_cm: size.from_cm,
+                                    to_cm: size.to_cm,
+                                    price: size.price,
+                                    sale_price: size.sale_price,
+                                });
+                            }
+                        } 
+                    }
+                    this.$set(this.selectedSize, colorSelectedId, selectedSizes);
                 }
-                let selectedSizes = [];
-                for (let sizeId of this.selectedSizeIds[colorSelectedId]) {
-                    let size = this.sizes.find(size => size.id === sizeId);
-                    if (size) {
-                        let existingSize = this.selectedSize[colorSelectedId].find(selected => selected.id === size.id);
-                        if (existingSize) {
-                            selectedSizes.push(existingSize);
-                        } else {
-                            selectedSizes.push({
-                                id: size.id,
-                                size_title: size.size_title,
-                                from_cm: size.from_cm,
-                                to_cm: size.to_cm,
-                                price: size.price,
-                                sale_price: size.sale_price,
-                            });
-                        }
-                    } 
-                }
-                this.$set(this.selectedSize, colorSelectedId, selectedSizes);
             }
-        },    
+        },
+         
         removeSize(colorSelectedId, sizeIndex) {
             let selectedSizes = this.selectedSize[colorSelectedId];
             selectedSizes.splice(sizeIndex, 1);
