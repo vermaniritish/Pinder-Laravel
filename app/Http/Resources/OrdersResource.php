@@ -37,7 +37,6 @@ class OrdersResource extends JsonResource
                     'title' => $product->pivot->product_title,
                     'quantity' => $product->pivot->quantity,
                     'amount' => $product->pivot->amount,
-                    'duration_of_service' => $product->pivot->duration_of_service,
                     'product_description' => $product->pivot->product_description,
                 ];
             }),

@@ -16,32 +16,6 @@ use App\Models\Admin\Settings;
 					<div class="col-lg-6 col-5 text-right">
 						<a href="<?php echo route('admin.orders') ?>" class="btn btn-neutral"><i class="fa fa-arrow-left"></i> Back</a>
 						<a href="#" class="btn btn-neutral" target="_blank"><i class="fa fa-eye"></i> View Page</a>
-						<?php if(Permissions::hasPermission('orders', 'update') || Permissions::hasPermission('orders', 'delete')): ?>
-							<div class="dropdown" data-toggle="tooltip" data-title="More Actions">
-								<a class="btn btn-neutral" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<i class="fas fa-ellipsis-v"></i>
-								</a>
-								<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-									<?php if(Permissions::hasPermission('orders', 'update')): ?>
-										<a class="dropdown-item" href="<?php echo route('admin.orders.edit', ['id' => $page->id]) ?>">
-											<i class="fas fa-pencil-alt text-info"></i>
-											<span class="status">Edit</span>
-										</a>
-										<?php endif; ?>
-									<?php if(Permissions::hasPermission('orders', 'delete')): ?>
-										<div class="dropdown-divider"></div>
-										<a 
-											class="dropdown-item _delete" 
-											href="javascript:;"
-											data-link="<?php echo route('admin.orders.delete', ['id' => $page->id]) ?>"
-										>
-											<i class="fas fa-times text-danger"></i>
-											<span class="status text-danger">Delete</span>
-										</a>
-									<?php endif; ?>
-								</div>
-							</div>
-						<?php endif; ?>
 					</div>
 				</div>
 			</div>
@@ -73,8 +47,10 @@ use App\Models\Admin\Settings;
 									<tr>
 										<th>Customer Name</th>
 										<td>
-											<?php echo $page->customer_name ?? 'N/A'; ?>
-											<?php echo $page->customer ? ' - ' . $page->customer->phonenumber : ''; ?>
+											<b><?php echo $page->company; ?></b><br />
+											<?php echo $page->first_name . ' ' . $page->last_name; ?><br />
+											<?php echo 'Email: ' . $page->customer_email; ?><br />
+											<?php echo 'Phone: ' . $page->customer_phone; ?>
 										</td>
 									</tr>
 									<tr>
@@ -88,48 +64,6 @@ use App\Models\Admin\Settings;
 										<?php endif; ?>
 										</td>
 									</tr>
-									<tr>
-										<th>Booking Date</th>
-										<td class="editable" id="booking-date">
-										<span class="fill-text dotted-border">{{ _d($page->booking_date) }}<i class="fas fa-pencil text-primary edit-icon" onclick="enableEdit('booking-date', '<?php echo $page->booking_date; ?>')"></i></span>
-											<div class="row d-none edit with-icon">
-												<div class="col-md-6">
-													<input type="date" name="booking_date" id="booking_date" class="form-control" value="<?php echo _d($page->booking_date) ?>"/>
-												</div>
-												<div class="col-md-6 p-0">
-													<div class="row">
-														<i class="fas fa-times text-primary times ml-2" onclick="exitEditMode('booking-date')"></i>
-													</div>
-													<div class="row">
-														<i class="fa fa-save text-primary save-icon mt-3 ml-2" onclick="saveEdit('booking-date', 'booking_date', '<?php echo $page->id ?>')"></i>
-													</div>
-												</div>
-											</div>
-										</td> 
-									</tr>
-									<tr>
-										<th>Booking Time</th>
-										<td class="editable" id="booking-time">
-											<span class="fill-text dotted-border">{{_time($page->booking_time)}}<i class="fas fa-pencil text-primary edit-icon" onclick="enableEdit('booking-time', '<?php echo $page->booking_time; ?>')"></i></span>
-											<div class="row d-none edit with-icon">
-												<div class="col-md-6">
-													<input type="time" name="booking_time" id="booking_time" class="form-control" value="<?php echo _time($page->booking_time) ?>"/>
-												</div>
-												<div class="col-md-6 p-0">
-													<div class="row">
-														<i class="fas fa-times text-primary times ml-2" onclick="exitEditMode('booking-time')"></i>
-													</div>
-													<div class="row">
-														<i class="fa fa-save text-primary save-icon mt-3 ml-2" onclick="saveEdit('booking-time', 'booking_time', '<?php echo $page->id ?>')"></i>
-													</div>
-												</div>
-											</div>
-										</td> 
-									</tr>
-									<!-- <tr>
-										<th>Payment Type</th>
-										<td><?php echo ($page->payment_type) ?></td>
-									</tr> -->
 									<tr>
 										<th>Status</th>
 										<td>	
@@ -234,29 +168,23 @@ use App\Models\Admin\Settings;
 									<td><?php echo $currency.' '.$page->subtotal ?></td>
 								</tr>
 								<tr>
-									<th>Discount</th>
+									<th>
+										Discount 
+										<?php 
+										$coupon = $page->coupon ? json_decode($page->coupon, true) : null;
+										if ($coupon): ?>
+											<span class="badge badge-primary">{{ $coupon['coupon_code'] }}</span>
+										<?php endif; ?>
+									</th>
 									<td><?php echo $currency.' '.$page->discount ?></td>
 								</tr>
 								<tr>
-									<th>Tax & Charges</th>
+									<th>GST ({{$page->tax_percentage}})</th>
 									<td><?php echo $page->tax ? _currency($page->tax) : _currency(0) ?></td>
 								</tr>
 								<tr>
 									<th>Total Amount</th>
 									<td><?php echo $page->total_amount ? _currency($page->total_amount) : _currency(0) ?></td>
-								</tr>
-								<tr>
-									<th>Applied Coupon</th>
-									<td>
-										<?php if ($page->coupon): ?>
-											<a href="{{ route('admin.coupons.view', ['id' => $page->coupon->id]) }}">
-												{{ $page->coupon->title }}
-											</a>
-										<?php else: ?>
-											Coupon not applied.
-										<?php endif; ?>
-									</td>
-
 								</tr>
 							</tbody>
 						</table>

@@ -117,24 +117,6 @@ use App\Models\Admin\Settings;
 									</td>
 								</tr>
 								<tr>
-									<th>Duration of Service</th>
-									<td>
-										<?php
-										if (isset($product->duration_of_service) && $product->duration_of_service) {
-											echo $product->duration_of_service;
-										} else {
-											echo 'Not specified';
-										}
-										?>
-									</td>
-								</tr>
-								<tr>
-									<th>Tags</th>
-									<td>
-										<?php echo is_array($product->tags) ? implode(', ', $product->tags) : ($product->tags ?? ''); ?>	
-									</td>
-								</tr>
-								<tr>
 									<th>Price</th>
 									<td><?php echo $product->price ? _currency($product->price) : currency() ?></td>
 								</tr>

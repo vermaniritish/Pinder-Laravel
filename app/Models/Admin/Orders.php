@@ -68,7 +68,7 @@ class Orders extends AppModel
     public function products()
     {
         return $this->belongsToMany(Products::class, 'order_products', 'order_id', 'product_id')
-            ->withPivot('product_title', 'quantity','amount','duration_of_service','product_description');
+            ->withPivot('product_title', 'quantity','amount','product_description');
     }
 
     /**
@@ -81,15 +81,6 @@ class Orders extends AppModel
         return $this->hasOne(Staff::class, 'id','staff_id');
     }
 
-    /**
-    * Order -> Staff hasOne relation
-    * 
-    * @return Staff
-    */
-    public function coupon()
-    {
-        return $this->hasOne(Coupons::class, 'id','coupon_code_id');
-    }
     /**
     * Get resize images
     *
@@ -139,7 +130,6 @@ class Orders extends AppModel
                 $relation->product_title = $product->title;
                 $relation->product_description = $product->description;
                 $relation->amount = $product->price;
-                $relation->duration_of_service = $product->duration_of_service ? $product->duration_of_service : null;
                 $relation->order_id = $id;
                 $relation->product_id = $product->id;
                 $relation->quantity = $productData['quantity'];

@@ -153,23 +153,13 @@
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="15%">
-										Booking Datetime
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'orders.booking_date' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="orders.booking_date" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'orders.booking_date' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="orders.booking_date" data-sort="desc"></i>
+										City
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'orders.city' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="orders.city" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'orders.city' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="orders.city" data-sort="desc"></i>
 										<?php else: ?>
-										<i class="fas fa-sort" data-field="orders.booking_date"></i>
-										<?php endif; ?>
-									</th>
-									<th class="sort" width="15%">
-										Address
-										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'orders.address' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
-										<i class="fas fa-sort-down active" data-field="orders.address" data-sort="asc"></i>
-										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'orders.address' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
-										<i class="fas fa-sort-up active" data-field="orders.address" data-sort="desc"></i>
-										<?php else: ?>
-										<i class="fas fa-sort" data-field="orders.address"></i>
+										<i class="fas fa-sort" data-field="orders.city"></i>
 										<?php endif; ?>
 									</th>
 									<th class="sort" width="10%">

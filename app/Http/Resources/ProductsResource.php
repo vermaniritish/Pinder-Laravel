@@ -22,7 +22,6 @@ class ProductsResource extends JsonResource
             'price' => $this->price,
             'sale_price' => $this->sale_price,
             'address' => $this->address,
-            'duration_of_service' => $this->duration_of_service,
             'image' => $this->image,
             'tag' => $this->tags,
             'brands' => BrandsResource::collection($this->brands)->values(),

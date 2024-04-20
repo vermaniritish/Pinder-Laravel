@@ -195,7 +195,7 @@ class OrdersController extends BaseController
                     $subtotal = 0;
                     foreach($data['cart'] as $c)
                     {
-                        $product = Products::select(['id', 'title', 'price', 'description', 'duration_of_service'])->where('id', $c['id'])->limit(1)->first();
+                        $product = Products::select(['id', 'title', 'price', 'description'])->where('id', $c['id'])->limit(1)->first();
                         if($product)
                         {
                             $products[] = [
@@ -205,7 +205,6 @@ class OrdersController extends BaseController
                                 'product_description' => $product->description,
                                 'amount' => $product->price,
                                 'quantity' => $c['quantity'],
-                                'duration_of_service' => $product->duration_of_service,
                                 'updated_at' => now() 
                             ];
 

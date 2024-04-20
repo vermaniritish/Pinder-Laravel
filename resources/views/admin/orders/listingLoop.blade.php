@@ -18,14 +18,12 @@
 		</span>
 	</td>
 	<td>
-		<?php echo $row->customer_name ?? 'N/A'; ?>
-		<?php echo $row->customer ? ' - ' . $row->customer->phonenumber : ''; ?>
+		<?php echo $row->first_name . ' ' . $row->last_name; ?>
+		<?php echo 'Email: ' . $row->customer_email; ?>
+		<?php echo 'Phone: ' . $row->customer_phone; ?>
 	</td>
 	<td>
-		<?php echo _d($row->booking_date) . ' ' . _time($row->booking_time); ?>
-	</td>
-	<td>
-		<?php echo $row->address ?>
+		<?php echo $row->city ?>
 	</td>
 	<td>
 		<?php echo $row->total_amount ? _currency($row->total_amount) : _currency(0) ?>
@@ -99,24 +97,6 @@
 					<i class="fas fa-eye text-yellow"></i>
 					<span class="status">View</span>
 				</a>
-				<?php if(Permissions::hasPermission('orders', 'update')): ?>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="<?php echo route('admin.orders.edit', ['id' => $row->id]) ?>">
-						<i class="fas fa-pencil-alt text-info"></i>
-						<span class="status">Edit</span>
-					</a>
-				<?php endif; ?>
-				<?php if(Permissions::hasPermission('orders', 'delete')): ?>
-					<div class="dropdown-divider"></div>
-					<a 
-						class="dropdown-item _delete" 
-						href="javascript:;"
-						data-link="<?php echo route('admin.orders.delete', ['id' => $row->id]) ?>"
-					>
-						<i class="fas fa-times text-danger"></i>
-						<span class="status text-danger">Delete</span>
-					</a>
-				<?php endif; ?>
 			</div>
 		</div>
 	<?php endif; ?>

@@ -11,32 +11,6 @@
 			<div class="dropdown-item">
 				<div class="row">
 					<div class="col-md-6">
-						<label class="form-control-label">Booking Date</label>
-						<input class="form-control" type="date" name="booking_date[0]" value="<?php echo (isset($_GET['booking_date'][0]) && !empty($_GET['booking_date'][0]) ? $_GET['booking_date'][0] : '' ) ?>" placeholder="DD-MM-YYYY" >
-					</div>
-					<div class="col-md-6">
-						<label class="form-control-label">&nbsp;</label>
-						<input class="form-control" type="date" name="booking_date[1]" value="<?php echo (isset($_GET['booking_date'][1]) && !empty($_GET['booking_date'][1]) ? $_GET['booking_date'][1] : '' ) ?>" placeholder="DD-MM-YYYY">
-					</div>
-				</div>
-			</div>
-			<div class="dropdown-divider"></div>
-			<div class="dropdown-item">
-				<div class="row">
-					<div class="col-md-12">
-						<label class="form-control-label">Created By</label>
-						<select class="form-control" name="admins[]" multiple>
-					      	<?php foreach($admins as $c): ?>
-					      		<option value="<?php echo $c->id ?>" <?php echo isset($_GET['admins']) && in_array($c->id, $_GET['admins'])  ? 'selected' : '' ?>><?php echo $c->first_name . ' ' . $c->last_name ?></option>
-					  		<?php endforeach; ?>
-					    </select>
-					</div>
-				</div>
-			</div>
-			<div class="dropdown-divider"></div>
-			<div class="dropdown-item">
-				<div class="row">
-					<div class="col-md-6">
 						<label class="form-control-label">Created On</label>
 						<input class="form-control" type="date" name="created_on[0]" value="<?php echo (isset($_GET['created_on'][0]) && !empty($_GET['created_on'][0]) ? $_GET['created_on'][0] : '' ) ?>" placeholder="DD-MM-YYYY" >
 					</div>
