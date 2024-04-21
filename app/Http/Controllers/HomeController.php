@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as BaseController;
+use App\Libraries\General;
 use App\Models\Admin\Ratings;
 use App\Models\Admin\Sliders;
 use App\Models\Admin\ProductSubCategories;
@@ -17,6 +18,7 @@ use App\Models\API\Products;
 use App\Models\API\ProductCategories;
 use App\Models\Admin\OrderProductRelation;
 use App\Models\Admin\Orders;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends BaseController
 {
@@ -137,13 +139,29 @@ class HomeController extends BaseController
 	        	$page = ContactUs::create($data);
 	        	if($page)
 	        	{
-	        		// $request->session()->flash('success', 'Brand created successfully.');
-	        		return redirect()->route('admin.brands');
+                    $userData = [
+                        '{first_name}' => $data['firstname'],
+                        '{last_name}' => $data['lastname'],
+                        '{email}' => $data['email'],
+                    ];
+                    General::sendTemplateEmail($data['email'], 'thank-you-for-contacting', $userData);
+                    $adminData = [
+                        '{first_name}' => $data['firstname'],
+                        '{last_name}' => $data['lastname'],
+                        '{email}' => $data['email'],
+                        '{number}' => $data['number'],
+                        '{message}' => $data['message'],
+                    ];
+                    $adminEmail = Settings::get('admin_notification_email');
+                    if($adminEmail)
+                    {
+                        General::sendTemplateEmail($adminEmail, 'admin-contact-us-request-received', $adminData);
+                    }
+	        		$request->session()->flash('success', 'Contact Us request send successfully.');
 	        	}
 	        	else
 	        	{
-	        		// $request->session()->flash('error', 'Brand could not be save. Please try again.');
-		    		// return redirect()->back()->withErrors($validator)->withInput();
+	        		$request->session()->flash('error', 'Contact Us request could not be send. Please try again.');
 	        	}
 		    }
 		    else
@@ -152,9 +170,6 @@ class HomeController extends BaseController
 		    	return redirect()->back()->withErrors($validator)->withInput();
 		    }
 		}
-
-	    return view("admin/brands/add", [
-	    		]);
     }
     
     function createBooking(Request $request)
