@@ -156,25 +156,31 @@ let order = new Vue({
             }
         },
         submitForm: async function() {
-            if ($('#product-form').valid()) {
-                let formData = new FormData(document.getElementById('product-form'));
-                formData.append('sizeData', JSON.stringify(this.selectedSize));
-                formData.append('description', get_editor_html('product-editor'));
-                let response = await fetch(this.url, {
-                    method: 'POST',
-                    body: formData,
-                });
-                response = await response.json();
-                if(response && response.status)
-                {
-                    setTimeout(function () {
-                        window.location.href = (admin_url + '/products/' + response.id + '/view');
-                    }, 200)
-                }else{
-                    set_notification('error', response.message);
+            if (!this.loading) {
+                this.loading = true;
+                if ($('#product-form').valid()) {
+                    let formData = new FormData(document.getElementById('product-form'));
+                    formData.append('sizeData', JSON.stringify(this.selectedSize));
+                    formData.append('description', get_editor_html('product-editor'));
+                    let response = await fetch(this.url, {
+                        method: 'POST',
+                        body: formData,
+                    });
+                    response = await response.json();
+                    if(response && response.status)
+                    {
+                        this.loading = false;
+                        setTimeout(function () {
+                            window.location.href = (admin_url + '/products/' + response.id + '/view');
+                        }, 200)
+                    }else{
+                        this.loading = false;
+                        set_notification('error', response.message);
+                    }
+                } else {
+                    this.loading = false;
+                    return false;
                 }
-            } else {
-                return false;
             }
         }, 
     },
