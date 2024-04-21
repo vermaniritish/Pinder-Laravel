@@ -58,7 +58,8 @@ let order = new Vue({
                 this.price = data.price;
                 this.maxPrice = data.max_price;
                 this.selectedBrand = data && data.brands && data.brands.length > 0 ? data.brands.map(brand => brand.id) : [];
-                this.selectedSizeIds = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(size => size.id) : [];
+                this.selectedSizeIds = {};
+                // this.selectedSizeIds = data && data.sizes && data.sizes.length > 0 ? data.sizes.map(size => size.id) : [];
                 this.short_description = data.short_description;
                 if (data && data.sizes && data.sizes.length > 0) {
                     data.sizes.forEach(size => {
