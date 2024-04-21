@@ -25,10 +25,12 @@
                 <h2 class="section__heading--maintitle">Get In Touch</h2>
             </div>
             <div class="main__contact--area position__relative">
-                
                 <div class="contact__form">
+                    @include('admin.partials.flash_messages')
                     <h3 class="contact__form--title mb-40">Contact Me</h3>
-                    <form class="contact__form--inner" action="<?php echo route('home.contactUs') ?>">
+                    <form method="post" class="form-validation contact__form--inner" action="<?php echo route('contactUs') ?>">
+                        <!--!! CSRF FIELD !!-->
+						{{ @csrf_field() }}
                         <div class="row">
                             <div class="col-lg-6 col-md-6">
                                 <div class="contact__form--list mb-20">
