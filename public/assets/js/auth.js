@@ -1,4 +1,5 @@
-let auth = new Vue({
+if($('#auth').length)
+var auth = new Vue({
     el: '#auth',
     data: {
     mounting: true,
@@ -128,7 +129,8 @@ let auth = new Vue({
     },
 });
 
-let verifyOtp = new Vue({
+if($('#verifyOtp').length)
+var verifyOtp = new Vue({
     el: '#verifyOtp',
     data: {
     mounting: true,
@@ -176,7 +178,8 @@ let verifyOtp = new Vue({
     },
 });
 
-let recoverPassword = new Vue({
+if($('#recoverPassword').length)
+var recoverPassword = new Vue({
     el: '#recoverPassword',
     data: {
     mounting: true,

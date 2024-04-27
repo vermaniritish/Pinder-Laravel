@@ -277,6 +277,30 @@
 						</div>
 						<hr class="my-4" />
 						<!-- Address -->
+						<h6 class="heading-small text-muted mb-4">Contact Information</h6>
+						<div class="pl-lg-4">
+							<div class="form-group">
+								<label class="form-control-label" for="input-first-name">Phone</label>
+								<textarea type="text" class="form-control" name="contact_phone" placeholder="">{{ HomePage::get('contact_phone') }}</textarea>
+								@error('contact_phone')
+								    <small class="text-danger">{{ $message }}</small>
+								@enderror
+							</div>
+							<div class="form-group">
+								<label class="form-control-label" for="input-first-name">Email</label>
+								<textarea type="text" class="form-control" name="contact_email" placeholder="">{{ HomePage::get('contact_email') }}</textarea>
+								@error('contact_email')
+								    <small class="text-danger">{{ $message }}</small>
+								@enderror
+							</div>
+							<div class="form-group">
+								<label class="form-control-label" for="input-first-name">Address</label>
+								<textarea type="text" class="form-control" name="contact_address" placeholder="">{{ HomePage::get('contact_address') }}</textarea>
+								@error('contact_address')
+								    <small class="text-danger">{{ $message }}</small>
+								@enderror
+							</div>
+						</div>
 						<h6 class="heading-small text-muted mb-4">SEO Meta Information</h6>
 						<div class="pl-lg-4">
 							<div class="form-group">

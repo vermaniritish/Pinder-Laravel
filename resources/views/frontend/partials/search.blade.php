@@ -7,14 +7,14 @@ $categories = ProductCategories::select(['title', 'slug'])->where('status', 1)->
         <select class="header__select--inner" required name="category">
             <option selected value="">All Categories</option>
             @foreach ($categories as $c)
-            <option value="{{$c->slug}}">{{$c->title}}</option>
+            <option {{ isset($_GET['category']) && $_GET['category'] == $c->slug ? 'selected' : ''}} value="{{$c->slug}}">{{$c->title}}</option>
             @endforeach
         </select>
     </div>
     <div class="header__search--box">
         <label>
             <input class="header__search--input" required placeholder="Keyword here..."
-                type="text" name="search">
+                type="text" name="search" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}">
         </label>
         <button class="header__search--button bg__secondary text-white" type="submit"
             aria-label="search button">

@@ -1,3 +1,5 @@
+<?php use App\Models\Admin\HomePage; ?>
+<?php use App\Libraries\General; ?>
 @extends('layouts.frontendlayout')
 @section('content')
     <section class="breadcrumb__section" style=" background: url({{ url('assets/img/other/bg-shape1.png')}});background-size: cover;border-bottom: 1px solid #e7e7e7;">
@@ -6,7 +8,7 @@
                 <div class="col">
                     <div class="breadcrumb__content text-center">
                         <ul class="breadcrumb__content--menu d-flex justify-content-center">
-                            <li class="breadcrumb__content--menu__items mb-25 mt-15"><a href="index.php">Home</a></li>
+                            <li class="breadcrumb__content--menu__items mb-25 mt-15"><a href="{{ url('/') }}">Home</a></li>
                             <li class="breadcrumb__content--menu__items mb-25 mt-15"><a href="#">Contact Us</a></li>
                         </ul>
                         <h2 class="breadcrumb__content--title mb-15">Contact Us</h2>
@@ -74,7 +76,7 @@
                                 </svg>
                             </div>
                             <div class="contact__info--content">
-                                <p class="contact__info--content__desc text-white">Change the design through a range <br> <a href="tel:+01234-567890">+01234-567890</a> <a href="tel:++01234-5688765">+01234-5688765</a>   </p>
+                                <p class="contact__info--content__desc text-white"><?php echo General::autoLink(HomePage::get('contact_phone')) ?></p>
                             </div>
                         </div>
                     </div>
@@ -87,7 +89,7 @@
                                 </svg>  
                             </div>
                             <div class="contact__info--content">
-                                <p class="contact__info--content__desc text-white"> <a href="mailto:info@example.com">info@example.com</a> <br> <a href="mailto:info@example.com">info@example.com</a></p> 
+                                <p class="contact__info--content__desc text-white"><?php echo General::autoLink(HomePage::get('contact_email')) ?></p> 
                             </div>
                         </div>
                     </div>
@@ -100,9 +102,7 @@
                                 </svg> 
                             </div>
                             <div class="contact__info--content">
-                                <p class="contact__info--content__desc text-white">  123 Stree New York City ,
-                                    United States Of America
-                                    NY 750065.</p> 
+                                <p class="contact__info--content__desc text-white"><?php echo General::autoLink(HomePage::get('contact_address')) ?></p> 
                             </div>
                         </div>
                     </div>

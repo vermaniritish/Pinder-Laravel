@@ -302,7 +302,7 @@ $user = request()->session()->get('user');
         <div class="offcanvas__stikcy--toolbar">
             <ul class="d-flex justify-content-between">
                 <li class="offcanvas__stikcy--toolbar__list">
-                    <a class="offcanvas__stikcy--toolbar__btn" href="index.html">
+                    <a class="offcanvas__stikcy--toolbar__btn" href="{{url('/')}}">
                         <span class="offcanvas__stikcy--toolbar__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="21.51" height="21.443"
                                 viewBox="0 0 22 17">
@@ -315,7 +315,7 @@ $user = request()->session()->get('user');
                     </a>
                 </li>
                 <li class="offcanvas__stikcy--toolbar__list">
-                    <a class="offcanvas__stikcy--toolbar__btn" href="shop.html">
+                    <a class="offcanvas__stikcy--toolbar__btn" href="{{url('/')}}">
                         <span class="offcanvas__stikcy--toolbar__icon">
                             <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="18.51"
                                 height="17.443" viewBox="0 0 448 512">
@@ -354,7 +354,7 @@ $user = request()->session()->get('user');
                             </svg>
                         </span>
                         <span class="offcanvas__stikcy--toolbar__label">Cart</span>
-                        <span class="items__count">3</span>
+                        <span class="items__count" v-if="cartcount() > 0">@{{cartcount()}}</span>
                     </a>
                 </li>
 

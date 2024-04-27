@@ -19,7 +19,7 @@
                             <span class="product__items--content__subtitle">{{$product->categories ? $product->categories->title : ''}}, {{$product->gender ? str_replace(',', ', ', $product->gender) : ''}} </span>
                             <h3 class="product__items--content__title h4"><a href="{{ url('/'.$product->slug) }}">{{ $product->title }}</a></h3>
                             <div class="product__items--price">
-                                <span class="current__price">{{$product->price}} - {{$product->max_price}}</span>
+                                <span class="current__price">{{_currency($product->price)}} - {{_currency($product->max_price)}}</span>
                                 
                                 
                             </div>
