@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller as BaseController;
 use App\Models\Admin\Orders;
 use App\Models\Admin\Pages;
 use App\Models\Admin\Users;
+use App\Libraries\General;
+use App\Models\Admin\ContactUs;
+use App\Models\Admin\Settings;
 use Illuminate\Support\Facades\Validator;
 
 class PagesController extends BaseController
@@ -21,12 +24,6 @@ class PagesController extends BaseController
     {
         $page = Pages::where('slug', 'LIKE', 'faqs')->limit(1)->first();
         return view('frontend.page', ['page' => $page]);
-    }
-
-    public function contactUs(Request $request)
-    {
-        $page = Pages::where('slug', 'LIKE', 'contact-us')->limit(1)->first();
-        return view('frontend.contactUs', ['page' => $page]);
     }
     
     public function termsConditions(Request $request)
@@ -129,4 +126,61 @@ class PagesController extends BaseController
         ]);
     }
     
+    function contactUs(Request $request)
+    {
+        $page = Pages::where('slug', 'LIKE', 'contact-us')->limit(1)->first();
+    	if($request->isMethod('post'))
+    	{
+    		$data = $request->toArray();
+    		unset($data['_token']);
+    		$validator = Validator::make(
+	            $request->toArray(),
+	            [
+	                'firstname' => ['required'],
+	                'lastname' => 'required',
+					'number' => ['required'],
+					'email' => ['required'],
+					'message' => ['required'],
+	            ]
+	        );
+	        if(!$validator->fails())
+	        {
+	        	$page = ContactUs::create($data);
+	        	if($page)
+	        	{
+                    $userData = [
+                        '{first_name}' => $data['firstname'],
+                        '{last_name}' => $data['lastname'],
+                        '{email}' => $data['email'],
+                    ];
+                    General::sendTemplateEmail($data['email'], 'thank-you-for-contacting', $userData);
+                    $adminData = [
+                        '{first_name}' => $data['firstname'],
+                        '{last_name}' => $data['lastname'],
+                        '{email}' => $data['email'],
+                        '{number}' => $data['number'],
+                        '{message}' => $data['message'],
+                    ];
+                    $adminEmail = Settings::get('admin_notification_email');
+                    if($adminEmail)
+                    {
+                        General::sendTemplateEmail($adminEmail, 'admin-contact-us-request-received', $adminData);
+                    }
+	        		$request->session()->flash('success', 'Contact Us request send successfully.');
+    		        return redirect()->route('contactUs');
+	        	}
+	        	else
+	        	{
+	        		$request->session()->flash('error', 'Contact Us request could not be send. Please try again.');
+    		        return redirect()->route('contactUs');
+	        	}
+		    }
+		    else
+		    {
+		    	$request->session()->flash('error', 'Please provide valid inputs.');
+		    	return redirect()->back()->withErrors($validator)->withInput();
+		    }
+		}
+        return view('frontend.contactUs', ['page' => $page]);
+    }
 }

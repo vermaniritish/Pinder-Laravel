@@ -27,39 +27,56 @@
                 <h2 class="section__heading--maintitle">Get In Touch</h2>
             </div>
             <div class="main__contact--area position__relative">
-                
                 <div class="contact__form">
+                    @include('admin.partials.flash_messages')
                     <h3 class="contact__form--title mb-40">Contact Me</h3>
-                    <form class="contact__form--inner" action="<?php echo route('home.contactUs') ?>">
+                    <form method="post" class="form-validation contact__form--inner" action="<?php echo route('contactUs') ?>">
+                        <!--!! CSRF FIELD !!-->
+						{{ @csrf_field() }}
                         <div class="row">
                             <div class="col-lg-6 col-md-6">
                                 <div class="contact__form--list mb-20">
                                     <label class="contact__form--label" for="input1">First Name <span class="contact__form--label__star">*</span></label>
                                     <input class="contact__form--input" name="firstname" id="input1" placeholder="Your First Name" type="text">
+                                    @error('firstname')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <div class="contact__form--list mb-20">
                                     <label class="contact__form--label" for="input2">Last Name <span class="contact__form--label__star">*</span></label>
                                     <input class="contact__form--input" name="lastname" id="input2" placeholder="Your Last Name" type="text">
+                                    @error('lastname')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <div class="contact__form--list mb-20">
                                     <label class="contact__form--label" for="input3">Phone Number <span class="contact__form--label__star">*</span></label>
                                     <input class="contact__form--input" name="number" id="input3" placeholder="Phone number" type="text">
+                                    @error('number')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <div class="contact__form--list mb-20">
                                     <label class="contact__form--label" for="input4">Email <span class="contact__form--label__star">*</span></label>
                                     <input class="contact__form--input" name="email" id="input4" placeholder="Email" type="email">
+                                    @error('email')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="contact__form--list mb-15">
                                     <label class="contact__form--label" for="input5">Write Your Message <span class="contact__form--label__star">*</span></label>
                                     <textarea class="contact__form--textarea" name="message" id="input5" placeholder="Write Your Message"></textarea>
+                                    @error('message')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
