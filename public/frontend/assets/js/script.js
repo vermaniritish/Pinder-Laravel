@@ -1038,3 +1038,7 @@ $('.newsletter__popup--subscribe__form, .newsletter__subscribe--form').on('submi
 
 $('#edit-account').validate();
 $('#change-password').validate();
+
+$('.dropdown.custom-dropdown button').on('click', function() {
+    $(this).parent().toggleClass('open');
+})

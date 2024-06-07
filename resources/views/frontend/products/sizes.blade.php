@@ -18,11 +18,15 @@
         <?php endforeach; ?>
     </fieldset>
 </div>
-    <br/>
+<br/>
     
 <div class="product__variant--list mb-15">
     <fieldset class="variant__input--fieldset weight">
-        <legend class="product__variant--title mb-8">Size & Quantity : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small><a class='fancybox fancybox.iframe' rel='group' target='_blank' href='{{ url('/frontend/assets/size-guides/jc001-cool-t-shirtcompressed.pdf')}}'><img src="{{ url('/frontend/assets/img/other/measure.png')}}" style="vertical-align: bottom;" /> Size Guide</a></small></legend>
+        <legend class="product__variant--title mb-8">Size & Quantity : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        @if($product->size_file)
+        <small><a class='fancybox fancybox.iframe' rel='group' target='_blank' href='{{ url($product->size_file)}}'><img src="{{ url('/frontend/assets/img/other/measure.png')}}" style="vertical-align: bottom;" /> Size Guide</a></small>
+        @endif
+        </legend>
     </fieldset>
 </div>
 <div class="product__variant--list quantity d-flex align-items-center mb-20">
@@ -31,7 +35,7 @@
 
             <ul class="productsizesboxUL" data-loading="false" data-test-id="SizeList">
                 <li data-active="false" class="ProductSizes-newProductSizesItem-xII" data-test-id="ProductSize" v-for="s in renderSizes()">
-                    <div class="productsizes" data-stock-status="InStock"><small>@{{ s.size_title }}</small> @{{s.from_cm}} - @{{s.to_cm}}</div>
+                    <div class="productsizes" data-stock-status="InStock"><small>@{{ s.size_title }} </small></div>
                     <div class="productsizes-stockinfo1">
                         <small class="productsizes-stockinfo2">£@{{s.price}}</small>
                     </div>

@@ -21,16 +21,35 @@
                                         <th class="account__table--header__child--items">Payment Status</th>
                                         <th class="account__table--header__child--items">Fulfillment Status</th>
                                         <th class="account__table--header__child--items">Total</th>	 	 	 	
+                                        <th class="account__table--header__child--items"></th>	 	 	 	
                                     </tr>
                                 </thead>
                                 <tbody class="account__table--body mobile__none">
-                                    <?php foreach($orders as $o): ?>
+                                    <?php 
+                                    foreach($orders as $o): ?>
                                     <tr class="account__table--body__child">
                                         <td class="account__table--body__child--items">#{{$o->prefix_id}}</td>
                                         <td class="account__table--body__child--items">{{_dt($o->created)}}</td>
-                                        <td class="account__table--body__child--items">Unpaid</td>
+                                        <td class="account__table--body__child--items"><span class="{{ $o->paid ? 'text-success' : 'text-danger'}}">{{ $o->paid ? 'Paid' : 'Unpaid'}}</span></td>
                                         <td class="account__table--body__child--items"><span class="badge" style="{{ Orders::getStatuses($o->status)['styles'] }}" >{{ Orders::getStatuses($o->status)['label'] }}</td>
                                         <td class="account__table--body__child--items">{{ _currency($o->total_amount) }}</td>
+                                        <td class="account__table--body__child--items">
+                                            
+                                            <a href="{{ route('invoice', ['id' => $o->prefix_id]) }}"s class="btn" data-toggle="tooltip" data-title="Download Invoice"><i class="fa fa-download"></i></a>
+                                            <?php if($o->shipment): 
+                                            $shipment = explode(',', $o->shipment);
+                                            ?>
+                                            <div class="dropdown custom-dropdown">
+                                                <button class="btn btn-warning dropdown-toggle" type="button" data-toggle="dropdown">Track Order
+                                                <span class="caret"></span></button>
+                                                <ul class="dropdown-menu">
+                                                    <?php foreach($shipment as $s): ?>
+                                                    <li><a target="_blank" href="http://www.parcelforce.com/track-trace?trackNumber={{$s}}">{{ $s }}</a></li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            </div>
+                                            <?php endif; ?>
+                                        </td>
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -47,7 +66,7 @@
                                         </td>
                                         <td class="account__table--body__child--items">
                                             <strong>Payment Status</strong>
-                                            <span>Unpaid</span>
+                                            <span class="{{ $o->paid ? 'text-success' : 'text-danger'}}">{{ $o->paid ? 'Paid' : 'Unpaid'}}</span>
                                         </td>
                                         <td class="account__table--body__child--items">
                                             <strong>Fulfillment Status</strong>
@@ -56,6 +75,18 @@
                                         <td class="account__table--body__child--items">
                                             <strong>Total</strong>
                                             <span>{{ _currency($o->total_amount) }}</span>
+                                        </td>
+                                        <td class="account__table--body__child--items">
+                                            
+                                            <a href="{{ route('invoice', ['id' => $o->prefix_id]) }}" class="btn" data-toggle="tooltip" data-title="Download Invoice"><i class="fa fa-download"></i></a>
+                                            <div class="dropdown">
+                                                <button class="btn btn-warning dropdown-toggle" type="button" data-toggle="dropdown">Click on Me
+                                                <span class="caret"></span></button>
+                                                <ul class="dropdown-menu">
+                                                <li><a href="#">Phantom</a></li>
+                                                <li><a href="#">Cluster</a></li>
+                                                </ul>
+                                            </div>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>

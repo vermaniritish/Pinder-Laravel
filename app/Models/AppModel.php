@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class AppModel extends Model
 {
-	public static $paginationLimit = 10;
+	public static $paginationLimit = 20;
 
     public function __construct()
     {

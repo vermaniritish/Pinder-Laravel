@@ -9,9 +9,10 @@ use App\Models\Admin\Pages;
 use App\Models\Admin\Users;
 use App\Libraries\General;
 use App\Models\Admin\ContactUs;
+use App\Models\Admin\OrderProductRelation;
 use App\Models\Admin\Settings;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\DB;
 class PagesController extends BaseController
 {
     public function aboutUs(Request $request)
@@ -75,7 +76,12 @@ class PagesController extends BaseController
     public function myOrders(Request $request) 
     {
         $user = Users::find($request->session()->get('user')->id);
-        $orders = Orders::where('customer_id', $user->id)->select(['prefix_id', 'created', 'status', 'total_amount'])->orderBy('id', 'desc')->limit(500)->get();
+        $orders = Orders::where('customer_id', $user->id)->select([
+            'orders.id', 'prefix_id', 'created', 'status', 'total_amount', 'paid',
+            DB::raw('GROUP_CONCAT(order_products.shipment_tracking) as shipment')
+        ])
+        ->join('order_products', 'order_products.order_id', '=', 'orders.id')
+        ->orderBy('id', 'desc')->get();
         return view('frontend.account.orders', [
             'user' => $user,
             'orders' => $orders
@@ -182,5 +188,32 @@ class PagesController extends BaseController
 		    }
 		}
         return view('frontend.contactUs', ['page' => $page]);
+    }
+
+    function invoice(Request $request, $id)
+    {
+        $order = Orders::where('prefix_id', $id)->limit(1)->first();
+        if($order)
+        {
+            $where = ['order_products.order_id' => $order->id];
+            $listing = OrderProductRelation::getListing($request, $where);
+            $logo = Settings::get('logo');
+            $html = view('frontend.invoice', ['order' => $order, 'listing' => $listing, 'logo' => $logo])->render();
+            $mpdf = new \Mpdf\Mpdf([
+                'tempDir' => public_path('/uploads'),
+                'mode' => 'utf-8', 
+                'orientation' => 'P',
+                'format' => [210, 297],
+                'setAutoTopMargin' => true,
+                'margin_left' => 0,'margin_right' => 0,'margin_top' => 0,'margin_bottom' => 0,'margin_header' => 0,'margin_footer' => 0
+            ]);
+                
+            $mpdf->WriteHTML($html);
+            $mpdf->Output('Order-'.$order->prefix_id.'.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+        }
+        else
+        {
+            abort('404');
+        }
     }
 }

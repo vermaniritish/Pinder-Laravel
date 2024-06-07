@@ -36,6 +36,7 @@
 								<pre id="edit-form" class="d-none">{{ $product }}</pre>
 							@endif
 							<pre id="availableColor" class="d-none">{{ $colors }}</pre>
+							<pre id="availableSizes" class="d-none">{{ $sizes }}</pre>
 							<!--!! CSRF FIELD !!-->
 							{{ @csrf_field() }}
 							<h6 class="heading-small text-muted mb-4">Product information</h6>
@@ -103,24 +104,15 @@
 								<div class="row">
 									<div class="col-lg-6">
 										<div class="form-group">
-											<label class="form-control-label">Color</label>
-											<select class="form-control no-selectpicker" v-on:change="updateSelectedColor" v-model="selectedColor" name="color_id[]" multiple required>
-												<option value="">Select</option>
-												<?php 
-													foreach($colors as $s): 
-													$content = $s->title . ' (' . $s->color_code . ')';
-												?>
-												<option 
-													value="<?php echo $s->id ?>" 
-													<?php echo old('color_id') == $s->id  ? 'selected' : '' ?>
-													data-content="<?php echo $content ?>"
-												>
-													<?php echo $s->name; ?>		
-												</option>
-												<?php endforeach; ?>
+											<label class="form-control-label" for="input-username">Brand</label>
+											<select v-model="selectedBrand" class="form-control no-selectpicker" name="brand[]" required multiple>
+												@foreach ($brands as $key => $value)
+												<option <?php echo (is_array(old('brand')) && in_array($value['id'], old('brand'))) ? 'selected' : ''; ?>
+													value="<?php echo $value['id']; ?>"><?php echo $value['title']; ?></option>
+												@endforeach
 											</select>
-											@error('colr_id')
-											<small class="text-danger">{{ $message }}</small>
+											@error('brand')
+												<small class="text-danger">{{ $message }}</small>
 											@enderror
 										</div>
 									</div>
@@ -164,68 +156,7 @@
 									</div>
 								</div>
 								<div id="size-form" class="row">
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label" for="input-username">Brand</label>
-											<select v-model="selectedBrand" class="form-control no-selectpicker" name="brand[]" required multiple>
-												@foreach ($brands as $key => $value)
-												<option <?php echo (is_array(old('brand')) && in_array($value['id'], old('brand'))) ? 'selected' : ''; ?>
-													value="<?php echo $value['id']; ?>"><?php echo $value['title']; ?></option>
-												@endforeach
-											</select>
-											@error('brand')
-												<small class="text-danger">{{ $message }}</small>
-											@enderror
-										</div>
-									</div>
-								</div>
-								<div v-for="(colorSelectedId, colorIndex) in selectedColor" :key="colorIndex">
-									<div class="row">		
-										<div class="col-md-4">
-											<div class="form-group">
-												<label>Select Size For 
-													<span v-for="color in availableColors" 
-														v-if="Number(color.id) === Number(colorSelectedId)" 
-														:style="{ backgroundColor: color.color_code }" class="badge badge-secondary">@{{ color.title }}
-													</span>
-												</label>
-												<select class="form-control size-select no-selectpicker" v-on:change="updateSelectedSize" v-model="selectedSizeIds[colorSelectedId]" multiple required>
-													<option value="">Select</option>
-													<option v-for="size in sizes" :value="size.id">
-														@{{ size.size_title }} (@{{ size.from_cm }} - @{{ size.to_cm }} cm)
-													</option>
-												</select>
-												<small class="text-danger"></small>
-											</div>
-										</div>
-									</div>
-									<div class="table-responsive">
-										<table class="table align-items-center table-flush view-table">
-											<thead>
-												<tr>
-													<th>#</th>
-													<th>Size Title</th>
-													<th>Size (From - To)</th>
-													<th>Price</th>
-													<th>Sale Price</th>
-													<th>Remove Item</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr v-for="(size, sizeIndex) in selectedSize[colorSelectedId]" :key="sizeIndex">
-													<td>@{{ sizeIndex + 1 }}</td>
-													<td>@{{ size.size_title }}</td>
-													<td>@{{ size.from_cm }} - @{{ size.to_cm }} cm</td>
-													<td><input required type="number" v-model="size.price" min="0"></td>
-													<td><input required type="number" v-model="size.sale_price" min="0"></td>
-													<td><i class="fa fa-times" v-on:click="removeSize(colorSelectedId, sizeIndex)"></i></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-									<hr> 
-								</div>
-								<div class="row">
+									
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label" for="input-tags">Tag</label>
@@ -235,7 +166,127 @@
 											@enderror
 										</div>
 									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label class="form-control-label" for="input-first-name">SKU Number</label>
+											<input type="text" class="form-control" v-model="sku_number" name="sku_number" required placeholder="SKU Number" value="{{ old('sku_number') }}">
+											@error('sku_number')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
+									</div>
+								</div>
+							</div>
+							<hr class="my-4" />
+							<h6 class="heading-small text-muted mb-4">Price, Sizes and Colors</h6>
+							<div class="pl-lg-4">
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label class="form-control-label">Sizes</label>
+											<select class="form-control size-select no-selectpicker" v-on:change="markActiveColor(activeColor)" v-model="defaultSizes" multiple>
+												<option v-for="size in sizes" :value="size.id">
+													@{{ size.size_title }} (@{{ size.from_cm }} - @{{ size.to_cm }} cm)
+												</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label class="form-control-label">Color</label>
+											<select class="form-control no-selectpicker" v-on:change="updateSelectedColor" v-model="selectedColor" name="color_id[]" multiple required>
+												<?php 
+													foreach($colors as $s): 
+													$content = $s->title . ' (' . $s->color_code . ')';
+												?>
+												<option 
+													value="<?php echo $s->id ?>" 
+													<?php echo old('color_id') == $s->id  ? 'selected' : '' ?>
+													data-content="<?php echo $content ?>"
+												>
+													<?php echo $s->name; ?>		
+												</option>
+												<?php endforeach; ?>
+											</select>
+											@error('colr_id')
+											<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
+									</div>
 								</div>	
+								<div class="row">		
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="form-control-label">Select Size For</label> <br />
+												<span v-for="(color, i) in availableColors" 
+													v-if="selectedColor.includes(color.id.toString())"
+													:style="{ backgroundColor: color.color_code, color: color.color_code.includes('#FFF') || color.color_code.includes('#fff') ? '#444' : '#FFF' }" :class="`mx-1 badge badge-lg badge-secondary ` + (color.id == activeColor ? 'active' : '' )" v-on:click="markActiveColor(color.id)">@{{ color.code ? color.code : color.title }}
+											</span>
+											
+											<small class="text-danger"></small>
+										</div>
+									</div>
+								</div>
+								<div v-for="(colorSelectedId, colorIndex) in selectedColor" :key="colorIndex">									
+									<div v-if="colorSelectedId == activeColor">
+										<div class="table-responsive">
+											<table class="table align-items-center table-flush view-table">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th>Size Title</th>
+														<th>Size (From - To)</th>
+														<th>Price</th>
+														<th>Sale Price</th>
+														<th>Remove Item</th>
+													</tr>
+												</thead>
+												<tbody id="sortable">
+													<tr v-for="(size, sizeIndex) in selectedSize[colorSelectedId]" :key="sizeIndex" draggable="true" @dragstart="drag(colorSelectedId, sizeIndex)"  @drop="drop(colorSelectedId, sizeIndex)" @dragover="allowDrop">
+														<td>
+														<i class="fas fa-ellipsis-v" style="background: whitesmoke;padding: 6px;margin-right: 10px;"></i>
+														@{{ sizeIndex + 1 }}
+														</td>
+														<td>@{{ size.size_title }}</td>
+														<td>@{{ size.from_cm }} - @{{ size.to_cm }} cm</td>
+														<td><input required type="number" v-model="size.price" min="0"></td>
+														<td><input type="number" v-model="size.sale_price" min="0"></td>
+														<td><i class="fa fa-times" v-on:click="removeSize(colorSelectedId, sizeIndex)"></i></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<br />
+										<label class="form-control-label">Please upload colored product image.</label><br />
+										<div class="row">
+										<div 
+											class="col-sm-4 upload-image-section vue-image"
+											data-type="image"
+											data-multiple="false"
+											data-path="products"
+											data-resize-large="580*630"
+											data-resize-small="282*310"
+
+										>
+											<div class="upload-section">
+												<div class="mb-3">
+													
+													<button v-on:click="updateImage(colorSelectedId)" :id="`colorImage`+colorSelectedId" class="btn btn-icon btn-primary btn-lg" type="button">
+														<span class="btn-inner--icon"><i class="fas fa-upload"></i></span>
+														<span class="btn-inner--text">Upload Image</span>
+														</button>
+													<p><small>Recommend Size: 580*630</small></p>
+												</div>
+												<!-- PROGRESS BAR -->
+												<div class="progress d-none">
+													<div class="progress-bar bg-default" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-8"><img v-if="colorImages && colorImages[colorSelectedId] && colorImages[colorSelectedId].path" :src="colorImages[colorSelectedId].path" style="max-height:100px;max-width:100px" /></div>
+										</div>
+									</div>
+								</div>
 							</div>
 							<hr class="my-4" />
 							<!-- Address -->
@@ -279,6 +330,45 @@
 												<?php endif; ?>
 											</div>
 											@error('image')
+												<small class="text-danger">{{ $message }}</small>
+											@enderror
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<!-- FILE OR IMAGE UPLOAD. FOLDER PATH SET HERE in data-path AND CHANGE THE data-multiple TO TRUE SEE MAGIC  -->
+											<label>Upload size guide PDF.</label>
+											<div 
+												class="upload-image-section"
+												data-type="file"
+												data-multiple="false"
+												data-path="products"
+
+											>
+												<div class="upload-section">
+													<div class="button-ref mb-3">
+														<button class="btn btn-icon btn-primary btn-lg" type="button">
+															<span class="btn-inner--icon"><i class="fas fa-upload"></i></span>
+															<span class="btn-inner--text">Upload File</span>
+															</button>
+													</div>
+													<!-- PROGRESS BAR -->
+													<div class="progress d-none">
+														<div class="progress-bar bg-default" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+													</div>
+												</div>
+												<!-- INPUT WITH FILE URL -->
+												<textarea class="d-none" required name="size_file"><?php echo old('size_file') ?></textarea>
+												<div class="show-section <?php echo !old('size_file') ? 'd-none' : "" ?>">
+													@include('admin.partials.previewFileRender', ['file' => old('size_file') ])
+												</div>
+												<?php if(isset($product) && $product): ?>
+												<div class="fixed-edit-section">
+													@include('admin.partials.previewFileRender', ['file' => $product->size_file, 'relationType' => 'products.size_file', 'relationId' => $product->id ])
+												</div>
+												<?php endif; ?>
+											</div>
+											@error('size_file')
 												<small class="text-danger">{{ $message }}</small>
 											@enderror
 										</div>

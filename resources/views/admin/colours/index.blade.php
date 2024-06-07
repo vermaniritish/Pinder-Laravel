@@ -38,47 +38,6 @@
 								</div>
 								<input class="form-control listing-search" placeholder="Search" type="text" value="<?php echo (isset($_GET['search']) && $_GET['search'] ? $_GET['search'] : '') ?>">
 							</div>
-							<?php if(Permissions::hasPermission('colours', 'update') || Permissions::hasPermission('colours', 'delete')): ?>
-								<div class="dropdown" data-toggle="tooltip" data-title="Bulk Actions">
-									<a class="btn btn-sm btn-icon-only text-warning" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<i class="fas fa-ellipsis-v"></i>
-									</a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-										<?php if(Permissions::hasPermission('colours', 'update')): ?>
-											<a 
-												class="dropdown-item" 
-												href="javascript:;"
-												onclick="bulk_actions('<?php echo route('admin.colours.bulkActions', ['action' => 'active']) ?>', 'active');"
-											>
-												<span class="badge badge-dot mr-4">
-													<i class="bg-success"></i>
-													<span class="status">Active</span>
-												</span>
-											</a>
-											<a 
-												class="dropdown-item" 
-												href="javascript:;"
-												onclick="bulk_actions('<?php echo route('admin.colours.bulkActions', ['action' => 'inactive']) ?>', 'inactive');"
-											>
-												<span class="badge badge-dot mr-4">
-													<i class="bg-warning"></i>
-													<span class="status">Inactive</span>
-												</span>
-											</a>
-											<div class="dropdown-divider"></div>
-										<?php endif; ?>
-										<?php if(Permissions::hasPermission('colours', 'delete')): ?>
-											<a 
-												href="javascript:void(0);" 
-												class="waves-effect waves-block dropdown-item text-danger" 
-												onclick="bulk_actions('<?php echo route('admin.colours.bulkActions', ['action' => 'delete']) ?>', 'delete');">
-													<i class="fas fa-times text-danger"></i>
-													<span class="status text-danger">Delete</span>
-											</a>
-										<?php endif; ?>
-									</div>
-								</div>
-							<?php endif; ?>
 						</div>
 					</div>
 					<div class="table-responsive">
@@ -115,6 +74,16 @@
 									</th>
 									<th class="sort" width="15%">
 										Colour Code
+										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.code' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
+										<i class="fas fa-sort-down active" data-field="colours.code" data-sort="asc"></i>
+										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.code' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>
+										<i class="fas fa-sort-up active" data-field="colours.code" data-sort="desc"></i>
+										<?php else: ?>
+										<i class="fas fa-sort" data-field="colours.code"></i>
+										<?php endif; ?>
+									</th>
+									<th class="sort" width="15%">
+										HEX Code
 										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
 										<i class="fas fa-sort-down active" data-field="colours.color_code" data-sort="asc"></i>
 										<?php elseif(isset($_GET['sort']) && $_GET['sort'] == 'colours.color_code' && isset($_GET['direction']) && $_GET['direction'] == 'desc'): ?>

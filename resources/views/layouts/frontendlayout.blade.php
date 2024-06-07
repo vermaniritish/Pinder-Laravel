@@ -5,7 +5,7 @@ $logo = Settings::get('logo');
 $companyName = Settings::get('company_name');
 $googleKey = Settings::get('google_api_key');
 $gstTax = Settings::get('gst');
-$version = 1.0;
+$version = '1.2';
 ?>
 <!doctype html>
 <html lang="zxx">
@@ -30,6 +30,7 @@ $version = 1.0;
 
     <!-- Custom Style CSS -->
     <link rel="stylesheet" href="{{ url('frontend/assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url('frontend/assets/css/dev.css') }}">
 
     <!-- Vue js -->
     <style>
@@ -105,6 +106,7 @@ $version = 1.0;
         var current_url = "<?php echo url()->current(); ?>";
         var current_full_url = "<?php echo url()->full(); ?>";
         var previous_url = "<?php echo url()->previous(); ?>";
+        var oneTimeProductCost = "<?php echo Settings::get('one_time_setup_cost') ?>";
         var csrf_token = function() {
             return "<?php echo csrf_token(); ?>";
         }
@@ -132,6 +134,59 @@ $version = 1.0;
     <script src="{{ url('frontend/assets/js/script.js') }}"></script>
     <script src="<?php echo url('assets/js/auth.js') ?>"></script>
     <script src="{{ url('frontend/assets/js/product-listing.js') }}"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AUv8rrc_P-EbP2E0mpb49BV7rFt3Usr-vdUZO8VGOnjRehGHBXkSzchr37SYF2GNdQFYSp72jh5QUhzG&currency=GBP"></script>
+    <script>
+        paypal.Buttons({
+            createOrder: async function(data, actions) {
+                let response = await checkoutPage.submit();
+                if(response && response.status && response.orderId)
+                {
+                    return fetch('{{url("/paypal/create-order")}}', {
+                        method: 'post',
+                        headers: {
+                            'content-type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Add CSRF token for Laravel
+                        },
+                        body: JSON.stringify({
+                            amount: response.amount,
+                            id: response.orderId
+                        })
+                    }).then(function(res) {
+                        return res.json();
+                    }).then(function(orderData) {
+                        return orderData && orderData.result ? orderData.result.id : null; // Use the key returned from your server to set up the transaction
+                    });
+                }
+
+                return Promise.reject(new Error('API request failed'));
+            },
+            onApprove: function(data, actions) {
+                return fetch('{{ url("/paypal/capture-order")}}', {
+                    method: 'post',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _token: csrf_token(),
+                        orderId: data.orderID
+                    })
+                }).then(function(res) {
+                    return res.json();
+                }).then(function(details) {
+                    if(details && details.status && details.id)
+                    {
+                        localStorage.removeItem('orderId');
+                        localStorage.removeItem('cart');
+                        localStorage.removeItem('coupon');
+                        localStorage.removeItem('checkout');
+                        window.location.href = site_url + "/paypal/success?id=" + details.id;
+                    }
+                    else
+                        window.location.href = site_url + "/paypal/error";
+                });
+            }
+        }).render('#paypal-button-container');
+    </script>
     <?php 
     $action = get_controller_action(request()->route()->getAction()['controller']);
     if($action == 'home/index') {

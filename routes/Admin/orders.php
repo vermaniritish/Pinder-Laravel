@@ -40,3 +40,5 @@ Route::get('/order/{id}/comments', [OrderCommentsController::class, 'index'])->n
 Route::post('/order/{id}/comments', [OrderCommentsController::class, 'add'])->name('admin.orderComments.add');
 Route::post('/order/{id}/update-comments', [OrderCommentsController::class, 'edit'])->name('admin.orderComments.edit');
 Route::post('/order/{id}/delete-comment', [OrderCommentsController::class, 'delete'])->name('admin.orderComments.delete');
+
+Route::post('/orders/{id}/ship', [OrdersController::class, 'ship'])->name('admin.orders.ship');

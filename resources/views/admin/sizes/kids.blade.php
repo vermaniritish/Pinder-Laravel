@@ -1,20 +1,20 @@
-<div id="uni">
+<div id="kidkid">
     <div class="card">
         <div class="card-body">
             <form method="post" action="<?php echo route('admin.size.add') ?>" class="form-validation">
                 <!--!! CSRF FIELD !!-->
                 {{ @csrf_field() }}
-                <h6 class="heading-small text-muted mb-4">Unisex Size information</h6>
+                <h6 class="heading-small text-muted mb-4">Kids Size information</h6>
                 <div class="">
                     <div v-for="(men, index) in mens" :key="index" >
                         <div class=" mt-2 d-flex position-relative pe-0">
-                            <input type="hidden" value="Unisex" name="type" >
+                            <input type="hidden" value="Kids" name="type" >
                             <table class="row w-100 p-3">
                                 <tr>
                                 <td>
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-first-name">Size Type</label>
-                                        <input type="text" class="form-control" v-model="men.size_title" :name="'mens[' + index + '][size_title]'" required  placeholder="XL" value="{{ old('color_code') }}">
+                                        <input type="text" class="form-control" v-model="men.size_title" :name="'mens[' + index + '][size_title]'"   placeholder="XL" value="{{ old('color_code') }}" required>
                                         @error('color_code')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

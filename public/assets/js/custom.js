@@ -750,8 +750,9 @@ $('body').on('change','#profile_img', function (e) {
 });
 
 /** Upload File Script **/
-$('body').on('click', '.upload-image-section .button-ref button', function(){
-    var that = $(this);
+const initImageUploader = function(that, callback) {
+    console.log(`that`, that);
+    var that = $(that);
     var parent = that.parents('.upload-image-section');
     var uploadSection = parent.find('.upload-section');
     var textArea = parent.find('textarea');
@@ -795,23 +796,30 @@ $('body').on('click', '.upload-image-section .button-ref button', function(){
                 success: function(response) {
                     if(response.status == 'success')
                     {
-                        if(!isMultiple)
-                        {
-                            if(fileType == 'image')
-                                showSection.html('<div class="single-image"><a href="javascript:;" class="fileRemover single-cross image" data-path="'+response.path+'"><i class="fas fa-times"></i></a><img src="'+response.url+'"></div>');
-                            else
-                                showSection.html('<div class="single-file"><a href="'+site_url + response.path +'" target="_blank"><i class="fas fa-file"></i>'+response.name+'</a><a href="javascript:; file" class="fileRemover single-cross file" data-path="'+response.path+'"><i class="fas fa-times-circle"></i></a></div>');
-                            uploadSection.addClass('d-none');
-                            fixedEditSection.addClass('d-none');
+                        if(callback) {
+                            callback(response);
                         }
-                        else
+
+                        if(showSection && showSection.length > 0)
                         {
-                            if(fileType == 'image')
-                                showSection.prepend('<div class="single-image"><a href="javascript:;" class="fileRemover single-cross image" data-path="'+response.path+'"><i class="fas fa-times"></i></a><img src="'+response.url+'"></div>');
+                            if(!isMultiple)
+                            {
+                                if(fileType == 'image')
+                                    showSection.html('<div class="single-image"><a href="javascript:;" class="fileRemover single-cross image" data-path="'+response.path+'"><i class="fas fa-times"></i></a><img src="'+response.url+'"></div>');
+                                else
+                                    showSection.html('<div class="single-file"><a href="'+site_url + response.path +'" target="_blank"><i class="fas fa-file"></i>'+response.name+'</a><a href="javascript:; file" class="fileRemover single-cross file" data-path="'+response.path+'"><i class="fas fa-times-circle"></i></a></div>');
+                                uploadSection.addClass('d-none');
+                                fixedEditSection.addClass('d-none');
+                            }
                             else
-                                showSection.prepend('<div class="single-file"><a href="'+site_url + response.path +'" target="_blank"><i class="fas fa-file"></i>'+response.name+'</a><a href="javascript:; file" class="fileRemover single-cross file" data-path="'+response.path+'"><i class="fas fa-times-circle"></i></a></div>');
+                            {
+                                if(fileType == 'image')
+                                    showSection.prepend('<div class="single-image"><a href="javascript:;" class="fileRemover single-cross image" data-path="'+response.path+'"><i class="fas fa-times"></i></a><img src="'+response.url+'"></div>');
+                                else
+                                    showSection.prepend('<div class="single-file"><a href="'+site_url + response.path +'" target="_blank"><i class="fas fa-file"></i>'+response.name+'</a><a href="javascript:; file" class="fileRemover single-cross file" data-path="'+response.path+'"><i class="fas fa-times-circle"></i></a></div>');
+                            }
+                            showSection.removeClass('d-none');
                         }
-                        showSection.removeClass('d-none');
                         updateFileValues(textArea, fileType, isMultiple);
                     }
                     else
@@ -829,6 +837,10 @@ $('body').on('click', '.upload-image-section .button-ref button', function(){
     {
         set_notification('error', 'File path and type are missing.');
     }
+}
+
+$('body').on('click', '.upload-image-section .button-ref button', function(){
+    initImageUploader(this)
 });
 
 $('body').on('click', '.upload-image-section .fileRemover', function() {
@@ -1059,7 +1071,53 @@ $('.color-picker').spectrum({
     showPaletteOnly: true,
     showPalette: true,
     palette: [
-        ['#000000', '#ffffff', '#ff0000', '#00ff00', '#0000ff'], // Example palette
-        // Add more colors to the palette as needed
+        ['#000000', '#ffffff', '#ff0000', '#00ff00', '#0000ff']
     ]
+});
+
+$('#ship-products').on('click', async function() {
+    if($('#ordered-products .listing_check:checked').length > 0)
+    {
+        if(!$('#ship-options').val()) {
+            set_notification('error', 'Please select ship option.'); return false;
+        }
+
+        let shipped = [];
+        $('#ordered-products .listing_check:checked').each(function() {
+            shipped.push($(this).val());
+        });
+        let id = $('#ordered-products').attr('data-id');
+        let response = await fetch(admin_url + '/orders/'+id+'/ship', 
+            {
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {
+                        _token: csrf_token(),
+                        options:  $('#ship-options').val(),
+                        parcel: $('#parcel').val() ? $('#parcel').val()  : 1,
+                        ship: shipped,
+                        total: $('#ordered-products .listing_check').length
+                    }
+                )
+            }
+        );
+        response = await response.json();
+        if(response && response.status)
+        {
+            set_notification('success', response.message);
+            window.location.reload();
+        }
+        else if(response && response.message)
+        {
+            set_notification('error', response.message);
+        }
+    }
+    else
+    {
+        set_notification('error', 'Please select atleast one product to ship.');
+    }
 });

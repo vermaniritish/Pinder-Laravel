@@ -10,6 +10,11 @@ class OrderProductRelation extends AppModel
     protected $primaryKey = 'id';
     public $timestamps = true;
 
+    public function product()
+    {
+        return $this->hasOne(Products::class, 'id','product_id');
+    }
+
 
     /**
     * To search and get pagination listing

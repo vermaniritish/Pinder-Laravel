@@ -34,6 +34,7 @@ use App\Models\Admin\Staff;
 use App\Models\Admin\Users;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class OrdersController extends AppController
@@ -320,16 +321,6 @@ class OrdersController extends AppController
     	}
     	$page = Orders::get($id);
 		$where = ['order_products.order_id' => $id];
-		if($request->get('search'))
-    	{
-    		$search = $request->get('search');
-    		$search = '%' . $search . '%';
-    		$where['(
-				order_products.id LIKE ? or
-				order_products.product_title LIKE ? or
-				order_products.quantity LIKE ? or
-				order_products.amount LIKE ?)'] = [$search, $search, $search, $search];
-    	}
 		$listing = OrderProductRelation::getListing($request, $where);
 		$staff = Staff::getAll(
 			[
@@ -763,4 +754,134 @@ class OrdersController extends AppController
 		]);
 		}
 	}
+
+	public function ship(Request $request, $id)
+	{
+		if($request->get('ship'))
+		{
+			$shipOption = $request->get('options');
+			$PFELENDPOINT = "https://expresslink.parcelforce.net/ws";
+			$PFELUSERNAME = "EL_WDMEOQK";
+			$PFELPWD = "zzj033se";
+			$PFELWDMONLINEURL = "https://www.parcelforce.net/";
+			$PFELWDMONLINEUSERNAME = "WDMEOQK";
+			$PFELWDMONLINEPWD = "7v5cqsc6";
+			
+			$PFWSDLNAMESPACE = "http://www.parcelforce.net/ws/ship/V14";
+			$PFELDPTNO = "1";
+			$PFELDPTNAME = "Pinders Schoolwear";
+			$PFELCONTRCTNO = "K271462";
+			$PFELACCOUNTNO = "PIN003001";
+			$date = date('Y-m-d');
+
+			$order = Orders::find($id);
+			
+			$xml = <<<EOL
+			<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v14="http://www.parcelforce.net/ws/ship/v14">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <v14:CreateShipmentRequest>
+         <v14:Authentication>
+            <v14:UserName>$PFELUSERNAME</v14:UserName>
+            <v14:Password>$PFELPWD</v14:Password>
+         </v14:Authentication>
+         <v14:RequestedShipment>
+            <v14:DepartmentId>$PFELDPTNO</v14:DepartmentId>
+            <v14:ShipmentType>DELIVERY</v14:ShipmentType>
+            <v14:ContractNumber>$PFELCONTRCTNO</v14:ContractNumber>
+            <v14:ServiceCode>$shipOption</v14:ServiceCode>
+            <v14:ShippingDate>$date</v14:ShippingDate>
+            <v14:RecipientContact>
+               <v14:BusinessName>{$order->company}</v14:BusinessName>
+               <v14:ContactName>{$order->first_name} {$order->last_name}</v14:ContactName>
+               <v14:EmailAddress>{$order->customer_email}</v14:EmailAddress>
+               <v14:Telephone></v14:Telephone>
+               <v14:MobilePhone>$order->customer_phone</v14:MobilePhone>
+               <v14:Notifications>
+                  <v14:NotificationType>EMAIL</v14:NotificationType>
+                  <v14:NotificationType>EMAILATTEMPTDELIVERY</v14:NotificationType>
+                  <v14:NotificationType>SMSDAYOFDESPATCH</v14:NotificationType>
+                  <v14:NotificationType>SMSSTARTOFDELIVERY</v14:NotificationType>
+                  <v14:NotificationType>SMSATTEMPTDELIVERY</v14:NotificationType>
+               </v14:Notifications>
+            </v14:RecipientContact>
+            <v14:RecipientAddress>
+               <v14:AddressLine1>{$order->address}</v14:AddressLine1>
+               <v14:AddressLine2>{$order->area}</v14:AddressLine2>
+               <v14:AddressLine3></v14:AddressLine3>
+               <v14:Town>{$order->city}</v14:Town>
+               <v14:Postcode>{$order->postcode}</v14:Postcode>
+               <v14:Country>GB</v14:Country>
+            </v14:RecipientAddress>
+            <v14:TotalNumberOfParcels>{$request->get('parcel')}</v14:TotalNumberOfParcels>
+            <v14:Enhancement>
+               <v14:SaturdayDeliveryRequired>false</v14:SaturdayDeliveryRequired>
+            </v14:Enhancement>
+            <v14:ReferenceNumber1>WW-{$order->prefix_id}</v14:ReferenceNumber1>
+            <v14:SpecialInstructions1></v14:SpecialInstructions1>
+            <v14:ConsignmentHandling>false</v14:ConsignmentHandling>
+         </v14:RequestedShipment>
+      </v14:CreateShipmentRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
+EOL;
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: text/xml"));
+			curl_setopt($ch, CURLOPT_URL, $PFELENDPOINT);
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+			$data = curl_exec($ch);
+			if (curl_errno($ch)) {
+				throw new \Exception(curl_error($ch));
+			}
+			curl_close($ch);
+
+			$XMLReader = new \XMLReader();
+			$XMLReader->XML($data);
+			$XMLReader->read();
+			$XMLReader->read();
+
+			$xml_shipment_info = $XMLReader->readInnerXml();
+			$XMLReader->close();
+
+			$xml_label = simplexml_load_string($xml_shipment_info);
+			$json_label = json_encode($xml_label);
+			$jsonArrayLabel = json_decode($json_label, TRUE);
+
+			if( isset($jsonArrayLabel['CompletedShipmentInfo']['CompletedShipments']['CompletedShipment']['ShipmentNumber']) && $jsonArrayLabel['CompletedShipmentInfo']['CompletedShipments']['CompletedShipment']['ShipmentNumber'] )
+			{
+				$order->status = count($request->get('ship')) >= $request->get('total') ? 'shipped' : 'partial_shipped';
+				$order->save();
+
+				OrderProductRelation::whereIn('id', $request->get('ship'))->update([
+					'shipment_tracking' => $jsonArrayLabel['CompletedShipmentInfo']['CompletedShipments']['CompletedShipment']['ShipmentNumber']
+				]);
+				
+				return Response()->json([
+					'status' => true,
+					'message' => count($request->get('ship')) . " items shipped successfully."
+				]);
+			}
+			else if($jsonArrayLabel && isset($jsonArrayLabel['Alerts']) && isset($jsonArrayLabel['Alerts']['Alert']))
+			{
+				$errors = Arr::pluck($jsonArrayLabel['Alerts']['Alert'], 'Message');
+
+				return Response()->json([
+					'status' => false,
+					'message' => implode("<br />", $errors)
+				]);
+			}
+
+			
+		}
+		else
+		{
+			return Response()->json([
+				'status' => false,
+				'message' => 'Please select atlerase one record to ship.'
+			]);
+		}
+	} 
 }

@@ -4,6 +4,9 @@ use App\Http\Controllers\Admin\SizeController;
 Route::get('/size', [SizeController::class, 'index'])
     ->name('admin.size');
 
+Route::get('/size/{slug}', [SizeController::class, 'index'])
+    ->name('admin.size.slug');
+
 Route::get('/size/add', [SizeController::class, 'add'])
     ->name('admin.size.add');
 

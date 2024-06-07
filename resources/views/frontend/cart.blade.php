@@ -85,7 +85,19 @@
                                         <table class="cart__summary--total__table">
                                             <tbody>
                                                 <tr class="cart__summary--total__list">
-                                                    <td class="cart__summary--total__title text-left">SUBTOTAL</td>
+                                                    <td class="cart__summary--total__title text-left">Product Costs</td>
+                                                    <td class="cart__summary--amount text-right">£@{{calculate().product_cost}}</td>
+                                                </tr>
+                                                <tr class="cart__summary--total__list">
+                                                    <td class="cart__summary--total__title text-left">Costs To Add Logo</td>
+                                                    <td class="cart__summary--amount text-right">£@{{calculate().logo_cost}}</td>
+                                                </tr>
+                                                <tr class="cart__summary--total__list">
+                                                    <td class="cart__summary--total__title text-left">One Time Setup Fees</td>
+                                                    <td class="cart__summary--amount text-right">£@{{calculate().oneTimeCost}}</td>
+                                                </tr>
+                                                <tr class="cart__summary--total__list">
+                                                    <td class="cart__summary--total__title text-left">Total (ex. VAT):</td>
                                                     <td class="cart__summary--amount text-right">£@{{calculate().subtotal}}</td>
                                                 </tr>
                                                 <tr class="cart__summary--total__list"  v-if="calculate().discount > 0">

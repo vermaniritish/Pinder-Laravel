@@ -281,17 +281,8 @@ class ProductsController extends AppController
 					'color_id' => ['nullable', 'array'],
 					'color_id.*' => ['distinct','required', Rule::exists(Colours::class,'id')],
 					'gender' => ['required', Rule::in(['Male','Female','Unisex'])],
-
-					'sizeData' => ['required', 'array'],
-					'sizeData.*' => ['required', 'array', 'distinct'],
-					'sizeData.*.*.id' => [
-						'required', 
-						Rule::exists(Sizes::class, 'id')->where(function ($query) {
-							$query->whereNull('deleted_at');
-						})
-					],
-					'sizeData.*.*.price' => ['required', 'numeric', 'min:0'],
-					'sizeData.*.*.sale_price' => ['required', 'numeric', 'min:0'],
+					'sku_number' => ['required', Rule::unique('products')],
+					'sizeData' => ['required', 'array']
 	            ]
 	        );
 
@@ -460,16 +451,8 @@ class ProductsController extends AppController
 							'color_id' => ['nullable', 'array'],
 							'color_id.*' => ['required', Rule::exists(Colours::class,'id')],
 							'gender' => ['required', Rule::in(['Male','Female','Unisex'])],
-							'sizeData' => ['required', 'array'],
-							'sizeData.*' => ['required', 'array', 'distinct'],
-							'sizeData.*.*.id' => [
-								'required', 
-								Rule::exists(Sizes::class, 'id')->where(function ($query) {
-									$query->whereNull('deleted_at');
-								})
-							],
-							'sizeData.*.*.price' => ['required', 'numeric', 'min:0'],
-							'sizeData.*.*.sale_price' => ['required', 'numeric', 'min:0'],
+							'sku_number' => ['required', Rule::unique('products')->ignore($product->id)],
+							'sizeData' => ['required', 'array']
 		            	]
 		        );
 		        if(!$validator->fails())
@@ -580,12 +563,25 @@ class ProductsController extends AppController
 				],
 	    		'colours.color_code desc'
 	    	);
+			$sizes = Sizes::getAll(
+	    		[
+	    			'sizes.id',
+	    			'sizes.type',
+	    			'sizes.size_title',
+	    			'sizes.from_cm',
+	    			'sizes.to_cm',
+	    		],
+	    	    [
+				],
+	    		'sizes.size_title desc'
+	    	);
 			return view("admin/products/add", [
     			'product' => $product,
     			'categories' => $categories,
     			'users' => $users,
 				'brands' => $brands,
-				'colors' => $colors
+				'colors' => $colors,
+				'sizes' => $sizes
     		]);
 		}
 		else

@@ -151,6 +151,12 @@ class HomeController extends AppController
 			$order->coupon = isset($data['coupon']) && $data['coupon'] ? json_encode($data['coupon']) : null;
 			$order->status = 'pending';
 			$order->created = date('Y-m-d H:i:s');
+
+			if($request->get('lastId'))
+			{
+				Orders::where('id', $request->get('orderId'))->where('status', 'pending')->where('paid', 0)->limit(1)->orderBy('id', 'desc')->delete();
+			}
+
 			if($order->save()) 
 			{
 				$order->prefix_id = Settings::get('order_prefix') + $order->id;
@@ -159,6 +165,8 @@ class HomeController extends AppController
 				$products = [];
 				$discount = 0;
 				$subtotal = 0;
+				$logoCost = 0;
+				$oneTimeCost = Settings::get('one_time_setup_cost');
 				$margin = 0;
 				$includeTravelCharges = 0;
 				foreach($data['cart'] as $c)
@@ -172,8 +180,10 @@ class HomeController extends AppController
 						'product_title' => $c['title'],
 						'product_description' => $c['size_title'] . ' ' . $c['from_cm'] . ' - ' . $c['to_cm']."\nChest:" . (isset($c['chest']) && $c['chest'] ? $c['chest'] : '') ."Waist: ".(isset($c['waist']) && $c['waist'] ? $c['waist'] : '')." Hip:".(isset($c['hip']) && $c['hip'] ? $c['hip'] : ''),
 						'amount' => $c['price'],
-						'quantity' => $c['quantity']
+						'quantity' => $c['quantity'],
+						'logo_data' => isset($c['logo']) && $c['logo'] ? json_encode($c['logo']) : null
 					];
+					$logoCost += isset($c['logo']['price']) && $c['logo']['price'] > 0 ? ($c['logo']['price']*$c['quantity'])  : 0;
 					$subtotal += $c['quantity'] * $c['price'];
 				}
 
@@ -182,6 +192,11 @@ class HomeController extends AppController
 					OrderProductRelation::insert($products);
 					
 					$link = url('/admin/order/'.$order->id.'/view');
+					$subtotal += $logoCost;
+					$subtotal += $oneTimeCost;
+
+					$order->logo_cost = $logoCost;
+					$order->one_time_cost = $oneTimeCost;
 					$order->subtotal = $subtotal;
 					$order->tax_percentage = Settings::get('gst');
 
@@ -219,7 +234,8 @@ class HomeController extends AppController
 
 				return Response()->json([
 					'status' => true,
-					'orderId' => $order->prefix_id
+					'orderId' => $order->prefix_id,
+					'amount' => $order->total_amount
 				]);
 			}
 			else
@@ -235,7 +251,7 @@ class HomeController extends AppController
                 ->json([
                     'status' => false,
                     'clear' => true,
-                    'message' => 'Something went wrong. Please try again.'
+                    'message' =>  current( current( $validator->errors()->getMessages() ) )
                 ]);
 		}
 	}

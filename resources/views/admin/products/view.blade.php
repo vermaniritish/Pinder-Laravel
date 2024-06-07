@@ -14,7 +14,10 @@ use App\Models\Admin\Settings;
 					</div>
 					<div class="col-lg-6 col-5 text-right">
 						<a href="<?php echo route('admin.products') ?>" class="btn btn-neutral"><i class="fa fa-arrow-left"></i> Back</a>
-						<a href="<?php echo Settings::get('website_url') . '/product/' . $product->slug ?>" class="btn btn-neutral" target="_blank"><i class="fa fa-eye"></i> View Product</a>
+						<a href="<?php echo url($product->slug) ?>" class="btn btn-neutral" target="_blank"><i class="fa fa-eye"></i> View Product</a>
+						<?php if($product->size_file): ?>
+						<a href="<?php echo url($product->size_file) ?>" target="_blank" class="btn btn-neutral" target="_blank"><i class="fa fa-download"></i> View Size Guide</a>
+						<?php endif; ?>
 						<div class="dropdown" data-toggle="tooltip" data-title="More Actions">
 							<a class="btn btn-neutral" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<i class="fas fa-ellipsis-v"></i>
@@ -115,6 +118,11 @@ use App\Models\Admin\Settings;
 										endif; 
 										?>	
 									</td>
+								</tr>
+								
+								<tr>
+									<th>SKU Number</th>
+									<td><?php echo $product->sku_number ?></td>
 								</tr>
 								<tr>
 									<th>Price</th>

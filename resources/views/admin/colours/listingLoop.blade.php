@@ -17,7 +17,10 @@
 		<?php echo $row->title ?>
 	</td>
 	<td>
-		<?php echo $row->color_code ?>
+		<?php echo $row->code ?>
+	</td>
+	<td>
+		<span class="badge" style="background-color: <?php echo $row->color_code ?>"><?php echo $row->color_code ?></span>
 	</td>
 	<td>
 		<?php echo _dt($row->created) ?>

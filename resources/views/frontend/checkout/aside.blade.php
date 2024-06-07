@@ -29,17 +29,21 @@
                             <tbody class="checkout__total--body">
                                 <tr class="checkout__total--items">
                                     <td class="checkout__total--title text-left">Product Costs </td>
-                                    <td class="checkout__total--amount text-right">£@{{calculate().subtotal}}</td>
+                                    <td class="checkout__total--amount text-right">£@{{calculate().product_cost}}</td>
                                 </tr>
-								{{-- <tr class="checkout__total--items">
+								<tr class="checkout__total--items">
                                     <td class="checkout__total--title text-left">Costs To Add Logo </td>
-                                    <td class="checkout__total--amount text-right">£3.00</td>
+                                    <td class="checkout__total--amount text-right">£@{{calculate().logo_cost}}</td>
                                 </tr>
 								<tr class="checkout__total--items">
                                     <td class="checkout__total--title text-left">One Time Setup Fees </td>
-                                    <td class="checkout__total--amount text-right">£15.00</td>
-                                </tr> --}}
-								<tr class="checkout__total--items">
+                                    <td class="checkout__total--amount text-right">£@{{calculate().oneTimeCost}}</td>
+                                </tr>
+                                <tr class="checkout__total--items">
+                                    <td class="checkout__total--title text-left">Total (ex. VAT):</td>
+                                    <td class="checkout__total--amount text-right">£@{{calculate().subtotal}}</td>
+                                </tr>
+								<tr class="checkout__total--items"  v-if="calculate().discount > 0">
                                     <td class="checkout__total--title text-left">Discount</td>
                                     <td class="checkout__total--amount text-right">- £@{{calculate().discount}}</td>
                                 </tr>
@@ -57,8 +61,9 @@
                         </table>
 						<br/>
 						<div class="checkout__content--step__footer d-flex align-items-center">
-							<a class="continue__shipping--btn primary__btn border-radius-5" href="javascript:;" v-on:click="submit"><i class="fa fa-spin fa-spinner" v-if="saving"></i> Pay Now</a>
-							<a class="previous__link--content" href="{{url('/cart')}}">Return to cart</a>
+                            <div id="paypal-button-container"></div>
+							{{-- <a class="continue__shipping--btn primary__btn border-radius-5" href="javascript:;" v-on:click="submit"><i class="fa fa-spin fa-spinner" v-if="saving"></i> Pay Now</a>
+							<a class="previous__link--content" href="{{url('/cart')}}">Return to cart</a> --}}
 						</div>
                     </div>
                 </aside>

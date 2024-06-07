@@ -33,16 +33,18 @@ class SizeController extends AppController
 		parent::__construct();
 	}
 
-    function index(Request $request)
+    function index(Request $request, $slug = null)
     {
     	if(!Permissions::hasPermission('sizes', 'listing'))
     	{
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
     	}
+
 		$male = Sizes::where('type','Male')->select(['type','id','size_title','from_cm','to_cm','chest','waist','hip','length'])->get();
 		$female = Sizes::where('type','Female')->select(['type','id','size_title','from_cm','to_cm','chest','waist','hip','length'])->get();
 		$unisex = Sizes::where('type','Unisex')->select(['type','id','size_title','from_cm','to_cm','chest','waist','hip','length'])->get();
+		$kids = Sizes::where('type','Kids')->select(['type','id','size_title','from_cm','to_cm','chest','waist','hip','length'])->get();
     	$where = [];
 		$filters = $this->filters($request);
 		return view(
@@ -51,7 +53,9 @@ class SizeController extends AppController
 				'male' => $male,
 				'female' => $female,
 				'unisex' => $unisex,
-				'admins' => $filters['admins']
+				'kids' => $kids,
+				'admins' => $filters['admins'],
+				'slug' => $slug ? $slug : 'men'
 			]
 		);
     }
@@ -93,14 +97,14 @@ class SizeController extends AppController
     		unset($data['_token']);
 			if (!empty($data)) {
 				$validator = Validator::make($request->all(), [
-					'type' => ['required', Rule::in(['Male','Female','Unisex'])],
+					'type' => ['required', Rule::in(['Male','Female','Unisex', 'Kids'])],
 					'mens.*.size_title' => ['distinct','required','string','max:255'], 
-					'mens.*.from_cm' => 'required|numeric|min:0',
-					'mens.*.to_cm' => 'required|numeric|min:0',
-					'mens.*.chest' => 'required|numeric|min:0',
-					'mens.*.waist' => 'required|numeric|min:0',
-					'mens.*.hip' => 'required|numeric|min:0',
-					'mens.*.length' => 'required|numeric|min:0',
+					'mens.*.from_cm' => 'nullable|numeric|min:0',
+					'mens.*.to_cm' => 'nullable|numeric|min:0',
+					'mens.*.chest' => 'nullable|numeric|min:0',
+					'mens.*.waist' => 'nullable|numeric|min:0',
+					'mens.*.hip' => 'nullable|numeric|min:0',
+					'mens.*.length' => 'nullable|numeric|min:0',
 				]);
 				if(!$validator->fails())
 				{
@@ -109,8 +113,8 @@ class SizeController extends AppController
 							$item['type'] = $data['type'];
 							Sizes::create($item);
 					}
-						$request->session()->flash('success', 'Size created successfully.');
-						return redirect()->route('admin.size');
+					$request->session()->flash('success', 'Size created successfully.');
+					return redirect()->back();
 				}
 				else
 				{

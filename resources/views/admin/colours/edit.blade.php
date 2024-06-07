@@ -47,6 +47,15 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label class="form-control-label" for="input-first-name">Color Code</label>
+									<input type="text" class="form-control" name="code" required placeholder="Colour Code" value="{{ old('code', $page->code) }}">
+									@error('code')
+										<small class="text-danger">{{ $message }}</small>
+									@enderror
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-control-label" for="input-first-name">HEX Code</label>
 									<input type="text" class="form-control" name="color_code" required placeholder="Colour Code" value="{{ old('color_code',$page->color_code) }}">
 									@error('color_code')
 										<small class="text-danger">{{ $message }}</small>

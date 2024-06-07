@@ -26,6 +26,7 @@ use App\Models\Admin\Settings;
 
 use App\Libraries\FileSystem;
 use App\Libraries\DateTime;
+use App\Models\Admin\LogoPrices;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -203,5 +204,14 @@ class ProductsController extends BaseController
 		return Response()->json([
 			'dates' => $final
 		]);
+	}
+	
+	public function fetchLogoPrices(Request $request)
+	{
+		return Response()->json([
+			'status' => true,
+			'prices' => LogoPrices::all()
+		]);
+		
 	}
 }

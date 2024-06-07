@@ -5,7 +5,7 @@ $logo = Settings::get('logo');
 $companyName = Settings::get('company_name');
 $googleKey = Settings::get('google_api_key');
 $gstTax = Settings::get('gst');
-$version = 1.0;
+$version = 1.1;
 ?>
 <!DOCTYPE html>
 <html>
@@ -115,7 +115,7 @@ $version = 1.0;
 		<script src="<?php echo url('assets/js/ckeditor_image_plugin.js') ?>"></script>
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
-
+		<script src="//cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.16.0/vuedraggable.min.js"></script>
 		<script src="<?php echo url('assets/js/argon.js') ?>"></script>
 		<script src="<?php echo url('assets/js/tag-it.min.js') ?>"></script>
 		<script src="<?php echo url('assets/js/custom.js') ?>"></script>

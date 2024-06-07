@@ -1,6 +1,8 @@
+<?php use App\Libraries\FileSystem; ?>
 @extends('layouts.frontendlayout')
 @section('content')
-<section class="product__details--section section--padding" id="product-page">
+<div id="product-page">
+<section class="product__details--section section--padding" >
     <div class="container">
         <div class="row row-cols-lg-2 row-cols-md-2">
             <div class="col">
@@ -19,11 +21,32 @@
                                 </div>
                             </div>
                             @endforeach
+                            @foreach($product->color_images as $colorId => $i)
+                                <?php $image = FileSystem::getAllSizeImages($i['path']) ?>
+                                <div class="swiper-slide">
+                                    <div class="product__media--preview__items">
+                                        <a class="product__media--preview__items--link glightbox" data-color-id="{{ $colorId }}" data-gallery="product-media-preview" href="{{ url($image['large']) }}"><img class="product__media--preview__items--img" src="{{ url($image['large'])}}" alt="product-media-img"></a>
+                                        <div class="product__media--view__icon">
+                                            <a class="product__media--view__icon--link glightbox" href="{{ url($image['large']) }}" data-gallery="product-media-preview">
+                                                <svg class="product__media--view__icon--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="22.443" viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"></path></svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="product__media--nav swiper">
                         <div class="swiper-wrapper">
                             @foreach($product->image as $image)
+                            <div class="swiper-slide">
+                                <div class="product__media--nav__items">
+                                    <img class="product__media--nav__items--img" src="{{ url($image['small']) }}" alt="product-nav-img">
+                                </div>
+                            </div>
+                            @endforeach
+                            @foreach($product->color_images as $colorId => $i)
+                            <?php $image = FileSystem::getAllSizeImages($i['path']) ?>
                             <div class="swiper-slide">
                                 <div class="product__media--nav__items">
                                     <img class="product__media--nav__items--img" src="{{ url($image['small']) }}" alt="product-nav-img">
@@ -136,5 +159,7 @@
 
 <!-- Start product section -->
 @include('frontend.products.similarProducts', ['products' => $similarProducts, 'title' => 'You may also like'])
+@include('frontend.products.personlizedModal')
 <!-- End product section -->
+</div>
 @endsection

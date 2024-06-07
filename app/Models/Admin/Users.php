@@ -65,7 +65,7 @@ class Users extends Authenticatable implements MustVerifyEmail
     	$orderBy = $request->get('order') ? $request->get('order') : 'users.id';
     	$direction = $request->get('direction') ? $request->get('direction') : 'desc';
     	$page = $request->get('page') ? $request->get('page') : 1;
-    	$limit = self::$paginationLimit;
+    	$limit = 20;
     	$offset = ($page - 1) * $limit;
     	
     	$listing = Users::select([

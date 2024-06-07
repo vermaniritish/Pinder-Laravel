@@ -48,9 +48,9 @@ class Products extends AdminProducts
     */
     public function getImageAttribute($value = null)
     {
-        $value = FileSystem::getAllSizeImages($value ? $value : $this->image);
         if($value)
         {
+            $value = FileSystem::getAllSizeImages($value);
             foreach($value as $k => $v)
             {
                 foreach($v as $vk => $i)
@@ -62,6 +62,16 @@ class Products extends AdminProducts
         }
 
         return $value;
+    }
+
+    /**
+    * Get resize images
+    *
+    * @return array
+    */
+    public function getColorImagesAttribute($value = null)
+    {
+        return $value ? json_decode($value, true) : [] ;
     }
 
     /**

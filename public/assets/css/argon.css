@@ -30240,3 +30240,8 @@ ul.tagit input[type="text"] {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #e9ecef;
 }
+.badge{cursor: pointer;}
+.badge.active{
+    border: 1px solid #11cdef;
+    box-shadow: 0px 0px 8px 1px #11cdef;
+}

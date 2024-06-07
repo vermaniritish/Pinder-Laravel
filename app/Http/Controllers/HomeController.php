@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as BaseController;
 use App\Libraries\General;
+use App\Libraries\Paypal;
 use App\Models\Admin\Ratings;
 use App\Models\Admin\Sliders;
 use App\Models\Admin\ProductSubCategories;
@@ -43,6 +44,9 @@ class HomeController extends BaseController
         if($product)
         {
             $product = Products::where('slug', 'LIKE', $category)->where('status', 1)->limit(1)->first();
+			if(!$product) {
+				abort('404');
+			}
             $product->sizes = ProductSizeRelation::select(['product_sizes.*', 'products.title as title', 'products.slug', 'products.image', 'colours.title as color'])
             ->leftJoin('products', 'products.id', '=', 'product_sizes.product_id')
             ->leftJoin('colours', 'colours.id', '=', 'product_sizes.color_id')
@@ -215,6 +219,11 @@ class HomeController extends BaseController
 			$order->coupon = isset($data['coupon']) && $data['coupon'] ? json_encode($data['coupon']) : null;
 			$order->status = 'pending';
 			$order->created = date('Y-m-d H:i:s');
+			if($request->get('lastId'))
+			{
+				Orders::whereNull('status')->where('perfix_id', $data['lastId'])->where('paid', 0)->whereDay('created', now()->day)->delete();
+			}
+
 			if($order->save()) 
 			{
 				$order->prefix_id = Settings::get('order_prefix') + $order->id;
@@ -260,25 +269,7 @@ class HomeController extends BaseController
 					$order->tax = (($subtotal - $discount) * $order->tax_percentage) / 100;
 					$order->total_amount = ($subtotal - $discount) + $order->tax;
 					$order->save();
-					// $pros = [];
-					// $listing = OrderProductRelation::getListing($request, ['order_products.order_id' => $order->id]);
-					// if($listing->count() > 0)
-					// foreach($listing->items() as $k => $row):
-					// 	$pros[] = "o {$row->product_title} | *Qty: {$row->quantity}* | *Time: ".(_t($row->duration_of_service))."*";
-					// endforeach;
-					// $textMessage = "A new service assigned to " . ($order->staff ? $order->staff->first_name . " ".$order->staff->last_name : '') . " \nId: *{$order->prefix_id}*\nCustomer Name: *{$order->customer_name} - " . ($order->customer ? $order->customer->phonenumber : '') . "*\nAddress: *".implode(', ', array_filter([$order->address]))."*\nBooking Time: *"._d($order->booking_date)." | " . _time($order->booking_time) ."*\n".($order->latitude && $order->longitude ? "Locations:\nhttps://maps.google.com/maps?q={$order->latitude},{$order->longitude}&z=17&hl=en" : "")."\n----------------------------\n".implode("\n", $pros);
-
-					// $codes = [
-					// 	'{order_id}' => $order->prefix_id,
-					// 	'{order_information}' => nl2br($textMessage),
-					// 	'{order_button}' => '<br /><br /><a href="'.$link.'" target="_blank" style="padding:30px;background:pink;">View Order</a>'
-					// ];
-
-					// General::sendTemplateEmail(
-					// 	'amitaverma736@gmail.com',
-					// 	'order-placed',
-					// 	$codes
-					// );
+					
 				}
 
 				return Response()->json([

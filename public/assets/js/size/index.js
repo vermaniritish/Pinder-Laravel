@@ -109,3 +109,40 @@ let unisex = new Vue({
         }
     }
 });
+
+let kids = new Vue({
+    el: '#kidkid',
+    data: {
+        mens: [{ 
+            size_type: '',
+            from_cm: '',
+            to_cm: '',
+            chest: '',
+            waist: '',
+            hip: '',
+            length: '',
+        }]
+    },
+    mounted: function() {
+        this.initEditValues()
+    },
+    methods: {
+        initEditValues: function () {
+            if ($('#kids').length > 0 && $('#kids').text().trim() !== '[]') {
+                let data = JSON.parse($('#kids').text());
+                this.mens = data;
+            }
+        },
+        addForm() {
+            this.mens.push({ 
+                size_type: '',
+                from_cm: '',
+                to_cm: '',
+                chest: '',
+                waist: '',
+                hip: '',
+                length: '',
+            });
+        }
+    }
+});

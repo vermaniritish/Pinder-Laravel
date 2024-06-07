@@ -3,9 +3,12 @@ var productDetail = new Vue({
     el: '#product-page',
     data: {
         id: null,
+        logoPrices: [],
+        editLogo: false,
         sizes: [],
         color: null,
         selectedSizes: {},
+        uploading: null,
         logo: {
             category: null,
             postion: null,
@@ -13,7 +16,7 @@ var productDetail = new Vue({
             image: null
         },
         logoOptions: {
-            category: null,
+            category: [],
             postions: null
         },
         fileSizeError: null,
@@ -31,6 +34,10 @@ var productDetail = new Vue({
             else {
                 return this.sizes;
             }
+        },
+        renderAllAddedSizes() {
+            // return this.sizes;
+            return this.sizes.filter((i) => ((i.quantity*1) > 0) );
         },
         increment(id) {
             let index = this.sizes.findIndex((v) => v.id == id);
@@ -56,7 +63,8 @@ var productDetail = new Vue({
             }
             this.sizes = s;
         },
-        handleFileUpload(event) {
+        handleFileUpload(sizeIndex) {
+            this.uploading = sizeIndex;
             $('#fileUploadForm input[type=file]').click();
         },
         uploadFile() {
@@ -68,18 +76,20 @@ var productDetail = new Vue({
                 success: function(response) {
                     if(response.status == 'success')
                     {
-                        productDetail.logo.image = response.path;
+                        productDetail.sizes[productDetail.uploading].logo.image = response.path;
                     }
                     else
                     {
                         set_notification('error', response.message);
                     }
+                    productDetail.uploading = null;
                 },
                 complete: function() {
                 }
             });
         },
         async addToCart() {
+            this.editLogo = false;
             this.adding = true;
             this.cart = this.sizes.filter((item) => {
                 return (item.quantity && (item.quantity*1) > 0)
@@ -100,6 +110,50 @@ var productDetail = new Vue({
             await sleep(350);
             this.adding = false;
             
+        },
+        async openLogoModal() {
+            this.editLogo = true;
+            let response = await fetch(site_url + `/api/products/fetch-logo-prices`);
+            response = await response.json();
+            if(response && response.status)
+            {
+                this.logoPrices = response.prices;
+            }
+        },
+        onChange(index, size, category)
+        {
+            let price = 0;
+            let logo = size.logo;
+            if(category){
+                this.sizes[index].logo.category = category;
+            }
+            if(size.logo.postion && (category || this.sizes[index].logo.category))
+            {
+                category = category ? category : this.sizes[index].logo.category;
+                const pos = size.logo.postion;
+                logo.category = category;
+                if(category != 'None')
+                {
+                    let logoPriceApply = this.logoPrices.filter((val) => {
+                        return val.position == this.convertToSlug(pos) && val.option == this.convertToSlug(category) && size.quantity >= val.from_quantity && size.quantity <= val.to_quantity;
+                    });
+                    logo.price = logoPriceApply && logoPriceApply.length > 0 ? (logoPriceApply[0].price*1) : 0;
+                }
+                else
+                {
+                    logo.price = 0;
+                }
+            }
+            else
+            {
+                logo.price = 0;
+            }
+            size.logo = logo;
+        },
+        convertToSlug(Text) {
+            return Text ? Text.toLowerCase()
+            .replace(/ /g, "-")
+            .replace(/[^\w-]+/g, "") : ``;
         }
     },
     mounted: function() {
@@ -111,17 +165,14 @@ var productDetail = new Vue({
         });
         let sizes = $('#product-sizes').text().trim();
         sizes = sizes ? JSON.parse(sizes) : [];
-        if(cart && cart.length > 0)
+        for(let i in sizes)
         {
-            for(let i in sizes)
-            {
-                let exist = this.cart.filter((item) => {
-                    return item.id == sizes[i].id
-                });
-                sizes[i].quantity = exist && exist.length > 0 && exist[0].quantity ? exist[0].quantity : 0;
-            }
+            let exist = this.cart.filter((item) => {
+                return item.id == sizes[i].id
+            });
+            sizes[i].logo = exist && exist.length > 0 && exist[0].logo ? exist[0].logo : {...this.logo};
+            sizes[i].quantity = exist && exist.length > 0 && exist[0].quantity ? exist[0].quantity : 0;
         }
-
         this.sizes = sizes;
         this.logoOptions = JSON.parse($('#logo-options').text().trim());
         if(!this.color && this.sizes.length > 0) {
@@ -270,6 +321,7 @@ if($('#header').length)
 var minicart = new Vue({
     el: '#header',
     data: {
+        oneTimeCost: (oneTimeProductCost*1) > 0 ? (oneTimeProductCost*1) : 0,
         open: false,
         agree: false,
         cart: [],
@@ -336,12 +388,15 @@ var minicart = new Vue({
             let subtotal = this.cart.map((item) => item.quantity*item.price);
             let total = this.cart.map((item) => item.quantity*item.price);
             t.total = total.reduce((partialSum, a) => partialSum + a, 0);
-            t.subtotal = subtotal.reduce((partialSum, a) => partialSum + a, 0);
-            
+            t.product_cost = subtotal.reduce((partialSum, a) => partialSum + a, 0);
+            t.logo_cost = this.cart.map((item) => item.logo && item.logo.category != 'None' && (item.logo.price*1) > 0 ? item.logo.price*item.quantity : 0);
+            t.logo_cost = t.logo_cost.reduce((partialSum, a) => partialSum + a, 0);
+            t.oneTimeCost = (t.product_cost*1) > 0 && (this.oneTimeCost*1) > 0 ? (this.oneTimeCost*1) : 0;
+            t.subtotal = t.product_cost + t.logo_cost + (t.product_cost > 0 ? t.oneTimeCost : 0 );
             t.discount = 0;
             t.tax = (t.subtotal - t.discount) * (this.gstTax > 0 ? this.gstTax : 0);
             t.tax = (t.tax > 0 ? t.tax / 100 : 0);
-            t.total = t.total + t.tax;
+            t.total = t.subtotal - t.discount + t.tax;
             return t;
         },
         getImagePath(image) {
@@ -368,7 +423,8 @@ var minicart = new Vue({
         coupon: ``,
         appliedCoupon: null,
         couponError: ``,
-        gstTax: ``
+        gstTax: ``,
+        oneTimeCost: (oneTimeProductCost*1) > 0 ? (oneTimeProductCost*1) : 0,
     },
     methods: {
         cartcount(){
@@ -435,12 +491,17 @@ var minicart = new Vue({
             let subtotal = this.cart.map((item) => item.quantity*item.price);
             let total = this.cart.map((item) => item.quantity*item.price);
             t.total = total.reduce((partialSum, a) => partialSum + a, 0);
-            t.subtotal = subtotal.reduce((partialSum, a) => partialSum + a, 0);
-            
-            t.discount = this.detectDiscount();
+            t.product_cost = subtotal.reduce((partialSum, a) => partialSum + a, 0);
+            t.logo_cost = this.cart.map((item) => item.logo && item.logo.category != 'None' && (item.logo.price*1) > 0 ? item.logo.price*item.quantity : 0);
+            t.logo_cost = t.logo_cost.reduce((partialSum, a) => partialSum + a, 0);
+            t.oneTimeCost = (t.product_cost*1) > 0 && (oneTimeProductCost*1) > 0 ? (oneTimeProductCost*1) : 0;
+            t.subtotal = t.product_cost + t.logo_cost +  + (t.product_cost > 0 ? t.oneTimeCost : 0 );
+
+            t.discount = this.detectDiscount(t.subtotal);
             t.tax = (t.subtotal - t.discount) * (this.gstTax > 0 ? this.gstTax : 0);
             t.tax = (t.tax > 0 ? t.tax / 100 : 0);
-            t.total = t.total + t.tax;
+            t.total = t.subtotal - t.discount + t.tax;
+            t.total = t.total.toFixed(2);
             return t;
         },
         getImagePath(image) {
@@ -455,9 +516,7 @@ var minicart = new Vue({
             this.cart = [];
             localStorage.removeItem('cart');
         },
-        detectDiscount() {
-            let subtotal = this.cart.map((item) => item.quantity*item.price);
-            subtotal = subtotal.reduce((partialSum, a) => partialSum + a, 0);
+        detectDiscount(subtotal) {
             if(this.appliedCoupon && this.appliedCoupon.is_percentage > 0 && this.appliedCoupon.amount > 0)
             {
                 let disc = (subtotal * this.appliedCoupon.amount)/100;
@@ -494,8 +553,9 @@ var minicart = new Vue({
     }
 });
 
+var checkoutPage = null;
 if($('#checkout-page').length)
-var minicart = new Vue({
+checkoutPage = new Vue({
     el: '#checkout-page',
     data: {
         orderPlaced: null,
@@ -519,7 +579,8 @@ var minicart = new Vue({
         coupon: ``,
         appliedCoupon: null,
         couponError: ``,
-        gstTax: ``
+        gstTax: ``,
+        oneTimeCost: (oneTimeProductCost*1) > 0 ? (oneTimeProductCost*1) : 0,
     },
     methods: {
         cartcount(){
@@ -530,6 +591,10 @@ var minicart = new Vue({
         initcart() {
             let cart = localStorage.getItem('cart');
             cart = cart ? JSON.parse(cart) : [];
+            if(cart && cart.length < 1)
+            {
+                window.location.href = site_url + '/';
+            }
             this.cart = cart;
 
             let coupon = localStorage.getItem('coupon');
@@ -584,12 +649,19 @@ var minicart = new Vue({
             }
 
             let subtotal = this.cart.map((item) => item.quantity*item.price);
-            subtotal = subtotal.reduce((partialSum, a) => partialSum + a, 0);
-            t.discount = this.detectDiscount();
-            let tax = (subtotal - t.discount) * (this.gstTax > 0 ? this.gstTax : 0);
+            
+            t.product_cost = subtotal.reduce((partialSum, a) => partialSum + a, 0);
+            t.logo_cost = this.cart.map((item) => item.logo && item.logo.category != 'None' && (item.logo.price*1) > 0 ? item.logo.price*item.quantity : 0);
+            t.logo_cost = t.logo_cost.reduce((partialSum, a) => partialSum + a, 0);
+            t.oneTimeCost = (t.product_cost*1) > 0 && (oneTimeProductCost*1) > 0 ? (oneTimeProductCost*1) : 0;
+            t.subtotal = t.product_cost + t.logo_cost  + (t.product_cost > 0 ? t.oneTimeCost : 0 );
+
+            t.discount = this.detectDiscount(t.subtotal);
+            
+            let tax = (t.subtotal - t.discount) * (this.gstTax > 0 ? this.gstTax : 0);
             tax = (tax > 0 ? tax / 100 : 0);
-            t.total = ( ((subtotal - t.discount) *1) + tax);
-            t.subtotal = subtotal.toFixed(2);
+            t.total = ( ((t.subtotal - t.discount) *1) + tax);
+            t.subtotal = t.subtotal.toFixed(2);
             t.tax = tax.toFixed(2);
             t.total = t.total.toFixed(2);
             return t;
@@ -606,9 +678,7 @@ var minicart = new Vue({
             this.cart = [];
             localStorage.removeItem('cart');
         },
-        detectDiscount() {
-            let subtotal = this.cart.map((item) => item.quantity*item.price);
-            subtotal = subtotal.reduce((partialSum, a) => partialSum + a, 0);
+        detectDiscount(subtotal) {
             if(this.appliedCoupon && this.appliedCoupon.is_percentage > 0 && this.appliedCoupon.amount > 0)
             {
                 let disc = (subtotal * this.appliedCoupon.amount)/100;
@@ -639,8 +709,14 @@ var minicart = new Vue({
             localStorage.removeItem('coupon');
         },
         async submit() {
+            console.log(`this.saveInfo`, this.checkout.saveInfo);
+            if(this.checkout.saveInfo) {
+                localStorage.setItem('addressInfo', JSON.stringify(this.checkout));
+            }
+
             if(this.saving) return false;
             let haveErrors = false;
+
             let checkout = JSON.parse(JSON.stringify(this.checkout));
             for(let e in checkout) {
                 if($('#nologinsection').length < 1 && e === 'phone_email') {
@@ -651,12 +727,12 @@ var minicart = new Vue({
                     break;
                 }
             }
-            console.log(`haveErrors`, checkout);
             if(!haveErrors)
             {
                 this.errors = {};
                 let data = {...checkout, ...{coupon: this.appliedCoupon, cart: this.cart, token: $('#checkout-page').attr('data-token')} };
                 this.saving = true;
+                data.lastId = localStorage.getItem('orderId') ? localStorage.getItem('orderId') : null;
                 let response = await fetch(site_url + '/api/orders/booking', {
 					method: 'POST',
 					headers: {
@@ -667,16 +743,24 @@ var minicart = new Vue({
 				response = await response.json();
                 if(response && response.status)
                 {
-                    window.scrollTo(0,0)
-                    this.orderPlaced = response.orderId;
-                    localStorage.removeItem('cart');
-                    localStorage.removeItem('coupon');
+                    localStorage.setItem('orderId', response.orderId);
+
+                    // window.scrollTo(0,0)
+                    // this.orderPlaced = response.orderId;
+                    // localStorage.removeItem('cart');
+                    // localStorage.removeItem('coupon');
+                }
+                else if(response && response.message)
+                {
+                    set_notification('error', response.message)
                 }
                 else
                 {
                     set_notification('error', 'Something went wrong. Order could not be placed.')
                 }
                 this.saving = false;
+
+                return response;
             }
             else
             {
@@ -687,5 +771,10 @@ var minicart = new Vue({
     mounted: function() {
         this.gstTax = gstTax();
         this.initcart();
+        let addressInfo = localStorage.getItem('addressInfo');
+        if(addressInfo) {
+            addressInfo = JSON.parse(addressInfo);
+            this.checkout = {...this.checkout, ...addressInfo}
+        }
     }
 });

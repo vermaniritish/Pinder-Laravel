@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PayPalController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,10 +41,18 @@ Route::prefix('admin')->middleware(['adminAuth'])->group(function () {
 
 Route::middleware(['guest'])->group(function () {
 
+	Route::post('/paypal/create-order', [PayPalController::class, 'createOrder']);
+	Route::post('/paypal/capture-order', [PayPalController::class, 'captureOrder']);
+	Route::get('/paypal/success', [PayPalController::class, 'successMsg']);
+	Route::get('/paypal/error', [PayPalController::class, 'errorMsg']);
+
 	//Admin public
 	include "Admin/auth.php";
 	include "Frontend/auth.php";
 	include "Frontend/home.php";
+
+	
+	
 	
 });
 // Frontend Routes

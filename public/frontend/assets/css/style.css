@@ -7700,6 +7700,10 @@ input[type="number"]::-webkit-outer-spin-button {
   border: 1px solid var(--secondary-color);
   color: var(--secondary-color);
 }
+.variant__input--fieldset input[type="radio"] + label.active {
+  border: 2px solid #444444;
+  padding: 1px;
+}
 
 .variant__input--fieldset:last-child {
   margin-right: 0;
@@ -13095,4 +13099,13 @@ button.bg-red:focus
   border: none;
   border-radius: 50%;
   padding: 4px;
+}
+
+.dropdown.open ul{
+  display: block;
+}
+
+.dropdown ul li {
+  padding: 10px;
+  font-size: 12px;
 }

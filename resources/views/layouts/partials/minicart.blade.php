@@ -45,10 +45,22 @@
         </div>
     </div>
     <div class="minicart__amount">
-        <div class="minicart__amount_list d-flex justify-content-between">
-            <span>Sub Total:</span>
-            <span><b>£@{{calculate().subtotal}}</b></span>
-        </div>
+            <div class="minicart__amount_list d-flex justify-content-between">
+                <span>Product Costs:</span>
+                <span><b>£@{{calculate().product_cost}}</b></span>
+            </div>
+            <div class="minicart__amount_list d-flex justify-content-between">
+                <span>Costs To Add Logo:</span>
+                <span><b>£@{{calculate().logo_cost}}</b></span>
+            </div>
+            <div class="minicart__amount_list d-flex justify-content-between">
+                <span>One Time Setup Fees:</span>
+                <span><b>£@{{calculate().oneTimeCost}}</b></span>
+            </div>
+            <div class="minicart__amount_list d-flex justify-content-between">
+                <span>Total (ex. VAT):</span>
+                <span><b>£@{{ calculate().subtotal }}</b></span>
+            </div>
         <div class="minicart__amount_list d-flex justify-content-between" v-if="calculate().discount > 0">
             <span>Discount:</span>
             <span><b>- £@{{calculate().discount}}</b></span>

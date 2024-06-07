@@ -1,7 +1,7 @@
 <pre class="d-none" id="logo-options">{{ json_encode($logoOptions) }}</pre>
 <div class="product__variant--list mb-20">
         <fieldset class="variant__input--fieldset weight">
-            <a href="#hide" id="hide"><legend class="product__variant--title mb-8"><img src="{{ url('/frontend/assets/img/other/open.png')}}" /> Add Personalised Logo :</legend></a>
+            <a href="#" v-on:click="openLogoModal"><legend class="product__variant--title mb-8"><img src="{{ url('/frontend/assets/img/other/open.png')}}" /> Add Personalised Logo :</legend></a>
             <a href="#/" id="show"><legend class="product__variant--title mb-8"><img src="{{ url('/frontend/assets/img/other/close.png')}}" /> Close :</legend></a>
             <div id="answer">
                 <p>We offer embroidered AND/OR printed logos.</p>
@@ -30,7 +30,7 @@
             
         </fieldset>
     </div>
-    <form class="d-none" method="post" action="<?php echo route('admin.actions.uploadFile') ?>"  enctype="multipart/form-data" class="d-none" id="fileUploadForm">
+    <form class="d-none" method="post" action="<?php echo route('actions.uploadFile') ?>"  enctype="multipart/form-data" class="d-none" id="fileUploadForm">
         <?php echo csrf_field() ?>
         <input type="hidden" name="path" value="cart">
         <input type="hidden" name="file_type" value="image">
