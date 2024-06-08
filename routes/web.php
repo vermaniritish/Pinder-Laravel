@@ -37,6 +37,7 @@ Route::prefix('admin')->middleware(['adminAuth'])->group(function () {
 	include "Admin/ratings.php";
 	include "Admin/sliders.php";
 	include "Admin/contactUs.php";
+	include "Admin/logoPrices.php";
 });
 
 Route::middleware(['guest'])->group(function () {
@@ -50,9 +51,6 @@ Route::middleware(['guest'])->group(function () {
 	include "Admin/auth.php";
 	include "Frontend/auth.php";
 	include "Frontend/home.php";
-
-	
-	
 	
 });
 // Frontend Routes
