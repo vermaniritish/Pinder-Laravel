@@ -25,14 +25,16 @@ let logoPrices = new Vue({
         },
         initializeRows(logoPrices) {
             const grouped = {
-                embroidered: {},
-                printed: {}
+                'embroidered-logo': {},
+                'printed-logo': {}
             };
-        
             logoPrices.forEach(price => {
                 const key = `${price.from_quantity}-${price.to_quantity}`;
                 const logoType = price.option === 'embroidered-logo' ? 'embroidered-logo' : 'printed-logo';
-        
+    
+                if (!grouped[logoType]) {
+                    grouped[logoType] = {};
+                }
                 if (!grouped[logoType][key]) {
                     grouped[logoType][key] = {
                         from_quantity: price.from_quantity,
@@ -40,12 +42,18 @@ let logoPrices = new Vue({
                         prices: {}
                     };
                 }
-        
+                if (!grouped[logoType][key].prices[price.position]) {
+                    grouped[logoType][key].prices[price.position] = 0;
+                }
+    
                 grouped[logoType][key].prices[price.position] = price.price;
             });
-        
-            this.embroideryRows = Object.values(grouped.embroidered-logo);
-            this.printingRows = Object.values(grouped.printed-logo);
+    
+            this.embroideryRows = Object.values(grouped['embroidered-logo']);
+            this.printingRows = Object.values(grouped['printed-logo']);
+    
+            console.log('Embroidery Rows:', this.embroideryRows);
+            console.log('Printing Rows:', this.printingRows);
         },
         addRow(type) {
             const newRow = {
