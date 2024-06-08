@@ -27,7 +27,7 @@
 						<h3 class="mb-0">Embroidery</h3>
 					</div>
 					<div class="actions">
-						<button v-on:click="addRow('embroidered-logo')" class="btn-sm btn-primary">Add Row</button>
+						<button v-on:click="addRow('embroidered-logo')" class="btn-sm btn-primary"><i class="fas fa-plus"></i> Add</button>
 					</div>
 				</div>
 				<div class="card-body p-0">
@@ -60,7 +60,7 @@
 						<h3 class="mb-0">Printing</h3>
 					</div>
 					<div class="actions">
-						<button v-on:click="addRow('printed-logo')" class="btn-sm btn-primary">Add Row</button>
+						<button v-on:click="addRow('printed-logo')" class="btn-sm btn-primary"><i class="fas fa-plus"></i> Add</button>
 					</div>
 				</div>
 				<div class="card-body p-0">
