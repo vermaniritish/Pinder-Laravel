@@ -19,7 +19,7 @@
 <div class="container-fluid mt--6">
 	<div class="row">
 		<div id="logoPrices" class="col-xl-12 order-xl-1">
-			<!--!! FLAST MESSAGES !!-->
+			<!--!! FLASH MESSAGES !!-->
 			@include('admin.partials.flash_messages')
 		    <div class="card">
 				<div class="card-header border-0">
@@ -27,11 +27,11 @@
 						<h3 class="mb-0">Embroidery</h3>
 					</div>
 					<div class="actions">
-						<button v-onclick="addRow('embroidered-logo')" class="btn-sm btn-primary">Add Row</button>
+						<button v-on:click="addRow('embroidered-logo')" class="btn-sm btn-primary">Add Row</button>
 					</div>
 				</div>
 				<div class="card-body p-0">
-					<div class="table-responsive" >
+					<div class="table-responsive">
 						<table class="table align-items-center table-flush listing-table">
 							<thead class="thead-light">
 								<tr>
@@ -60,11 +60,11 @@
 						<h3 class="mb-0">Printing</h3>
 					</div>
 					<div class="actions">
-						{{-- <button v-onclick="addRow('printed-logo')" class="btn-sm btn-primary">Add Row</button> --}}
+						<button v-on:click="addRow('printed-logo')" class="btn-sm btn-primary">Add Row</button>
 					</div>
 				</div>
 				<div class="card-body p-0">
-					<div class="table-responsive" >
+					<div class="table-responsive">
 						<table class="table align-items-center table-flush listing-table">
 							<thead class="thead-light">
 								<tr>
@@ -78,9 +78,9 @@
 								<tr v-for="(row, index) in printingRows" :key="index">
 									<td><input type="number" v-model="row.from_quantity" class="form-control"></td>
 									<td><input type="number" v-model="row.to_quantity" class="form-control"></td>
-									{{-- <td>
-										<button v-onclick="removeRow('printing', index)" class="btn-sm btn-danger"><i class="fa fa-times text-white" ></i></button>
-									</td> --}}
+									<td v-for="position in logoPositions" :key="position">
+										<input type="number" v-model="row.prices[position]" class="form-control">
+									</td>
 								</tr>
 							</tbody>
 						</table>
