@@ -72,6 +72,14 @@ let logoPrices = new Vue({
             if(type == 'printed-logo') {
                 this.printingRows.push(newRow);
             }
+        },
+        removeRow(type, index) {
+            if(type == 'embroidered-logo') {
+                this.embroideryRows.splice(index, 1);
+            }
+            if(type == 'printed-logo') {
+                this.printingRows.splice(index, 1);
+            }
         }
     }
 });

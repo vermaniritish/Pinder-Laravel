@@ -48,10 +48,16 @@
 									<td v-for="position in logoPositions" :key="position">
 										<input type="number" v-model="row.prices[position]" class="form-control">
 									</td>
+									<td class="text-center" >
+										<i v-on:click="removeRow('embroidered-logo', index)" class="fa fa-times"></i>
+									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
+					<hr class="my-4" />
+					<button href="#" class="btn btn-sm mb-3 mr-3 py-2 px-3 btn-primary float-right"><i class="fa fa-save"></i> Submit
+					</button>
 				</div>
 			</div>
 		    <div class="card">
@@ -81,10 +87,16 @@
 									<td v-for="position in logoPositions" :key="position">
 										<input type="number" v-model="row.prices[position]" class="form-control">
 									</td>
+									<td class="text-center" >
+										<i v-on:click="removeRow('printed-logo', index)" class="fa fa-times"></i>
+									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
+					<hr class="my-4" />
+					<button href="#" class="btn btn-sm mb-3 mr-3 py-2 px-3 btn-primary float-right"><i class="fa fa-save"></i> Submit
+					</button>
 				</div>
 			</div>
 		</div>
