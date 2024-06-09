@@ -76,66 +76,25 @@ class LogoPriceController extends AppController
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
     	}
-    	if($request->isMethod('post'))
-    	{
-			$data = $request->toArray();
-    		unset($data['_token']);
-			if (!empty($data)) {
-				$validator = Validator::make($request->all(), [
-					'type' => ['required', Rule::in(['Male','Female','Unisex', 'Kids'])],
-					'mens.*.size_title' => ['distinct','required','string','max:255'], 
-					'mens.*.from_cm' => 'nullable|numeric|min:0',
-					'mens.*.to_cm' => 'nullable|numeric|min:0',
-					'mens.*.chest' => 'nullable|numeric|min:0',
-					'mens.*.waist' => 'nullable|numeric|min:0',
-					'mens.*.hip' => 'nullable|numeric|min:0',
-					'mens.*.length' => 'nullable|numeric|min:0',
-				]);
-				if(!$validator->fails())
-				{
-					LogoPrices::where('type',$data['type'])->delete();
-					foreach ($request->mens as $item) {
-							$item['type'] = $data['type'];
-							LogoPrices::create($item);
-					}
-					$request->session()->flash('success', 'Size created successfully.');
-					return redirect()->back();
+		$data = $request->toArray();
+		LogoPrices::where('option', $data['type'])->delete();
+		$insertData = [];
+		if (isset($$data['type'])) {
+			foreach ($$data['type'] as $row) {
+				foreach ($row['prices'] as $position => $price) {
+					$insertData[] = [
+						'from_quantity' => $row['from_quantity'],
+						'to_quantity' => $row['to_quantity'],
+						'position' => $position,
+						'option' => $data['type'],
+						'price' => $price
+					];
 				}
-				else
-				{
-					$request->session()->flash('error', 'Please provide valid inputs.');
-					return redirect()->back()->withErrors($validator)->withInput();
-				}
-			}
-			else {
-				$request->session()->flash('error', 'Please provide valid inputs.');
-				return redirect()->back()->withErrors(['mens' => 'Data is empty.'])->withInput();
 			}
 		}
-
-	    return view("admin/logoPrices/add", [
-	    		]);
-    }
-
-    function delete(Request $request, $id)
-    {
-    	if(!Permissions::hasPermission('logo_prices', 'delete'))
-    	{
-    		$request->session()->flash('error', 'Permission denied.');
-    		return redirect()->route('admin.dashboard');
-    	}
-
-    	$admin = LogoPrices::find($id);
-    	if($admin->delete())
-    	{
-    		$request->session()->flash('success', 'Staff deleted successfully.');
-    		return redirect()->route('admin.size');
-    	}
-    	else
-    	{
-    		$request->session()->flash('error', 'Staff could not be delete.');
-    		return redirect()->route('admin.size');
-    	}
+		LogoPrices::insert($insertData);
+		$request->session()->flash('success', trans('LOGO_PRICE_CREATED'));
+		return redirect()->route('admin.logoPrice');
     }
 
 	public function getLogoPrices()

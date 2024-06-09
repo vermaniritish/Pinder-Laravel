@@ -21,84 +21,92 @@
 		<div id="logoPrices" class="col-xl-12 order-xl-1">
 			<!--!! FLASH MESSAGES !!-->
 			@include('admin.partials.flash_messages')
-		    <div class="card">
-				<div class="card-header border-0">
-					<div class="heading">
-						<h3 class="mb-0">Embroidery</h3>
+			<form method="POST" action="{{ route('admin.logoPrice.add') }}">
+                @csrf
+				<div class="card">
+					<div class="card-header border-0">
+						<div class="heading">
+							<h3 class="mb-0">Embroidery</h3>
+						</div>
+						<div class="actions">
+							<button v-on:click="addRow('embroidered-logo')" class="btn-sm btn-primary"><i class="fas fa-plus"></i> Add</button>
+						</div>
 					</div>
-					<div class="actions">
-						<button v-on:click="addRow('embroidered-logo')" class="btn-sm btn-primary"><i class="fas fa-plus"></i> Add</button>
-					</div>
-				</div>
-				<div class="card-body p-0">
-					<div class="table-responsive">
-						<table class="table align-items-center table-flush listing-table">
-							<thead class="thead-light">
-								<tr>
-									<th>From Quantity</th>
-									<th>To Quantity</th>
-									<th v-for="(value, key) in logoPositions" :key="value">@{{ key }}</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="(row, index) in embroideryRows" :key="index">
-									<td><input type="number" v-model="row.from_quantity" class="form-control"></td>
-									<td><input type="number" v-model="row.to_quantity" class="form-control"></td>
-									<td v-for="position in logoPositions" :key="position">
-										<input type="number" v-model="row.prices[position]" class="form-control">
-									</td>
-									<td class="text-center" >
-										<i v-on:click="removeRow('embroidered-logo', index)" class="fa fa-times"></i>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<hr class="my-4" />
-					<button href="#" class="btn btn-sm mb-3 mr-3 py-2 px-3 btn-primary float-right"><i class="fa fa-save"></i> Submit
-					</button>
-				</div>
-			</div>
-		    <div class="card">
-				<div class="card-header border-0">
-					<div class="heading">
-						<h3 class="mb-0">Printing</h3>
-					</div>
-					<div class="actions">
-						<button v-on:click="addRow('printed-logo')" class="btn-sm btn-primary"><i class="fas fa-plus"></i> Add</button>
+					<input type="hidden" name="type" value="embroidered-logo">
+					<div class="card-body p-0">
+						<div class="table-responsive">
+							<table class="table align-items-center table-flush listing-table">
+								<thead class="thead-light">
+									<tr>
+										<th>From Quantity</th>
+										<th>To Quantity</th>
+										<th v-for="(value, key) in logoPositions" :key="value">@{{ key }}</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="(row, index) in embroideryRows" :key="index">
+										<td><input type="number" v-model="row.from_quantity" class="form-control" :name="'embroidered-logo[' + index + '][from_quantity]'"></td>
+										<td><input type="number" v-model="row.to_quantity" class="form-control" :name="'embroidered-logo[' + index + '][to_quantity]'"></td>
+										<td v-for="position in logoPositions" :key="position">
+											<input type="number" v-model="row.prices[position]" class="form-control" :name="'embroidered-logo[' + index + '][prices][' + position + ']'">
+										</td>
+										<td class="text-center" >
+											<i v-on:click="removeRow('embroidered-logo', index)" class="fa fa-times"></i>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<hr class="my-4" />
+						<button type="submit" class="btn btn-sm mb-3 mr-3 py-2 px-3 btn-primary float-right"><i class="fa fa-save"></i> Submit
+						</button>
 					</div>
 				</div>
-				<div class="card-body p-0">
-					<div class="table-responsive">
-						<table class="table align-items-center table-flush listing-table">
-							<thead class="thead-light">
-								<tr>
-									<th>From Quantity</th>
-									<th>To Quantity</th>
-									<th v-for="(value, key) in logoPositions" :key="value">@{{ key }}</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="(row, index) in printingRows" :key="index">
-									<td><input type="number" v-model="row.from_quantity" class="form-control"></td>
-									<td><input type="number" v-model="row.to_quantity" class="form-control"></td>
-									<td v-for="position in logoPositions" :key="position">
-										<input type="number" v-model="row.prices[position]" class="form-control">
-									</td>
-									<td class="text-center" >
-										<i v-on:click="removeRow('printed-logo', index)" class="fa fa-times"></i>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+			</form>
+			<form method="POST" action="{{ route('admin.logoPrice.add') }}">
+                @csrf
+				<div class="card">
+					<div class="card-header border-0">
+						<div class="heading">
+							<h3 class="mb-0">Printing</h3>
+						</div>
+						<div class="actions">
+							<button v-on:click="addRow('printed-logo')" class="btn-sm btn-primary"><i class="fas fa-plus"></i> Add</button>
+						</div>
 					</div>
-					<hr class="my-4" />
-					<button href="#" class="btn btn-sm mb-3 mr-3 py-2 px-3 btn-primary float-right"><i class="fa fa-save"></i> Submit
-					</button>
+					<input type="hidden" name="type" value="printed-logo">
+					<div class="card-body p-0">
+						<div class="table-responsive">
+							<table class="table align-items-center table-flush listing-table">
+								<thead class="thead-light">
+									<tr>
+										<th>From Quantity</th>
+										<th>To Quantity</th>
+										<th v-for="(value, key) in logoPositions" :key="value">@{{ key }}</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="(row, index) in printingRows" :key="index">
+										<td><input type="number" v-model="row.from_quantity" class="form-control" :name="'printed-logo[' + index + '][from_quantity]'"></td>
+										<td><input type="number" v-model="row.to_quantity" class="form-control" :name="'printed-logo[' + index + '][to_quantity]'"></td>
+										<td v-for="position in logoPositions" :key="position">
+											<input type="number" v-model="row.prices[position]" class="form-control" :name="'printed-logo[' + index + '][prices][' + position + ']'">
+										</td>
+										<td class="text-center" >
+											<i v-on:click="removeRow('printed-logo', index)" class="fa fa-times"></i>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<hr class="my-4" />
+						<button type="submit" class="btn btn-sm mb-3 mr-3 py-2 px-3 btn-primary float-right"><i class="fa fa-save"></i> Submit
+						</button>
+					</div>
 				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 </div>
