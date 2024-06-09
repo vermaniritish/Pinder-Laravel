@@ -51,9 +51,6 @@ let logoPrices = new Vue({
     
             this.embroideryRows = Object.values(grouped['embroidered-logo']);
             this.printingRows = Object.values(grouped['printed-logo']);
-    
-            console.log('Embroidery Rows:', this.embroideryRows);
-            console.log('Printing Rows:', this.printingRows);
         },
         addRow(type) {
             const newRow = {
@@ -61,15 +58,15 @@ let logoPrices = new Vue({
                 to_quantity: 0,
                 prices: {}
             };
-            
-            this.logoPositions.forEach(position => {
+            const positions = Object.keys(this.logoPositions); 
+            positions.forEach(position => {
                 newRow.prices[position] = 0;
             });
 
-            if(type == 'embroidered-logo') {
+            if (type === 'embroidered-logo') {
                 this.embroideryRows.push(newRow);
             }
-            if(type == 'printed-logo') {
+            if (type === 'printed-logo') {
                 this.printingRows.push(newRow);
             }
         },
