@@ -79,8 +79,8 @@ class LogoPriceController extends AppController
 		$data = $request->toArray();
 		LogoPrices::where('option', $data['type'])->delete();
 		$insertData = [];
-		if (isset($$data['type'])) {
-			foreach ($$data['type'] as $row) {
+		if (isset($data['type'])) {
+			foreach ($data[$data['type']] as $row) {
 				foreach ($row['prices'] as $position => $price) {
 					$insertData[] = [
 						'from_quantity' => $row['from_quantity'],
