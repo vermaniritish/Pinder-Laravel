@@ -17,6 +17,7 @@ use App\Models\Admin\Permissions;
 use App\Models\Admin\Admins;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Admin\AppController;
+use App\Models\Admin\AdminAuth;
 use App\Models\Admin\LogoPrices;
 use App\Models\Admin\Settings;
 
@@ -79,15 +80,21 @@ class LogoPriceController extends AppController
 		$data = $request->toArray();
 		LogoPrices::where('option', $data['type'])->delete();
 		$insertData = [];
-		if (isset($data['type'])) {
-			foreach ($data[$data['type']] as $row) {
-				foreach ($row['prices'] as $position => $price) {
+		if (isset($data['type'])) 
+		{
+			foreach ($data[$data['type']] as $row) 
+			{
+				foreach ($row['prices'] as $position => $price) 
+				{
 					$insertData[] = [
 						'from_quantity' => $row['from_quantity'],
 						'to_quantity' => $row['to_quantity'],
 						'position' => $position,
 						'option' => $data['type'],
-						'price' => $price
+						'price' => $price,
+						'created_by' => AdminAuth::getLoginId(),
+						'created' => date('Y-m-d H:i:s'),
+						'modified' => date('Y-m-d H:i:s'),
 					];
 				}
 			}
