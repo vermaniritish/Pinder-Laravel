@@ -78,5 +78,13 @@ let logoPrices = new Vue({
                 this.printingRows.splice(index, 1);
             }
         }
-    }
+    },
+    computed: {
+        embroideryDataNotAvailable() {
+            return this.embroideryRows.length === 0;
+        },
+        printingDataNotAvailable() {
+            return this.printingRows.length === 0;
+        }
+    },
 });

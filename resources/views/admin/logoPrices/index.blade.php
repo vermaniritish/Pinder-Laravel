@@ -45,9 +45,12 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="(row, index) in embroideryRows" :key="index">
-										<td><input type="number" v-model="row.from_quantity" class="form-control" :name="'embroidered-logo[' + index + '][from_quantity]'"></td>
-										<td><input type="number" v-model="row.to_quantity" class="form-control" :name="'embroidered-logo[' + index + '][to_quantity]'"></td>
+									<tr v-if="embroideryDataNotAvailable">
+                                        <td colspan="11"><p class="text-center">No information available.</p></td>
+                                    </tr>
+									<tr v-else v-for="(row, index) in embroideryRows" :key="index">
+										<td><input type="number" v-model="row.from_quantity" class="form-control" min="1" :name="'embroidered-logo[' + index + '][from_quantity]'"></td>
+										<td><input type="number" v-model="row.to_quantity" class="form-control" min="1" :name="'embroidered-logo[' + index + '][to_quantity]'"></td>
 										<td v-for="position in logoPositions" :key="position">
 											<input type="number" v-model="row.prices[position]" class="form-control" :name="'embroidered-logo[' + index + '][prices][' + position + ']'">
 										</td>
@@ -58,8 +61,8 @@
 								</tbody>
 							</table>
 						</div>
-						<hr class="my-4" />
-						<button type="submit" class="btn btn-sm mb-3 mr-3 py-2 px-3 btn-primary float-right"><i class="fa fa-save"></i> Submit
+						<hr v-if="!embroideryDataNotAvailable" class="my-4" />
+						<button v-if="!embroideryDataNotAvailable" type="submit" class="btn btn-sm mb-3 mr-3 py-2 px-3 btn-primary float-right"><i class="fa fa-save"></i> Submit
 						</button>
 					</div>
 				</div>
@@ -88,9 +91,12 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="(row, index) in printingRows" :key="index">
-										<td><input type="number" v-model="row.from_quantity" class="form-control" :name="'printed-logo[' + index + '][from_quantity]'"></td>
-										<td><input type="number" v-model="row.to_quantity" class="form-control" :name="'printed-logo[' + index + '][to_quantity]'"></td>
+									<tr v-if="printingDataNotAvailable">
+                                        <td colspan="11"><p class="text-center">No information available.</p></td>
+                                    </tr>
+									<tr v-else v-for="(row, index) in printingRows" :key="index">
+										<td><input type="number" v-model="row.from_quantity" class="form-control" min="1" :name="'printed-logo[' + index + '][from_quantity]'"></td>
+										<td><input type="number" v-model="row.to_quantity" class="form-control" min="1" :name="'printed-logo[' + index + '][to_quantity]'"></td>
 										<td v-for="position in logoPositions" :key="position">
 											<input type="number" v-model="row.prices[position]" class="form-control" :name="'printed-logo[' + index + '][prices][' + position + ']'">
 										</td>
@@ -101,8 +107,8 @@
 								</tbody>
 							</table>
 						</div>
-						<hr class="my-4" />
-						<button type="submit" class="btn btn-sm mb-3 mr-3 py-2 px-3 btn-primary float-right"><i class="fa fa-save"></i> Submit
+						<hr v-if="!printingDataNotAvailable" class="my-4" />
+						<button v-if="!printingDataNotAvailable" type="submit" class="btn btn-sm mb-3 mr-3 py-2 px-3 btn-primary float-right"><i class="fa fa-save"></i> Submit
 						</button>
 					</div>
 				</div>
