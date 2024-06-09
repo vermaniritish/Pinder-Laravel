@@ -37,7 +37,7 @@
 								<tr>
 									<th>From Quantity</th>
 									<th>To Quantity</th>
-									<th v-for="position in logoPositions" :key="position">@{{ position }}</th>
+									<th v-for="(value, key) in logoPositions" :key="value">@{{ key }}</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -76,7 +76,7 @@
 								<tr>
 									<th>From Quantity</th>
 									<th>To Quantity</th>
-									<th v-for="position in logoPositions" :key="position">@{{ position }}</th>
+									<th v-for="(value, key) in logoPositions" :key="value">@{{ key }}</th>
 									<th>Action</th>
 								</tr>
 							</thead>

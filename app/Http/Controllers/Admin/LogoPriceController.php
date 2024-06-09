@@ -141,12 +141,17 @@ class LogoPriceController extends AppController
 	public function getLogoPrices()
 	{
 		$logoPrices = LogoPrices::select('id', 'position', 'option', 'from_quantity', 'to_quantity', 'price')->get();
-		$logoPositions = Settings::get('logo_positions');
+		$logoPositions = json_decode((string)Settings::get('logo_positions'), true);
+		$formattedLogoPositions = [];
+		foreach ($logoPositions as $position) {
+			$formattedKey = strtolower(str_replace([' ', '/'], '-', $position));
+			$formattedLogoPositions[$position] = $formattedKey;
+		}
 		return response()->json(
 			[
 				'status' => true,
 				'data' => $logoPrices,
-				'logoPositions' => $logoPositions
+				'logoPositions' => $formattedLogoPositions
 			]
 		);
 	}

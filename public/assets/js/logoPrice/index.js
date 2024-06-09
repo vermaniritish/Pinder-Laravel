@@ -17,7 +17,7 @@ let logoPrices = new Vue({
             response = await response.json();
             if(response && response.status)
             {
-                this.logoPositions = JSON.parse(response.logoPositions);
+                this.logoPositions = response.logoPositions;
                 this.initializeRows(response.data);
             }else{
                 set_notification('error', response.message);
