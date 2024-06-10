@@ -113,7 +113,7 @@ if (scrollTop) {
 // slider swiper activation
 var swiper = new Swiper(".hero__slider--activation", {
   slidesPerView: 1,
-  loop: true,
+  loop: false,
   clickable: true,
   speed: 800,
   spaceBetween: 30,
@@ -130,7 +130,7 @@ var swiper = new Swiper(".hero__slider--activation", {
 // product swiper activation
 var swiper = new Swiper(".product__swiper--activation", {
   slidesPerView: 5,
-  loop: true,
+  loop: false,
   clickable: true,
   spaceBetween: 30,
   breakpoints: {
@@ -161,7 +161,7 @@ var swiper = new Swiper(".product__swiper--activation", {
 // product swiper column4 activation
 var swiper = new Swiper(".product__swiper--column4__activation", {
   slidesPerView: 4,
-  loop: true,
+  loop: false,
   clickable: true,
   spaceBetween: 30,
   breakpoints: {
@@ -192,7 +192,7 @@ var swiper = new Swiper(".product__swiper--column4__activation", {
 // product sidebar column4 activation
 var swiper = new Swiper(".product__sidebar--column4__activation", {
   slidesPerView: 4,
-  loop: true,
+  loop: false,
   clickable: true,
   spaceBetween: 30,
   breakpoints: {
@@ -224,7 +224,7 @@ var swiper = new Swiper(".product__sidebar--column4__activation", {
 var swiper = new Swiper(".product__swiper--column3", {
   slidesPerView: 3,
   clickable: true,
-  loop: true,
+  loop: false,
   spaceBetween: 30,
   breakpoints: {
     1200: {
@@ -254,7 +254,7 @@ var swiper = new Swiper(".product__swiper--column3", {
 // testimonial swiper activation
 var swiper = new Swiper(".testimonial__swiper--activation", {
   slidesPerView: 3,
-  loop: true,
+  loop: false,
   clickable: true,
   spaceBetween: 30,
   breakpoints: {
@@ -283,7 +283,7 @@ var swiper = new Swiper(".testimonial__swiper--activation", {
 // testimonial swiper activation
 var swiper = new Swiper(".testimonial__activation--column1", {
   slidesPerView: 1,
-  loop: true,
+  loop: false,
   clickable: true,
   pagination: {
     el: ".swiper-pagination",
@@ -294,7 +294,7 @@ var swiper = new Swiper(".testimonial__activation--column1", {
 // blog swiper activation
 var swiper = new Swiper(".blog__swiper--activation", {
   slidesPerView: 4,
-  loop: true,
+  loop: false,
   clickable: true,
   spaceBetween: 30,
   breakpoints: {
@@ -325,7 +325,7 @@ var swiper = new Swiper(".blog__swiper--activation", {
 // quickview swiper activation
 var swiper = new Swiper(".quickview__swiper--activation", {
   slidesPerView: 1,
-  loop: true,
+  loop: false,
   clickable: true,
   spaceBetween: 30,
   navigation: {
@@ -338,42 +338,44 @@ var swiper = new Swiper(".quickview__swiper--activation", {
   },
 });
 
-// product details media swiper activation
-var swiper = new Swiper(".product__media--nav", {
-  loop: true,
-  spaceBetween: 10,
-  slidesPerView: 5,
-  freeMode: true,
-  watchSlidesProgress: true,
-  breakpoints: {
-    768: {
-      slidesPerView: 5,
+window.productSlider = function() {
+  // product details media swiper activation
+  var swiper = new Swiper(".product__media--nav", {
+    loop: true,
+    spaceBetween: 10,
+    slidesPerView: 5,
+    freeMode: true,
+    watchSlidesProgress: true,
+    breakpoints: {
+      768: {
+        slidesPerView: 5,
+      },
+      480: {
+        slidesPerView: 4,
+      },
+      320: {
+        slidesPerView: 3,
+      },
+      200: {
+        slidesPerView: 2,
+      },
+      0: {
+        slidesPerView: 1,
+      },
     },
-    480: {
-      slidesPerView: 4,
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
     },
-    320: {
-      slidesPerView: 3,
+  });
+  var swiper2 = new Swiper(".product__media--preview", {
+    loop: true,
+    spaceBetween: 10,
+    thumbs: {
+      swiper: swiper,
     },
-    200: {
-      slidesPerView: 2,
-    },
-    0: {
-      slidesPerView: 1,
-    },
-  },
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-});
-// var swiper2 = new Swiper(".product__media--preview", {
-//   loop: true,
-//   spaceBetween: 10,
-//   thumbs: {
-//     swiper: swiper,
-//   },
-// });
+  });
+}
 
 // tab activation
 const tab = function (wrapper) {
@@ -786,7 +788,7 @@ const customLightboxHTML = `<div id="glightbox-body" class="glightbox-container"
 const lightbox = GLightbox({
   touchNavigation: true,
   lightboxHTML: customLightboxHTML,
-  loop: true,
+  loop: false,
 });
 
 // CounterUp Activation

@@ -1,3 +1,4 @@
+<?php if($products && $products->count() > 0 ): ?>
 <section class="product__section product__section--style3 section--padding">
     <div class="container product3__section--container">
         <div class="section__heading text-center mb-50">
@@ -9,24 +10,24 @@
                 <div class="swiper-slide">
                     <div class="product__items ">
                         <div class="product__items--thumbnail">
-                            <a class="product__items--link" href="{{ url('/' . $product->slug) }}">
-                                <img class="product__items--img product__primary--img" src="{{ url('/frontend/assets/img/product/product1.png')}}" alt="product-img">
-                                <img class="product__items--img product__secondary--img" src="{{ url('/frontend/assets/img/product/product2.png')}}" alt="product-img">
+                            <a class="product__items--link" href="{{ url('/' . $p->slug) }}">
+                                <?php foreach($p->image as $k => $image): ?>
+                                    <img class="product__items--img {{ ($k < 1 ? 'product__primary--img' : 'product__secondary--img') }}" src="{{ isset($image['small']) && $image['small'] ? $image['small'] : '' }}" alt="product-img">
+                                <?php endforeach; ?>
                             </a>
-                            
                         </div>
                         <div class="product__items--content">
-                            <span class="product__items--content__subtitle">{{$product->categories ? $product->categories->title : ''}}, {{$product->gender ? str_replace(',', ', ', $product->gender) : ''}} </span>
-                            <h3 class="product__items--content__title h4"><a href="{{ url('/'.$product->slug) }}">{{ $product->title }}</a></h3>
+                            <span class="product__items--content__subtitle">{{$p->categories ? $p->categories->title : ''}}, {{$p->gender ? str_replace(',', ', ', $p->gender) : ''}} </span>
+                            <h3 class="product__items--content__title h4"><a href="{{ url('/'.$p->slug) }}">{{ $p->title }}</a></h3>
                             <div class="product__items--price">
-                                <span class="current__price">{{_currency($product->price)}} - {{_currency($product->max_price)}}</span>
+                                <span class="current__price">{{_currency($p->price)}} - {{_currency($p->max_price)}}</span>
                                 
                                 
                             </div>
                             
                             <ul class="product__items--action d-flex">
                                 <li class="product__items--action__list">
-                                    <a class="product__items--action__btn add__to--cart"  href="{{ url('/' . $product->slug) }}">
+                                    <a class="product__items--action__btn add__to--cart"  href="{{ url('/' . $p->slug) }}">
                                         <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 14.706 13.534">
                                             <g transform="translate(0 0)">
                                                 <g>
@@ -52,3 +53,4 @@
         </div>
     </div>
 </section>
+<?php endif; ?>

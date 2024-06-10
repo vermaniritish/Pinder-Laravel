@@ -9,6 +9,7 @@ var productDetail = new Vue({
         color: null,
         selectedSizes: {},
         uploading: null,
+        buyNow: false,
         logo: {
             category: null,
             postion: null,
@@ -88,7 +89,8 @@ var productDetail = new Vue({
                 }
             });
         },
-        async addToCart() {
+        async addToCart(buyNow) {
+            this.buyNow = buyNow ? true : false;
             this.editLogo = false;
             this.adding = true;
             this.cart = this.sizes.filter((item) => {
@@ -109,7 +111,10 @@ var productDetail = new Vue({
             }
             await sleep(350);
             this.adding = false;
-            
+            if(buyNow)
+            {
+                window.location.href = '/checkout'   
+            }
         },
         async openLogoModal() {
             this.editLogo = true;
@@ -178,6 +183,8 @@ var productDetail = new Vue({
         if(!this.color && this.sizes.length > 0) {
             this.color = this.sizes[0].color_id;
         }
+
+        window.productSlider();
     }
 });
 
