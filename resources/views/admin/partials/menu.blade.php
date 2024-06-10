@@ -151,6 +151,15 @@
                 </a>
             </li>
         <?php endif; ?>
+        <?php if(Permissions::hasPermission('logo_prices', 'view')): ?>
+            <?php $active = strpos(request()->route()->getAction()['as'], 'admin.logoPrices') > -1; ?>
+            <li class="nav-item">
+                <a class="nav-link<?php echo ($active ? ' active' : '') ?>" href="<?php echo route('admin.logoPrice') ?>">
+                    <i class="fas fa-tag text-purple"></i>
+                    <span class="nav-link-text">Logo Prices</span>
+                </a>
+            </li>
+        <?php endif; ?>
         <?php if(Permissions::hasPermission('staff', 'listing')): ?>
             <?php $active = strpos(request()->route()->getAction()['as'], 'admin.staff') > -1; ?>
             <li class="nav-item">

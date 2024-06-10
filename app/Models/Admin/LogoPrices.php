@@ -4,14 +4,7 @@ namespace App\Models\Admin;
 
 use App\Models\AppModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Libraries\FileSystem;
-use Illuminate\Support\Str;
-use App\Libraries\General;
-use App\Models\Admin\Brands as AdminBrands;
-use App\Models\Brands;
 
 class LogoPrices extends AppModel
 {
