@@ -303,6 +303,14 @@
                         </span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo route('admin.orders.uniformSalesReport') ?>">
+                        <span class="badge badge-dot mr-4">
+                            <i class="bg-pink"></i>
+                            <span class="status">Uniform Sales Breakup</span>
+                        </span>
+                    </a>
+                </li>
 
             </ul>
         </li>

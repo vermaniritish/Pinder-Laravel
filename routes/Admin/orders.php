@@ -50,6 +50,10 @@ Route::get('/orders/export/logos', [OrdersController::class, 'exportLogos'])
 
 Route::get('/orders/export/school-skus', [OrdersController::class, 'exportSchoolSKU'])
     ->name('admin.orders.exportSchoolSKU');
+Route::get('/orders/reports/uniform-sales', [OrdersController::class, 'uniformSalesReport'])
+    ->name('admin.orders.uniformSalesReport');
+Route::get('/orders/reports/uniform-sales/pdf', [OrdersController::class, 'uniformSalesReportPdf'])
+    ->name('admin.orders.uniformSalesReportPdf');
 Route::get(
     '/orders/get-product-export-data/{id}',
     [OrdersController::class, 'getProductExportData']

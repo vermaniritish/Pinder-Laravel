@@ -1323,6 +1323,114 @@ EOL;
 		// ]);
     }
 
+	public function uniformSalesReport(Request $request)
+	{
+		if (!Permissions::hasPermission('reports', 'listing')) {
+			$request->session()->flash('error', 'Permission denied.');
+			return redirect()->route('admin.dashboard');
+		}
+
+		$data = $this->getUniformSalesReportData($request);
+
+		return view('admin.orders.uniformSalesReport', $data);
+	}
+
+	public function uniformSalesReportPdf(Request $request)
+	{
+		if (!Permissions::hasPermission('reports', 'listing')) {
+			abort(403);
+		}
+
+		$data = $this->getUniformSalesReportData($request);
+		$html = view('admin.orders.uniformSalesReportPdf', $data)->render();
+		$pdf = new \Mpdf\Mpdf(['format' => 'A4-L']);
+		$pdf->WriteHTML($html);
+
+		return response($pdf->Output('uniform-sales-breakup.pdf', 'S'))
+			->header('Content-Type', 'application/pdf')
+			->header('Content-Disposition', 'attachment; filename="uniform-sales-breakup.pdf"');
+	}
+
+	private function getUniformSalesReportData(Request $request)
+	{
+		$filters = $request->validate([
+			'start_date' => 'nullable|date',
+			'end_date' => 'nullable|date|after_or_equal:start_date',
+			'school_id' => 'nullable|integer',
+			'category_id' => 'nullable|integer',
+		]);
+
+		$query = DB::table('order_products')
+			->join('orders', 'orders.id', '=', 'order_products.order_id')
+			->leftJoin('products', 'products.id', '=', 'order_products.product_id')
+			->leftJoin('schools', 'schools.id', '=', 'products.school_id')
+			->whereNull('order_products.deleted_at')
+			->whereNull('orders.deleted_at')
+			->where(function ($statusQuery) {
+				$statusQuery->whereNull('orders.status')
+					->orWhereNotIn('orders.status', ['draft', 'cancel', 'cancel_by_client']);
+			})
+			->selectRaw("COALESCE(schools.name, 'Unassigned') as school_name")
+			->selectRaw("COALESCE(NULLIF(order_products.product_title, ''), products.title) as product_title")
+			->addSelect('order_products.color', 'order_products.size_title')
+			->selectRaw('SUM(COALESCE(order_products.quantity, 0)) as quantity');
+
+		if (!empty($filters['start_date'])) {
+			$query->whereDate('orders.created', '>=', $filters['start_date']);
+		}
+		if (!empty($filters['end_date'])) {
+			$query->whereDate('orders.created', '<=', $filters['end_date']);
+		}
+		if (!empty($filters['school_id'])) {
+			$query->where('products.school_id', $filters['school_id']);
+		}
+		if (!empty($filters['category_id'])) {
+			$query->where('products.category_id', $filters['category_id']);
+		}
+
+		$lines = $query
+			->groupBy('schools.name', 'order_products.product_title', 'products.title', 'order_products.color', 'order_products.size_title')
+			->orderBy('schools.name')
+			->orderBy('order_products.product_title')
+			->orderBy('order_products.color')
+			->orderBy('order_products.size_title')
+			->get();
+
+		$schools = [];
+		$grandTotal = 0;
+		foreach ($lines as $line) {
+			$schoolName = $line->school_name;
+			$productTitle = $line->product_title ?: 'Untitled product';
+			$color = $line->color ?: 'Not specified';
+			$productKey = $productTitle . "\0" . $color;
+			$quantity = (int) $line->quantity;
+
+			if (!isset($schools[$schoolName][$productKey])) {
+				$schools[$schoolName][$productKey] = [
+					'title' => $productTitle,
+					'color' => $color,
+					'sizes' => [],
+					'total' => 0,
+				];
+			}
+
+			$schools[$schoolName][$productKey]['sizes'][] = [
+				'title' => $line->size_title ?: 'Not specified',
+				'quantity' => $quantity,
+			];
+			$schools[$schoolName][$productKey]['total'] += $quantity;
+			$grandTotal += $quantity;
+		}
+
+		return [
+			'schools' => $schools,
+			'grandTotal' => $grandTotal,
+			'filters' => $filters,
+			'schoolOptions' => Schools::orderBy('name')->get(['id', 'name']),
+			'categoryOptions' => ProductCategories::orderBy('title')->get(['id', 'title']),
+		];
+	}
+
 	public function getProductExportData(Request $request, $id)
 {
     $perPage = $request->per_page ?? 20;
