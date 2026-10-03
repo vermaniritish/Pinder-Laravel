@@ -35,15 +35,24 @@
                             </select>
                         </div>
                         <div class="col-lg-2 col-md-6">
+                            <label for="status">Order status</label>
+                            <select class="form-control" name="status" id="status">
+                                <option value="">Default statuses</option>
+                                @foreach (\App\Models\Admin\Orders::getStatuses() as $statusKey => $status)
+                                    <option value="{{ $statusKey }}" {{ ($filters['status'] ?? '') === $statusKey ? 'selected' : '' }}>{{ $status['label'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-lg-1 col-md-6">
                             <label for="start_date">Start date</label>
                             <input class="form-control" type="date" name="start_date" id="start_date" value="{{ $filters['start_date'] ?? '' }}">
                         </div>
-                        <div class="col-lg-2 col-md-6">
+                        <div class="col-lg-1 col-md-6">
                             <label for="end_date">End date</label>
                             <input class="form-control" type="date" name="end_date" id="end_date" value="{{ $filters['end_date'] ?? '' }}">
                         </div>
                         <div class="col-lg-2 d-flex mt-3 mt-lg-0">
-                            <button class="btn btn-primary mr-2" type="submit">Display Results</button>
+                            <button class="btn btn-primary mr-2" type="submit">Display</button>
                             <button class="btn btn-secondary" type="button" onclick="window.print()" title="Print report"><i class="fas fa-print"></i></button>
                         </div>
                     </div>

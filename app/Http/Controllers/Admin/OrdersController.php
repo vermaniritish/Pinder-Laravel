@@ -1358,6 +1358,7 @@ EOL;
 			'end_date' => 'nullable|date|after_or_equal:start_date',
 			'school_id' => 'nullable|integer',
 			'category_id' => 'nullable|integer',
+			'status' => ['nullable', Rule::in(array_keys(Orders::getStatuses()))],
 		]);
 
 		$query = DB::table('order_products')
@@ -1366,14 +1367,19 @@ EOL;
 			->leftJoin('schools', 'schools.id', '=', 'products.school_id')
 			->whereNull('order_products.deleted_at')
 			->whereNull('orders.deleted_at')
-			->where(function ($statusQuery) {
-				$statusQuery->whereNull('orders.status')
-					->orWhereNotIn('orders.status', ['draft', 'cancel', 'cancel_by_client']);
-			})
 			->selectRaw("COALESCE(schools.name, 'Unassigned') as school_name")
 			->selectRaw("COALESCE(NULLIF(order_products.product_title, ''), products.title) as product_title")
 			->addSelect('order_products.color', 'order_products.size_title')
 			->selectRaw('SUM(COALESCE(order_products.quantity, 0)) as quantity');
+
+		if (!empty($filters['status'])) {
+			$query->where('orders.status', $filters['status']);
+		} else {
+			$query->where(function ($statusQuery) {
+				$statusQuery->whereNull('orders.status')
+					->orWhereNotIn('orders.status', ['draft', 'cancel', 'cancel_by_client']);
+			});
+		}
 
 		if (!empty($filters['start_date'])) {
 			$query->whereDate('orders.created', '>=', $filters['start_date']);
