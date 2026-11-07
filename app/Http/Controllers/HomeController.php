@@ -180,6 +180,7 @@ class HomeController extends BaseController
 				$similarProducts->where('products.category_id', $product->category_id);
 			}
 			$similarProducts = $similarProducts->where('products.status', 1)->orderByRaw('rand()')->limit(4)->get();
+			$similarProducts->load('colors:id,title,color_code');
 			if($product && $product->printed_logo && $product->embroidered_logo)
 				$logooption = ["Printed Logo","Embroidered Logo"];
 			elseif($product && $product->printed_logo)

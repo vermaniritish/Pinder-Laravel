@@ -16,7 +16,15 @@
             <div class="card-body">
                 <form method="get" action="{{ route('admin.orders.uniformSalesReport') }}">
                     <div class="form-row align-items-end">
-                        <div class="col-lg-3 col-md-6">
+                        <div class="col-lg-2 col-md-6">
+                            <label for="source">Shop or website</label>
+                            <select class="form-control" name="source" id="source">
+                                <option value="">All sources</option>
+                                <option value="shop" {{ ($filters['source'] ?? '') === 'shop' ? 'selected' : '' }}>Shop</option>
+                                <option value="website" {{ ($filters['source'] ?? '') === 'website' ? 'selected' : '' }}>Website</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
                             <label for="school_id">School</label>
                             <select class="form-control" name="school_id" id="school_id">
                                 <option value="">All schools</option>
@@ -25,7 +33,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-lg-3 col-md-6">
+                        <div class="col-lg-2 col-md-6">
                             <label for="category_id">Category</label>
                             <select class="form-control" name="category_id" id="category_id">
                                 <option value="">All categories</option>

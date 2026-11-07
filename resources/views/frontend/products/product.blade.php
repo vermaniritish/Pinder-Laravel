@@ -18,6 +18,9 @@
                 <span class="best">Sale</span>
             </div>
         </div>
+        <div class="product-card-colors" v-if="product.colors && product.colors.length > 1" aria-label="Available colours" style="display:block">
+            <span v-for="color in product.colors" :key="color.id" class="product-card-color" :title="color.title" :data-color="color.title" :aria-label="color.title" tabindex="0" :style="color.color_code && color.color_code.split(',').length > 1 ? `background:linear-gradient(${color.color_code})` : `background-color:${color.color_code}`"></span>
+        </div>
         <div class="product-content-wrap">
             <div class="product-category">
                 <a :href="'/'+product.slug">@{{product.category}} @{{product.gender ? `, `+product.gender : ''}}</a>

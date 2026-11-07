@@ -28,6 +28,13 @@
                             </a>
                         </div>
                     </div>
+                    @if($p->colors && $p->colors->count() > 1)
+                    <div class="product-card-colors" aria-label="Available colours">
+                        @foreach($p->colors as $color)
+                        <span class="product-card-color" title="{{ $color->title }}" data-color="{{ $color->title }}" aria-label="{{ $color->title }}" style="{{ count(explode(',', $color->color_code)) > 1 ? 'background:linear-gradient(' . $color->color_code . ')' : 'background-color:' . $color->color_code }}"></span>
+                        @endforeach
+                    </div>
+                    @endif
                     <div class="product-content-wrap">
                         <h2><a href="{{ url('/'.$p->slug) }}">{{ $p->title }}</a></h2>
                         @if($p->sku_number)

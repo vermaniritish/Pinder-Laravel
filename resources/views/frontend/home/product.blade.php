@@ -31,6 +31,13 @@
             </div>
             @endif
         </div>
+        @if($product->colors && $product->colors->count() > 1)
+        <div class="product-card-colors" aria-label="Available colours">
+            @foreach($product->colors as $color)
+            <span class="product-card-color" title="{{ $color->title }}" data-color="{{ $color->title }}" aria-label="{{ $color->title }}" style="{{ count(explode(',', $color->color_code)) > 1 ? 'background:linear-gradient(' . $color->color_code . ')' : 'background-color:' . $color->color_code }}"></span>
+            @endforeach
+        </div>
+        @endif
         <div class="product-content-wrap">
             <div class="product-category">
                 @if(isset($product['school']) && $product['school'])

@@ -73,7 +73,13 @@ class HomeController extends AppController
 		$items = $products->items();
 		foreach($items as $k => $v)
 		{
-			$items[$k]->colors_count = ProductSizeRelation::select(['color_id'])->where('product_id', $v->id)->groupBy('color_id')->pluck('color_id')->toArray();
+			$colorIds = ProductSizeRelation::where('product_id', $v->id)
+				->whereNotNull('color_id')
+				->distinct()
+				->pluck('color_id')
+				->toArray();
+			$items[$k]->colors_count = $colorIds;
+			$items[$k]->setRelation('colors', $v->colors->whereIn('id', $colorIds)->values());
 		}
 		return Response()->json([
 			'status' => true,

@@ -1356,6 +1356,7 @@ EOL;
 		$filters = $request->validate([
 			'start_date' => 'nullable|date',
 			'end_date' => 'nullable|date|after_or_equal:start_date',
+			'source' => ['nullable', Rule::in(['shop', 'website'])],
 			'school_id' => 'nullable|integer',
 			'category_id' => 'nullable|integer',
 			'status' => ['nullable', Rule::in(array_keys(Orders::getStatuses()))],
@@ -1386,6 +1387,11 @@ EOL;
 		}
 		if (!empty($filters['end_date'])) {
 			$query->whereDate('orders.created', '<=', $filters['end_date']);
+		}
+		if (($filters['source'] ?? '') === 'shop') {
+			$query->whereNotNull('orders.shop_id');
+		} elseif (($filters['source'] ?? '') === 'website') {
+			$query->whereNull('orders.shop_id');
 		}
 		if (!empty($filters['school_id'])) {
 			$query->where('products.school_id', $filters['school_id']);

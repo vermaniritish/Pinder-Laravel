@@ -279,8 +279,9 @@ class Products extends AdminProducts
 	    	$listing->limit($limit);
         }
         $listing = $listing->paginate($limit);
+        $listing->getCollection()->load('colors:id,title,color_code');
 
-	    return $listing;
+        return $listing;
     }
 
     public static function getCount(Request $request, $where = [], $gender = null)

@@ -70,6 +70,19 @@ $nonExchange = $product->non_exchange || $product->sizes->filter(function ($size
                                         @endif
                                     </div>
                                 </div>
+                                <div style="padding-bottom:10px;">
+                                    <strong class="mr-10">Color</strong>: @{{ colorTitle ? colorTitle : '' }}
+                                </div>
+                                <div class="attr-detail attr-color mb-15">
+                                    <ul class="list-filter color-filter">
+                                        <?php foreach($product->colors as $c): ?>
+                                        <?php $codes = explode(',',$c->color_code); ?>
+                                        <li :class="renderActiveColor('{{$c->id}}')">
+                                            <a v-on:click="selectColor('{{$c->id}}', '{{$c->title}}', '{{$c->color_code}}')" href="javascript:;" data-color="{{ $c->title }}" title="{{ $c->title }}" data-code="{{$c->color_code}}"><span style="background-repeat: no-repeat;{{ (count($codes) > 1 ? 'background:linear-gradient('.$c->color_code.')' : 'background-color:' .$c->color_code) }}" class="product-color-white"></span></a>
+                                        </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
                                 <!-- End Gallery -->
                             </div>
                             <div class="col-md-6 col-sm-12 col-xs-12">
@@ -160,22 +173,6 @@ $nonExchange = $product->non_exchange || $product->sizes->filter(function ($size
                                     <span id="productId" class="d-none">{{ $product->id }}</span>
                                     <pre id="product-sizes" class="d-none">{{ json_encode($product->sizes ? $product->sizes : []) }}</pre>
                                     <pre id="default-color" class="d-none">{{ json_encode($product->colors && count($product->colors) > 0 ? $product->colors[0] : [])}}</pre>
-                                    <div style="padding-bottom:10px;">
-                                    <strong class="mr-10">Color</strong>: @{{ colorTitle ? colorTitle : '' }}
-                                    </div>
-                                    <div class="attr-detail attr-color mb-15">
-                                        
-                                        <ul class="list-filter color-filter">
-                                            <?php foreach($product->colors as $c): ?>
-                                            <?php $codes = explode(',',$c->color_code); ?>
-                                            
-                                            <li :class="renderActiveColor('{{$c->id}}')">
-                                                <a v-on:click="selectColor('{{$c->id}}', '{{$c->title}}', '{{$c->color_code}}')" href="javascript:;" data-color="{{ $c->title }}" data-code="{{$c->color_code}}"><span style="background-repeat: no-repeat;{{ (count($codes) > 1 ? 'background:linear-gradient('.$c->color_code.')' : 'background-color:' .$c->color_code) }}" class="product-color-white"></span></a>
-                                            </li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-                                    
                                     <div class="product__variant--list quantity d-flex align-items-center mb-10">
                                         <div class="productsizesbox">
                                             <p class="w-100" v-if="renderSizes().length > 0 && colorTitle">Sizes for color <span :style="`color: ${colorCode};text-shadow: rgba(0, 0, 0, 0.31) 1px 1px 1px;`">@{{ colorTitle }}</span> are as follows.</p>
