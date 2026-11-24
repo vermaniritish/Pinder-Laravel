@@ -88,7 +88,12 @@ class HomeController extends BaseController
 
     public function listing(Request $request, $category, $subCategory = null)
     {
-        $product = Products::select(['id'])->where('slug', 'LIKE', $category)->where('status', 1)->where('website_visible', 1)->limit(1)->first();
+		$previewInactive = $request->boolean('preview');
+		$productQuery = Products::select(['id'])->where('slug', 'LIKE', $category);
+		if (!$previewInactive) {
+			$productQuery->where('status', 1)->where('website_visible', 1);
+		}
+		$product = $productQuery->limit(1)->first();
         if($product)
         {
             $product = Products::select([
@@ -102,7 +107,10 @@ class HomeController extends BaseController
 				->leftJoin('products as parent_product', 'parent_product.id', '=', 'products.parent_id')
 				->leftJoin('schools', 'schools.id', '=', 'products.school_id')
 				->where('products.slug', 'LIKE', $category)
-				->where('products.status', 1)->limit(1)->first();
+				->when(!$previewInactive, function ($query) {
+					$query->where('products.status', 1);
+				})
+				->limit(1)->first();
 			if(!$product) {
 				abort('404');
 			}

@@ -181,7 +181,7 @@ $nonExchange = $product->non_exchange || $product->sizes->filter(function ($size
                                                     <li data-active="false" class="ProductSizes-newProductSizesItem-xII" data-test-id="ProductSize" v-for="s in renderSizes()">
                                                         <div class="productsizes" data-stock-status="InStock"><small>@{{ s.size_title }} @{{ s.length ? ` | `+s.length : `` }} </small></div>
                                                         <div class="productsizes-stockinfo1">
-                                                            <small class="productsizes-stockinfo2" style="color:#088178">£@{{s.vat && s.vat*1 > 0 ? ( s.price*1 + ((s.price*gstTax()))/100 ).toFixed(2) : s.price}}</small>
+                                                            <small class="productsizes-stockinfo2" style="color:#088178">£@{{s.vat && s.vat*1 > 0 ? (((s.bulk_price !== null && s.bulk_price !== undefined && s.bulk_price !== '') ? s.bulk_price*1 : s.price*1) + ((((s.bulk_price !== null && s.bulk_price !== undefined && s.bulk_price !== '') ? s.bulk_price*1 : s.price*1)*gstTax()))/100).toFixed(2) : ((s.bulk_price !== null && s.bulk_price !== undefined && s.bulk_price !== '') ? (s.bulk_price*1).toFixed(2) : s.price)}}</small>
                                                         </div>
                                                         <!-- Waiting for Stock -->
                                                         <div class="quantity__box" v-if="s.waiting_stock == 1">

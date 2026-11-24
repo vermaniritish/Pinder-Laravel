@@ -252,7 +252,7 @@ class Products extends AppModel
                     $query->select(['id', 'first_name', 'last_name', 'status']);
                 },
                 'sizes' => function($query) {
-                    $query->select(['sizes.id', 'sizes.size_title', 'sizes.from_cm',  'sizes.to_cm',  'sizes.length', 'sizes.vat', 'price','sale_price','color_id', 'product_sizes.status','product_sizes.waiting_stock','product_sizes.non_exchange'])->orderBy('product_sizes.id', 'asc');
+                    $query->select(['sizes.id', 'sizes.size_title', 'sizes.from_cm',  'sizes.to_cm',  'sizes.length', 'sizes.vat', 'price','sale_price','bulk_price','color_id', 'product_sizes.status','product_sizes.waiting_stock','product_sizes.non_exchange'])->orderBy('product_sizes.id', 'asc');
                 },
                 'colors' => function($query) {
                     $query->select(['colours.id', 'colours.title', 'colours.color_code']);
@@ -512,6 +512,7 @@ class Products extends AppModel
                     $relation->length = $size->length;
                     $relation->price = isset($sizeData['price']) ? $sizeData['price'] : null;
                     $relation->sale_price = isset($sizeData['sale_price']) ? $sizeData['sale_price'] : null;
+                    $relation->bulk_price = isset($sizeData['bulk_price']) && $sizeData['bulk_price'] !== '' ? $sizeData['bulk_price'] : null;
                     $relation->color_id = $colorId; 
                     $relation->status = isset($sizeData['status']) ? $sizeData['status'] : 0; 
                     $relation->waiting_stock = isset($sizeData['waiting_stock']) ? $sizeData['waiting_stock'] : 0;
@@ -594,6 +595,7 @@ public static function syncChildSizePrices($parentId, $sizesData)
                         'id' => $relation->id,
                         'price' => (float)$sizeData['price'],
                         'sale_price' => isset($sizeData['sale_price']) ? (float)$sizeData['sale_price'] : 'NULL',
+                        'bulk_price' => isset($sizeData['bulk_price']) && $sizeData['bulk_price'] !== '' ? (float)$sizeData['bulk_price'] : 'NULL',
                         'status' => isset($sizeData['status']) ? (int)$sizeData['status'] : (int)$relation->status,
                         'waiting_stock' => isset($sizeData['waiting_stock']) ? (int)$sizeData['waiting_stock'] : (int)$relation->waiting_stock,
                         'non_exchange' => isset($sizeData['non_exchange']) ? (int)$sizeData['non_exchange'] : (int)$relation->non_exchange,
@@ -611,6 +613,7 @@ public static function syncChildSizePrices($parentId, $sizesData)
         $ids = [];
         $casePrice = "";
         $caseSalePrice = "";
+        $caseBulkPrice = "";
         $caseStatus = "";
         $caseWaitingStock = "";
         $caseNonExchange = "";
@@ -622,6 +625,7 @@ public static function syncChildSizePrices($parentId, $sizesData)
 
             $casePrice .= "WHEN $id THEN {$row['price']} ";
             $caseSalePrice .= "WHEN $id THEN " . ($row['sale_price'] === 'NULL' ? "NULL" : $row['sale_price']) . " ";
+            $caseBulkPrice .= "WHEN $id THEN " . ($row['bulk_price'] === 'NULL' ? "NULL" : $row['bulk_price']) . " ";
             $caseStatus .= "WHEN $id THEN {$row['status']} ";
             $caseWaitingStock .= "WHEN $id THEN {$row['waiting_stock']} ";
             $caseNonExchange .= "WHEN $id THEN {$row['non_exchange']} ";
@@ -634,6 +638,7 @@ public static function syncChildSizePrices($parentId, $sizesData)
             SET 
                 price = CASE id $casePrice END,
                 sale_price = CASE id $caseSalePrice END,
+                bulk_price = CASE id $caseBulkPrice END,
                 status = CASE id $caseStatus END,
                 waiting_stock = CASE id $caseWaitingStock END,
                 non_exchange = CASE id $caseNonExchange END

@@ -279,6 +279,7 @@
 														<th>Size (From - To)</th>
 														<th>Price</th>
 														<th>Sale Price</th>
+														<th>Bulk Price</th>
 														<th>In Stock</th>
 														<th>Non Exchange</th>
 														<th>Waiting Stock</th>
@@ -295,6 +296,7 @@
 														<td>@{{ size.from_cm }} - @{{ size.to_cm }} cm<br />Length: @{{ size.length }}</td>
 														<td><input required type="number" v-model="size.price" min="0"></td>
 														<td><input type="number" v-model="size.sale_price" min="0"></td>
+														<td><input type="number" v-model="size.bulk_price" min="0"></td>
 														<td>
 															<div class="custom-control">
 																<label class="custom-toggle">

@@ -196,6 +196,7 @@ let order = new Vue({
                             length: size.length,
                             price: parseFloat(size.price),
                             sale_price: size.sale_price && (size.sale_price*1) > 0 ? parseFloat(size.sale_price) : ``,
+                            bulk_price: size.bulk_price && (size.bulk_price*1) > 0 ? parseFloat(size.bulk_price) : ``,
                             status: size.status,
                             waiting_stock: size.waiting_stock,
                             non_exchange: size.non_exchange
@@ -382,6 +383,7 @@ handleScroll(event) {
                                 length: size.length,
                                 price: this.price > 0 ? this.price : 0,
                                 sale_price: this.maxPrice > 0 ? this.maxPrice : ``,
+                                bulk_price: ``,
                                 status: size.status,
                                 waiting_stock: false
                             });
