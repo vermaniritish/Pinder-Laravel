@@ -235,7 +235,7 @@ let order = new Vue({
                 return;
             }
 
-            let response = await fetch(admin_url + '/uniforms/product/' + productId + '/offers');
+            let response = await fetch(uniformsBaseUrl + '/product/' + productId + '/offers');
             response = await response.json();
             if (response && response.status) {
                 this.offers = response.offers;
@@ -455,7 +455,7 @@ handleScroll(event) {
                     formData.append('sizeData', JSON.stringify(this.selectedSize));
                     formData.append('color_images', JSON.stringify(this.colorImages));
                     let response = await fetch(
-                        pageId ? admin_url + '/uniforms/' + pageId + '/edit' : admin_url + '/uniforms/add', 
+                        pageId ? uniformsBaseUrl + '/' + pageId + '/edit' : uniformsBaseUrl + '/add', 
                         {
                             method: 'POST',
                             body: formData,
@@ -468,7 +468,7 @@ handleScroll(event) {
                         set_notification('success', response.message);
 
                         setTimeout(function () {
-                            window.location.href = (admin_url + '/uniforms/' + response.id + '/edit');
+                            window.location.href = (uniformsBaseUrl + '/' + response.id + '/edit');
                         }, 200)
                     }else{
                         this.loading = false;

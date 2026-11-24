@@ -36,6 +36,21 @@ class UniformsController extends AppController
 		parent::__construct();
 	}
 
+	protected function isBulkUniforms()
+	{
+		return false;
+	}
+
+	protected function routePrefix()
+	{
+		return 'admin.uniforms';
+	}
+
+	protected function moduleTitle()
+	{
+		return 'Uniforms';
+	}
+
     function index(Request $request)
     {
     	if(!Permissions::hasPermission('uniforms', 'listing'))
@@ -90,7 +105,8 @@ class UniformsController extends AppController
     			break;
     		}	
     	}
-		$where['products.is_uniform'] = 1;
+    	$where['products.is_uniform'] = 1;
+    	$where['products.bulk_uniform'] = $this->isBulkUniforms() ? 1 : 0;
     	$listing = Products::getListing($request, $where);
 
     	if($request->ajax())
@@ -98,7 +114,8 @@ class UniformsController extends AppController
 		    $html = view(
 	    		"admin/uniforms/listingLoop", 
 	    		[
-	    			'listing' => $listing
+		    		'listing' => $listing,
+					'routePrefix' => $this->routePrefix()
 	    		]
 	    	)->render();
 
@@ -120,7 +137,10 @@ class UniformsController extends AppController
 	    			'listing' => $listing,
 	    			'categories' => $filters['categories'],
 					'brands' => $filters['brands'],
-					'schools' => $filters['schools']
+					'schools' => $filters['schools'],
+					'routePrefix' => $this->routePrefix(),
+					'moduleTitle' => $this->moduleTitle(),
+					'bulkUniforms' => $this->isBulkUniforms()
 	    		]
 	    	);
 	    }
@@ -154,7 +174,10 @@ class UniformsController extends AppController
     		return redirect()->route('admin.dashboard');
     	}
 
-    	$product = Products::get($id);
+    	$product = Products::where('id', $id)
+			->where('is_uniform', 1)
+			->where('bulk_uniform', $this->isBulkUniforms() ? 1 : 0)
+			->first();
 		$where = ['product_sizes.product_id' => $id];
 		if($request->get('search'))
     	{
@@ -192,7 +215,9 @@ class UniformsController extends AppController
 			{
 				return view("admin/uniforms/view", [
 					'product' => $product,
-					'listing' => $listing
+					'listing' => $listing,
+					'routePrefix' => $this->routePrefix(),
+					'moduleTitle' => $this->moduleTitle()
 				]);
 			}
 		}
@@ -209,6 +234,14 @@ class UniformsController extends AppController
     		$request->session()->flash('error', 'Permission denied.');
     		return redirect()->route('admin.dashboard');
     	}
+
+		if($unifromId && !Products::where('id', $unifromId)
+			->where('is_uniform', 1)
+			->where('bulk_uniform', $this->isBulkUniforms() ? 1 : 0)
+			->exists())
+		{
+			abort(404);
+		}
 
     	if($request->isMethod('post'))
     	{
@@ -237,7 +270,8 @@ class UniformsController extends AppController
     		$validator = Validator::make(
 	            $data,
 	            [
-					'schools' => $unifromId ? ['nullable'] : ['required'],
+					'schools' => $unifromId ? ['nullable'] : ['required', 'array', 'min:1'],
+					'schools.*' => $unifromId ? ['nullable'] : ['required', 'distinct', Rule::exists(Schools::class, 'id')],
 					'product' => $unifromId ? ['nullable'] : ['required', Rule::exists(Products::class,'id')],
 	                'description' => 'nullable',
 					'price' => ['required', 'numeric', 'min:0'],
@@ -272,6 +306,7 @@ class UniformsController extends AppController
 				}
 
 				$data['is_uniform'] = 1;
+				$data['bulk_uniform'] = $this->isBulkUniforms() ? 1 : 0;
 				/** ONLY IN CASE OF MULTIPLE IMAGE USE THIS **/
 				if($unifromId)
 				{
@@ -351,10 +386,11 @@ class UniformsController extends AppController
 						}
 					}
 				}
-				$request->session()->flash('success', "Uniform created successfully.");
+				$message = $this->moduleTitle() . " created successfully.";
+				$request->session()->flash('success', $message);
 				return Response()->json([
 					'status' => true,
-					'message' => "Uniform created successfully.",
+					'message' => $message,
 					'id' => $product->id
 				]);
 		    }
@@ -421,14 +457,28 @@ class UniformsController extends AppController
 	    		'sizes.size_title desc'
 	    	);
 			
+		$product = $unifromId
+			? Products::where('id', $unifromId)
+				->where('is_uniform', 1)
+				->where('bulk_uniform', $this->isBulkUniforms() ? 1 : 0)
+				->first()
+			: null;
+		if($unifromId && !$product)
+		{
+			abort(404);
+		}
+
 		return view("admin/uniforms/add", [
 			'categories' => $categories,
 			'brands' => $brands,
 			'colors' => $colors,
 			'sizes' => $sizes,
 			'schools' => $schools,
-			'product' => $unifromId ? Products::find($unifromId)  : null,
-			'uniformPage' => true
+			'product' => $product,
+			'uniformPage' => true,
+			'bulkUniforms' => $this->isBulkUniforms(),
+			'routePrefix' => $this->routePrefix(),
+			'moduleTitle' => $this->moduleTitle()
 		]);
     }
 
@@ -455,11 +505,16 @@ class UniformsController extends AppController
     		return redirect()->route('admin.dashboard');
     	}
     	
-    	if(Products::remove($id))
+		$product = Products::where('id', $id)
+			->where('is_uniform', 1)
+			->where('bulk_uniform', $this->isBulkUniforms() ? 1 : 0)
+			->first();
+    	if($product && Products::remove($id))
     	{
     		$request->session()->flash('success', 'Product deleted successfully.');
-    		return redirect()->route('admin.uniforms');
+    		return redirect()->route($this->routePrefix());
     	}
+		abort(404);
     }
 
     function bulkActions(Request $request, $action)
@@ -473,6 +528,18 @@ class UniformsController extends AppController
     	$ids = $request->get('ids');
     	if(is_array($ids) && !empty($ids))
     	{
+			$ids = Products::whereIn('id', $ids)
+				->where('is_uniform', 1)
+				->where('bulk_uniform', $this->isBulkUniforms() ? 1 : 0)
+				->pluck('id')
+				->toArray();
+			if(empty($ids))
+			{
+				return Response()->json([
+					'status' => 'error',
+					'message' => 'Please select at least one record.',
+				], 200);
+			}
     		switch ($action) {
     			case 'active':
     				Products::modifyAll($ids, [

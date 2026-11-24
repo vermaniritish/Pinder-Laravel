@@ -135,7 +135,9 @@ $version = 4.7;
 		$controller = $route[0];
 		$method = isset($route[1]) ? $route[1] : null;
 		?>
-		<?php if(file_exists(public_path('assets/js/' . $action. '.js'))): ?>
+		<?php if(strpos(request()->route()->getAction()['as'], 'admin.bulkUniforms') === 0): ?>
+		<script src="<?php echo url('assets/js/uniforms/form.js?v=4.8') ?>"></script>
+		<?php elseif(file_exists(public_path('assets/js/' . $action. '.js'))): ?>
 		<script src="<?php echo url('assets/js/' . $action. '.js?v=' . $version) ?>"></script>
 		<?php elseif( (strpos($action, '/add') > -1 || strpos($action, '/edit') > -1)  && file_exists(public_path('assets/js/'.$controller.'/form.js')) ): ?>
 		<script src="<?php echo url('assets/js/'.$controller.'/form.js?v=' . $version) ?>"></script>

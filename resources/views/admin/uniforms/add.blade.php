@@ -5,10 +5,10 @@
 		<div class="header-body">
 			<div class="row align-items-center py-4">
 				<div class="col-lg-6 col-7">
-					<h6 class="h2 text-white d-inline-block mb-0">Manage Uniforms</h6>
+					<h6 class="h2 text-white d-inline-block mb-0">Manage {{ $moduleTitle }}</h6>
 				</div>
 				<div class="col-lg-6 col-5 text-right">
-					<a href="<?php echo route('admin.uniforms') ?>" class="btn btn-neutral"><i class="ni ni-bold-left"></i> Back</a>
+					<a href="<?php echo route($routePrefix) ?>" class="btn btn-neutral"><i class="ni ni-bold-left"></i> Back</a>
 				</div>
 			</div>
 		</div>
@@ -24,19 +24,19 @@
 				<div class="card-header">
 					<div class="row align-items-center">
 						<div class="col-8">
-							<h3 class="mb-0">Create New Uniform Here.</h3>
+							<h3 class="mb-0">Create New {{ rtrim($moduleTitle, 's') }} Here.</h3>
 						</div>
 					</div>
 				</div>
 				<div class="card-body">
 					<div id="product" >
 						<p v-if="mounting" class="text-center big" style="padding: 15%"><i style="font-size: 30px" class="fa fa-spin fa-spinner"></i></p>
-						<form id="product-form" method="post" action="<?php echo route('admin.uniforms.add') ?>" class="form-validation d-none">
+						<form id="product-form" method="post" action="<?php echo route($routePrefix . '.add') ?>" class="form-validation d-none">
 							<pre id="availableColor" class="d-none">{{ $colors }}</pre>
 							<pre id="availableSizes" class="d-none">{{ $sizes }}</pre>
 							<!--!! CSRF FIELD !!-->
 							{{ @csrf_field() }}
-							<h6 class="heading-small text-muted mb-4">Uniform information</h6>
+							<h6 class="heading-small text-muted mb-4">{{ $moduleTitle }} information</h6>
 							<div class="pl-lg-4">
 								<?php if(!$product): ?>
 									<div id="sub-category-form" class="row">
@@ -89,14 +89,17 @@
 									</div>
 									<hr />
 									<div class="form-group">
-										<label class="form-control-label" for="input-first-name">School</label>
-										<select v-model="schools" class="form-control no-selectpicker" name="schools[]" placeholder="Schools" required>
+										<label class="form-control-label" for="input-first-name">School{{ !empty($bulkUniforms) ? 's' : '' }}</label>
+										<select v-model="schools" class="form-control no-selectpicker" name="schools[]" placeholder="Schools" required <?php echo !empty($bulkUniforms) ? 'multiple' : '' ?>>
 											<option value=""></option>
 											@foreach($schools as $s)
-											<option value="{{ $s->id }}">{{ $s->name }} - {{ $s->schooltype }} - {{ $s->city }}</option>
+											<option value="{{ $s->id }}" <?php echo in_array($s->id, old('schools', [])) ? 'selected' : '' ?>>{{ $s->name }} - {{ $s->schooltype }} - {{ $s->city }}</option>
 											@endforeach
 										</select>
-										@error('title')
+										<?php if(!empty($bulkUniforms)): ?>
+											<small class="form-text text-muted">Select one or more schools.</small>
+										<?php endif; ?>
+										@error('schools')
 											<small class="text-danger">{{ $message }}</small>
 										@enderror
 									</div>
@@ -646,6 +649,7 @@
 @push('scripts')
 <script>
 var pageId = '{{ $product && $product->id ? $product->id : '' }}';
+var uniformsBaseUrl = <?php echo json_encode(route($routePrefix)) ?>;
 var allColors = <?php echo $colors->count() > 0 ? json_encode($colors->toArray()) : '[]' ?>
 </script>
 @endpush

@@ -5,11 +5,11 @@
 			<div class="header-body">
 				<div class="row align-items-center py-4">
 					<div class="col-lg-6 col-7">
-						<h6 class="h2 text-white d-inline-block mb-0">Manage Uniforms</h6>
+						<h6 class="h2 text-white d-inline-block mb-0">Manage {{ $moduleTitle }}</h6>
 					</div>
 					<div class="col-lg-6 col-5 text-right">
 						<?php if(Permissions::hasPermission('uniforms', 'create')): ?>
-						<a href="<?php echo route('admin.uniforms.add') ?>" class="btn btn-neutral"><i class="fas fa-plus"></i> New</a>
+						<a href="<?php echo route($routePrefix . '.add') ?>" class="btn btn-neutral"><i class="fas fa-plus"></i> New</a>
 						<?php endif; ?>
 						@include('admin.uniforms.filters')
 					</div>
@@ -28,7 +28,7 @@
 					<!-- Card header -->
 					<div class="card-header border-0">
 						<div class="heading">
-							<h3 class="mb-0">Here Is Your Uniforms Listing!</h3>
+							<h3 class="mb-0">Here Is Your {{ $moduleTitle }} Listing!</h3>
 						</div>
 						<div class="actions">
 							<div class="input-group input-group-alternative input-group-merge">
@@ -47,7 +47,7 @@
 									<a 
 										class="dropdown-item" 
 										href="javascript:;"
-										onclick="bulk_actions('<?php echo route('admin.uniforms.bulkActions', ['action' => 'active']) ?>', 'active');"
+										onclick="bulk_actions('<?php echo route($routePrefix . '.bulkActions', ['action' => 'active']) ?>', 'active');"
 									>
 										<span class="badge badge-dot mr-4">
 											<i class="bg-success"></i>
@@ -57,7 +57,7 @@
 									<a 
 										class="dropdown-item" 
 										href="javascript:;"
-										onclick="bulk_actions('<?php echo route('admin.uniforms.bulkActions', ['action' => 'inactive']) ?>', 'inactive');"
+										onclick="bulk_actions('<?php echo route($routePrefix . '.bulkActions', ['action' => 'inactive']) ?>', 'inactive');"
 									>
 										<span class="badge badge-dot mr-4">
 											<i class="bg-warning"></i>
@@ -70,7 +70,7 @@
 		                            <a 
 		                            	href="javascript:void(0);" 
 		                            	class="waves-effect waves-block dropdown-item text-danger" 
-		                            	onclick="bulk_actions('<?php echo route('admin.uniforms.bulkActions', ['action' => 'delete']) ?>', 'delete');">
+		                            	onclick="bulk_actions('<?php echo route($routePrefix . '.bulkActions', ['action' => 'delete']) ?>', 'delete');">
 											<i class="fas fa-times text-danger"></i>
 											<span class="status text-danger">Delete</span>
 		                            </a>
@@ -185,7 +185,7 @@
 							</thead>
 							<tbody class="list">
 								<?php if(!empty($listing->items())): ?>
-									@include('admin.uniforms.listingLoop')
+									@include('admin.uniforms.listingLoop', ['routePrefix' => $routePrefix])
 								<?php else: ?>
 									<td align="left" colspan="7">
 		                            	No records found!

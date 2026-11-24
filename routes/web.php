@@ -25,6 +25,7 @@ Route::prefix('admin')->middleware(['adminAuth'])->group(function () {
 	include "Admin/shops.php";
 	include "Admin/products.php";
 	include "Admin/uniforms.php";
+	include "Admin/bulkUniforms.php";
 	include "Admin/pages.php";
 	include "Admin/profile.php";
 	include "Admin/blogs.php";

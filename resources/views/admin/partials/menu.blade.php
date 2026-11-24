@@ -108,7 +108,7 @@
             </li>
         <?php endif;?>
         <?php if(Permissions::hasPermission('products', 'listing') || Permissions::hasPermission('product_categories', 'listing') || Permissions::hasPermission('uniforms', 'listing')): ?>
-        <?php $active = strpos(request()->route()->getAction()['as'], 'admin.products') > -1; ?>
+        <?php $active = strpos(request()->route()->getAction()['as'], 'admin.products') > -1 || strpos(request()->route()->getAction()['as'], 'admin.uniforms') > -1 || strpos(request()->route()->getAction()['as'], 'admin.bulkUniforms') > -1; ?>
         <li class="nav-item">
             <a class="nav-link<?php echo ($active ? ' active' : '') ?>" href="#submenu_products" data-toggle="collapse">
                 <i class="fab fa-product-hunt text-pink"></i>
@@ -117,6 +117,7 @@
             <ul class="list-unstyled submenu collapse<?php echo ($active ? ' show' : '') ?>" id="submenu_products">
                 <?php $activeProducts = strpos(request()->route()->getAction()['as'], 'admin.products') > -1;?>
                 <?php $activeUniforms = strpos(request()->route()->getAction()['as'], 'admin.uniforms') > -1;?>
+                <?php $activeBulkUniforms = strpos(request()->route()->getAction()['as'], 'admin.bulkUniforms') > -1;?>
                 <?php $activeCategories = strpos(request()->route()->getAction()['as'], 'admin.products.categories') > -1;?>
                 <?php $activeSubCategories = strpos(request()->route()->getAction()['as'], 'admin.products.subCategories') > -1;?>
                 <?php if(Permissions::hasPermission('products', 'listing')): ?>
@@ -131,10 +132,20 @@
                 <?php endif; ?>
                 <?php if(Permissions::hasPermission('uniforms', 'listing')): ?>
                 <li class="nav-item">
-                    <a class="nav-link<?php echo (!$activeProducts ? ' active' : '') ?>" href="<?php echo route('admin.uniforms') ?>">
+                    <a class="nav-link<?php echo ($activeUniforms ? ' active' : '') ?>" href="<?php echo route('admin.uniforms') ?>">
                         <span class="badge badge-dot mr-4">
                             <i class="bg-pink"></i>
                             <span class="status">Uniforms</span>
+                        </span>
+                    </a>
+                </li>
+                <?php endif; ?>
+                <?php if(Permissions::hasPermission('uniforms', 'listing')): ?>
+                <li class="nav-item">
+                    <a class="nav-link<?php echo ($activeBulkUniforms ? ' active' : '') ?>" href="<?php echo route('admin.bulkUniforms') ?>">
+                        <span class="badge badge-dot mr-4">
+                            <i class="bg-pink"></i>
+                            <span class="status">Bulk Uniforms</span>
                         </span>
                     </a>
                 </li>
