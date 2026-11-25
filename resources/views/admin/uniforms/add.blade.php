@@ -88,16 +88,34 @@
 										@enderror
 									</div>
 									<hr />
+									<?php if(!empty($bulkUniforms)): ?>
+									<div class="form-group">
+										<label class="form-control-label">School Level</label>
+										<div>
+											<label class="d-inline-flex align-items-center mr-4">
+												<input type="checkbox" class="mr-2" id="school-type-junior" value="Junior" v-model="selectedSchoolTypes" @change="updateSchoolTypes">
+												Junior
+											</label>
+											<label class="d-inline-flex align-items-center">
+												<input type="checkbox" class="mr-2" id="school-type-senior" value="Senior" v-model="selectedSchoolTypes" @change="updateSchoolTypes">
+												Senior
+											</label>
+										</div>
+										@error('school_types')
+											<small class="d-block text-danger">{{ $message }}</small>
+										@enderror
+									</div>
+									<?php endif; ?>
 									<div class="form-group">
 										<label class="form-control-label" for="input-first-name">School{{ !empty($bulkUniforms) ? 's' : '' }}</label>
-										<select v-model="schools" class="form-control no-selectpicker" name="schools[]" placeholder="Schools" required <?php echo !empty($bulkUniforms) ? 'multiple' : '' ?>>
+										<select id="schoolDropdown" v-model="schools" class="form-control no-selectpicker" name="schools[]" placeholder="Schools" required <?php echo !empty($bulkUniforms) ? 'multiple' : '' ?> <?php echo !empty($bulkUniforms) ? ':disabled="selectedSchoolTypes.length === 0"' : '' ?>>
 											<option value=""></option>
-											@foreach($schools as $s)
-											<option value="{{ $s->id }}" <?php echo in_array($s->id, old('schools', [])) ? 'selected' : '' ?>>{{ $s->name }} - {{ $s->schooltype }} - {{ $s->city }}</option>
-											@endforeach
+											<option v-for="school in <?php echo !empty($bulkUniforms) ? 'filteredSchools()' : 'availableSchools' ?>" :key="school.id" :value="String(school.id)">
+												@{{ school.name }} - @{{ school.schooltype }} - @{{ school.city }}
+											</option>
 										</select>
 										<?php if(!empty($bulkUniforms)): ?>
-											<small class="form-text text-muted">Select one or more schools.</small>
+											<small class="form-text text-muted">Choose Junior and/or Senior first, then select one or more schools.</small>
 										<?php endif; ?>
 										@error('schools')
 											<small class="text-danger">{{ $message }}</small>
@@ -649,6 +667,16 @@
 @push('scripts')
 <script>
 var pageId = '{{ $product && $product->id ? $product->id : '' }}';
+var bulkUniformSchools = <?php echo json_encode($schools, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
+var oldSchoolTypes = <?php echo json_encode(old('school_types', [])) ?>;
+var oldSchoolValues = <?php
+	$oldSchoolValues = old('schools', []);
+	if(empty($bulkUniforms))
+	{
+		$oldSchoolValues = is_array($oldSchoolValues) ? reset($oldSchoolValues) : $oldSchoolValues;
+	}
+	echo json_encode($oldSchoolValues);
+?>;
 var uniformsBaseUrl = <?php echo json_encode(route($routePrefix)) ?>;
 var allColors = <?php echo $colors->count() > 0 ? json_encode($colors->toArray()) : '[]' ?>
 </script>

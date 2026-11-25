@@ -37,6 +37,7 @@ let order = new Vue({
         non_exchange: 0,
         shop_visible: 0,
         website_visible: 0,
+        category_page_visible: 1,
         size_guide_video: ``,
         update_variants: 0,
         removedSizes: {},
@@ -149,6 +150,7 @@ let order = new Vue({
                 this.common_product = data.common_product;
                 this.shop_visible = data.shop_visible;
                 this.website_visible = data.website_visible;
+                this.category_page_visible = data.category_page_visible;
                 this.size_guide_video = data.size_guide_video;
                 this.non_exchange = data.non_exchange;
                 this.colorImages = data.color_images ? JSON.parse(data.color_images) : {};

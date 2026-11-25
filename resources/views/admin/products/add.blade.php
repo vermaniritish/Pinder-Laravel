@@ -447,6 +447,14 @@
 												</label>
 												<label class="custom-control-label">Visible on shop ?</label>
 											</div>
+											<div class="custom-control">
+												<label class="custom-toggle">
+													<input type="hidden" name="category_page_visible" value="0">
+													<input type="checkbox" name="category_page_visible" v-model="category_page_visible" value="1" <?php echo (old('category_page_visible') != '0' ? 'checked' : '') ?>>
+													<span class="custom-toggle-slider rounded-circle" data-label-off="OFF" data-label-on="ON"></span>
+												</label>
+												<label class="custom-control-label">Visible on category pages ?</label>
+											</div>
 										</div>
 									</div>
 									<div class="col-lg-6">

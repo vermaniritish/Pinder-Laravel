@@ -15,7 +15,9 @@ let order = new Vue({
         selectedColor: [],
         subCategories: [],
         products: [],
-        schools: [],
+        availableSchools: bulkUniformSchools,
+        selectedSchoolTypes: oldSchoolTypes,
+        schools: oldSchoolValues,
         selectedGender: '',
         title: '',
         purchase_price: '',
@@ -108,6 +110,15 @@ let order = new Vue({
                     this.$set(this.selectedSizeIds, colorId, []);
                 }
             }
+        },
+        updateSchoolTypes: function() {
+            this.schools = [];
+            this.$nextTick(function() {
+                $('#schoolDropdown').selectpicker('refresh');
+            });
+        },
+        filteredSchools: function() {
+            return this.availableSchools.filter((school) => this.selectedSchoolTypes.includes(school.schooltype));
         },
         markActiveColor: function(id) {
             if($('#edit-form').length > 0) 

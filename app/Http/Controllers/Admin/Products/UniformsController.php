@@ -267,11 +267,23 @@ class UniformsController extends AppController
 			if(isset($data['brand']) && $data['brand']) {
 				$brands = $data['brand'];
 			}
+			$schoolTypes = $data['school_types'] ?? [];
     		$validator = Validator::make(
 	            $data,
 	            [
+					'school_types' => $this->isBulkUniforms() && !$unifromId ? ['required', 'array', 'min:1'] : ['nullable', 'array'],
+					'school_types.*' => ['required', 'distinct', Rule::in(['Junior', 'Senior'])],
 					'schools' => $unifromId ? ['nullable'] : ['required', 'array', 'min:1'],
-					'schools.*' => $unifromId ? ['nullable'] : ['required', 'distinct', Rule::exists(Schools::class, 'id')],
+					'schools.*' => $unifromId ? ['nullable'] : [
+						'required',
+						'distinct',
+						Rule::exists(Schools::class, 'id')->where(function ($query) use ($schoolTypes) {
+							if($this->isBulkUniforms())
+							{
+								$query->whereIn('schooltype', $schoolTypes);
+							}
+						}),
+					],
 					'product' => $unifromId ? ['nullable'] : ['required', Rule::exists(Products::class,'id')],
 	                'description' => 'nullable',
 					'price' => ['required', 'numeric', 'min:0'],
@@ -336,6 +348,7 @@ class UniformsController extends AppController
 				}
 				/** ONLY IN CASE OF MULTIPLE IMAGE USE THIS **/
 				unset($data['schools']);
+				unset($data['school_types']);
 				unset($data['product']);
 				unset($data['size']);
 				unset($data['sizeData']);

@@ -481,7 +481,8 @@ class ProductsController extends AppController
 							'price' => $data['price'],
 							'short_description' => $data['short_description'],
 							'description' => $data['description'],
-							'gender' => $data['gender']
+							'gender' => $data['gender'],
+							'category_page_visible' => $data['category_page_visible']
 						];
 
 						if (isset($data['size_file'])) {

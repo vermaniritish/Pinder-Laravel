@@ -130,7 +130,7 @@ use App\Models\Admin\Settings;
 								</tr>
 								<tr>
 									<th>Visibility</th>
-									<td><?php echo $product->shop_visible ? "<a class='text-primary'>Shop</a>" : '' ?> &nbsp; &nbsp; <?php echo $product->website_visible ? "<a class='text-primary'>Website</a>" : '' ?></td>
+									<td><?php echo $product->shop_visible ? "<a class='text-primary'>Shop</a>" : '' ?> &nbsp; &nbsp; <?php echo $product->website_visible ? "<a class='text-primary'>Website</a>" : '' ?> &nbsp; &nbsp; <?php echo $product->category_page_visible ? "<a class='text-primary'>Category pages</a>" : '' ?></td>
 								</tr>
 								<tr>
 									<th>Options</th>

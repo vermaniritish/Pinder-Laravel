@@ -141,6 +141,11 @@ class Products extends AdminProducts
             ->leftJoin('product_categories', 'product_categories.id', '=', 'products.category_id')
             ->where('products.website_visible', 1);
 
+    	if($request->get('cId') || $request->get('categories'))
+    	{
+    	    $listing->where('products.category_page_visible', 1);
+    	}
+
         $pIds = [];
 
         if($request->get('categories') || $request->get('cId'))
@@ -298,6 +303,11 @@ class Products extends AdminProducts
 
     	$listing = Products::select($select)
             ->leftJoin('product_categories', 'product_categories.id', '=', 'products.category_id');
+
+    	if($request->get('cId') || $request->get('categories'))
+    	{
+    	    $listing->where('products.category_page_visible', 1);
+    	}
         
         $pIds = [];
         if($request->get('categories') || $request->get('cId'))
