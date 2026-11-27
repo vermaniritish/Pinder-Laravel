@@ -118,6 +118,9 @@ let order = new Vue({
             });
         },
         filteredSchools: function() {
+            if (this.selectedSchoolTypes.length === 0) {
+                return this.availableSchools;
+            }
             return this.availableSchools.filter((school) => this.selectedSchoolTypes.includes(school.schooltype));
         },
         markActiveColor: function(id) {

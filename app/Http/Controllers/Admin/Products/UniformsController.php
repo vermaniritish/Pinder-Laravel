@@ -271,14 +271,14 @@ class UniformsController extends AppController
     		$validator = Validator::make(
 	            $data,
 	            [
-					'school_types' => $this->isBulkUniforms() && !$unifromId ? ['required', 'array', 'min:1'] : ['nullable', 'array'],
-					'school_types.*' => ['required', 'distinct', Rule::in(['Junior', 'Senior'])],
+					'school_types' => ['nullable', 'array'],
+					'school_types.*' => ['nullable', 'distinct', Rule::in(['Junior', 'Senior'])],
 					'schools' => $unifromId ? ['nullable'] : ['required', 'array', 'min:1'],
 					'schools.*' => $unifromId ? ['nullable'] : [
 						'required',
 						'distinct',
 						Rule::exists(Schools::class, 'id')->where(function ($query) use ($schoolTypes) {
-							if($this->isBulkUniforms())
+							if($this->isBulkUniforms() && !empty($schoolTypes))
 							{
 								$query->whereIn('schooltype', $schoolTypes);
 							}

@@ -108,7 +108,7 @@
 									<?php endif; ?>
 									<div class="form-group">
 										<label class="form-control-label" for="input-first-name">School{{ !empty($bulkUniforms) ? 's' : '' }}</label>
-										<select id="schoolDropdown" v-model="schools" class="form-control no-selectpicker" name="schools[]" placeholder="Schools" required <?php echo !empty($bulkUniforms) ? 'multiple' : '' ?> <?php echo !empty($bulkUniforms) ? ':disabled="selectedSchoolTypes.length === 0"' : '' ?>>
+										<select id="schoolDropdown" v-model="schools" class="form-control no-selectpicker" name="schools[]" placeholder="Schools" required <?php echo !empty($bulkUniforms) ? 'multiple' : '' ?>>
 											<option value=""></option>
 											<option v-for="school in <?php echo !empty($bulkUniforms) ? 'filteredSchools()' : 'availableSchools' ?>" :key="school.id" :value="String(school.id)">
 												@{{ school.name }} - @{{ school.schooltype }} - @{{ school.city }}
@@ -267,7 +267,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label class="form-control-label">Color</label>
-											<select class="form-control no-selectpicker" v-on:change="updateSelectedColor" v-model="selectedColor" name="color_id[]" multiple required>
+											<select class="form-control no-selectpicker" data-container="body" data-size="10" v-on:change="updateSelectedColor" v-model="selectedColor" name="color_id[]" multiple required>
 												<option v-for="c in allColors" :value="c.id">@{{ c.title + ' (' + c.color_code + ')' }}</option>
 											</select>
 											@error('colr_id')
@@ -281,7 +281,7 @@
 										<div class="form-group">
 											<label class="form-control-label">Select Size For</label> <br />
 												<span v-for="(color, i) in availableColors" 
-													v-if="selectedColor.includes(color.id.toString())"
+													v-if="selectedColor.includes(color.id) || selectedColor.includes(String(color.id))"
 													:style="{ backgroundColor: color.color_code, color: '#000' }" :class="`mx-1 badge badge-lg badge-secondary ` + (color.id == activeColor ? 'active' : '' )" v-on:click="markActiveColor(color.id)">@{{ color.code ? color.code : color.title }}
 											</span>
 											
