@@ -1,5 +1,13 @@
 @extends('layouts.adminlayout')
 @section('content')
+<style>
+	.uniform-color-picker .bootstrap-select > .dropdown-menu {
+		overflow: visible !important;
+	}
+	.uniform-color-picker .bootstrap-select > .dropdown-menu .inner {
+		overflow-y: auto !important;
+	}
+</style>
 <div class="header bg-primary pb-6">
 	<div class="container-fluid">
 		<div class="header-body">
@@ -265,9 +273,9 @@
 										</div>
 									</div>
 									<div class="col-lg-6">
-										<div class="form-group">
+										<div class="form-group uniform-color-picker">
 											<label class="form-control-label">Color</label>
-											<select class="form-control no-selectpicker" data-container="body" data-size="10" v-on:change="updateSelectedColor" v-model="selectedColor" name="color_id[]" multiple required>
+											<select class="form-control no-selectpicker" data-size="10" v-on:change="updateSelectedColor" v-model="selectedColor" name="color_id[]" multiple required>
 												<option v-for="c in allColors" :value="c.id">@{{ c.title + ' (' + c.color_code + ')' }}</option>
 											</select>
 											@error('colr_id')
