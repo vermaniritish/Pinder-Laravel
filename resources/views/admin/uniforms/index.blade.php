@@ -9,7 +9,8 @@
 					</div>
 					<div class="col-lg-6 col-5 text-right">
 						<?php if(Permissions::hasPermission('uniforms', 'create')): ?>
-						<a href="<?php echo route($routePrefix . '.add') ?>" class="btn btn-neutral"><i class="fas fa-plus"></i> New</a>
+						<a href="<?php echo route('admin.uniforms.add') ?>" class="btn btn-neutral"><i class="fas fa-plus"></i> New Uniform</a>
+						<a href="<?php echo route('admin.bulkUniforms.add') ?>" class="btn btn-neutral"><i class="fas fa-plus"></i> New Bulk Uniform</a>
 						<?php endif; ?>
 						@include('admin.uniforms.filters')
 					</div>
@@ -118,6 +119,9 @@
 										<i class="fas fa-sort" data-field="parent_sku_number"></i>
 										<?php endif; ?>
 									</th>
+									<th width="10%">
+										Type
+									</th>
 									<th class="sort" width="12%">
 										Title
 										<?php if(isset($_GET['sort']) && $_GET['sort'] == 'uniforms.title' && isset($_GET['direction']) && $_GET['direction'] == 'asc'): ?>
@@ -187,7 +191,7 @@
 								<?php if(!empty($listing->items())): ?>
 									@include('admin.uniforms.listingLoop', ['routePrefix' => $routePrefix])
 								<?php else: ?>
-									<td align="left" colspan="7">
+									<td align="left" colspan="11">
 		                            	No records found!
 		                            </td>
 								<?php endif; ?>

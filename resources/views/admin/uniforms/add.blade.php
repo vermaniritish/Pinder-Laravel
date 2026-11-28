@@ -275,7 +275,7 @@
 									<div class="col-lg-6">
 										<div class="form-group uniform-color-picker">
 											<label class="form-control-label">Color</label>
-											<select class="form-control no-selectpicker" data-size="10" v-on:change="updateSelectedColor" v-model="selectedColor" name="color_id[]" multiple required>
+											<select class="form-control no-selectpicker" data-virtual-scroll="false" v-on:change="updateSelectedColor" v-model="selectedColor" name="color_id[]" multiple required>
 												<option v-for="c in allColors" :value="c.id">@{{ c.title + ' (' + c.color_code + ')' }}</option>
 											</select>
 											@error('colr_id')

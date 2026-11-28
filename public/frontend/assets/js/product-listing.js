@@ -752,6 +752,15 @@ else if($('#product-cat-page').length)
                 // sizes[i].quantity = exist && exist.length > 0 && exist[0].quantity ? exist[0].quantity : 0;
             }
             this.sizes = sizes;
+            if ($('#product-cat-page').data('auto-select-first-color')) {
+                let defaultColor = $('#default-color').text().trim();
+                defaultColor = defaultColor ? JSON.parse(defaultColor) : [];
+                if (defaultColor && defaultColor.id) {
+                    this.selectColor(defaultColor.id, defaultColor.title, defaultColor.color_code);
+                } else if (sizes.length > 0 && sizes[0].color_id) {
+                    this.selectColor(sizes[0].color_id, '', '');
+                }
+            }
             this.logoOptions = $('#logo-options').text().trim() ? JSON.parse($('#logo-options').text().trim()) : [];
             // if(!this.color && this.sizes.length > 0) {
             //     this.color = this.sizes[0].color_id;

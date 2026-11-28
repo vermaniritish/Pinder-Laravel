@@ -106,7 +106,6 @@ class UniformsController extends AppController
     		}	
     	}
     	$where['products.is_uniform'] = 1;
-    	$where['products.bulk_uniform'] = $this->isBulkUniforms() ? 1 : 0;
     	$listing = Products::getListing($request, $where);
 
     	if($request->ajax())
@@ -541,11 +540,13 @@ class UniformsController extends AppController
     	$ids = $request->get('ids');
     	if(is_array($ids) && !empty($ids))
     	{
-			$ids = Products::whereIn('id', $ids)
-				->where('is_uniform', 1)
-				->where('bulk_uniform', $this->isBulkUniforms() ? 1 : 0)
-				->pluck('id')
-				->toArray();
+			$products = Products::whereIn('id', $ids)
+				->where('is_uniform', 1);
+			if($this->isBulkUniforms())
+			{
+				$products->where('bulk_uniform', 1);
+			}
+			$ids = $products->pluck('id')->toArray();
 			if(empty($ids))
 			{
 				return Response()->json([

@@ -6,11 +6,16 @@ use Illuminate\Support\Str;
 @section('content')
 <?php 
 $colorIds = Arr::pluck($product->colors, 'id'); 
+$singleColor = $product->colors && $product->colors->count() === 1 ? $product->colors->first() : null;
+$singleColorImagePath = $singleColor && isset($product->color_images[$singleColor->id]['path']) ? $product->color_images[$singleColor->id]['path'] : null;
+$singleColorImage = $singleColorImagePath ? FileSystem::getAllSizeImages($singleColorImagePath) : null;
+$productImages = $product->image;
+$singleColorGalleryImage = $singleColorImage ?: ($singleColor && $productImages ? reset($productImages) : null);
 $nonExchange = $product->non_exchange || $product->sizes->filter(function ($size) {
     return $size->non_exchange == 1;
 })->count() > 0;
 ?>
-<div id="{{ $isUniformPage ? 'product-page' : 'product-cat-page' }}" data-auto-select-first-color="{{ $product->bulk_uniform ? '1' : '0' }}">
+<div id="{{ $isUniformPage ? 'product-page' : 'product-cat-page' }}" data-auto-select-first-color="{{ ($product->bulk_uniform || $singleColor) ? '1' : '0' }}">
     <div class="page-header breadcrumb-wrap">
         <div class="container">
             <div class="breadcrumb">
@@ -36,6 +41,13 @@ $nonExchange = $product->non_exchange || $product->sizes->filter(function ($size
                                     <span class="zoom-icon"><i class="fi-rs-search"></i></span>
                                     <!-- MAIN SLIDES -->
                                     <div class="product-image-slider">
+                                        @if($singleColor)
+                                        @if($singleColorGalleryImage)
+                                        <figure class="border-radius-10">
+                                            <img src="{{ url($singleColorGalleryImage['large']) }}" >
+                                        </figure>
+                                        @endif
+                                        @else
                                         @if($product->image)
                                         @foreach($product->image as $i)
                                         <figure class="border-radius-10">
@@ -45,16 +57,23 @@ $nonExchange = $product->non_exchange || $product->sizes->filter(function ($size
                                         @endif
                                         @if($product->color_images)
                                         @foreach($product->color_images as $k => $i)
-                                        <?php $image = FileSystem::getAllSizeImages($i['path']);
-                                        if(!in_array($k, $colorIds)) continue; ?>
+                                        @if(in_array($k, $colorIds))
+                                        <?php $image = FileSystem::getAllSizeImages($i['path']); ?>
                                         <figure class="border-radius-10">
                                             <img src="{{ url($image['large']) }}" >
                                         </figure>
+                                        @endif
                                         @endforeach
+                                        @endif
                                         @endif
                                     </div>
                                     <!-- THUMBNAILS -->
                                     <div class="slider-nav-thumbnails pl-15 pr-15">
+                                        @if($singleColor)
+                                        @if($singleColorGalleryImage)
+                                        <div class="slider-thumb" data-item="{{ $singleColor->id }}"><img src="{{ url($singleColorGalleryImage['small']) }}" ></div>
+                                        @endif
+                                        @else
                                         @if($product->image)
                                         @foreach($product->image as $i)
                                         <div><img src="{{ url($i['small']) }}" ></div>
@@ -68,20 +87,8 @@ $nonExchange = $product->non_exchange || $product->sizes->filter(function ($size
                                             <div class="slider-thumb" data-item="{{ $k }}"><img src="{{ url($image['small']) }}" ></div>
                                         <?php endforeach; ?>
                                         @endif
+                                        @endif
                                     </div>
-                                </div>
-                                <div style="padding-bottom:10px;">
-                                    <strong class="mr-10">Color</strong>: @{{ colorTitle ? colorTitle : '' }}
-                                </div>
-                                <div class="attr-detail attr-color mb-15">
-                                    <ul class="list-filter color-filter">
-                                        <?php foreach($product->colors as $c): ?>
-                                        <?php $codes = explode(',',$c->color_code); ?>
-                                        <li :class="renderActiveColor('{{$c->id}}')">
-                                            <a v-on:click="selectColor('{{$c->id}}', '{{$c->title}}', '{{$c->color_code}}')" href="javascript:;" data-color="{{ $c->title }}" title="{{ $c->title }}" data-code="{{$c->color_code}}"><span style="background-repeat: no-repeat;{{ (count($codes) > 1 ? 'background:linear-gradient('.$c->color_code.')' : 'background-color:' .$c->color_code) }}" class="product-color-white"></span></a>
-                                        </li>
-                                        <?php endforeach; ?>
-                                    </ul>
                                 </div>
                                 <!-- End Gallery -->
                             </div>
@@ -162,6 +169,20 @@ $nonExchange = $product->non_exchange || $product->sizes->filter(function ($size
                                             @endif
                                         </div>
                                         @endif
+                                    </div>
+
+                                    <div style="padding-bottom:10px;">
+                                        <strong class="mr-10">Color</strong>: @{{ colorTitle ? colorTitle : '' }}
+                                    </div>
+                                    <div class="attr-detail attr-color mb-15">
+                                        <ul class="list-filter color-filter">
+                                            <?php foreach($product->colors as $c): ?>
+                                            <?php $codes = explode(',',$c->color_code); ?>
+                                            <li :class="renderActiveColor('{{$c->id}}')">
+                                                <a v-on:click="selectColor('{{$c->id}}', '{{$c->title}}', '{{$c->color_code}}')" href="javascript:;" data-color="{{ $c->title }}" title="{{ $c->title }}" data-code="{{$c->color_code}}"><span style="background-repeat: no-repeat;{{ (count($codes) > 1 ? 'background:linear-gradient('.$c->color_code.')' : 'background-color:' .$c->color_code) }}" class="product-color-white"></span></a>
+                                            </li>
+                                            <?php endforeach; ?>
+                                        </ul>
                                     </div>
                                     
                                     <div class="product_sort_info font-xs mb-30" v-if="nonExchangeable">
